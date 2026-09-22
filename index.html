@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hello World</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f1221;
+      --fg: #f5f7ff;
+      --accent: #7aa2ff;
+      --muted: #a8b0c8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "SF Pro Display", "PingFang SC", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(122, 162, 255, 0.25), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(156, 120, 255, 0.2), transparent 45%),
+        var(--bg);
+      color: var(--fg);
+    }
+    main {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      max-width: 36rem;
+    }
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      letter-spacing: 0.02em;
+      background: linear-gradient(120deg, #fff, var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Hello World</h1>
+    <p>这是一个由橘右京帮你搭好的示例站点。</p>
+  </main>
+</body>
+</html>
