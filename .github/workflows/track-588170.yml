@@ -2,8 +2,8 @@ name: Track 588170
 
 on:
   schedule:
-    # Every 3 hours at minute 0, UTC. GitHub schedules are UTC.
-    - cron: "0 */3 * * *"
+    # Every 5 minutes, UTC. GitHub schedules are UTC.
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
