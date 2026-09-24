@@ -247,7 +247,7 @@ export default function GoldPanel() {
                   fontFamily: MONO,
                   fontSize: 10,
                 },
-                data: [{ name: '当前', coord: [lastPctIdx, positioning.pctValues[lastPctIdx] as number] as (string | number)[] }],
+                data: [{ name: '当前', coord: [lastPctIdx, Number(positioning.pctValues[lastPctIdx] ?? 0)] }],
               }
             : undefined,
       },
