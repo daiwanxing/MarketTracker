@@ -122,7 +122,7 @@ export default function GoldPanel() {
           data: [
             [
               {
-                name: 'SUPPORT 4290-4300',
+                name: `SUPPORT ${tech.support[0]}-${tech.support[1]}`,
                 yAxis: tech.support[0],
                 itemStyle: { color: 'rgba(245,197,66,0.10)' },
                 label: {
@@ -131,14 +131,14 @@ export default function GoldPanel() {
                   color: AMBER,
                   fontFamily: MONO,
                   fontSize: 9,
-                  formatter: 'SUPPORT 4290-4300',
+                  formatter: `SUPPORT ${tech.support[0]}-${tech.support[1]}`,
                 },
               },
               { yAxis: tech.support[1] },
             ],
             [
               {
-                name: 'RESISTANCE 4375-4385',
+                name: `RESISTANCE ${tech.resistance[0]}-${tech.resistance[1]}`,
                 yAxis: tech.resistance[0],
                 itemStyle: { color: 'rgba(255,107,107,0.07)' },
                 label: {
@@ -147,7 +147,7 @@ export default function GoldPanel() {
                   color: 'rgba(255,107,107,0.95)',
                   fontFamily: MONO,
                   fontSize: 9,
-                  formatter: 'RESISTANCE 4375-4385',
+                  formatter: `RESISTANCE ${tech.resistance[0]}-${tech.resistance[1]}`,
                 },
               },
               { yAxis: tech.resistance[1] },
@@ -478,7 +478,7 @@ export default function GoldPanel() {
                 <span>盈亏比<br />上行 ÷ 下行</span>
               </div>
             </div>
-            <p className="sent-hint">盈亏比 1:{rrRatio}（&gt;1 赔率占优）。适合背靠支撑 {rr.support} 试多，若跌破 {rr.stop} 坚决止损，止损空间约 {(downPx + 10).toFixed(0)} 美元。</p>
+            <p className="sent-hint">盈亏比 1:{rrRatio} 只比较现价到阻力 {rr.resistance}、到支撑 {rr.support} 的空间。跌破 {rr.stop} 则这组支撑失效。方向看下方行动准则，不由这个比值单独决定。</p>
             <div className="src">{sentiment.riskReward.src}</div>
           </div>
         </div>
