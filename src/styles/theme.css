@@ -805,10 +805,16 @@ body {
   border: 1px solid rgba(251, 146, 60, 0.45);
   background: rgba(251, 146, 60, 0.08);
 }
-.crowd-badge.hot {
+.crowd-badge.hot,
+.crowd-badge.danger {
   color: var(--up);
   border: 1px solid rgba(255, 107, 107, 0.55);
   background: rgba(255, 107, 107, 0.1);
+}
+.crowd-badge.warning {
+  color: #fb923c;
+  border: 1px solid rgba(251, 146, 60, 0.45);
+  background: rgba(251, 146, 60, 0.08);
 }
 .crowd-bar {
   margin-top: 14px;
@@ -824,8 +830,10 @@ body {
 }
 .crowd-bar-fill.cold { background: #38bdf8; }
 .crowd-bar-fill.neutral { background: var(--amber); }
-.crowd-bar-fill.warm { background: #fb923c; }
-.crowd-bar-fill.hot { background: var(--up); }
+.crowd-bar-fill.warm,
+.crowd-bar-fill.warning { background: #fb923c; }
+.crowd-bar-fill.hot,
+.crowd-bar-fill.danger { background: var(--up); }
 .crowd-scale {
   display: flex;
   justify-content: space-between;
@@ -949,4 +957,159 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Phase 2 TMT Crowding Cards */
+.real-crowd-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.real-crowd-card {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.real-crowd-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.real-crowd-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.real-crowd-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--amber);
+  border: 1px solid rgba(245, 197, 66, 0.4);
+  background: rgba(245, 197, 66, 0.08);
+}
+.real-crowd-num-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.real-crowd-val {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+}
+.real-crowd-unit {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.real-crowd-desc {
+  font-size: 12px;
+  color: var(--text-faint);
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.real-crowd-detail {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  line-height: 1.5;
+}
+
+.sector-breakdown-card {
+  padding: 18px 20px;
+  margin-top: 14px;
+}
+.sector-breakdown-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sector-pills {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.sector-pill {
+  padding: 10px 12px;
+  background: rgba(240, 240, 250, 0.02);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.sector-pill-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.sector-pill-val {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--amber);
+}
+.sector-pill-sub {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.top-stocks-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.top-stock-chip {
+  padding: 6px 10px;
+  background: rgba(240, 240, 250, 0.02);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.top-stock-name {
+  font-size: 11.5px;
+  color: var(--text);
+}
+.top-stock-amt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+@media (max-width: 900px) {
+  .real-crowd-grid {
+    grid-template-columns: 1fr;
+  }
+  .sector-pills {
+    grid-template-columns: 1fr 1fr;
+  }
+  .top-stocks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
