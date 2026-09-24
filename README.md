@@ -62,13 +62,14 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 
 原油与黄金只改能对上公开行情的数字和上海时区快照时间：布伦特 `BZ=F` 写入 `metrics.main.num`，WTI / DXY / GC 写入 `metrics.main.quotes`，不往中文叙述里替换数字。COMEX 黄金 `GC=F`、美债 10 年期 `^TNX`（Yahoo Finance chart API），以及伦敦金 XAU/USD（gold-api.com，失败时用 Swissquote 买卖中间价）。新闻、时间轴、信号正文和 `metrics.main.refs` 不动。缺昨收或副序列失败时保留原值并打 WARN，不把空值写成行情。
 
-科技半导体（`src/data/techSemiData.json`）由 `scripts/refresh_tech_semi_data.py` 刷新：
-- Actions 负责的数字键：`snapshot`、`benchmarks`（SOX、NDX、TSM、恒生科技、科创50、沪深300、中证芯片ETF）、`charts.normalized`（~6个月标准化收益对比）、`charts.ratios`（科创/沪深300比值、芯片/SOX比值）、`crowdingProxy`（基于动量与截面收益离散度的轻量代理指标及卡片）。
+科技半导体（`src/data/techSemiData.json`）由 `scripts/refresh_tech_semi_data.py` 与 `scripts/refresh_tech_semi_crowding.py` 刷新：
+- 每小时基准与比值走势（`scripts/refresh_tech_semi_data.py`，工作流 **Refresh market data**）：`snapshot`、`benchmarks`（SOX、NDX、TSM、恒生科技、科创50、沪深300、中证芯片ETF）、`charts.normalized`（~6个月标准化收益对比）、`charts.ratios`（科创/沪深300比值、芯片/SOX比值）。
+- 工作日收盘后 A 股 TMT 真实拥挤度（`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**，周一至周五 07:30 UTC / 15:30 上海时间）：`crowding`（申万一级电子+计算机+传媒+通信全成分股实测成交额占比、TMT 内部 Top 5% 成交集中度、流通口径换手热度比率、四大行业细分拆解与头部成交标的）。
 - 中文叙述（`head`、`signal`、`roadmap`、`timeline`、`news`、`risks`、`footer`、方法学说明）保持不动。
 
 ENSO 的 CPC 数值由 **Refresh ENSO numbers**（`.github/workflows/refresh-enso-data.yml`）每天 07:15 与 19:15 UTC 刷新，也可以手动运行。脚本是 `scripts/refresh_enso_data.py`。它只写 `ensoData.json` 里的 `cpc`（传统周/月 Niño3.4、ONI，以及相对周/月 Niño3.4、Rnino34、RONI，外加 `asOf` 和各自的 `sourceUrl`）。传统和相对指数不用同一个字段。期次、时间轴和观点不动；文件没有更新的完整周或月时不提交。
 
-刷新任务用 `GITHUB_TOKEN` 把 JSON 提交到 `main`。这类 push 不会再触发 `push` 工作流，所以 **Deploy GitHub Pages** 监听 **Refresh market data** 和 **Refresh ENSO numbers** 完成（`workflow_run`），用更新后的数字重新构建。
+刷新任务用 `GITHUB_TOKEN` 把 JSON 提交到 `main`。这类 push 不会再触发 `push` 工作流，所以 **Deploy GitHub Pages** 监听 **Refresh market data**、**Refresh ENSO numbers** 与 **Refresh tech semi crowding** 完成（`workflow_run`），用更新后的数字重新构建。
 
 叙事内容仍是手改 `src/data/oilData.json`、`goldData.json`、`ensoData.json` 或 `techSemiData.json` 里 Actions 不负责的文字，然后推到 `main`。哪些键不能改，见 `AGENTS.md`。
 
@@ -77,6 +78,7 @@ ENSO 的 CPC 数值由 **Refresh ENSO numbers**（`.github/workflows/refresh-ens
 ```bash
 python3 scripts/refresh_market_data.py --self-test
 python3 scripts/refresh_tech_semi_data.py --self-test
+python3 scripts/refresh_tech_semi_crowding.py --self-test
 python3 scripts/refresh_enso_data.py --self-test
 ```
 
@@ -93,12 +95,14 @@ python3 scripts/refresh_enso_data.py --self-test
 │   └── styles/theme.css
 ├── scripts/refresh_market_data.py
 ├── scripts/refresh_tech_semi_data.py
+├── scripts/refresh_tech_semi_crowding.py
 ├── scripts/refresh_enso_data.py
 ├── AGENTS.md
 └── .github/workflows/
     ├── deploy-pages.yml
     ├── refresh-market-data.yml
-    └── refresh-enso-data.yml
+    ├── refresh-enso-data.yml
+    └── refresh-tech-semi-crowding.yml
 ```
 
 ## 历史
