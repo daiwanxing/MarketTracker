@@ -71,15 +71,15 @@
     }
   },
   "crowdingProxy": {
-    "score": 56,
-    "label": "中性",
-    "zone": "neutral",
-    "asOf": "2026-09-23",
-    "methodNote": "Phase-1 动量与收益发散度代理指标，非 A 股 TMT 成交占比、融资余额或 top-5% 换手集中度（待 Phase-2 接入）",
+    "score": 100,
+    "label": "高拥挤过热",
+    "zone": "danger",
+    "asOf": "2026-09-24",
+    "methodNote": "已升级为 Phase-2 真实 A 股 TMT 成交占比与集中度测算（详情参见上方真实拥挤度指标卡）",
     "cards": {
-      "sox20dReturn": 9.73,
-      "basket20dReturnMean": 4.02,
-      "basket20dDispersion": 4.27
+      "tmtTurnoverShare": 40.63,
+      "top5Concentration": 40.16,
+      "circulatingHeatRatio": 2.56
     }
   },
   "signal": {
@@ -126,7 +126,7 @@
       }
     ],
     "watch": "海外科技龙头季报指引 · 台积电法说会先进封装扩产口径 · 国内芯片 ETF 申赎与两融资金动态 · 全球终端电子出货拐点",
-    "note": "本区仅呈现公开市场行情与阶段性跟踪代理框架，不构成投资建议。Phase-2 将进一步接入 A 股 TMT 真实成交占比与行业拥挤度模型。"
+    "note": "本区仅呈现公开市场行情与阶段性跟踪代理框架，不构成投资建议。Phase-2 已接入真实 A 股 TMT 成交占比、Top 5% 集中度与流通换手热度指标。"
   },
   "charts": {
     "secTitle": "全球半导体走势与相对强弱",
@@ -1431,13 +1431,14 @@
         ]
       },
       {
-        "phase": "Phase 2 (待规划)",
-        "title": "A 股 TMT 真实拥挤度与资金微观结构",
-        "status": "upcoming",
+        "phase": "Phase 2 (MVP已就绪)",
+        "title": "A 股 TMT 真实拥挤度与微观结构",
+        "status": "ready",
         "items": [
-          "A 股 TMT 板块成交金额占全市场比例（5日/20日移动均线）",
-          "电子/计算机板块融资买入占比与杠杆资金存量跟踪",
-          "行业成交集中度 Top 5% 标的换手偏离度与极端拥挤度预警信号"
+          "申万一级 TMT（电子+计算机+传媒+通信）全成分股成交额占沪深全市场比例（实测数据）",
+          "TMT 宇宙内部 Top 5% 头部标的成交集中度占比与龙头集聚度跟踪",
+          "TMT 全行业单日成交额 / 流通市值（严格标注为全流通口径换手率，非自由流通）",
+          "工作日收盘后独立 GitHub Actions 定时刷新与新浪行情节点数据源接入"
         ]
       },
       {
@@ -1532,5 +1533,129 @@
       "src": "科技产业洞察"
     }
   ],
-  "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议"
+  "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
+  "crowding": {
+    "asOf": "2026-09-24",
+    "label": "高拥挤过热",
+    "zone": "danger",
+    "methodNote": "基于申万一级行业（电子/计算机/传媒/通信）全成分股实时成交汇总与沪深两市整体成交额实测，流通口径热度基于全流通市值计算",
+    "turnoverShare": {
+      "value": 40.63,
+      "tmtAmountYi": 6717.88,
+      "marketAmountYi": 16533.57,
+      "label": "TMT 成交额占比",
+      "unit": "%",
+      "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
+    },
+    "top5Concentration": {
+      "value": 40.16,
+      "top5AmountYi": 2697.8,
+      "top5Count": 57,
+      "totalTmtCount": 1134,
+      "label": "TMT Top 5% 成交集中度",
+      "unit": "%",
+      "desc": "TMT 宇宙内成交额前 5% 头部标的（57 只）成交额合计占 TMT 总成交比例"
+    },
+    "circulatingHeatRatio": {
+      "value": 2.56,
+      "tmtNmcYi": 262570.27,
+      "label": "TMT 流通热度比率",
+      "unit": "%",
+      "desc": "TMT 板块单日成交额 / TMT 流通市值合计（注：流通口径换手，非自由流通口径）",
+      "scopeLabel": "流通口径"
+    },
+    "sectorBreakdown": {
+      "electronics": {
+        "name": "电子",
+        "count": 519,
+        "amountYi": 4499.85,
+        "share": 27.22,
+        "heatRatio": 2.73
+      },
+      "computer": {
+        "name": "计算机",
+        "count": 357,
+        "amountYi": 698.98,
+        "share": 4.23,
+        "heatRatio": 1.95
+      },
+      "media": {
+        "name": "传媒",
+        "count": 131,
+        "amountYi": 375.3,
+        "share": 2.27,
+        "heatRatio": 2.81
+      },
+      "telecom": {
+        "name": "通信",
+        "count": 127,
+        "amountYi": 1143.75,
+        "share": 6.92,
+        "heatRatio": 2.36
+      }
+    },
+    "topStocks": [
+      {
+        "code": "300308",
+        "name": "中际旭创",
+        "sector": "通信",
+        "amountYi": 168.69
+      },
+      {
+        "code": "300502",
+        "name": "新易盛",
+        "sector": "通信",
+        "amountYi": 110.73
+      },
+      {
+        "code": "300285",
+        "name": "国瓷材料",
+        "sector": "电子",
+        "amountYi": 98.69
+      },
+      {
+        "code": "603986",
+        "name": "兆易创新",
+        "sector": "电子",
+        "amountYi": 87.69
+      },
+      {
+        "code": "688825",
+        "name": "长鑫科技",
+        "sector": "电子",
+        "amountYi": 86.12
+      },
+      {
+        "code": "600641",
+        "name": "先导基电",
+        "sector": "电子",
+        "amountYi": 80.47
+      },
+      {
+        "code": "002384",
+        "name": "东山精密",
+        "sector": "电子",
+        "amountYi": 75.34
+      },
+      {
+        "code": "600487",
+        "name": "亨通光电",
+        "sector": "通信",
+        "amountYi": 75.06
+      },
+      {
+        "code": "688256",
+        "name": "寒武纪科技",
+        "sector": "电子",
+        "amountYi": 72.12
+      },
+      {
+        "code": "000725",
+        "name": "京东方Ａ",
+        "sector": "电子",
+        "amountYi": 63.51
+      }
+    ],
+    "src": "申万一级行业与沪深市场快照 · 新浪行情节点 (asOf: 2026-09-24)"
+  }
 }

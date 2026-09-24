@@ -26,7 +26,18 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
   - `benchmarks.sox`、`benchmarks.ndx`、`benchmarks.tsm`、`benchmarks.hstech`、`benchmarks.star50`、`benchmarks.csi300`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
   - `charts.normalized`：`dates`、`sox`、`ndx`、`tsm`、`hstech`、`star50`、`chip_etf`（近半年标准化收益走势 %）
   - `charts.ratios`：`dates`、`star50_csi300.series` 与 `latest`、`chip_sox.series` 与 `latest`
-  - `crowdingProxy`：`score`、`label`、`zone`、`asOf`、`methodNote`、`cards`（基于动量与截面收益发散度的 Phase-1 轻量代理指标，非 A 股 TMT 成交占比）
+  - `crowdingProxy`：`score`、`label`、`zone`、`asOf`、`methodNote`、`cards`（基于动量与截面收益发散度的 Phase-1 轻量代理指标，已降级为辅助参考）
+
+科技半导体 A 股 TMT 真实拥挤度：`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**（工作日周一至周五 07:30 UTC / 15:30 上海时间收盘后）。
+
+- `src/data/techSemiData.json` 的 `crowding`
+  - `crowding.asOf`
+  - `crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`
+  - `crowding.turnoverShare`：`value`（申万电子+计算机+传媒+通信占沪深全市场成交额 %）、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`
+  - `crowding.top5Concentration`：`value`（TMT 内部 Top 5% 成交额占比 %）、`top5AmountYi`、`top5Count`、`totalTmtCount`、`label`、`unit`、`desc`
+  - `crowding.circulatingHeatRatio`：`value`（TMT 单日成交额 / TMT 流通市值 %，严格标注为流通口径而非自由流通）、`tmtNmcYi`、`label`、`unit`、`desc`、`scopeLabel`
+  - `crowding.sectorBreakdown`：申万电子/计算机/传媒/通信四大板块的 `count`、`amountYi`、`share`、`heatRatio`
+  - `crowding.topStocks`：成交额前 10 龙头标的的 `code`、`name`、`sector`、`amountYi`
 
 ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers**（每天 07:15 与 19:15 UTC）。只读 CPC 纯文本指数，不抓 HTML。传统和相对指数绝不共用字段。只有文件里出现更新的、并且已经结束的中心周、月份或季节时才提交。
 

@@ -7,7 +7,7 @@ on:
   # A data commit pushed with the default GITHUB_TOKEN does not fire `push`.
   # Rebuilding when the refresh workflow finishes publishes the new numbers.
   workflow_run:
-    workflows: ["Refresh market data", "Refresh ENSO numbers"]
+    workflows: ["Refresh market data", "Refresh ENSO numbers", "Refresh tech semi crowding"]
     types: [completed]
 
 permissions:

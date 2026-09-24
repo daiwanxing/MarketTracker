@@ -454,11 +454,13 @@ def update_normalized_and_ratios(
     }
     updated.append("charts.ratios")
 
-    # Crowding proxy calculation
-    as_of = anchor_dates[-1].strftime("%Y-%m-%d")
-    crowding = compute_crowding_proxy(series_history_aligned, as_of)
-    doc["crowdingProxy"] = crowding
-    updated.append("crowdingProxy")
+    # Crowding proxy calculation (legacy Phase-1 kept for backward compatibility if needed)
+    # Note: Phase-2 A-share TMT crowding metrics are managed independently by scripts/refresh_tech_semi_crowding.py
+    if "crowding" not in doc:
+        as_of = anchor_dates[-1].strftime("%Y-%m-%d")
+        crowding = compute_crowding_proxy(series_history_aligned, as_of)
+        doc["crowdingProxy"] = crowding
+        updated.append("crowdingProxy")
 
     return updated
 
