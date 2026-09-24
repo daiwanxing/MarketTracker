@@ -59,11 +59,20 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 
 原油和黄金的价格数字由 **Refresh market data**（`.github/workflows/refresh-market-data.yml`）每 3 小时刷新，也可以在 Actions 里手动运行。脚本是 `scripts/refresh_market_data.py`。
 
-它只改能对上公开行情的数字和上海时区快照时间：布伦特 `BZ=F`、WTI `CL=F`、美元指数 `DX-Y.NYB`、COMEX 黄金 `GC=F`、美债 10 年期 `^TNX`（Yahoo Finance chart API），以及伦敦金 XAU/USD（gold-api.com，失败时用 Swissquote 买卖中间价）。新闻、时间轴、信号正文和 `ensoData.json` 不动。
+它只改能对上公开行情的数字和上海时区快照时间：布伦特 `BZ=F` 写入 `metrics.main.num`，WTI / DXY / GC 写入 `metrics.main.quotes`，不往中文叙述里替换数字。COMEX 黄金 `GC=F`、美债 10 年期 `^TNX`（Yahoo Finance chart API），以及伦敦金 XAU/USD（gold-api.com，失败时用 Swissquote 买卖中间价）。新闻、时间轴、信号正文和 `metrics.main.refs` 不动。缺昨收或副序列失败时保留原值并打 WARN，不把空值写成行情。
 
-刷新任务用 `GITHUB_TOKEN` 把 JSON 提交到 `main`。这类 push 不会再触发 `push` 工作流，所以 **Deploy GitHub Pages** 额外监听 `Refresh market data` 完成（`workflow_run`），用更新后的数字重新构建。
+ENSO 的 CPC 数值由 **Refresh ENSO numbers**（`.github/workflows/refresh-enso-data.yml`）每天 07:15 与 19:15 UTC 刷新，也可以手动运行。脚本是 `scripts/refresh_enso_data.py`。它只写 `ensoData.json` 里的 `cpc`（传统周/月 Niño3.4、ONI，以及相对周/月 Niño3.4、Rnino34、RONI，外加 `asOf` 和各自的 `sourceUrl`）。传统和相对指数不用同一个字段。期次、时间轴和观点不动；文件没有更新的完整周或月时不提交。
 
-叙事内容仍是手改 `src/data/oilData.json`、`goldData.json` 或 `ensoData.json`，然后推到 `main`。
+刷新任务用 `GITHUB_TOKEN` 把 JSON 提交到 `main`。这类 push 不会再触发 `push` 工作流，所以 **Deploy GitHub Pages** 监听 **Refresh market data** 和 **Refresh ENSO numbers** 完成（`workflow_run`），用更新后的数字重新构建。
+
+叙事内容仍是手改 `src/data/oilData.json`、`goldData.json` 或 `ensoData.json` 里 Actions 不负责的文字，然后推到 `main`。哪些键不能改，见 `AGENTS.md`。
+
+离线自测：
+
+```bash
+python3 scripts/refresh_market_data.py --self-test
+python3 scripts/refresh_enso_data.py --self-test
+```
 
 ## 目录
 
@@ -77,9 +86,12 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 │   ├── data/
 │   └── styles/theme.css
 ├── scripts/refresh_market_data.py
+├── scripts/refresh_enso_data.py
+├── AGENTS.md
 └── .github/workflows/
     ├── deploy-pages.yml
-    └── refresh-market-data.yml
+    ├── refresh-market-data.yml
+    └── refresh-enso-data.yml
 ```
 
 ## 历史

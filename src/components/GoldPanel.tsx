@@ -12,11 +12,37 @@ const DOWN = '#4ADE80';
 const GOLD = '#FFD700';
 const AMBER = '#F5C542';
 
+function goldQuoteLine(quotes: { gc?: number; dxy?: number } | undefined): string {
+  if (!quotes) return '';
+  const parts: string[] = [];
+  if (typeof quotes.gc === 'number') parts.push(`GC ${quotes.gc.toFixed(1)}`);
+  if (typeof quotes.dxy === 'number') parts.push(`DXY ${quotes.dxy.toFixed(2)}`);
+  return parts.join(' · ');
+}
+
+function shortSession(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!match) return iso;
+  return `${Number(match[2])}/${Number(match[3])}`;
+}
+
+function macroQuoteText(quote: { value?: number; chg?: string; unit?: string; session?: string; bp?: number } | undefined): string {
+  if (!quote || typeof quote.value !== 'number') return '';
+  if (quote.unit === '%') {
+    const session = quote.session ? shortSession(quote.session) : '';
+    const bp = typeof quote.bp === 'number' ? `${quote.bp > 0 ? '+' : ''}${quote.bp.toFixed(1)}BP` : '';
+    const inner = [session ? `${session} 收` : '', bp].filter(Boolean).join('，');
+    return `${quote.value.toFixed(3)}%${inner ? `（${inner}）` : ''}`;
+  }
+  return `${quote.value.toFixed(2)}${quote.chg ? `（${quote.chg}）` : ''}`;
+}
+
 export default function GoldPanel() {
   const { metrics, tech, positioning, macro, etf, sentiment, action, footer, snapshot } = goldData;
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
 
+  const quoteLine = goldQuoteLine(metrics.main.quotes);
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
   const DIM: Record<string, string> = {
     rates: '利率',
@@ -327,7 +353,12 @@ export default function GoldPanel() {
             </div>
             <div className="lbl">{metrics.main.label}</div>
             <div className="src-lbl">{metrics.main.src}</div>
-            {metrics.main.refs && <div className="refs">{metrics.main.refs}</div>}
+          {(quoteLine || metrics.main.refs) && (
+            <div className="refs">
+              {quoteLine && <span className="quote-slots">{quoteLine}</span>}
+              {metrics.main.refs && <span className="refs-note">{metrics.main.refs}</span>}
+            </div>
+          )}
           </div>
         </div>
 
@@ -418,6 +449,9 @@ export default function GoldPanel() {
               <span className="k">{it.k}</span>
               {it.signal && <span className={`sig-tag ${it.signal}`}>{it.signalText}</span>}
               {it.dim && <span className="dim">{dimOf(it.dim)}</span>}
+              {macroQuoteText('quote' in it ? it.quote : undefined) && (
+                <span className="qnum">{macroQuoteText('quote' in it ? it.quote : undefined)}</span>
+              )}
               <span className="v">{it.v}</span>
               <span className="g-src">{it.src}</span>
             </div>

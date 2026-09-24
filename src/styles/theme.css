@@ -269,7 +269,9 @@ body {
 .metric-main .lbl { font-size: 13px; color: var(--text-dim); margin-top: 10px; letter-spacing: .3px; }
 .metric-main .src-lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 8px; line-height: 1.7; }
 .metric-main .chg { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-top: 0; letter-spacing: .5px; display: inline-block; }
-.metric-main .refs { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 1px; margin-top: 10px; opacity: .75; }
+.metric-main .refs { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 1px; margin-top: 10px; opacity: .75; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+.metric-main .quote-slots { color: rgba(240, 240, 250, 0.82); letter-spacing: .4px; }
+.metric-main .refs-note { letter-spacing: .2px; }
 .metric-side { flex: 2 1 400px; display: flex; align-items: stretch; }
 .m-item { flex: 1 1 33%; padding: 26px 20px; }
 .m-item + .m-item { border-left: 1px solid var(--line); }
@@ -289,6 +291,24 @@ body {
 }
 .ed-badge.hot { color: var(--up); border-color: rgba(255, 107, 107, 0.55); }
 .ed-head h2 { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: .4px; }
+
+.cpc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cpc-card { padding: 18px 20px; }
+.cpc-card .family {
+  font-family: var(--font-display); font-size: 12px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;
+}
+.cpc-card.trad .family { color: var(--amber); }
+.cpc-card.rel .family { color: #8eb7ff; }
+.cpc-row { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+.cpc-card .cpc-row:first-of-type { border-top: none; }
+.cpc-row .k { color: var(--text-dim); min-width: 7.5em; }
+.cpc-row .num { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.cpc-row .meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); line-height: 1.5; }
+.cpc-asof { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin: 10px 0 28px; line-height: 1.7; }
+@media (max-width: 760px) {
+  .cpc-grid { grid-template-columns: 1fr; }
+}
 
 /* —— 厄尔尼诺：科学家观点 —— */
 .views { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
@@ -352,8 +372,11 @@ body {
 .pos-row .v { font-family: var(--font-mono); font-size: 13px; color: var(--text); }
 .pos-row .wk { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
 .pos-row .wk.up { color: #FF6B6B; }
+.pos-row .wk.down { color: var(--down); }
 .pos-row .arrow { font-style: normal; font-size: 11px; margin-right: 4px; }
 .pos-row .arrow.up::before { content: '↑'; color: #FF6B6B; }
+.pos-row .arrow.down::before { content: '↓'; color: var(--down); }
+.pos-row .arrow.flat::before { content: '·'; color: var(--text-faint); }
 .pos-row .g-src { margin-left: auto; font-size: 10px; color: var(--text-faint); }
 .pos-note { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); line-height: 1.8; padding: 12px 4px 2px; }
 .chart-panel h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--text); padding: 0 6px; }
@@ -427,6 +450,7 @@ body {
   color: var(--text-faint); border: 1px solid var(--line-strong);
   padding: 1px 6px; border-radius: 2px; white-space: nowrap; flex: none;
 }
+.grow-row .qnum { font-family: var(--font-mono); font-weight: 700; color: var(--text); white-space: nowrap; flex: none; }
 .grow-row .v { font-weight: 600; color: var(--text); }
 .grow-row .g-src { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); margin-left: auto; white-space: nowrap; flex: none; }
 .verdict { padding: 20px 24px; }
