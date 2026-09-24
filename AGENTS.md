@@ -4,7 +4,7 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
 
 ## Actions 负责
 
-原油和黄金：`scripts/refresh_market_data.py`，工作流 **Refresh market data**（每 3 小时）。不写 ENSO。
+原油、黄金与科技半导体：`scripts/refresh_market_data.py` 与 `scripts/refresh_tech_semi_data.py`，工作流 **Refresh market data**（每小时 `0 * * * *`）。不写 ENSO。
 
 - `src/data/oilData.json`
   - `snapshot`
@@ -21,6 +21,12 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
   - `sentiment.riskReward.price`
   - `positioning.table` 中 `k` 以 `期现基差` 开头的那一行：`v`、`wk`、`gc`、`spot`、`basis`、`dir`、`src`（这几个一起写，避免只改 `v` 留下旧的周字段）
   - `macro.items` 里 `k` 为 `美元指数` 或 `美债 10 年期收益率` 的 `quote`
+- `src/data/techSemiData.json`
+  - `snapshot`
+  - `benchmarks.sox`、`benchmarks.ndx`、`benchmarks.tsm`、`benchmarks.hstech`、`benchmarks.star50`、`benchmarks.csi300`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
+  - `charts.normalized`：`dates`、`sox`、`ndx`、`tsm`、`hstech`、`star50`、`chip_etf`（近半年标准化收益走势 %）
+  - `charts.ratios`：`dates`、`star50_csi300.series` 与 `latest`、`chip_sox.series` 与 `latest`
+  - `crowdingProxy`：`score`、`label`、`zone`、`asOf`、`methodNote`、`cards`（基于动量与截面收益发散度的 Phase-1 轻量代理指标，非 A 股 TMT 成交占比）
 
 ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers**（每天 07:15 与 19:15 UTC）。只读 CPC 纯文本指数，不抓 HTML。传统和相对指数绝不共用字段。只有文件里出现更新的、并且已经结束的中心周、月份或季节时才提交。
 
@@ -38,10 +44,11 @@ ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers*
 
 ## 云端代理负责
 
-信号正文、新闻、时间轴、观点，以及 ENSO 期次里的叙述。
+信号正文、新闻、时间轴、观点，以及各板块与期次里的叙述。
 
 - 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
 - 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
+- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`、`note`）、`roadmap`（Phase 1/2/3 说明）、`timeline`、`news`、`risks`、`footer`
 - ENSO：`lastUpdated`、`head`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`
 
-这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。
+这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。

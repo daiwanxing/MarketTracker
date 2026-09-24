@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import OilPanel from './components/OilPanel';
 import EnsoPanel from './components/EnsoPanel';
 import GoldPanel from './components/GoldPanel';
+import TechSemiPanel from './components/TechSemiPanel';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/oil" element={<OilPanel />} />
           <Route path="/enso" element={<EnsoPanel />} />
           <Route path="/gold" element={<GoldPanel />} />
+          <Route path="/semi" element={<TechSemiPanel />} />
         </Routes>
       </main>
     </div>

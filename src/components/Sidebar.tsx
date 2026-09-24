@@ -60,6 +60,13 @@ export default function Sidebar() {
               厄尔尼诺
             </NavLink>
           </div>
+          <div className="nav-group">
+            <div className="group-label">科技半导体</div>
+            <NavLink to="/semi" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              <span className="dot-mini" aria-hidden="true" />
+              算力与芯片
+            </NavLink>
+          </div>
         </nav>
       </aside>
     </>
