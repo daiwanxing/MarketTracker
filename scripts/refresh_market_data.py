@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """Refresh oil and gold numeric fields in the MarketTracker JSON snapshots.
 
-Narrative blocks (news, timeline, signal prose, ENSO) are left untouched.
+Narrative blocks (news, timeline, signal prose, ``metrics.main.refs``, macro
+``v`` text, and the whole ENSO file) are left untouched. ENSO CPC numbers are
+owned by ``scripts/refresh_enso_data.py``. Live WTI, DXY, and GC prints go to
+``metrics.main.quotes`` instead of being substituted into Chinese prose, so a
+month label such as 「11月」 cannot be read as a price.
+
 Snapshot timestamps are written in Asia/Shanghai.
 
 Public sources that respond without an API key (Stooq's old CSV path
@@ -28,8 +33,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -85,6 +90,18 @@ class Quote:
         return bar.volume if bar else None
 
 
+@dataclass
+class Fetched:
+    brent: Quote | None
+    wti: Quote | None
+    dxy: Quote | None
+    comex: Quote | None
+    yield_quote: Quote | None
+    spot: float | None
+    spot_source: str
+    failures: list[str]
+
+
 def log(level: str, message: str) -> None:
     print(f"{level} {message}", flush=True)
 
@@ -100,15 +117,32 @@ def http_json(url: str) -> object:
 
 
 def _num(value: object) -> float | None:
-    if value is None or isinstance(value, bool):
+    if value is None or isinstance(value, bool) or isinstance(value, str):
         return None
     try:
         number = float(value)
     except (TypeError, ValueError):
         return None
-    if number != number:  # NaN
+    if number != number or number in (float("inf"), float("-inf")):  # NaN / inf
         return None
     return number
+
+
+def verified_number(value: object, ndigits: int) -> float | None:
+    """Return a rounded finite number, or None when the value is not a real print."""
+    number = _num(value)
+    if number is None:
+        return None
+    return round(number, ndigits)
+
+
+def put_number(bucket: dict, key: str, value: object, ndigits: int, label: str) -> bool:
+    number = verified_number(value, ndigits)
+    if number is None:
+        log("WARN", f"{label} left unchanged; missing or invalid number")
+        return False
+    bucket[key] = number
+    return True
 
 
 def _in_range(symbol: str, price: float) -> bool:
@@ -383,16 +417,6 @@ def previous_weekday(day: date) -> date:
     return prev
 
 
-def replace_labeled_number(text: str, label: str, rendered: str) -> str:
-    pattern = rf"({re.escape(label)}\s*)(-?\d+(?:\.\d+)?)"
-    updated, count = re.subn(pattern, rf"\g<1>{rendered}", text, count=1)
-    if count:
-        return updated
-    piece = f"{label} {rendered}"
-    stripped = text.strip()
-    return f"{stripped} · {piece}" if stripped else piece
-
-
 def series_high(values: list[object], fallback: object) -> object:
     nums = [float(v) for v in values if isinstance(v, (int, float))]
     if not nums:
@@ -457,11 +481,17 @@ def update_oil_chart(charts: dict, wti: Quote | None, brent: Quote | None, sessi
             continue
         wti_close = close_for(wti, day)
         brent_close = close_for(brent, day)
-        if wti_close is None and brent_close is None:
+        if wti_close is None or brent_close is None:
+            log(
+                "WARN",
+                f"oil chart {day.isoformat()} left unappended; WTI or Brent close missing",
+            )
             continue
         dates.append(f"{day.month:02d}-{day.day:02d}")
         wti_series.append(wti_close)
         brent_series.append(brent_close)
+        # SC is not fetched. The empty slot keeps the four series aligned;
+        # it is not a verified Shanghai close, and existing SC points are not cleared.
         sc_series.append(None)
         written += 1
         last = day
@@ -489,12 +519,16 @@ def oil_src(moment: datetime, quote: Quote, chg: str | None) -> str:
     return " · ".join(bits) + parenthetical + " · Yahoo Finance"
 
 
-def update_oil(data: dict, brent: Quote, wti: Quote | None, dxy: Quote | None, moment: datetime) -> list[str]:
+def update_oil(data: dict, brent: Quote, wti: Quote | None, dxy: Quote | None, moment: datetime) -> list[str] | None:
+    price = verified_number(brent.price, 2)
+    if price is None:
+        log("WARN", "oil update skipped; Brent price missing")
+        return None
     updated = ["snapshot", "metrics.main.num"]
     data["snapshot"] = snapshot_stamp(moment)
     main = data["metrics"]["main"]
-    main["num"] = f"{brent.price:.2f}"
-    chg = change_parts(brent.price, brent.previous_close)
+    main["num"] = f"{price:.2f}"
+    chg = change_parts(price, brent.previous_close)
     chg_text = chg[0] if chg else None
     if chg is not None:
         main["chg"] = chg[0]
@@ -504,14 +538,16 @@ def update_oil(data: dict, brent: Quote, wti: Quote | None, dxy: Quote | None, m
         log("WARN", "oil change left unchanged; Brent previous close missing")
     main["src"] = oil_src(moment, brent, chg_text)
     updated.append("metrics.main.src")
-    refs = main.get("refs") or ""
-    if wti is not None:
-        refs = replace_labeled_number(refs, "WTI", f"{wti.price:.2f}")
-        updated.append("metrics.main.refs.WTI")
-    if dxy is not None:
-        refs = replace_labeled_number(refs, "DXY", f"{dxy.price:.2f}")
-        updated.append("metrics.main.refs.DXY")
-    main["refs"] = refs
+    # refs is narrative. Month labels such as 「11月」 stay put; live prints go to quotes.
+    quotes = quote_bucket(main)
+    if wti is None:
+        log("WARN", "WTI quote left unchanged; CL=F unavailable")
+    elif put_number(quotes, "wti", wti.price, 2, "WTI"):
+        updated.append("metrics.main.quotes.wti")
+    if dxy is None:
+        log("WARN", "oil DXY quote left unchanged; DX-Y.NYB unavailable")
+    elif put_number(quotes, "dxy", dxy.price, 2, "oil DXY"):
+        updated.append("metrics.main.quotes.dxy")
     session = brent.session
     if wti is not None:
         session = max(session, wti.session)
@@ -570,25 +606,81 @@ def update_momentum(tech: dict, chg_text: str | None) -> None:
         pct = (end - start) / start * 100.0
         return f"{pct:+.1f}%（{start:.0f} → {end:.0f}）"
 
+    found_spot = False
     for item in tech.get("momentum") or []:
         key = item.get("k")
         if key == "近 20 交易日":
             text = span(20)
             if text:
                 item["v"] = text
+            else:
+                log("WARN", "近 20 交易日 momentum left unchanged; not enough closes")
         elif key == "近 5 交易日":
             text = span(5)
             if text:
                 item["v"] = text
-        elif key == "今日盘中" and chg_text:
-            item["v"] = f"{chg_text}（盘中）"
+            else:
+                log("WARN", "近 5 交易日 momentum left unchanged; not enough closes")
+        elif key == "今日现货":
+            found_spot = True
+            if not chg_text:
+                log("WARN", "今日现货 momentum left unchanged; change missing")
+                continue
+            item["v"] = f"{chg_text}（现货）"
+    if not found_spot:
+        log("WARN", "momentum key 今日现货 not found; left unchanged")
 
 
-def replace_macro_prefix(text: str, prefix: str) -> str | None:
-    updated, count = re.subn(r"^\d+(?:\.\d+)?%?（[^）]*）", prefix, text, count=1)
-    if count:
-        return updated
-    return None
+def quote_bucket(main: dict) -> dict:
+    quotes = main.get("quotes")
+    if not isinstance(quotes, dict):
+        quotes = {}
+        main["quotes"] = quotes
+    return quotes
+
+
+def put_macro_quote(items: list, key: str, quote: dict) -> bool:
+    for value in quote.values():
+        if value is None or value == "":
+            log("WARN", f"{key} macro quote left unchanged; empty field")
+            return False
+    for item in items:
+        if item.get("k") == key:
+            item["quote"] = quote
+            return True
+    log("WARN", f"{key} macro row missing; quote left unchanged")
+    return False
+
+
+def update_basis_row(
+    data: dict,
+    comex_price: float,
+    spot: float,
+    moment: datetime,
+    spot_source: str,
+) -> bool:
+    gc = verified_number(comex_price, 1)
+    spot_n = verified_number(spot, 2)
+    if gc is None or spot_n is None:
+        log("WARN", "gold basis left unchanged; GC or spot missing")
+        return False
+    basis = verified_number(gc - spot_n, 1)
+    if basis is None or abs(basis) > 200:
+        log("WARN", f"gold basis left unchanged; {basis} outside ±200 or invalid")
+        return False
+    table = (data.get("positioning") or {}).get("table") or []
+    for row in table:
+        if str(row.get("k", "")).startswith("期现基差"):
+            row["gc"] = gc
+            row["spot"] = spot_n
+            row["basis"] = basis
+            row["v"] = f"{basis:+.1f} 美元（{moment.month}/{moment.day}）"
+            row["wk"] = f"{gc:.1f} − {spot_n:.2f}"
+            row["dir"] = "up" if basis > 0 else "down" if basis < 0 else "flat"
+            row["src"] = f"Yahoo GC=F − {source_label(spot_source)} · {snapshot_stamp(moment)} 上海"
+            return True
+    log("WARN", "期现基差 row missing; basis left unchanged")
+    return False
 
 
 def update_gold(
@@ -599,7 +691,11 @@ def update_gold(
     dxy: Quote | None,
     yield_quote: Quote | None,
     moment: datetime,
-) -> list[str]:
+) -> list[str] | None:
+    spot_n = verified_number(spot, 2)
+    if spot_n is None:
+        log("WARN", "gold update skipped; spot missing")
+        return None
     updated = ["snapshot", "metrics.main.num"]
     data["snapshot"] = snapshot_stamp(moment)
     main = data["metrics"]["main"]
@@ -614,9 +710,9 @@ def update_gold(
             prev_day, prev_price = earlier[-1]
             prev_price = float(prev_price)
             prev_is_prior_session = prev_day == previous_weekday(session)
-    chg = change_parts(spot, prev_price)
+    chg = change_parts(spot_n, prev_price)
     chg_text = chg[0] if chg else None
-    main["num"] = f"{spot:.2f}"
+    main["num"] = f"{spot_n:.2f}"
     if chg is not None:
         main["chg"] = chg[0]
         main["chgClass"] = chg[1]
@@ -627,23 +723,24 @@ def update_gold(
     src = f"XAU/USD 伦敦金现货 {clock_stamp(moment)}"
     if prev_price is not None:
         src += f" · {prev_label} {prev_price:.2f}"
-    src += f"（现价 {spot:.2f}{('/' + chg_text) if chg_text else ''}） · {source_label(spot_source)}"
+    src += f"（现价 {spot_n:.2f}{('/' + chg_text) if chg_text else ''}） · {source_label(spot_source)}"
     main["src"] = src
     updated.append("metrics.main.src")
 
-    refs = main.get("refs") or ""
-    if comex is not None:
-        refs = replace_labeled_number(refs, "GC", f"{comex.price:.1f}")
-        updated.append("metrics.main.refs.GC")
-    if dxy is not None:
-        refs = replace_labeled_number(refs, "DXY", f"{dxy.price:.2f}")
-        updated.append("metrics.main.refs.DXY")
-    main["refs"] = refs
+    quotes = quote_bucket(main)
+    if comex is None:
+        log("WARN", "GC quote left unchanged; GC=F unavailable")
+    elif put_number(quotes, "gc", comex.price, 1, "GC"):
+        updated.append("metrics.main.quotes.gc")
+    if dxy is None:
+        log("WARN", "gold DXY quote left unchanged; DX-Y.NYB unavailable")
+    elif put_number(quotes, "dxy", dxy.price, 2, "gold DXY"):
+        updated.append("metrics.main.quotes.dxy")
 
     try:
         action = update_gold_candles(
             data["tech"],
-            spot,
+            spot_n,
             session,
             comex.volume if comex is not None else None,
         )
@@ -655,59 +752,55 @@ def update_gold(
     update_momentum(data["tech"], chg_text)
     updated.append("tech.momentum")
 
-    data["sentiment"]["riskReward"]["price"] = round(spot, 2)
-    updated.append("sentiment.riskReward.price")
+    rr_price = verified_number(spot_n, 2)
+    if rr_price is None:
+        log("WARN", "risk-reward price left unchanged; spot missing")
+    else:
+        data["sentiment"]["riskReward"]["price"] = rr_price
+        updated.append("sentiment.riskReward.price")
 
-    if comex is not None:
-        basis = comex.price - spot
-        if abs(basis) <= 200:
-            rendered = f"{basis:+.1f} 美元（{moment.month}/{moment.day}）"
-            for row in data["positioning"]["table"]:
-                if str(row.get("k", "")).startswith("期现基差"):
-                    row["v"] = rendered
-                    updated.append("positioning.basis")
-                    break
+    if comex is None:
+        log("WARN", "gold basis left unchanged; GC=F unavailable")
+    elif update_basis_row(data, comex.price, spot_n, moment, spot_source):
+        updated.append("positioning.basis")
+
+    items = data["macro"]["items"]
+    if dxy is None:
+        log("WARN", "DXY macro quote left unchanged; DX-Y.NYB unavailable")
+    else:
+        dxy_price = verified_number(dxy.price, 2)
+        dxy_chg = change_parts(dxy.price, dxy.previous_close) if dxy_price is not None else None
+        if dxy_price is None or dxy_chg is None:
+            log("WARN", "DXY macro quote left unchanged; previous close missing")
+        elif put_macro_quote(items, "美元指数", {"value": dxy_price, "chg": dxy_chg[0]}):
+            updated.append("macro.dxy.quote")
+    if yield_quote is None:
+        log("WARN", "yield macro quote left unchanged; ^TNX unavailable")
+    else:
+        yld = verified_number(yield_quote.price, 3)
+        prev = yield_quote.previous_close
+        if yld is None or prev is None:
+            log("WARN", "yield macro quote left unchanged; previous close missing")
         else:
-            log("WARN", f"skipped gold basis {basis:.1f}; outside ±200")
-
-    for item in data["macro"]["items"]:
-        key = item.get("k")
-        if key == "美元指数" and dxy is not None:
-            dxy_chg = change_parts(dxy.price, dxy.previous_close)
-            if dxy_chg is None:
-                log("WARN", "DXY macro text left unchanged; previous close missing")
-                continue
-            prefix = f"{dxy.price:.2f}（{dxy_chg[0]}）"
-            replaced = replace_macro_prefix(str(item.get("v", "")), prefix)
-            if replaced is None:
-                log("WARN", "DXY macro text did not match the numeric prefix; left unchanged")
-            else:
-                item["v"] = replaced
-                updated.append("macro.dxy")
-        elif key == "美债 10 年期收益率" and yield_quote is not None:
-            prev = yield_quote.previous_close
-            if prev is None:
-                log("WARN", "yield macro text left unchanged; previous close missing")
-                continue
-            bp = (yield_quote.price - prev) * 100.0
-            prefix = (
-                f"{yield_quote.price:.3f}%"
-                f"（{yield_quote.session.month}/{yield_quote.session.day} 收，{bp:+.1f}BP）"
-            )
-            replaced = replace_macro_prefix(str(item.get("v", "")), prefix)
-            if replaced is None:
-                log("WARN", "yield macro text did not match the numeric prefix; left unchanged")
-            else:
-                item["v"] = replaced
-                updated.append("macro.yield")
+            bp = verified_number((yld - prev) * 100.0, 1)
+            if bp is None:
+                log("WARN", "yield macro quote left unchanged; basis-point change invalid")
+            elif put_macro_quote(
+                items,
+                "美债 10 年期收益率",
+                {
+                    "value": yld,
+                    "unit": "%",
+                    "session": yield_quote.session.isoformat(),
+                    "bp": bp,
+                },
+            ):
+                updated.append("macro.yield.quote")
     return updated
 
 
-def refresh(dry_run: bool = False) -> int:
+def fetch_all() -> Fetched:
     failures: list[str] = []
-    moment = shanghai_now()
-    log("INFO", f"refresh started at {snapshot_stamp(moment)} Asia/Shanghai")
-
     brent = try_fetch_yahoo("BZ=F", failures)
     wti = try_fetch_yahoo("CL=F", failures)
     dxy = try_fetch_yahoo("DX-Y.NYB", failures)
@@ -720,42 +813,77 @@ def refresh(dry_run: bool = False) -> int:
     except Exception as exc:  # noqa: BLE001
         failures.append(f"XAU: {exc}")
         log("WARN", f"XAU/USD unavailable: {exc}")
+    return Fetched(brent, wti, dxy, comex, yield_quote, spot, spot_source, failures)
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return path.name
+
+
+def refresh(
+    dry_run: bool = False,
+    oil_path: Path | None = None,
+    gold_path: Path | None = None,
+    fetched: Fetched | None = None,
+) -> int:
+    oil_path = OIL_PATH if oil_path is None else oil_path
+    gold_path = GOLD_PATH if gold_path is None else gold_path
+    moment = shanghai_now()
+    log("INFO", f"refresh started at {snapshot_stamp(moment)} Asia/Shanghai")
+    bundle = fetch_all() if fetched is None else fetched
 
     wrote = False
-    if brent is None:
+    if bundle.brent is None:
         log("WARN", "oil file left untouched because Brent (BZ=F) failed")
     else:
-        oil = load_json(OIL_PATH)
-        fields = update_oil(oil, brent, wti, dxy, moment)
-        log("INFO", f"oil snapshot {oil['snapshot']} num {oil['metrics']['main']['num']} {oil['metrics']['main']['chg']}")
-        log("INFO", "oil fields: " + ", ".join(fields))
-        if dry_run:
-            log("INFO", "dry-run: oilData.json not written")
+        oil = load_json(oil_path)
+        fields = update_oil(oil, bundle.brent, bundle.wti, bundle.dxy, moment)
+        if fields is None:
+            log("WARN", "oil file left untouched because the Brent print was not usable")
         else:
-            write_json(OIL_PATH, oil)
-            log("INFO", f"wrote {OIL_PATH.relative_to(ROOT)}")
-        wrote = True
+            log("INFO", f"oil snapshot {oil['snapshot']} num {oil['metrics']['main']['num']} {oil['metrics']['main']['chg']}")
+            log("INFO", "oil fields: " + ", ".join(fields))
+            if dry_run:
+                log("INFO", "dry-run: oilData.json not written")
+            else:
+                write_json(oil_path, oil)
+                log("INFO", f"wrote {_display_path(oil_path)}")
+            wrote = True
 
-    if spot is None:
+    if bundle.spot is None:
         log("WARN", "gold file left untouched because XAU/USD failed")
     else:
-        gold = load_json(GOLD_PATH)
-        fields = update_gold(gold, spot, spot_source, comex, dxy, yield_quote, moment)
-        log("INFO", f"gold snapshot {gold['snapshot']} num {gold['metrics']['main']['num']} {gold['metrics']['main']['chg']}")
-        log("INFO", "gold fields: " + ", ".join(fields))
-        if dry_run:
-            log("INFO", "dry-run: goldData.json not written")
+        gold = load_json(gold_path)
+        fields = update_gold(
+            gold,
+            bundle.spot,
+            bundle.spot_source,
+            bundle.comex,
+            bundle.dxy,
+            bundle.yield_quote,
+            moment,
+        )
+        if fields is None:
+            log("WARN", "gold file left untouched because the spot print was not usable")
         else:
-            write_json(GOLD_PATH, gold)
-            log("INFO", f"wrote {GOLD_PATH.relative_to(ROOT)}")
-        wrote = True
+            log("INFO", f"gold snapshot {gold['snapshot']} num {gold['metrics']['main']['num']} {gold['metrics']['main']['chg']}")
+            log("INFO", "gold fields: " + ", ".join(fields))
+            if dry_run:
+                log("INFO", "dry-run: goldData.json not written")
+            else:
+                write_json(gold_path, gold)
+                log("INFO", f"wrote {_display_path(gold_path)}")
+            wrote = True
 
-    if failures:
-        log("WARN", "series with errors: " + " | ".join(failures))
+    if bundle.failures:
+        log("WARN", "series with errors: " + " | ".join(bundle.failures))
     if not wrote:
         log("ERROR", "total failure: neither oil nor gold primary quote could be updated")
         return 1
-    log("INFO", "refresh finished")
+    log("INFO", "refresh finished" + (" (dry-run)" if dry_run else ""))
     return 0
 
 
@@ -813,7 +941,34 @@ def self_test() -> int:
     chg = change_parts(97.73, 99.25)
     _assert(chg == ("-1.53%", "down"), f"chg {chg}")
     _assert(change_parts(100.0, 100.0) == ("0.00%", "flat"), "flat")
-    _assert(replace_labeled_number("WTI 90.10 · DXY 100.19", "DXY", "101.13") == "WTI 90.10 · DXY 101.13", "refs")
+    _assert(change_parts(100.0, None) is None, "missing previous close")
+
+    # A new session is not appended when one of the two closes is missing.
+    gap = {
+        "dates": ["09-23"],
+        "wti": [91.83],
+        "brent": [97.73],
+        "sc": [None],
+        "wtiHigh": 91.83,
+        "brentHigh": 97.73,
+    }
+    brent_gap = Quote(
+        "BZ=F",
+        97.10,
+        97.73,
+        97.0,
+        97.2,
+        96.8,
+        date(2026, 9, 24),
+        {
+            session: Bar(session, 98.2, 98.3, 97.1, 97.73, 12),
+            date(2026, 9, 24): Bar(date(2026, 9, 24), 97.0, 97.2, 96.8, 97.10, 9),
+        },
+        "test",
+    )
+    update_oil_chart(gap, wti, brent_gap, date(2026, 9, 24))
+    _assert(gap["dates"] == ["09-23"], f"no null day {gap['dates']}")
+    _assert(None not in gap["wti"] and None not in gap["brent"], "no null quote appended")
 
     tech = {
         "candles": [{"d": "09-22", "o": 4369.0, "h": 4375.0, "l": 4291.0, "c": 4318.18}],
@@ -821,7 +976,8 @@ def self_test() -> int:
         "momentum": [
             {"k": "近 20 交易日", "v": "old"},
             {"k": "近 5 交易日", "v": "old"},
-            {"k": "今日盘中", "v": "-1.15%（亚欧盘回落）"},
+            {"k": "今日盘中", "v": "old-intraday"},
+            {"k": "今日现货", "v": "-1.15%（亚欧盘回落）"},
         ],
     }
     # Not enough history for 5/20 day spans; those stay put. Today's percent updates.
@@ -829,19 +985,17 @@ def self_test() -> int:
     _assert(tech["candles"][-1]["c"] == 4278.4, "spot close")
     _assert(len(tech["volume"]) == 2 and tech["volume"][-1] == 17180, "volume")
     update_momentum(tech, "-0.92%")
-    _assert(tech["momentum"][2]["v"] == "-0.92%（盘中）", tech["momentum"][2]["v"])
+    spot_row = next(item for item in tech["momentum"] if item["k"] == "今日现货")
+    stale_row = next(item for item in tech["momentum"] if item["k"] == "今日盘中")
+    _assert(spot_row["v"] == "-0.92%（现货）", spot_row["v"])
+    _assert(stale_row["v"] == "old-intraday", "legacy 今日盘中 key is not the spot slot")
     _assert(tech["momentum"][0]["v"] == "old", "short history kept")
+    update_momentum(tech, None)
+    _assert(spot_row["v"] == "-0.92%（现货）", "missing change does not clear 今日现货")
     _assert(update_gold_candles(tech, 4280.0, session, 17180) == "updated-today", "same session")
     _assert(tech["candles"][-1]["c"] == 4280.0 and tech["candles"][-1]["o"] == 4278.4, "open preserved")
     _assert(len(tech["candles"]) == len(tech["volume"]) == 2, "lengths")
 
-    prefix = replace_macro_prefix("100.19（+0.26%），美元走强压制以美元计价的黄金", "101.13（+0.90%）")
-    _assert(prefix is not None and prefix.startswith("101.13（+0.90%）") and prefix.endswith("美元走强压制以美元计价的黄金"), prefix)
-    yprefix = replace_macro_prefix(
-        "4.945%（9/21 收，-4.7BP）；9/14 盘中一度突破 5%，为 2023/10 以来首次",
-        "5.114%（9/23 收，+16.7BP）",
-    )
-    _assert(yprefix is not None and yprefix.startswith("5.114%（9/23 收，+16.7BP）") and "9/14" in yprefix, yprefix)
     _assert(previous_weekday(date(2026, 9, 23)) == date(2026, 9, 22), "weekday")
     _assert(previous_weekday(date(2026, 9, 21)) == date(2026, 9, 18), "monday")
 
@@ -904,6 +1058,153 @@ def self_test() -> int:
     _assert(merged[date(2026, 9, 24)].high == 98.3 and merged[date(2026, 9, 24)].low == 97.1, "live range")
     _assert(previous_close(merged, live_session) == 103.08, "rolled prev")
     _assert(next_weekday(date(2026, 9, 25)) == date(2026, 9, 28), "friday rolls to monday")
+
+    # Same-week month labels must survive. The live print goes to quotes, not into 「11月」.
+    moment = datetime(2026, 9, 24, 16, 2, tzinfo=SHANGHAI)
+    oil_refs = "WTI 11月 91.44（Yahoo CL=F） · 路透口径11月布伦特约102.13 · DXY 9月 100.19"
+    oil_doc = {
+        "snapshot": "2026-09-23 10:00",
+        "metrics": {
+            "main": {
+                "num": "100.00",
+                "chg": "-1.00%",
+                "chgClass": "down",
+                "src": "old",
+                "refs": oil_refs,
+                "quotes": {"dxy": 100.19},
+            }
+        },
+        "charts": {
+            "dates": ["09-22"],
+            "wti": [94.59],
+            "brent": [99.25],
+            "sc": [717.1],
+            "wtiHigh": 105.48,
+            "brentHigh": 109.29,
+        },
+    }
+    brent_live = Quote("BZ=F", 97.73, None, 98.2, 98.3, 97.1, session, bars, "test")
+    no_wti = update_oil(oil_doc, brent_live, None, None, moment)
+    _assert(no_wti is not None, "oil update")
+    _assert(oil_doc["metrics"]["main"]["refs"] == oil_refs, "month label refs untouched")
+    _assert("11月" in oil_doc["metrics"]["main"]["refs"], "accidental month digit 11 kept")
+    _assert("9月" in oil_doc["metrics"]["main"]["refs"], "accidental month digit 9 kept")
+    _assert("92.24月" not in oil_doc["metrics"]["main"]["refs"], "month was not overwritten with a price")
+    _assert("wti" not in oil_doc["metrics"]["main"]["quotes"], "failed WTI is not written as null")
+    _assert(oil_doc["metrics"]["main"]["quotes"]["dxy"] == 100.19, "failed DXY leaves the prior quote")
+    _assert(oil_doc["metrics"]["main"]["chg"] == "-1.00%", "missing previous close does not clear chg")
+    dxy_live = Quote(
+        "DX-Y.NYB",
+        101.13,
+        100.22,
+        None,
+        None,
+        None,
+        session,
+        {session: Bar(session, 100.2, 101.2, 100.1, 101.13, 1)},
+        "test",
+    )
+    update_oil(oil_doc, brent, wti, dxy_live, moment)
+    _assert(oil_doc["metrics"]["main"]["refs"] == oil_refs, "refs still untouched after a real print")
+    _assert(oil_doc["metrics"]["main"]["quotes"]["wti"] == 91.83, oil_doc["metrics"]["main"]["quotes"])
+    _assert(oil_doc["metrics"]["main"]["quotes"]["dxy"] == 101.13, "dxy quote")
+    _assert("11" in oil_doc["metrics"]["main"]["refs"], "traditional price did not consume the month digit")
+
+    gold_doc = {
+        "snapshot": "old",
+        "metrics": {
+            "main": {
+                "num": "1",
+                "chg": "-1.15%",
+                "chgClass": "down",
+                "src": "old",
+                "refs": "COMEX 期金 GC 12月 4310.0 · DXY 9月 100.00",
+                "quotes": {"gc": 4310.0, "dxy": 100.00},
+            }
+        },
+        "tech": tech,
+        "sentiment": {"riskReward": {"price": 1}},
+        "positioning": {
+            "table": [
+                {
+                    "k": "期现基差 GC−现货",
+                    "v": "+1.0 美元（9/22）",
+                    "wk": "100.0 − 99.00",
+                    "gc": 100.0,
+                    "spot": 99.0,
+                    "basis": 1.0,
+                    "dir": "up",
+                    "src": "old",
+                }
+            ]
+        },
+        "macro": {
+            "items": [
+                {"k": "美元指数", "v": "叙述保持不动", "quote": {"value": 100.0, "chg": "+0.10%"}},
+                {
+                    "k": "美债 10 年期收益率",
+                    "v": "收益率叙述保持不动",
+                    "quote": {"value": 4.0, "unit": "%", "session": "2026-09-22", "bp": -1.0},
+                },
+            ]
+        },
+    }
+    comex = Quote(
+        "GC=F",
+        4320.0,
+        4310.0,
+        4312.0,
+        4322.0,
+        4308.0,
+        session,
+        {session: Bar(session, 4312.0, 4322.0, 4308.0, 4320.0, 20)},
+        "test",
+    )
+    yld = Quote("^TNX", 5.114, 4.947, None, None, None, session, {}, "test")
+    update_gold(gold_doc, 4280.0, "https://api.gold-api.com/price/XAU", comex, dxy_live, yld, moment)
+    _assert("12月" in gold_doc["metrics"]["main"]["refs"], "GC month label kept")
+    _assert("9月" in gold_doc["metrics"]["main"]["refs"], "DXY month label kept")
+    _assert(gold_doc["metrics"]["main"]["quotes"]["gc"] == 4320.0, "gc quote")
+    _assert(gold_doc["metrics"]["main"]["quotes"]["dxy"] == 101.13, "gold dxy quote")
+    basis_row = gold_doc["positioning"]["table"][0]
+    _assert(basis_row["gc"] == 4320.0 and basis_row["spot"] == 4280.0 and basis_row["basis"] == 40.0, basis_row)
+    _assert(basis_row["wk"] == "4320.0 − 4280.00", basis_row["wk"])
+    _assert(basis_row["v"] == "+40.0 美元（9/24）", basis_row["v"])
+    _assert(gold_doc["macro"]["items"][0]["v"] == "叙述保持不动", "macro prose kept")
+    _assert(gold_doc["macro"]["items"][0]["quote"] == {"value": 101.13, "chg": "+0.91%"}, gold_doc["macro"]["items"][0]["quote"])
+    _assert(gold_doc["macro"]["items"][1]["v"] == "收益率叙述保持不动", "yield prose kept")
+    _assert(gold_doc["macro"]["items"][1]["quote"]["value"] == 5.114, "yield value")
+    _assert(gold_doc["macro"]["items"][1]["quote"]["bp"] == 16.7, gold_doc["macro"]["items"][1]["quote"])
+    saved_wk = basis_row["wk"]
+    update_gold(gold_doc, 4280.0, "https://api.gold-api.com/price/XAU", None, None, None, moment)
+    _assert(gold_doc["positioning"]["table"][0]["wk"] == saved_wk, "failed GC leaves basis fields")
+    _assert(gold_doc["metrics"]["main"]["quotes"]["gc"] == 4320.0, "failed GC leaves quote")
+    _assert(gold_doc["macro"]["items"][0]["quote"]["value"] == 101.13, "failed DXY leaves macro quote")
+
+    tmp = Path(tempfile.mkdtemp())
+    oil_path = tmp / "oil.json"
+    gold_path = tmp / "gold.json"
+    oil_path.write_text(json.dumps(oil_doc, ensure_ascii=False), encoding="utf-8")
+    gold_path.write_text(json.dumps(gold_doc, ensure_ascii=False), encoding="utf-8")
+    before_oil = oil_path.read_text(encoding="utf-8")
+    before_gold = gold_path.read_text(encoding="utf-8")
+    bundle = Fetched(brent, wti, dxy_live, comex, yld, 4280.0, "https://api.gold-api.com/price/XAU", [])
+    dry = refresh(dry_run=True, oil_path=oil_path, gold_path=gold_path, fetched=bundle)
+    _assert(dry == 0, f"dry-run exit {dry}")
+    _assert(oil_path.read_text(encoding="utf-8") == before_oil, "dry-run does not write oil")
+    _assert(gold_path.read_text(encoding="utf-8") == before_gold, "dry-run does not write gold")
+    wrote = refresh(dry_run=False, oil_path=oil_path, gold_path=gold_path, fetched=bundle)
+    _assert(wrote == 0, f"write exit {wrote}")
+    written_oil = json.loads(oil_path.read_text(encoding="utf-8"))
+    _assert(written_oil["metrics"]["main"]["quotes"]["wti"] == 91.83, "dry-run false still writes")
+    _assert("11月" in written_oil["metrics"]["main"]["refs"], "written refs keep the month")
+    empty = Fetched(None, None, None, None, None, None, "", ["all failed"])
+    oil_path.write_text(before_oil, encoding="utf-8")
+    failed = refresh(dry_run=False, oil_path=oil_path, gold_path=gold_path, fetched=empty)
+    _assert(failed == 1, "total failure")
+    _assert(oil_path.read_text(encoding="utf-8") == before_oil, "failed refresh does not write")
+    script_body = Path(__file__).read_text(encoding="utf-8").split("def self_test", 1)[0]
+    _assert("ensoData" not in script_body, "ENSO stays out of this script")
     log("INFO", "self-test passed")
     return 0
 

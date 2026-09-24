@@ -1,0 +1,39 @@
+name: Refresh ENSO numbers
+
+on:
+  schedule:
+    # Twice a day, UTC. GitHub may delay scheduled runs.
+    # Kept off the every-3-hour oil/gold refresh.
+    - cron: "15 7,19 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-enso-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Refresh ENSO CPC numeric slots
+        run: python3 scripts/refresh_enso_data.py
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/ensoData.json
+          if git diff --cached --quiet; then
+            echo "No newer ENSO period to commit"
+            exit 0
+          fi
+          git commit -m "Refresh ENSO CPC numeric slots"
+          git push origin HEAD:main

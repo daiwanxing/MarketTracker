@@ -150,5 +150,53 @@
       ]
     }
   ],
-  "footer": "说明：本页是个人追踪记录，手工整理 NOAA CPC、IRI、WMO、BOM、JMA、ECMWF（经哥白尼 C3S）已发布的 ENSO 材料，不构成气候预报、农业决策或投资建议。传统 Niño3.4（OISST 距平）与相对指数（CPC 周/月相对 Niño、RONI、BOM relative Niño3.4）定义不同，不能直接对比或相减后当成升幅。数据核对截至 2026年9月24日：CPC 周度文件最新中心日仍为 9月16日（传统 Niño3.4 +3.0°C，相对 Niño3.4 +2.1°C）；9月23日当周尚未结束。9月22日的新增官方文本是 BOM 热带气候周报，其中没有新的 Niño3.4。"
+  "footer": "说明：本页是个人追踪记录，手工整理 NOAA CPC、IRI、WMO、BOM、JMA、ECMWF（经哥白尼 C3S）已发布的 ENSO 材料，不构成气候预报、农业决策或投资建议。传统 Niño3.4（OISST 距平）与相对指数（CPC 周/月相对 Niño、RONI、BOM relative Niño3.4）定义不同，不能直接对比或相减后当成升幅。数据核对截至 2026年9月24日：CPC 周度文件最新中心日仍为 9月16日（传统 Niño3.4 +3.0°C，相对 Niño3.4 +2.1°C）；9月23日当周尚未结束。9月22日的新增官方文本是 BOM 热带气候周报，其中没有新的 Niño3.4。",
+  "cpc": {
+    "asOf": "2026-09-16",
+    "traditional": {
+      "weekly": {
+        "centerDate": "2026-09-16",
+        "nino34": 3.0,
+        "nino34Sst": 29.6,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
+      },
+      "monthly": {
+        "year": 2026,
+        "month": 8,
+        "nino34": 2.52,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/sstoi.indices"
+      },
+      "oni": {
+        "season": "JJA",
+        "year": 2026,
+        "value": 1.8,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
+      }
+    },
+    "relative": {
+      "weekly": {
+        "centerDate": "2026-09-16",
+        "nino34": 2.1,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/rel_wksst9120.txt"
+      },
+      "monthly": {
+        "year": 2026,
+        "month": 8,
+        "nino34": 1.78,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/rel_mthsst9120.txt"
+      },
+      "rnino34": {
+        "year": 2026,
+        "month": 8,
+        "value": 1.67,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/Rnino34.ascii.txt"
+      },
+      "roni": {
+        "season": "JJA",
+        "year": 2026,
+        "value": 1.36,
+        "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt"
+      }
+    }
+  }
 }

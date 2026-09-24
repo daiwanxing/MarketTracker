@@ -7,6 +7,14 @@ import { useReveal } from '../hooks/useReveal';
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
 
+function oilQuoteLine(quotes: { wti?: number; dxy?: number } | undefined): string {
+  if (!quotes) return '';
+  const parts: string[] = [];
+  if (typeof quotes.wti === 'number') parts.push(`WTI ${quotes.wti.toFixed(2)}`);
+  if (typeof quotes.dxy === 'number') parts.push(`DXY ${quotes.dxy.toFixed(2)}`);
+  return parts.join(' · ');
+}
+
 export default function OilPanel() {
   const tlRef = useReveal<HTMLDivElement>();
   const newsRef = useReveal<HTMLDivElement>();
@@ -80,6 +88,7 @@ export default function OilPanel() {
     ],
   };
 
+  const quoteLine = oilQuoteLine(metrics.main.quotes);
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
   const DIM: Record<string, string> = {
     supply: '供需',
@@ -127,7 +136,12 @@ export default function OilPanel() {
           </div>
           <div className="lbl">{metrics.main.label}</div>
           <div className="src-lbl">{metrics.main.src}</div>
-          {metrics.main.refs && <div className="refs">{metrics.main.refs}</div>}
+          {(quoteLine || metrics.main.refs) && (
+            <div className="refs">
+              {quoteLine && <span className="quote-slots">{quoteLine}</span>}
+              {metrics.main.refs && <span className="refs-note">{metrics.main.refs}</span>}
+            </div>
+          )}
         </div>
       </div>
 
