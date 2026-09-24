@@ -107,6 +107,24 @@
       "nav_date": "2026-09-23",
       "nav_change_pct": 0.65,
       "source": "tencent+fund-nav"
+    },
+    {
+      "timestamp": "2026-09-24T09:25:49+08:00",
+      "quote_time": "2026-09-24T09:25:33+08:00",
+      "market_status": "盘前 · 非交易时段，记录最近可得报价",
+      "price": 0.996,
+      "change_amt": -0.008,
+      "change_pct": -0.8,
+      "prev_close": 1.004,
+      "open": 0.996,
+      "high": 0.996,
+      "low": 0.996,
+      "iopv": 0.9977,
+      "premium_pct": -0.17,
+      "nav": 1.0036,
+      "nav_date": "2026-09-23",
+      "nav_change_pct": 0.65,
+      "source": "eastmoney+fund-nav+tencent-iopv"
     }
   ],
   "code": "588170",
