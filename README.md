@@ -57,7 +57,13 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 
 ## 更新数据
 
-编辑 `src/data/oilData.json`、`goldData.json` 或 `ensoData.json`，然后推到 `main`。Pages 工作流会重新构建并发布。
+原油和黄金的价格数字由 **Refresh market data**（`.github/workflows/refresh-market-data.yml`）每 3 小时刷新，也可以在 Actions 里手动运行。脚本是 `scripts/refresh_market_data.py`。
+
+它只改能对上公开行情的数字和上海时区快照时间：布伦特 `BZ=F`、WTI `CL=F`、美元指数 `DX-Y.NYB`、COMEX 黄金 `GC=F`、美债 10 年期 `^TNX`（Yahoo Finance chart API），以及伦敦金 XAU/USD（gold-api.com，失败时用 Swissquote 买卖中间价）。新闻、时间轴、信号正文和 `ensoData.json` 不动。
+
+刷新任务用 `GITHUB_TOKEN` 把 JSON 提交到 `main`。这类 push 不会再触发 `push` 工作流，所以 **Deploy GitHub Pages** 额外监听 `Refresh market data` 完成（`workflow_run`），用更新后的数字重新构建。
+
+叙事内容仍是手改 `src/data/oilData.json`、`goldData.json` 或 `ensoData.json`，然后推到 `main`。
 
 ## 目录
 
@@ -70,7 +76,10 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 │   ├── components/         # Sidebar、OilPanel、GoldPanel、EnsoPanel
 │   ├── data/
 │   └── styles/theme.css
-└── .github/workflows/deploy-pages.yml
+├── scripts/refresh_market_data.py
+└── .github/workflows/
+    ├── deploy-pages.yml
+    └── refresh-market-data.yml
 ```
 
 ## 历史
