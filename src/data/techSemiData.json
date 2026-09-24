@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-24 22:38",
+  "snapshot": "2026-09-25 02:49",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技半导体 · AI 算力与芯片",
@@ -9,29 +9,29 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 12348.58,
-      "chg": "+6.46%",
+      "price": 12460.5,
+      "chg": "+7.42%",
       "chgClass": "up",
       "previousClose": 11599.49,
-      "src": "^SOX 09-24 22:38 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-25 02:49 上海 · Yahoo Finance (^SOX)"
     },
     "ndx": {
       "name": "纳斯达克100指数",
       "symbol": "^NDX",
-      "price": 30325.56,
-      "chg": "+2.98%",
+      "price": 30458.87,
+      "chg": "+3.44%",
       "chgClass": "up",
       "previousClose": 29446.98,
-      "src": "^NDX 09-24 22:38 上海 · Yahoo Finance (^NDX)"
+      "src": "^NDX 09-25 02:49 上海 · Yahoo Finance (^NDX)"
     },
     "tsm": {
       "name": "台积电 ADR",
       "symbol": "TSM",
-      "price": 443.6,
-      "chg": "+3.10%",
+      "price": 449.31,
+      "chg": "+4.43%",
       "chgClass": "up",
       "previousClose": 430.26,
-      "src": "TSM 09-24 22:38 上海 · Yahoo Finance (TSM)"
+      "src": "TSM 09-25 02:49 上海 · Yahoo Finance (TSM)"
     },
     "hstech": {
       "name": "恒生科技指数",
@@ -40,7 +40,7 @@
       "chg": "-0.41%",
       "chgClass": "down",
       "previousClose": 4379.07,
-      "src": "HSTECH.HK 09-24 22:38 上海 · Yahoo Finance (HSTECH.HK)"
+      "src": "HSTECH.HK 09-25 02:49 上海 · Yahoo Finance (HSTECH.HK)"
     },
     "star50": {
       "name": "科创50指数",
@@ -49,7 +49,7 @@
       "chg": "-2.35%",
       "chgClass": "down",
       "previousClose": 1660.85,
-      "src": "000688.SS 09-24 22:38 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-25 02:49 上海 · Yahoo Finance (000688.SS)"
     },
     "csi300": {
       "name": "沪深300指数",
@@ -58,7 +58,7 @@
       "chg": "-1.73%",
       "chgClass": "down",
       "previousClose": 4517.28,
-      "src": "000300.SS 09-24 22:38 上海 · Yahoo Finance (000300.SS)"
+      "src": "000300.SS 09-25 02:49 上海 · Yahoo Finance (000300.SS)"
     },
     "chip_etf": {
       "name": "中证半导体ETF",
@@ -67,7 +67,7 @@
       "chg": "-1.73%",
       "chgClass": "down",
       "previousClose": 1.041,
-      "src": "512480.SS 09-24 22:38 上海 · Yahoo Finance (512480.SS)"
+      "src": "512480.SS 09-25 02:49 上海 · Yahoo Finance (512480.SS)"
     }
   },
   "crowdingProxy": {
@@ -384,7 +384,7 @@
         57.16,
         63.9,
         65.23,
-        62.78
+        64.26
       ],
       "ndx": [
         0.0,
@@ -511,7 +511,7 @@
         25.68,
         29.23,
         29.18,
-        28.57
+        29.13
       ],
       "tsm": [
         0.0,
@@ -638,7 +638,7 @@
         33.29,
         36.5,
         36.94,
-        36.03
+        37.78
       ],
       "hstech": [
         0.0,
@@ -1408,9 +1408,9 @@
           0.873,
           0.84,
           0.839,
-          0.828
+          0.821
         ],
-        "latest": 0.828,
+        "latest": 0.821,
         "name": "中证芯片 / 费城半导体 比值 (×10⁴)",
         "hint": "反映国内芯片资产相对全球半导体基准的相对溢价/折价走向"
       }
