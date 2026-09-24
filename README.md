@@ -45,6 +45,14 @@ npm run preview
 
 Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a branch”）。工作流文件：`.github/workflows/deploy-pages.yml`。
 
+仓库目前仍是 “Deploy from a branch / main / (root)”。这个身份没有权限通过 API 改这项设置，需要在 GitHub 上点一次：
+
+1. 打开 https://github.com/daiwanxing/MarketTracker/settings/pages
+2. **Build and deployment** → **Source** 选 **GitHub Actions**
+3. 保存
+
+在改掉之前，同一次 push 会先跑旧的分支发布，再跑上面的 Actions 工作流。工作流会等分支发布结束再部署 `dist/`，避免成品被仓库根目录的源码 `index.html` 盖掉。改成 GitHub Actions 之后，这次等待会自动跳过。
+
 深链（刷新 `/oil`、`/gold`、`/enso`）依赖构建时复制出的 `dist/404.html`。GitHub Pages 没有 SPA 重写，未知路径会返回这个文件，路由仍由 React Router 处理。
 
 ## 更新数据

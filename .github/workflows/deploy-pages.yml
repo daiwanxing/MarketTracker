@@ -50,6 +50,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Pages is still "Deploy from a branch" until someone switches Source
+      # to GitHub Actions (this token cannot change that setting). That branch
+      # publish starts on the same push and overwrites an earlier Actions
+      # deploy. Wait it out when the source is not already Actions.
+      - name: Wait out branch Pages publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          build_type="$(gh api "repos/${{ github.repository }}/pages" --jq .build_type || echo unknown)"
+          echo "pages build_type=${build_type}"
+          if [ "${build_type}" != "workflow" ]; then
+            echo "Branch publish can replace this deploy. Waiting 90s."
+            sleep 90
+          fi
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
