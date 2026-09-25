@@ -77,8 +77,8 @@
     "asOf": "2026-09-24",
     "methodNote": "已升级为 Phase-2 真实 A 股 TMT 成交占比与集中度测算（详情参见上方真实拥挤度指标卡）",
     "cards": {
-      "tmtTurnoverShare": 40.63,
-      "top5Concentration": 40.16,
+      "tmtTurnoverShare": 40.66,
+      "top5Concentration": 40.13,
       "circulatingHeatRatio": 2.56
     }
   },
@@ -1540,25 +1540,25 @@
     "zone": "danger",
     "methodNote": "基于申万一级行业（电子/计算机/传媒/通信）全成分股实时成交汇总与沪深两市整体成交额实测，流通口径热度基于全流通市值计算",
     "turnoverShare": {
-      "value": 40.63,
-      "tmtAmountYi": 6717.88,
+      "value": 40.66,
+      "tmtAmountYi": 6722.44,
       "marketAmountYi": 16533.57,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
     },
     "top5Concentration": {
-      "value": 40.16,
+      "value": 40.13,
       "top5AmountYi": 2697.8,
       "top5Count": 57,
-      "totalTmtCount": 1134,
+      "totalTmtCount": 1135,
       "label": "TMT Top 5% 成交集中度",
       "unit": "%",
       "desc": "TMT 宇宙内成交额前 5% 头部标的（57 只）成交额合计占 TMT 总成交比例"
     },
     "circulatingHeatRatio": {
       "value": 2.56,
-      "tmtNmcYi": 262570.27,
+      "tmtNmcYi": 262650.47,
       "label": "TMT 流通热度比率",
       "unit": "%",
       "desc": "TMT 板块单日成交额 / TMT 流通市值合计（注：流通口径换手，非自由流通口径）",
@@ -1567,9 +1567,9 @@
     "sectorBreakdown": {
       "electronics": {
         "name": "电子",
-        "count": 519,
-        "amountYi": 4499.85,
-        "share": 27.22,
+        "count": 520,
+        "amountYi": 4504.41,
+        "share": 27.24,
         "heatRatio": 2.73
       },
       "computer": {
