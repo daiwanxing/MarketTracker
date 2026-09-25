@@ -17,20 +17,20 @@
 
 Vite + React 19 + TypeScript + React Router + ECharts。
 
-生产构建的 Vite `base` 和 React Router `basename` 都是 `/MarketTracker/`。本地 `npm run dev` 使用 `/`。需要换前缀时设置 `VITE_BASE`（带首尾斜杠），例如 `VITE_BASE=/MarketTracker/ npm run build`。
+生产构建的 Vite `base` 和 React Router `basename` 都是 `/MarketTracker/`。本地 `pnpm run dev` 使用 `/`。需要换前缀时设置 `VITE_BASE`（带首尾斜杠），例如 `VITE_BASE=/MarketTracker/ pnpm run build`。
 
 ## 本地开发
 
 ```bash
-npm ci
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 开发服务器：http://localhost:5173/oil
 
 ```bash
-npm run build    # tsc -b && vite build，产物在 dist/（含 404.html，供 Pages 深链）
-npm run preview
+pnpm run build    # tsc -b && vite build，产物在 dist/（含 404.html，供 Pages 深链）
+pnpm run preview
 ```
 
 `node_modules/` 和 `dist/` 不入库。
@@ -39,8 +39,8 @@ npm run preview
 
 推送到 `main`，或在 Actions 里手动运行 **Deploy GitHub Pages**，会执行：
 
-1. `npm ci`
-2. `npm run build`（`VITE_BASE=/MarketTracker/`）
+1. `pnpm install --frozen-lockfile`
+2. `pnpm run build`（`VITE_BASE=/MarketTracker/`）
 3. 用 `actions/upload-pages-artifact` 上传 `dist/`
 4. 用 `actions/deploy-pages` 发布到 GitHub Pages
 
