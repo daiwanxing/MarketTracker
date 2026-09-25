@@ -23,16 +23,15 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
   - `macro.items` 里 `k` 为 `美元指数` 或 `美债 10 年期收益率` 的 `quote`
 - `src/data/techSemiData.json`
   - `snapshot`
-  - `benchmarks.sox`、`benchmarks.ndx`、`benchmarks.tsm`、`benchmarks.hstech`、`benchmarks.star50`、`benchmarks.csi300`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
-  - `charts.normalized`：`dates`、`sox`、`ndx`、`tsm`、`hstech`、`star50`、`chip_etf`（近半年标准化收益走势 %）
-  - `charts.ratios`：`dates`、`star50_csi300.series` 与 `latest`、`chip_sox.series` 与 `latest`
-  - `crowdingProxy`：`score`、`label`、`zone`、`asOf`、`methodNote`、`cards`（基于动量与截面收益发散度的 Phase-1 轻量代理指标，已降级为辅助参考）
+  - `benchmarks.sox`、`benchmarks.star50`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
+  - `charts.normalized`：`dates`、`sox`、`star50`、`chip_etf`（近半年标准化收益走势 %）
+  - `leverage.marginBuyShare`：`value`（全市场融资买入额 / 同日上证+深证成指成交额 %）、`asOf`（两融交易日）、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`。`<7` 低于平常，`7–9` 平常，`>9` 高于平常。不写个股融资余额
 
 科技半导体 A 股 TMT 真实拥挤度：`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**（工作日周一至周五 07:30 UTC / 15:30 上海时间收盘后）。
 
 - `src/data/techSemiData.json` 的 `crowding`
   - `crowding.asOf`
-  - `crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`
+  - `crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`（按成交占比：`<20` 低位冰点，`20–32` 主线活跃，`32–38` 拥挤偏热，`≥38` 极端过热）
   - `crowding.turnoverShare`：`value`（申万电子+计算机+传媒+通信占沪深全市场成交额 %）、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`
   - `crowding.top5Concentration`：`value`（TMT 内部 Top 5% 成交额占比 %）、`top5AmountYi`、`top5Count`、`totalTmtCount`、`label`、`unit`、`desc`
   - `crowding.circulatingHeatRatio`：`value`（TMT 单日成交额 / TMT 流通市值 %，严格标注为流通口径而非自由流通）、`tmtNmcYi`、`label`、`unit`、`desc`、`scopeLabel`
@@ -59,7 +58,7 @@ ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers*
 
 - 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
 - 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
-- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`、`note`）、`roadmap`（Phase 1/2/3 说明）、`timeline`、`news`、`risks`、`footer`
+- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`、`note`）、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental`、`roadmap`、`timeline`、`news`、`risks`、`footer`
 - ENSO：`lastUpdated`、`head`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`
 
-这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。
+这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies`、`fundamental` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率、CSP 资本开支、CoWoS 与 EPS 修订保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。

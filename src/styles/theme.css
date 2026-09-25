@@ -1090,4 +1090,35 @@ body {
   }
 }
 
+.anomaly-grid, .base-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.crowd-badge.unknown {
+  color: var(--text-faint);
+  border: 1px solid rgba(240, 240, 250, 0.2);
+  background: transparent;
+}
+.gauge-track {
+  margin-top: 12px;
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(240, 240, 250, 0.1);
+  overflow: hidden;
+}
+.gauge-fill { height: 100%; border-radius: 99px; }
+.gauge-fill.cold { background: #38bdf8; }
+.gauge-fill.neutral { background: #f5c542; }
+.gauge-fill.warning { background: #fb923c; }
+.gauge-fill.danger { background: #ff6b6b; }
+.gauge-marks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
 

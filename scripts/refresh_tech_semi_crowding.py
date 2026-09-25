@@ -267,16 +267,16 @@ def build_crowding_payload(result: CrowdingResult) -> dict[str, object]:
     share = result.tmt_turnover_share
     if share >= 38.0:
         zone = "danger"
-        label = "高拥挤过热"
-    elif share >= 30.0:
+        label = "极端过热"
+    elif share >= 32.0:
         zone = "warning"
-        label = "偏热关注"
+        label = "拥挤偏热"
     elif share >= 20.0:
         zone = "neutral"
-        label = "中性合理"
+        label = "主线活跃"
     else:
         zone = "cold"
-        label = "偏低清淡"
+        label = "低位冰点"
 
     return {
         "asOf": result.as_of,
@@ -354,20 +354,7 @@ def refresh_tech_semi_crowding(
 
         # Update doc with new crowding object
         doc["crowding"] = crowding_dict
-
-        # Keep crowdingProxy updated with real numbers or demoted legacy note
-        doc["crowdingProxy"] = {
-            "score": int(min(100, max(0, round(crowd_res.tmt_turnover_share * 2.5)))),
-            "label": crowding_dict["label"],
-            "zone": crowding_dict["zone"],
-            "asOf": crowd_res.as_of,
-            "methodNote": "已升级为 Phase-2 真实 A 股 TMT 成交占比与集中度测算（详情参见上方真实拥挤度指标卡）",
-            "cards": {
-                "tmtTurnoverShare": crowd_res.tmt_turnover_share,
-                "top5Concentration": crowd_res.top5pct_concentration,
-                "circulatingHeatRatio": crowd_res.circulating_heat_ratio,
-            },
-        }
+        doc.pop("crowdingProxy", None)
 
         if dry_run:
             log("INFO", f"dry-run: computed crowding metrics for {as_of_date}")
@@ -486,6 +473,8 @@ def self_test() -> int:
         assert "electronics" in cr["sectorBreakdown"], "sectorBreakdown has electronics"
         assert len(cr["topStocks"]) == 10, "topStocks has 10 items"
         assert "流通口径" in cr["circulatingHeatRatio"]["scopeLabel"], "explicit scope label"
+        assert "crowdingProxy" not in updated, "legacy proxy removed"
+        assert cr["label"] in {"低位冰点", "主线活跃", "拥挤偏热", "极端过热"}
         log("INFO", "self-test passed successfully!")
     finally:
         if test_file.exists():

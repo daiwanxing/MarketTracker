@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import heroSemi from '../assets/hero-semi.jpg';
@@ -7,28 +6,80 @@ import { useReveal } from '../hooks/useReveal';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+type Bench = {
+  name: string;
+  symbol: string;
+  price: number;
+  chg: string;
+  chgClass: string;
+  src: string;
+};
 
-const UP = '#FF6B6B';
-const DOWN = '#4ADE80';
-const AMBER = '#F5C542';
+type Anomaly = {
+  k: string;
+  metric: string;
+  status: string;
+  zone: string;
+  v: string;
+  watch: string;
+};
+
+const BENCH_KEYS = ['sox', 'star50', 'chip_etf'] as const;
+const CHART_SERIES = [
+  { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
+  { key: 'star50', name: '科创50', color: '#facc15', width: 1.8 },
+  { key: 'chip_etf', name: '中证半导体ETF', color: '#4ade80', width: 1.8 },
+] as const;
+
+function crowdTone(share: number, priceDown: boolean) {
+  if (share >= 38) {
+    return {
+      zone: 'danger',
+      label: priceDown ? '极端过热 · 下跌放量' : '极端过热',
+      note: priceDown ? '高占比出现在下跌日，更像恐慌放量，不是主升。' : '上涨中的高占比，是主升拥挤。',
+    };
+  }
+  if (share >= 32) {
+    return { zone: 'warning', label: '拥挤偏热', note: '筹码开始拥挤，连同当天涨跌一起看。' };
+  }
+  if (share >= 20) {
+    return { zone: 'neutral', label: '主线活跃', note: '成交占比处在主线区间。' };
+  }
+  return { zone: 'cold', label: '低位冰点', note: '成交占比偏低，主题并不拥挤。' };
+}
 
 export default function TechSemiPanel() {
   const tlRef = useReveal<HTMLDivElement>();
   const newsRef = useReveal<HTMLDivElement>();
   const riskRef = useReveal<HTMLDivElement>();
 
-  const { head, benchmarks, crowdingProxy, crowding, signal, charts, roadmap, timeline, news, risks, footer, snapshot } = techSemiData;
+  const data = techSemiData as typeof techSemiData & {
+    anomalies?: { note: string; items: Anomaly[] };
+    leverage?: {
+      note: string;
+      marginBuyShare: Anomaly & {
+        value?: number;
+        asOf?: string;
+        buyYi?: number;
+        marketAmountYi?: number;
+      };
+    };
+    fundamental?: { note: string; items: Anomaly[] };
+  };
+  const { head, benchmarks, crowding, signal, charts, timeline, news, risks, footer, snapshot } = data;
+  const benchMap = benchmarks as Record<string, Bench | undefined>;
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
-
-  // Tab for ratio chart
-  const [ratioTab, setRatioTab] = useState<'star50_csi300' | 'chip_sox'>('star50_csi300');
-
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
 
-  /* ============ 1) 全球半导体归一化对比图 (近 6 个月 % 收益) ============ */
-  const normDates = charts.normalized.dates || [];
+  const benches = BENCH_KEYS.map((key) => benchMap[key]).filter((item): item is Bench => Boolean(item));
+  const share = crowding?.turnoverShare?.value ?? 0;
+  const chipDown = benchMap.chip_etf?.chgClass === 'down';
+  const tone = crowdTone(share, chipDown);
+  const norm = charts.normalized as Record<string, number[] | string[]>;
+  const dates = (norm.dates as string[]) || [];
+
   const normalizedOpt: EChartsOption = {
     backgroundColor: 'transparent',
     tooltip: {
@@ -36,21 +87,7 @@ export default function TechSemiPanel() {
       backgroundColor: 'rgba(0,0,0,0.92)',
       borderColor: 'rgba(240,240,250,0.35)',
       borderWidth: 1,
-      padding: [8, 12],
       textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
-      formatter: (params: unknown) => {
-        const list = params as { seriesName?: string; axisValue?: string; value?: number; color?: string }[];
-        if (!Array.isArray(list) || list.length === 0) return '';
-        const date = list[0].axisValue ?? '';
-        let html = `<span style="font-family:${MONO};font-size:11px;color:#f0f0fa">${date}（自基准累计涨跌）</span><br/>`;
-        for (const item of list) {
-          const val = typeof item.value === 'number' ? `${item.value >= 0 ? '+' : ''}${item.value.toFixed(2)}%` : '--';
-          html += `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${item.color};margin-right:6px"></span>`
-            + `<span style="font-family:${DISPLAY};color:rgba(240,240,250,0.7);font-size:12px">${item.seriesName}：</span>`
-            + `<b style="font-family:${MONO};color:#f0f0fa;font-size:12px"> ${val}</b><br/>`;
-        }
-        return html;
-      },
     },
     legend: {
       top: 0,
@@ -58,10 +95,10 @@ export default function TechSemiPanel() {
       itemHeight: 3,
       textStyle: { color: 'rgba(240,240,250,0.85)', fontFamily: DISPLAY, fontSize: 11 },
     },
-    grid: { left: 48, right: 16, top: 40, bottom: 26 },
+    grid: { left: 48, right: 16, top: 36, bottom: 26 },
     xAxis: {
       type: 'category',
-      data: normDates,
+      data: dates,
       axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
       axisTick: { show: false },
       axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
@@ -77,128 +114,15 @@ export default function TechSemiPanel() {
         formatter: (v: number) => `${v >= 0 ? '+' : ''}${v}%`,
       },
     },
-    series: [
-      {
-        name: 'SOX 费半',
-        type: 'line',
-        data: charts.normalized.sox,
-        showSymbol: false,
-        lineStyle: { color: '#38bdf8', width: 2 },
-        itemStyle: { color: '#38bdf8' },
-      },
-      {
-        name: 'NDX 纳指100',
-        type: 'line',
-        data: charts.normalized.ndx,
-        showSymbol: false,
-        lineStyle: { color: '#818cf8', width: 1.5, type: 'dashed' },
-        itemStyle: { color: '#818cf8' },
-      },
-      {
-        name: 'TSM 台积电',
-        type: 'line',
-        data: charts.normalized.tsm,
-        showSymbol: false,
-        lineStyle: { color: '#fb923c', width: 1.8 },
-        itemStyle: { color: '#fb923c' },
-      },
-      {
-        name: '恒生科技(3033)',
-        type: 'line',
-        data: charts.normalized.hstech,
-        showSymbol: false,
-        lineStyle: { color: '#f43f5e', width: 1.5 },
-        itemStyle: { color: '#f43f5e' },
-      },
-      {
-        name: '科创50(588000)',
-        type: 'line',
-        data: charts.normalized.star50,
-        showSymbol: false,
-        lineStyle: { color: '#facc15', width: 1.8 },
-        itemStyle: { color: '#facc15' },
-      },
-      {
-        name: '芯片ETF(512480)',
-        type: 'line',
-        data: charts.normalized.chip_etf,
-        showSymbol: false,
-        lineStyle: { color: '#4ade80', width: 1.8 },
-        itemStyle: { color: '#4ade80' },
-      },
-    ],
+    series: CHART_SERIES.map((item) => ({
+      name: item.name,
+      type: 'line',
+      data: (norm[item.key] as number[]) || [],
+      showSymbol: false,
+      lineStyle: { color: item.color, width: item.width },
+      itemStyle: { color: item.color },
+    })),
   };
-
-  /* ============ 2) 跨市场比值走势图 (Ratio Chart) ============ */
-  const activeRatioConfig = charts.ratios[ratioTab];
-  const ratioDates = charts.ratios.dates || [];
-  const ratioOpt: EChartsOption = {
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: 'rgba(0,0,0,0.92)',
-      borderColor: 'rgba(240,240,250,0.35)',
-      borderWidth: 1,
-      padding: [8, 12],
-      textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
-      formatter: (params: unknown) => {
-        const list = params as { seriesName?: string; axisValue?: string; value?: number }[];
-        if (!Array.isArray(list) || list.length === 0) return '';
-        const date = list[0].axisValue ?? '';
-        const val = list[0].value !== undefined ? list[0].value : '--';
-        return `<span style="font-family:${MONO};font-size:11px;color:#f0f0fa">${date}</span><br/>`
-          + `<span style="color:rgba(240,240,250,0.7)">${activeRatioConfig.name}：</span>`
-          + `<b style="font-family:${MONO};color:${AMBER};font-size:13px"> ${val}</b>`;
-      },
-    },
-    grid: { left: 52, right: 16, top: 24, bottom: 26 },
-    xAxis: {
-      type: 'category',
-      data: ratioDates,
-      axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
-      axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
-    },
-    yAxis: {
-      type: 'value',
-      scale: true,
-      splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
-    },
-    series: [
-      {
-        name: activeRatioConfig.name,
-        type: 'line',
-        data: activeRatioConfig.series,
-        showSymbol: false,
-        lineStyle: { color: AMBER, width: 2 },
-        itemStyle: { color: AMBER },
-        areaStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              { offset: 0, color: 'rgba(245,197,66,0.2)' },
-              { offset: 1, color: 'rgba(245,197,66,0.01)' },
-            ],
-          },
-        },
-      },
-    ],
-  };
-
-  const bmList = [
-    benchmarks.sox,
-    benchmarks.ndx,
-    benchmarks.tsm,
-    benchmarks.hstech,
-    benchmarks.star50,
-    benchmarks.csi300,
-    benchmarks.chip_etf,
-  ].filter(Boolean);
 
   return (
     <article>
@@ -220,13 +144,93 @@ export default function TechSemiPanel() {
       </header>
 
       <div className="content">
-        {/* ============ 1) 核心基准与行情卡片 ============ */}
         <h2 className="sec-title">
-          核心基准行情
-          <span className="hint">全球与国内半导体关键标的实时/收盘快照</span>
+          先行异动雷达
+          <span className="hint">大跌前要看的足迹。没有核实过的数，这里留空</span>
+        </h2>
+        <div className="anomaly-grid">
+          {(data.anomalies?.items ?? []).map((item) => (
+            <div className="card real-crowd-card" key={item.k}>
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{item.k}</span>
+                <span className={`crowd-badge ${item.zone}`}>{item.v}</span>
+              </div>
+              <div className="real-crowd-desc">{item.metric}</div>
+              <div className="real-crowd-detail">{item.watch}</div>
+            </div>
+          ))}
+        </div>
+        {data.anomalies?.note && <div className="sec-note">{data.anomalies.note}</div>}
+
+        <h2 className="sec-title" style={{ marginTop: 28 }}>
+          拥挤度与杠杆
+          <span className="hint">TMT 成交占比，以及全市场融资买入占比</span>
+        </h2>
+        <div className="anomaly-grid">
+          {crowding && (
+            <div className="card real-crowd-card">
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
+                <span className={`crowd-badge ${tone.zone}`}>{tone.label}</span>
+              </div>
+              <div className="real-crowd-num-row">
+                <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
+                <span className="real-crowd-unit">%</span>
+              </div>
+              <div className="gauge-track" aria-hidden="true">
+                <div className={`gauge-fill ${tone.zone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
+              </div>
+              <div className="gauge-marks">
+                <span>20 冰点外</span>
+                <span>32 偏热</span>
+                <span>38 极端</span>
+              </div>
+              <div className="real-crowd-detail">
+                TMT {crowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{tone.note}
+              </div>
+            </div>
+          )}
+          {data.leverage && (
+            <div className="card real-crowd-card">
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{data.leverage.marginBuyShare.k}</span>
+                <span className={`crowd-badge ${data.leverage.marginBuyShare.zone}`}>{data.leverage.marginBuyShare.v}</span>
+              </div>
+              {typeof data.leverage.marginBuyShare.value === 'number' ? (
+                <>
+                  <div className="real-crowd-num-row">
+                    <span className="real-crowd-val num">{data.leverage.marginBuyShare.value}</span>
+                    <span className="real-crowd-unit">%</span>
+                  </div>
+                  <div className="gauge-track" aria-hidden="true">
+                    <div
+                      className={`gauge-fill ${data.leverage.marginBuyShare.zone}`}
+                      style={{ width: `${Math.max(4, Math.min(100, (data.leverage.marginBuyShare.value / 15) * 100))}%` }}
+                    />
+                  </div>
+                  <div className="gauge-marks">
+                    <span>7 平常起</span>
+                    <span>9 平常上沿</span>
+                  </div>
+                  <div className="real-crowd-detail">
+                    融资买入 {data.leverage.marginBuyShare.buyYi?.toLocaleString()} 亿 / 两市 {data.leverage.marginBuyShare.marketAmountYi?.toLocaleString()} 亿 · 截至 {data.leverage.marginBuyShare.asOf}
+                  </div>
+                </>
+              ) : (
+                <div className="real-crowd-desc">{data.leverage.marginBuyShare.metric}</div>
+              )}
+              <div className="real-crowd-detail">{data.leverage.marginBuyShare.watch}</div>
+            </div>
+          )}
+        </div>
+        {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
+
+        <h2 className="sec-title" style={{ marginTop: 28 }}>
+          核心基准
+          <span className="hint">费半、科创50、中证半导体 ETF</span>
         </h2>
         <div className="benchmarks-grid">
-          {bmList.map((bm) => (
+          {benches.map((bm) => (
             <div className="card bm-card" key={bm.symbol}>
               <div className="bm-header">
                 <span className="bm-name">{bm.name}</span>
@@ -241,211 +245,29 @@ export default function TechSemiPanel() {
           ))}
         </div>
 
-        {/* ============ 2) A 股 TMT 真实拥挤度指标 (Phase 2 MVP) ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          A 股 TMT 真实拥挤度指标 (Phase 2)
-          <span className="hint">
-            申万一级（电子/计算机/传媒/通信）全成分股微观实测 · 每日收盘后定时刷新 · 截至 {crowding ? crowding.asOf : snapshot.slice(0, 10)}
-          </span>
-        </h2>
-
-        {crowding && (
-          <>
-            <div className="real-crowd-grid">
-              {/* 卡片 1: TMT 成交额占比 */}
-              <div className="card real-crowd-card">
-                <div className="real-crowd-head">
-                  <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
-                  <span className={`real-crowd-tag crowd-badge ${crowding.zone}`}>
-                    {crowding.label}
-                  </span>
-                </div>
-                <div className="real-crowd-num-row">
-                  <span className="real-crowd-val num" style={{ color: crowding.zone === 'danger' ? UP : crowding.zone === 'warning' ? AMBER : 'var(--text)' }}>
-                    {crowding.turnoverShare.value}
-                  </span>
-                  <span className="real-crowd-unit">{crowding.turnoverShare.unit}</span>
-                </div>
-                <div className="real-crowd-desc">{crowding.turnoverShare.desc}</div>
-                <div className="real-crowd-detail">
-                  TMT 成交：<b>{crowding.turnoverShare.tmtAmountYi.toLocaleString()}</b> 亿元 / 两市总额：<b>{crowding.turnoverShare.marketAmountYi.toLocaleString()}</b> 亿元
-                </div>
-              </div>
-
-              {/* 卡片 2: Top 5% 成交集中度 */}
-              <div className="card real-crowd-card">
-                <div className="real-crowd-head">
-                  <span className="real-crowd-title">{crowding.top5Concentration.label}</span>
-                  <span className="real-crowd-tag">集中度</span>
-                </div>
-                <div className="real-crowd-num-row">
-                  <span className="real-crowd-val num" style={{ color: AMBER }}>
-                    {crowding.top5Concentration.value}
-                  </span>
-                  <span className="real-crowd-unit">{crowding.top5Concentration.unit}</span>
-                </div>
-                <div className="real-crowd-desc">{crowding.top5Concentration.desc}</div>
-                <div className="real-crowd-detail">
-                  头部 5%（前 {crowding.top5Concentration.top5Count} 只）成交：<b>{crowding.top5Concentration.top5AmountYi.toLocaleString()}</b> 亿元 / TMT 宇宙：{crowding.top5Concentration.totalTmtCount} 只
-                </div>
-              </div>
-
-              {/* 卡片 3: 流通换手热度比率 */}
-              <div className="card real-crowd-card">
-                <div className="real-crowd-head">
-                  <span className="real-crowd-title">{crowding.circulatingHeatRatio.label}</span>
-                  <span className="real-crowd-tag">{crowding.circulatingHeatRatio.scopeLabel}</span>
-                </div>
-                <div className="real-crowd-num-row">
-                  <span className="real-crowd-val num" style={{ color: '#38bdf8' }}>
-                    {crowding.circulatingHeatRatio.value}
-                  </span>
-                  <span className="real-crowd-unit">{crowding.circulatingHeatRatio.unit}</span>
-                </div>
-                <div className="real-crowd-desc">{crowding.circulatingHeatRatio.desc}</div>
-                <div className="real-crowd-detail">
-                  TMT 成交额 <b>{crowding.turnoverShare.tmtAmountYi.toLocaleString()}</b> 亿元 / 流通市值合计 <b>{crowding.circulatingHeatRatio.tmtNmcYi.toLocaleString()}</b> 亿元
-                </div>
-              </div>
-            </div>
-
-            {/* 申万细分板块成交分布与 Top 标的 */}
-            <div className="card sector-breakdown-card">
-              <div className="sector-breakdown-title">
-                <span>申万 TMT 四大一级行业成交拆解</span>
-                <span style={{ fontFamily: MONO, fontSize: 11, color: 'var(--text-faint)', textTransform: 'none' }}>
-                  {crowding.src}
-                </span>
-              </div>
-              <div className="sector-pills">
-                {Object.entries(crowding.sectorBreakdown).map(([key, sec]) => (
-                  <div className="sector-pill" key={key}>
-                    <div className="sector-pill-name">{sec.name}</div>
-                    <div className="sector-pill-val num">{sec.amountYi.toLocaleString()} <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>亿元</span></div>
-                    <div className="sector-pill-sub">
-                      两市占比 <b>{sec.share}%</b> · 流通热度 <b>{sec.heatRatio}%</b> ({sec.count}只)
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ marginTop: 14 }}>
-                <span style={{ fontSize: 11.5, color: 'var(--text-dim)', letterSpacing: 0.5 }}>
-                  当日 TMT 成交额前十名龙头标的：
-                </span>
-                <div className="top-stocks-grid">
-                  {crowding.topStocks.map((stk) => (
-                    <div className="top-stock-chip" key={stk.code}>
-                      <span className="top-stock-name">
-                        <span style={{ color: 'var(--text-faint)', marginRight: 4 }}>{stk.code}</span>
-                        {stk.name}
-                      </span>
-                      <span className="top-stock-amt num">{stk.amountYi}亿</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* ============ 2.2) 动量与收益离散度辅助参考 (Phase 1 归档参考) ============ */}
-        <details style={{ marginTop: 14, cursor: 'pointer' }}>
-          <summary style={{ fontSize: 12, color: 'var(--text-faint)', fontFamily: MONO, padding: '4px 0' }}>
-            ▶ 查看 Phase-1 动量与收益离散度代理指标（已降级为辅助参考）
-          </summary>
-          <div className="crowd-container" style={{ marginTop: 10 }}>
-            <div className="card crowd-dial">
-              <div className="crowd-score-row">
-                <span className="crowd-score num">{crowdingProxy.score}</span>
-                <span className="crowd-score-denom">/ 100</span>
-                <span className={`crowd-badge ${crowdingProxy.zone}`}>{crowdingProxy.label}</span>
-              </div>
-              <div className="crowd-bar">
-                <div
-                  className={`crowd-bar-fill ${crowdingProxy.zone}`}
-                  style={{ width: `${Math.max(4, Math.min(100, crowdingProxy.score))}%` }}
-                />
-              </div>
-              <div className="crowd-scale">
-                <span>0 冰点</span>
-                <span>30 中性</span>
-                <span>60 偏热</span>
-                <span>80+ 过热</span>
-              </div>
-              <div className="crowd-note">
-                {crowdingProxy.methodNote}（截至 {crowdingProxy.asOf}）
-              </div>
-            </div>
-
-            <div className="crowd-metrics">
-              <div className="card crowd-metric-cell">
-                <span className="crowd-metric-val num" style={{ color: (crowdingProxy.cards.tmtTurnoverShare ?? 0) >= 0 ? UP : DOWN }}>
-                  {crowdingProxy.cards.tmtTurnoverShare !== undefined ? `${crowdingProxy.cards.tmtTurnoverShare}%` : '--'}
-                </span>
-                <span className="crowd-metric-lbl">TMT 成交额占比 (Phase-2)</span>
-              </div>
-              <div className="card crowd-metric-cell">
-                <span className="crowd-metric-val num" style={{ color: (crowdingProxy.cards.top5Concentration ?? 0) >= 0 ? UP : DOWN }}>
-                  {crowdingProxy.cards.top5Concentration !== undefined ? `${crowdingProxy.cards.top5Concentration}%` : '--'}
-                </span>
-                <span className="crowd-metric-lbl">Top 5% 成交集中度</span>
-              </div>
-              <div className="card crowd-metric-cell">
-                <span className="crowd-metric-val num" style={{ color: AMBER }}>
-                  {crowdingProxy.cards.circulatingHeatRatio !== undefined ? `${crowdingProxy.cards.circulatingHeatRatio}%` : '--'}
-                </span>
-                <span className="crowd-metric-lbl">流通换手热度比率</span>
-              </div>
-            </div>
-          </div>
-        </details>
-
-        {/* ============ 3) 走势对比与跨市场比值 ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          {charts.secTitle}
-          <span className="hint">{charts.secHint}</span>
-        </h2>
-        <div className="charts" style={{ gap: 16 }}>
-          {/* 标准化对比图 */}
-          <div className="card chart-panel">
-            <div className="chart-title">
-              全球主要半导体基准标准化走势（近 ~6 个月累计百分比收益率）
-            </div>
-            <ReactECharts option={normalizedOpt} style={{ height: 320, width: '100%' }} notMerge lazyUpdate />
-          </div>
-
-          {/* 跨市场比值图 */}
-          <div className="card chart-panel">
-            <div className="kline-head">
-              <div className="chart-title" style={{ padding: 0 }}>
-                {activeRatioConfig.name} · <span style={{ color: 'var(--text-faint)' }}>{activeRatioConfig.hint}</span>
-                {activeRatioConfig.latest !== null && (
-                  <b style={{ color: AMBER, marginLeft: 8 }}>最新：{activeRatioConfig.latest}</b>
-                )}
-              </div>
-              <div className="kline-tabs">
-                <button
-                  type="button"
-                  className={ratioTab === 'star50_csi300' ? 'active' : ''}
-                  onClick={() => setRatioTab('star50_csi300')}
-                >
-                  科创50 / 沪深300
-                </button>
-                <button
-                  type="button"
-                  className={ratioTab === 'chip_sox' ? 'active' : ''}
-                  onClick={() => setRatioTab('chip_sox')}
-                >
-                  中证芯片 / SOX
-                </button>
-              </div>
-            </div>
-            <ReactECharts option={ratioOpt} style={{ height: 260, width: '100%' }} notMerge lazyUpdate />
-          </div>
+        <div className="card chart-panel" style={{ marginTop: 16 }}>
+          <div className="chart-title">费半、科创50、中证半导体 ETF（近半年累计涨跌，起点为 0）</div>
+          <ReactECharts option={normalizedOpt} style={{ height: 320, width: '100%' }} notMerge lazyUpdate />
         </div>
 
-        {/* ============ 4) 市场与产业信号 ============ */}
+        <h2 className="sec-title" style={{ marginTop: 28 }}>
+          产业底座
+          <span className="hint">季度和月度。没有核实过的 Capex、交期和盈利修订不填数字</span>
+        </h2>
+        <div className="base-grid">
+          {(data.fundamental?.items ?? []).map((item) => (
+            <div className="card real-crowd-card" key={item.k}>
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{item.k}</span>
+                <span className={`crowd-badge ${item.zone}`}>{item.v}</span>
+              </div>
+              <div className="real-crowd-desc">{item.metric}</div>
+              <div className="real-crowd-detail">{item.watch}</div>
+            </div>
+          ))}
+        </div>
+        {data.fundamental?.note && <div className="sec-note">{data.fundamental.note}</div>}
+
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           {signal.secTitle}
           <span className="hint">{signal.secHint}</span>
@@ -457,13 +279,9 @@ export default function TechSemiPanel() {
           </div>
           <div className="sig-cols">
             <div className="sig-col">
-              <div className="col-h up">
-                <i aria-hidden="true" />
-                {signal.bullTitle}
-                <span>{signal.bullHint}</span>
-              </div>
-              {signal.bull.map((b, i) => (
-                <div className="sig-item up" key={i}>
+              <div className="col-h up"><i aria-hidden="true" />{signal.bullTitle}</div>
+              {signal.bull.map((b) => (
+                <div className="sig-item up" key={b.k}>
                   <i aria-hidden="true" />
                   <span className="k">{b.k}</span>
                   <span className="v">{b.v}</span>
@@ -471,13 +289,9 @@ export default function TechSemiPanel() {
               ))}
             </div>
             <div className="sig-col">
-              <div className="col-h down">
-                <i aria-hidden="true" />
-                {signal.bearTitle}
-                <span>{signal.bearHint}</span>
-              </div>
-              {signal.bear.map((b, i) => (
-                <div className="sig-item down" key={i}>
+              <div className="col-h down"><i aria-hidden="true" />{signal.bearTitle}</div>
+              {signal.bear.map((b) => (
+                <div className="sig-item down" key={b.k}>
                   <i aria-hidden="true" />
                   <span className="k">{b.k}</span>
                   <span className="v">{b.v}</span>
@@ -485,40 +299,13 @@ export default function TechSemiPanel() {
               ))}
             </div>
           </div>
-          <div className="sig-watch">
-            <b>跟踪重点 · </b>{signal.watch}
-          </div>
-          <div className="sig-note">{signal.note}</div>
+          <div className="sig-watch"><b>跟踪重点 · </b>{signal.watch}</div>
         </div>
 
-        {/* ============ 5) 迭代路线图 (Phase 1/2/3 诚实说明) ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          {roadmap.secTitle}
-          <span className="hint">{roadmap.secHint}</span>
-        </h2>
-        <div className="roadmap-grid">
-          {roadmap.phases.map((p, idx) => (
-            <div className="card roadmap-card" key={idx}>
-              <div className="roadmap-phase-head">
-                <span className="roadmap-phase-title">{p.title}</span>
-                <span className={`roadmap-phase-badge ${p.status}`}>{p.phase}</span>
-              </div>
-              <ul className="roadmap-list">
-                {p.items.map((it, i) => (
-                  <li key={i}>{it}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* ============ 6) 产业时间轴 ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          产业与事件时间轴
-        </h2>
+        <h2 className="sec-title" style={{ marginTop: 28 }}>产业与事件时间轴</h2>
         <div className="tl" ref={tlRef}>
-          {timeline.map((n, i) => (
-            <div className={n.hot ? 'node hot' : 'node'} key={i}>
+          {timeline.map((n) => (
+            <div className={n.hot ? 'node hot' : 'node'} key={`${n.date}-${n.t}`}>
               <div className="dot" />
               <div className="tags">
                 <span className="date">{n.date}</span>
@@ -531,13 +318,10 @@ export default function TechSemiPanel() {
           ))}
         </div>
 
-        {/* ============ 7) 行业要闻 ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          行业前沿要闻
-        </h2>
+        <h2 className="sec-title" style={{ marginTop: 28 }}>行业前沿要闻</h2>
         <div className="card news" ref={newsRef}>
-          {news.map((n, i) => (
-            <a className="nrow" key={i} href={n.url} target="_blank" rel="noopener noreferrer">
+          {news.map((n) => (
+            <a className="nrow" key={n.url} href={n.url} target="_blank" rel="noopener noreferrer">
               <span className="n-src">{n.src}</span>
               <span className="n-t">{n.title}</span>
               <span className="n-date">{n.date}</span>
@@ -546,26 +330,18 @@ export default function TechSemiPanel() {
           ))}
         </div>
 
-        {/* ============ 8) 核心风险 ============ */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          产业周期与宏观风险
-        </h2>
+        <h2 className="sec-title" style={{ marginTop: 28 }}>产业周期与宏观风险</h2>
         <div className="risks" ref={riskRef}>
-          {risks.map((r, i) => (
-            <div className="card rcard" key={i}>
-              <div className="rk">
-                <i className={r.level} aria-hidden="true" />
-                {r.k}
-              </div>
+          {risks.map((r) => (
+            <div className="card rcard" key={r.k}>
+              <div className="rk"><i className={r.level} aria-hidden="true" />{r.k}</div>
               <p>{r.desc}</p>
               <div className="src">{r.src}</div>
             </div>
           ))}
         </div>
 
-        <footer className="src">
-          {footer}
-        </footer>
+        <footer className="src">{footer}</footer>
       </div>
     </article>
   );

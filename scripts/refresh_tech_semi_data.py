@@ -1,29 +1,17 @@
 #!/usr/bin/env python3
 """Refresh tech semiconductor numeric fields in techSemiData.json.
 
-Follows the same robustness patterns as refresh_market_data.py:
-- Actions-owned numeric keys only (benchmarks, charts.normalized, charts.ratios,
-  crowdingProxy, snapshot).
-- Narrative keys (head, signal, timeline, news, risks, footer, methodology hints)
-  are strictly left untouched.
-- No null-as-truth; WARN and keep prior value on failure.
-- Asia/Shanghai timestamps.
-
-Symbols monitored:
-- SOX (^SOX): 费城半导体指数
-- NDX (^NDX): 纳斯达克100指数
-- TSM (TSM): 台积电 ADR (晶圆代工与先进制程风向标)
-- HSTECH: 恒生科技指数 (现价/昨收取自 HSTECH.HK；历史走势用流动性最好的 3033.HK 追踪代理)
-- STAR50: 科创50指数 (现价/昨收取自 000688.SS；历史走势用 588000.SS 追踪代理)
-- CSI300: 沪深300指数 (现价/昨收取自 000300.SS；历史走势用 510300.SS 追踪代理)
-- CHIP_ETF: 中证全指半导体ETF (512480.SS)
+Actions-owned keys only: snapshot, benchmarks (SOX / 科创50 / 芯片ETF),
+charts.normalized, and leverage.marginBuyShare (全市场融资买入额 / 同日两市成交额).
+Narrative keys (head, signal, anomalies, leverage.note, marginBuyShare.k/metric/watch,
+fundamental, timeline, news, risks, footer) are left untouched.
+No null-as-truth; WARN and keep the prior value on failure.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import math
 import sys
 import tempfile
 import urllib.error
@@ -44,16 +32,18 @@ UA = "Mozilla/5.0 (compatible; MarketTrackerRefresh/1.0; +https://github.com/dai
 # Sanity ranges for sanity checks
 RANGES = {
     "^SOX": (1000.0, 50000.0),
-    "^NDX": (2000.0, 100000.0),
-    "TSM": (10.0, 3000.0),
-    "HSTECH.HK": (500.0, 30000.0),
-    "3033.HK": (0.5, 50.0),
     "000688.SS": (200.0, 10000.0),
-    "000300.SS": (500.0, 20000.0),
-    "512480.SS": (0.1, 50.0),
     "588000.SS": (0.1, 50.0),
-    "510300.SS": (0.5, 50.0),
+    "512480.SS": (0.1, 50.0),
 }
+
+BENCHMARKS = {
+    "sox": ("^SOX", "费城半导体指数", 2),
+    "star50": ("000688.SS", "科创50指数", 2),
+    "chip_etf": ("512480.SS", "中证半导体ETF", 3),
+}
+CHART_KEYS = ("sox", "star50", "chip_etf")
+STALE_BENCHMARKS = ("ndx", "hstech", "csi300", "nvda", "tsm")
 
 
 @dataclass
@@ -83,11 +73,11 @@ def log(level: str, message: str) -> None:
     print(f"{level} {message}", flush=True)
 
 
-def http_json(url: str) -> object:
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": UA, "Accept": "application/json,text/plain,*/*"},
-    )
+def http_json(url: str, extra_headers: dict[str, str] | None = None) -> object:
+    headers = {"User-Agent": UA, "Accept": "application/json,text/plain,*/*"}
+    if extra_headers:
+        headers.update(extra_headers)
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=25) as resp:
         raw = resp.read()
     return json.loads(raw.decode("utf-8"))
@@ -192,6 +182,10 @@ def fetch_yahoo(symbol: str, range_param: str = "5d") -> Quote:
             if earlier:
                 prev_close = bars[max(earlier)].close
 
+        lo, hi = RANGES.get(symbol, (None, None))
+        if lo is not None and not (lo <= price <= hi):
+            raise ValueError(f"{symbol} price {price} outside {lo}..{hi}")
+
         bar = bars.get(session)
         log("INFO", f"fetched {symbol} {price} session {session.isoformat()} via {url}")
         return Quote(
@@ -228,92 +222,35 @@ def format_change(price: float, prev_close: float | None) -> tuple[str, str]:
     return pct_str, chg_class
 
 
-def compute_crowding_proxy(
-    history_by_series: dict[str, list[float]],
-    as_of_date: str,
-) -> dict:
-    """Compute an honest Phase-1 crowding proxy (0-100 score).
-
-    Methodology:
-    Derived ONLY from computable public price history (relative strength + realized vol).
-    NOT TMT turnover share, margin financing balance, or top-5% stock turnover concentration.
-    1. Short-term momentum component (60% weight):
-       Average 20-day return across basket mapped to [0, 100] scale.
-       Zero return corresponds to 50; +15% maps towards 80; -15% maps towards 20.
-    2. Short-term dispersion component (40% weight):
-       Cross-sectional standard deviation of 20-day returns.
-       Low dispersion (<3%) reflects broad sector convergence/unison (higher trend score),
-       High dispersion reflects divergence/fatigue.
-    Total score is clipped to [0, 100].
-    Zones:
-      0..30: 冰点 (Oversold / Cold)
-      30..60: 中性 (Neutral)
-      60..80: 偏热 (Elevated / Warm)
-      80..100: 过热 (Overheated / Hot)
-    """
-    # 20-day returns
-    returns_20d: list[float] = []
-    sox_20d_ret: float | None = None
-
-    for key, closes in history_by_series.items():
-        if len(closes) >= 21 and closes[-21] > 0:
-            ret = (closes[-1] / closes[-21] - 1.0) * 100.0
-            returns_20d.append(ret)
-            if key == "sox":
-                sox_20d_ret = round(ret, 2)
-
-    if not returns_20d:
-        return {
-            "score": 50,
-            "label": "中性",
-            "zone": "neutral",
-            "asOf": as_of_date,
-            "methodNote": "Phase-1 价格动量与截面波动代理指标（非 A 股 TMT 成交占比或融资余额）",
-            "cards": {
-                "sox20dReturn": None,
-                "basket20dReturnMean": None,
-                "basket20dDispersion": None,
-            },
-        }
-
-    mean_ret = sum(returns_20d) / len(returns_20d)
-    var = sum((r - mean_ret) ** 2 for r in returns_20d) / len(returns_20d)
-    dispersion = math.sqrt(var)
-
-    # Momentum component: 50 + (mean_ret / 15.0) * 30 -> [-15% -> 20, 0% -> 50, +15% -> 80]
-    mom_score = 50.0 + (mean_ret / 15.0) * 30.0
-    mom_score = max(5.0, min(95.0, mom_score))
-
-    # Dispersion component: high dispersion dampens score if overheated, or lifts if cold
-    disp_adj = (5.0 - dispersion) * 2.0  # around 0 for 5% dispersion
-    raw_score = 0.7 * mom_score + 0.3 * (50.0 + disp_adj)
-    final_score = int(round(max(0.0, min(100.0, raw_score))))
-
-    if final_score < 30:
-        label = "冰点"
-        zone = "cold"
-    elif final_score < 60:
-        label = "中性"
-        zone = "neutral"
-    elif final_score < 80:
-        label = "偏热"
-        zone = "warm"
-    else:
-        label = "过热"
-        zone = "hot"
-
+def quote_record(q: Quote, name: str, ndigits: int, moment: datetime) -> dict:
+    pct_str, chg_cls = format_change(q.price, q.previous_close)
+    prev = round(q.previous_close, ndigits) if q.previous_close else None
     return {
-        "score": final_score,
-        "label": label,
-        "zone": zone,
-        "asOf": as_of_date,
-        "methodNote": "Phase-1 动量与收益发散度代理指标，非 A 股 TMT 成交占比、融资余额或 top-5% 换手集中度（待 Phase-2 接入）",
-        "cards": {
-            "sox20dReturn": sox_20d_ret,
-            "basket20dReturnMean": round(mean_ret, 2),
-            "basket20dDispersion": round(dispersion, 2),
-        },
+        "name": name,
+        "symbol": q.symbol,
+        "price": round(q.price, ndigits),
+        "chg": pct_str,
+        "chgClass": chg_cls,
+        "previousClose": prev,
+        "src": f"{q.symbol} {moment.strftime('%m-%d %H:%M')} 上海 · {q.source}",
     }
+
+
+def update_quotes(
+    bucket: dict,
+    quotes: dict[str, Quote | None],
+    meta: dict[str, tuple[str, str, int]],
+    moment: datetime,
+) -> list[str]:
+    updated: list[str] = []
+    for key, (sym, name, ndigits) in meta.items():
+        q = quotes.get(key)
+        if q is None:
+            log("WARN", f"{key} ({sym}) unavailable; preserving existing numbers")
+            continue
+        bucket[key] = quote_record(q, name, ndigits, moment)
+        updated.append(key)
+    return updated
 
 
 def update_benchmarks(
@@ -321,148 +258,186 @@ def update_benchmarks(
     quotes: dict[str, Quote | None],
     moment: datetime,
 ) -> list[str]:
-    updated_keys: list[str] = []
     benchmarks = doc.setdefault("benchmarks", {})
-
-    series_meta = {
-        "sox": ("^SOX", "费城半导体指数", 2),
-        "ndx": ("^NDX", "纳斯达克100指数", 2),
-        "tsm": ("TSM", "台积电 ADR", 2),
-        "hstech": ("HSTECH.HK", "恒生科技指数", 2),
-        "star50": ("000688.SS", "科创50指数", 2),
-        "csi300": ("000300.SS", "沪深300指数", 2),
-        "chip_etf": ("512480.SS", "中证半导体ETF", 3),
-    }
-
-    date_str = moment.strftime("%m-%d %H:%M")
-
-    for key, (sym, name, ndigits) in series_meta.items():
-        q = quotes.get(key)
-        if q is None:
-            log("WARN", f"Benchmark {key} ({sym}) unavailable; preserving existing numbers")
-            continue
-
-        pct_str, chg_cls = format_change(q.price, q.previous_close)
-        benchmarks[key] = {
-            "name": name,
-            "symbol": sym,
-            "price": round(q.price, ndigits),
-            "chg": pct_str,
-            "chgClass": chg_cls,
-            "previousClose": round(q.previous_close, ndigits) if q.previous_close else None,
-            "src": f"{sym} {date_str} 上海 · {q.source}",
-        }
-        updated_keys.append(f"benchmarks.{key}")
-
-    return updated_keys
+    for stale in STALE_BENCHMARKS:
+        benchmarks.pop(stale, None)
+    doc.pop("crowdingProxy", None)
+    doc.pop("liquidity", None)
+    charts = doc.get("charts")
+    if isinstance(charts, dict):
+        charts.pop("ratios", None)
+    return [f"benchmarks.{key}" for key in update_quotes(benchmarks, quotes, BENCHMARKS, moment)]
 
 
-def update_normalized_and_ratios(
+def align_closes(q: Quote, anchor_dates: list[date]) -> list[float] | None:
+    if not q.bars:
+        return None
+    sorted_days = sorted(q.bars.keys())
+    last_close = q.bars[sorted_days[0]].close or q.price
+    aligned: list[float] = []
+    idx = 0
+    for ad in anchor_dates:
+        while idx < len(sorted_days) and sorted_days[idx] <= ad:
+            close = q.bars[sorted_days[idx]].close
+            if close is not None:
+                last_close = close
+            idx += 1
+        aligned.append(last_close)
+    return aligned
+
+
+def update_normalized(
     doc: dict,
     history_quotes: dict[str, Quote | None],
 ) -> list[str]:
-    """Compute 6-month normalized performance (% change from start) and key ratios."""
-    updated: list[str] = []
-
-    # Check that anchor quotes exist
+    """Normalized percent change from the first SOX session in the last ~6 months."""
     sox_q = history_quotes.get("sox")
     if sox_q is None:
-        log("WARN", "SOX history unavailable; normalized chart and ratios preserved")
-        return updated
-
-    # Date universe based on SOX trading days
+        log("WARN", "SOX history unavailable; normalized chart preserved")
+        return []
     sox_dates = sorted(sox_q.bars.keys())
     if len(sox_dates) < 20:
         log("WARN", "SOX history too short; normalized chart preserved")
-        return updated
-
-    # Use up to last 125 trading sessions (~6 months)
+        return []
     anchor_dates = sox_dates[-125:]
-    date_strs = [d.strftime("%m-%d") for d in anchor_dates]
-
-    # For each series, map each anchor date to closest available close (forward fill)
-    series_history_aligned: dict[str, list[float]] = {}
-    normalized_series: dict[str, list[float]] = {}
-
-    series_keys = ["sox", "ndx", "tsm", "hstech", "star50", "chip_etf", "csi300"]
-
-    for skey in series_keys:
+    normalized: dict[str, list[float]] = {}
+    for skey in CHART_KEYS:
         q = history_quotes.get(skey)
-        if q is None or not q.bars:
+        if q is None:
             continue
-        sorted_days = sorted(q.bars.keys())
-        aligned_closes: list[float] = []
-        last_close = q.bars[sorted_days[0]].close or q.price
-        idx = 0
-        for ad in anchor_dates:
-            while idx < len(sorted_days) and sorted_days[idx] <= ad:
-                c = q.bars[sorted_days[idx]].close
-                if c is not None:
-                    last_close = c
-                idx += 1
-            aligned_closes.append(last_close)
-
-        series_history_aligned[skey] = aligned_closes
-
-        base_val = aligned_closes[0]
-        if base_val > 0:
-            norm = [round(((val / base_val) - 1.0) * 100.0, 2) for val in aligned_closes]
-            normalized_series[skey] = norm
-
+        aligned = align_closes(q, anchor_dates)
+        if not aligned or aligned[0] <= 0:
+            continue
+        base = aligned[0]
+        normalized[skey] = [round(((val / base) - 1.0) * 100.0, 2) for val in aligned]
     charts = doc.setdefault("charts", {})
+    charts.pop("ratios", None)
     charts["normalized"] = {
-        "dates": date_strs,
-        "sox": normalized_series.get("sox", []),
-        "ndx": normalized_series.get("ndx", []),
-        "tsm": normalized_series.get("tsm", []),
-        "hstech": normalized_series.get("hstech", []),
-        "star50": normalized_series.get("star50", []),
-        "chip_etf": normalized_series.get("chip_etf", []),
+        "dates": [d.strftime("%m-%d") for d in anchor_dates],
+        **{key: normalized.get(key, []) for key in CHART_KEYS},
     }
-    updated.append("charts.normalized")
+    return ["charts.normalized"]
 
-    # Ratio 1: star50_csi300 (科创50相对沪深300比值)
-    star_closes = series_history_aligned.get("star50")
-    csi_closes = series_history_aligned.get("csi300")
-    ratio_star_csi: list[float] = []
-    if star_closes and csi_closes and len(star_closes) == len(csi_closes):
-        for s, c in zip(star_closes, csi_closes):
-            ratio_star_csi.append(round(s / c, 4) if c > 0 else 0.0)
 
-    # Ratio 2: chip_sox or star50_sox (国内芯片/科创相对SOX比值)
-    chip_closes = series_history_aligned.get("chip_etf")
-    sox_closes = series_history_aligned.get("sox")
-    ratio_chip_sox: list[float] = []
-    if chip_closes and sox_closes and len(chip_closes) == len(sox_closes):
-        for ch, sx in zip(chip_closes, sox_closes):
-            ratio_chip_sox.append(round((ch / sx) * 10000.0, 3) if sx > 0 else 0.0)
+MARGIN_URL = (
+    "https://datacenter-web.eastmoney.com/api/data/v1/get"
+    "?reportName=RPTA_RZRQ_LSHJ&columns=DIM_DATE,RZMRE"
+    "&pageSize=8&pageNumber=1&sortColumns=DIM_DATE&sortTypes=-1"
+)
+TURNOVER_URL = (
+    "https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get"
+    "?param={code},day,,,12,qfq"
+)
+EASTMONEY_HEADERS = {
+    "Referer": "https://data.eastmoney.com/",
+    "User-Agent": "Mozilla/5.0 (compatible; MarketTrackerRefresh/1.0)",
+}
 
-    charts["ratios"] = {
-        "dates": date_strs,
-        "star50_csi300": {
-            "series": ratio_star_csi,
-            "latest": ratio_star_csi[-1] if ratio_star_csi else None,
-            "name": "科创50 / 沪深300 相对强弱",
-            "hint": "反映硬科技相对大盘权重的强弱分化趋势",
-        },
-        "chip_sox": {
-            "series": ratio_chip_sox,
-            "latest": ratio_chip_sox[-1] if ratio_chip_sox else None,
-            "name": "中证芯片 / 费城半导体 比值 (×10⁴)",
-            "hint": "反映国内芯片资产相对全球半导体基准的相对溢价/折价走向",
-        },
-    }
-    updated.append("charts.ratios")
 
-    # Crowding proxy calculation (legacy Phase-1 kept for backward compatibility if needed)
-    # Note: Phase-2 A-share TMT crowding metrics are managed independently by scripts/refresh_tech_semi_crowding.py
-    if "crowding" not in doc:
-        as_of = anchor_dates[-1].strftime("%Y-%m-%d")
-        crowding = compute_crowding_proxy(series_history_aligned, as_of)
-        doc["crowdingProxy"] = crowding
-        updated.append("crowdingProxy")
+def classify_margin_share(share: float) -> tuple[str, str]:
+    """Market-wide bands. 7–9% is the ordinary range; 15% is not used here."""
+    if share < 7:
+        return "cold", "低于平常"
+    if share <= 9:
+        return "neutral", "平常"
+    return "warning", "高于平常"
 
-    return updated
+
+def match_margin_share(
+    buys: list[tuple[str, float]],
+    turnover: dict[str, float],
+) -> dict[str, object] | None:
+    """Pair 融资买入额 with the same day's 上证+深证成指成交额. Both amounts are yuan."""
+    for day, buy in buys:
+        market = turnover.get(day)
+        if buy <= 0 or market is None or market <= 0:
+            continue
+        share = round(buy / market * 100.0, 2)
+        if not 0.5 <= share <= 30:
+            log("WARN", f"margin share {share} on {day} outside 0.5..30; skipping")
+            continue
+        zone, label = classify_margin_share(share)
+        return {
+            "value": share,
+            "asOf": day,
+            "buyYi": round(buy / 1e8, 2),
+            "marketAmountYi": round(market / 1e8, 2),
+            "zone": zone,
+            "v": label,
+            "status": "live",
+            "src": f"东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · {day}",
+        }
+    return None
+
+
+def update_margin_buy_share(
+    doc: dict,
+    buys: list[tuple[str, float]],
+    turnover: dict[str, float],
+) -> list[str]:
+    payload = match_margin_share(buys, turnover)
+    if payload is None:
+        log("WARN", "margin buy share unavailable; preserving existing numbers")
+        return []
+    card = doc.setdefault("leverage", {}).setdefault("marginBuyShare", {})
+    card.update(payload)
+    return ["leverage.marginBuyShare"]
+
+
+def fetch_margin_inputs(failures: list[str]) -> tuple[list[tuple[str, float]], dict[str, float]] | None:
+    try:
+        payload = http_json(MARGIN_URL, EASTMONEY_HEADERS)
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as exc:
+        failures.append(f"margin: {exc}")
+        log("WARN", f"margin summary unavailable: {exc}")
+        return None
+    result = payload.get("result") if isinstance(payload, dict) else None
+    rows = result.get("data") if isinstance(result, dict) else None
+    if not rows:
+        failures.append("margin: empty")
+        log("WARN", "margin summary empty; preserving existing numbers")
+        return None
+    buys: list[tuple[str, float]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        raw_day = row.get("DIM_DATE")
+        buy = _num(row.get("RZMRE"))
+        if not isinstance(raw_day, str) or buy is None:
+            continue
+        buys.append((raw_day[:10], buy))
+    turnover: dict[str, float] = {}
+    for code in ("sh000001", "sz399001"):
+        url = TURNOVER_URL.format(code=code)
+        try:
+            payload = http_json(url)
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as exc:
+            failures.append(f"turnover {code}: {exc}")
+            log("WARN", f"turnover {code} unavailable: {exc}")
+            return None
+        data = payload.get("data") if isinstance(payload, dict) else None
+        node = data.get(code) if isinstance(data, dict) else None
+        lines = node.get("day") if isinstance(node, dict) else None
+        if not lines:
+            failures.append(f"turnover {code}: empty")
+            log("WARN", f"turnover {code} empty; preserving existing numbers")
+            return None
+        for line in lines:
+            if not isinstance(line, list) or len(line) < 9:
+                continue
+            # Column 8 is 成交额 in 万元.
+            raw = line[8]
+            if isinstance(raw, str):
+                try:
+                    raw = float(raw)
+                except ValueError:
+                    continue
+            amount_wan = _num(raw)
+            if amount_wan is None:
+                continue
+            day = str(line[0])
+            turnover[day] = turnover.get(day, 0.0) + amount_wan * 10000.0
+    return buys, turnover
 
 
 def refresh_tech_semi(
@@ -470,6 +445,7 @@ def refresh_tech_semi(
     data_path: Path | None = None,
     mock_quotes: dict[str, Quote | None] | None = None,
     mock_history: dict[str, Quote | None] | None = None,
+    mock_margin: tuple[list[tuple[str, float]], dict[str, float]] | None = None,
 ) -> int:
     path = TECH_SEMI_PATH if data_path is None else data_path
     moment = shanghai_now()
@@ -481,47 +457,25 @@ def refresh_tech_semi(
         quotes = mock_quotes
         history = mock_history
     else:
-        # Fetch current quotes for benchmarks using 5d window for accurate 1-day previous close
-        sox_q = try_fetch("^SOX", failures, "5d")
-        ndx_q = try_fetch("^NDX", failures, "5d")
-        tsm_q = try_fetch("TSM", failures, "5d")
-        hstech_q = try_fetch("HSTECH.HK", failures, "5d")
-        star50_q = try_fetch("000688.SS", failures, "5d")
-        csi300_q = try_fetch("000300.SS", failures, "5d")
-        chip_etf_q = try_fetch("512480.SS", failures, "5d")
-
-        # Fetch tracking proxies with full 6mo history for charts and crowding metrics
-        sox_hist = try_fetch("^SOX", failures, "6mo")
-        ndx_hist = try_fetch("^NDX", failures, "6mo")
-        tsm_hist = try_fetch("TSM", failures, "6mo")
-        hstech_proxy = try_fetch("3033.HK", failures, "6mo")
-        star50_proxy = try_fetch("588000.SS", failures, "6mo")
-        csi300_proxy = try_fetch("510300.SS", failures, "6mo")
-        chip_etf_hist = try_fetch("512480.SS", failures, "6mo")
-
-        quotes = {
-            "sox": sox_q,
-            "ndx": ndx_q,
-            "tsm": tsm_q,
-            "hstech": hstech_q or hstech_proxy,
-            "star50": star50_q or star50_proxy,
-            "csi300": csi300_q or csi300_proxy,
-            "chip_etf": chip_etf_q,
+        spot = {
+            "sox": "^SOX",
+            "star50": "000688.SS",
+            "chip_etf": "512480.SS",
         }
-
+        quotes = {key: try_fetch(sym, failures, "5d") for key, sym in spot.items()}
+        hist_symbols = {
+            "sox": "^SOX",
+            "star50": "588000.SS",
+            "chip_etf": "512480.SS",
+        }
         history = {
-            "sox": sox_hist or sox_q,
-            "ndx": ndx_hist or ndx_q,
-            "tsm": tsm_hist or tsm_q,
-            "hstech": hstech_proxy or hstech_q,
-            "star50": star50_proxy or star50_q,
-            "csi300": csi300_proxy or csi300_q,
-            "chip_etf": chip_etf_hist or chip_etf_q,
+            key: try_fetch(sym, failures, "6mo") or quotes.get(key)
+            for key, sym in hist_symbols.items()
         }
 
     # If primary benchmark (SOX) completely failed, do not overwrite snapshot as truth
-    if quotes.get("sox") is None and quotes.get("tsm") is None:
-        log("ERROR", "total failure: both SOX and TSM primary quotes failed")
+    if quotes.get("sox") is None:
+        log("ERROR", "total failure: SOX quote failed")
         return 1
 
     if not path.exists():
@@ -537,9 +491,16 @@ def refresh_tech_semi(
     bm_fields = update_benchmarks(doc, quotes, moment)
     updated_fields.extend(bm_fields)
 
-    # Update normalized charts, ratios, crowdingProxy
-    chart_fields = update_normalized_and_ratios(doc, history)
+    chart_fields = update_normalized(doc, history)
     updated_fields.extend(chart_fields)
+
+    if mock_quotes is not None:
+        if mock_margin is not None:
+            updated_fields.extend(update_margin_buy_share(doc, mock_margin[0], mock_margin[1]))
+    else:
+        fetched = fetch_margin_inputs(failures)
+        if fetched is not None:
+            updated_fields.extend(update_margin_buy_share(doc, fetched[0], fetched[1]))
 
     # Update snapshot
     doc["snapshot"] = snapshot_stamp(moment)
@@ -583,40 +544,24 @@ def self_test() -> int:
         session: Bar(session, 11300.0, 12600.0, 11200.0, 12534.27, 2000),
     }
     sox = Quote("^SOX", 12534.27, 11246.11, 11300.0, 12600.0, 11200.0, session, bars_sox, "test")
+    mock_quotes = {"sox": sox}
 
-    bars_tsm = {
-        p_session: Bar(p_session, 410.0, 420.0, 405.0, 417.72, 1000),
-        session: Bar(session, 420.0, 450.0, 418.0, 446.57, 2000),
-    }
-    tsm = Quote("TSM", 446.57, 417.72, 420.0, 450.0, 418.0, session, bars_tsm, "test")
-
-    mock_quotes = {"sox": sox, "tsm": tsm}
-
-    # 30 days history for normalized calculation test
     history_dates = [session - timedelta(days=i) for i in range(25, -1, -1)]
-    sox_hist_bars = {}
-    chip_hist_bars = {}
-    csi_hist_bars = {}
-    star_hist_bars = {}
-
+    sox_hist_bars: dict[date, Bar] = {}
+    chip_hist_bars: dict[date, Bar] = {}
+    star_hist_bars: dict[date, Bar] = {}
     for i, d in enumerate(history_dates):
         sox_hist_bars[d] = Bar(d, 10000.0 + i * 100, 10000.0 + i * 100, 10000.0 + i * 100, 10000.0 + i * 100, 100)
         chip_hist_bars[d] = Bar(d, 1.0 + i * 0.01, 1.0 + i * 0.01, 1.0 + i * 0.01, 1.0 + i * 0.01, 100)
-        csi_hist_bars[d] = Bar(d, 4000.0 + i * 20, 4000.0 + i * 20, 4000.0 + i * 20, 4000.0 + i * 20, 100)
         star_hist_bars[d] = Bar(d, 1.5 + i * 0.015, 1.5 + i * 0.015, 1.5 + i * 0.015, 1.5 + i * 0.015, 100)
 
     sox_hist = Quote("^SOX", 12600.0, 12500.0, None, None, None, session, sox_hist_bars, "test")
     chip_hist = Quote("512480.SS", 1.26, 1.25, None, None, None, session, chip_hist_bars, "test")
-    csi_hist = Quote("510300.SS", 4520.0, 4500.0, None, None, None, session, csi_hist_bars, "test")
     star_hist = Quote("588000.SS", 1.89, 1.88, None, None, None, session, star_hist_bars, "test")
 
     mock_history = {
         "sox": sox_hist,
-        "ndx": sox_hist,
-        "tsm": sox_hist,
-        "hstech": chip_hist,
         "star50": star_hist,
-        "csi300": csi_hist,
         "chip_etf": chip_hist,
     }
 
@@ -624,12 +569,22 @@ def self_test() -> int:
         "snapshot": "2026-09-01 10:00",
         "head": {"title": "科技半导体", "sub": "保留不改的叙述"},
         "signal": {"verdict": "叙述保持"},
+        "anomalies": {"note": "保留"},
         "benchmarks": {
             "sox": {"name": "费城半导体", "price": 10000.0, "chg": "+0.00%", "chgClass": ""},
-            "tsm": {"name": "台积电", "price": 400.0, "chg": "+0.00%", "chgClass": ""},
+            "nvda": {"name": "英伟达", "price": 1},
+            "tsm": {"name": "台积电", "price": 1},
+            "ndx": {"name": "纳指", "price": 1},
+            "hstech": {"name": "恒生科技", "price": 1},
+            "csi300": {"name": "沪深300", "price": 1},
         },
-        "charts": {},
-        "crowdingProxy": {},
+        "charts": {"ratios": {"dates": []}},
+        "crowdingProxy": {"score": 1},
+        "liquidity": {"usdjpy": {"price": 1}},
+        "leverage": {
+            "note": "保留说明",
+            "marginBuyShare": {"k": "两融买入强度", "metric": "融资买入额 / 成交额", "watch": "保留观察"},
+        },
     }
 
     with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
@@ -642,6 +597,10 @@ def self_test() -> int:
             data_path=test_file,
             mock_quotes=mock_quotes,
             mock_history=mock_history,
+            mock_margin=(
+                [("2026-09-24", 50e8), ("2026-09-23", 100e8)],
+                {"2026-09-23": 1000e8},
+            ),
         )
         _assert(status == 0, "status 0")
 
@@ -650,14 +609,27 @@ def self_test() -> int:
 
         _assert(updated["head"]["sub"] == "保留不改的叙述", "narrative untouched")
         _assert(updated["signal"]["verdict"] == "叙述保持", "signal untouched")
+        _assert(updated["anomalies"]["note"] == "保留", "anomalies untouched")
         _assert(updated["benchmarks"]["sox"]["price"] == 12534.27, "sox price updated")
         _assert(updated["benchmarks"]["sox"]["chg"] == "+11.45%", f"sox chg {updated['benchmarks']['sox']['chg']}")
-        _assert(updated["benchmarks"]["sox"]["chgClass"] == "up", "sox chgClass")
-        _assert(len(updated["charts"]["normalized"]["dates"]) > 0, "normalized dates populated")
-        _assert("star50_csi300" in updated["charts"]["ratios"], "ratios populated")
-        _assert("chip_sox" in updated["charts"]["ratios"], "chip_sox ratio populated")
-        _assert(0 <= updated["crowdingProxy"]["score"] <= 100, "crowding proxy score 0-100")
-        _assert("Phase-1" in updated["crowdingProxy"]["methodNote"], "honest methodNote")
+        _assert("nvda" not in updated["benchmarks"], "nvda removed")
+        _assert("tsm" not in updated["benchmarks"], "tsm removed")
+        _assert("ndx" not in updated["benchmarks"], "ndx removed")
+        _assert("hstech" not in updated["benchmarks"], "hstech removed")
+        _assert("csi300" not in updated["benchmarks"], "csi300 removed")
+        _assert("crowdingProxy" not in updated, "proxy removed")
+        _assert("ratios" not in updated["charts"], "ratios removed")
+        norm = updated["charts"]["normalized"]
+        _assert(len(norm["dates"]) >= 20, "normalized dates")
+        _assert(norm["sox"][0] == 0.0 and norm["star50"][0] == 0.0, "normalized base")
+        _assert("nvda" not in norm and "tsm" not in norm, "single names off the chart")
+        _assert("liquidity" not in updated, "fx and yield removed")
+        margin = updated["leverage"]["marginBuyShare"]
+        _assert(margin["watch"] == "保留观察", "margin wording kept")
+        _assert(margin["asOf"] == "2026-09-23", "margin uses the day with turnover")
+        _assert(margin["value"] == 10.0, f"margin share {margin['value']}")
+        _assert(margin["v"] == "高于平常", "margin above the ordinary band")
+        _assert(updated["leverage"]["note"] == "保留说明", "leverage note kept")
         log("INFO", "self-test passed successfully!")
     finally:
         if test_file.exists():
