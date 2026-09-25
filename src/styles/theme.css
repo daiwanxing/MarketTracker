@@ -674,28 +674,6 @@ body {
 }
 
 /* ===== 科技半导体板块 (Tech & Semi) ===== */
-.semi-hero-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 75% 30%, rgba(56, 189, 248, 0.18), transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15), transparent 45%),
-    linear-gradient(180deg, #07090e 0%, #030407 100%);
-  z-index: 0;
-}
-.semi-hero-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
-
 .benchmarks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));

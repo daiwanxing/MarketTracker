@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
+import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
 import { useReveal } from '../hooks/useReveal';
 
@@ -202,7 +203,7 @@ export default function TechSemiPanel() {
   return (
     <article>
       <header className="hero">
-        <div className="semi-hero-bg" aria-hidden="true" />
+        <img className="hero-bg" src={heroSemi} alt="12 英寸微电子硅晶圆 · 现代芯片制造（DrHughManning / CC BY-SA 4.0）" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
@@ -213,7 +214,7 @@ export default function TechSemiPanel() {
           <div className="hero-aside">
             <span className="hero-chip">SEMIS · AI COMPUTE</span>
             <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
-            <span className="hero-credit">数据 · Yahoo Finance / 市场公开快照 / Asia/Shanghai</span>
+            <span className="hero-credit">影像 · DrHughManning / 12 英寸微电子硅晶圆 / CC BY-SA 4.0 / 维基共享资源</span>
           </div>
         </div>
       </header>
