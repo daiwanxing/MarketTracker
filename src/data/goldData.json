@@ -17,7 +17,6 @@
   },
   "tech": {
     "secTitle": "价格形态与技术信号",
-    "chartTitle": "伦敦金日K · 近序列 + 9/24 现货收盘打印 · 成交量为估算手数",
     "candles": [
       {
         "d": "05-19",
@@ -806,24 +805,6 @@
       "09-15"
     ],
     "pctValues": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    "managedLong": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      137060
-    ],
-    "commercialShort": [
       null,
       null,
       null,

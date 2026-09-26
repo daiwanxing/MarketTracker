@@ -61,7 +61,7 @@ export default function Sidebar() {
             </NavLink>
           </div>
           <div className="nav-group">
-            <div className="group-label">科技半导体</div>
+            <div className="group-label">AI与半导体</div>
             <NavLink to="/semi" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
               AI与半导体

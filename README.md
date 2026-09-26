@@ -1,15 +1,15 @@
 # MarketTracker
 
-个人市场题材看板。Vite + React + TypeScript SPA，把原油行情、黄金行情和厄尔尼诺放在同一个站点里。
+个人市场题材看板。Vite + React + TypeScript SPA，把原油、黄金、厄尔尼诺和 AI与半导体放在同一个站点里。
 
 线上地址：https://daiwanxing.github.io/MarketTracker/
 
 板块路由（都挂在项目子路径 `/MarketTracker/` 下）：
 
-- `/oil` — 原油行情（首页默认跳转到这里）
-- `/gold` — 黄金行情
+- `/oil` — 原油（首页默认跳转到这里）
+- `/gold` — 黄金
 - `/enso` — 厄尔尼诺
-- `/semi` — 科技半导体（算力与芯片）
+- `/semi` — AI与半导体
 
 例如：https://daiwanxing.github.io/MarketTracker/semi
 
@@ -64,8 +64,8 @@ Pages 的构建来源需要是 **GitHub Actions**（不是 “Deploy from a bran
 
 科技半导体（`src/data/techSemiData.json`）由 `scripts/refresh_tech_semi_data.py` 与 `scripts/refresh_tech_semi_crowding.py` 刷新：
 - 每小时基准与走势（`scripts/refresh_tech_semi_data.py`，工作流 **Refresh market data**）：`snapshot`、`benchmarks`（SOX、科创50、中证半导体 ETF）、`charts.normalized`（近半年标准化收益）、`leverage.marginBuyShare`（全市场融资买入额 / 同日两市成交额，日期跟两融公布日）。
-- 工作日收盘后 A 股 TMT 真实拥挤度（`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**，周一至周五 07:30 UTC / 15:30 上海时间）：`crowding`（申万一级电子+计算机+传媒+通信全成分股实测成交额占比、TMT 内部 Top 5% 成交集中度、流通口径换手热度比率、四大行业细分拆解与头部成交标的）。
-- 中文叙述（`head`、`signal`、`anomalies`、`leverage` 的说明文字、`fundamental`、`roadmap`、`timeline`、`news`、`risks`、`footer`）保持不动。没有自动源的异动和产业底座数字保持「未接入」。全市场融资买入占比由每小时脚本写入。
+- 工作日收盘后 A 股 TMT 成交占比（`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**，周一至周五 07:30 UTC / 15:30 上海时间）：`crowding.turnoverShare`（申万一级电子+计算机+传媒+通信成交额占沪深全市场成交额）。
+- 中文叙述（`head`、`signal`、`anomalies`、`leverage` 的说明文字、`fundamental`、`timeline`、`news`、`risks`、`footer`）保持不动。没有自动源的异动和产业底座数字保持「未接入」。全市场融资买入占比由每小时脚本写入。
 
 ENSO 的 CPC 数值由 **Refresh ENSO numbers**（`.github/workflows/refresh-enso-data.yml`）每天 07:15 与 19:15 UTC 刷新，也可以手动运行。脚本是 `scripts/refresh_enso_data.py`。它只写 `ensoData.json` 里的 `cpc`（传统周/月 Niño3.4、ONI，以及相对周/月 Niño3.4、Rnino34、RONI，外加 `asOf` 和各自的 `sourceUrl`）。传统和相对指数不用同一个字段。期次、时间轴和观点不动；文件没有更新的完整周或月时不提交。
 

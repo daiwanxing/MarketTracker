@@ -1,9 +1,5 @@
 {
   "lastUpdated": "2026年9月25日",
-  "head": {
-    "title": "厄尔尼诺 · 每日新闻动态速览",
-    "sub": "手工对照 NOAA CPC、IRI、WMO、BOM、JMA 与 ECMWF（经 C3S）已发布材料。传统 Niño3.4 与相对指数分开标注，不把不同定义的数字写成同一次刷新。"
-  },
   "editions": [
     {
       "badge": "最新一期",
@@ -16,9 +12,22 @@
           "src": "NOAA CPC · OISSTv2.1 wksst9120"
         },
         "side": [
-          { "num": "+2.1°C", "accent": true, "lbl": "同周相对 Niño3.4（CPC 9/21 简报用的是这组）", "src": "CPC · rel_wksst9120" },
-          { "num": "+2.51°C", "lbl": "BOM 相对 Niño3.4（周截至 9/13，监测页未再更新）", "src": "BOM · 9/15 发布" },
-          { "num": "10/8", "lbl": "下次 CPC 月度诊断讨论", "src": "NOAA CPC 日程" }
+          {
+            "num": "+2.1°C",
+            "accent": true,
+            "lbl": "同周相对 Niño3.4（CPC 9/21 简报用的是这组）",
+            "src": "CPC · rel_wksst9120"
+          },
+          {
+            "num": "+2.51°C",
+            "lbl": "BOM 相对 Niño3.4（周截至 9/13，监测页未再更新）",
+            "src": "BOM · 9/15 发布"
+          },
+          {
+            "num": "10/8",
+            "lbl": "下次 CPC 月度诊断讨论",
+            "src": "NOAA CPC 日程"
+          }
         ]
       },
       "timeline": [
@@ -56,9 +65,21 @@
           "src": "CPC 周度文件 · IRI 9/21 引用"
         },
         "side": [
-          { "num": "+2.1°C", "lbl": "同周相对 Niño3.4（9/9 当周为 +2.0°C）", "src": "CPC · 9/21 状态简报" },
-          { "num": "+2.52°C", "lbl": "IRI 所称 8 月传统 Niño3.4 月值", "src": "IRI Quick Look · 9/21" },
-          { "num": "+1.8°C", "lbl": "CPC 8 月相对 Niño3.4（文件 +1.78°C）", "src": "CPC 诊断讨论 · 9/10" }
+          {
+            "num": "+2.1°C",
+            "lbl": "同周相对 Niño3.4（9/9 当周为 +2.0°C）",
+            "src": "CPC · 9/21 状态简报"
+          },
+          {
+            "num": "+2.52°C",
+            "lbl": "IRI 所称 8 月传统 Niño3.4 月值",
+            "src": "IRI Quick Look · 9/21"
+          },
+          {
+            "num": "+1.8°C",
+            "lbl": "CPC 8 月相对 Niño3.4（文件 +1.78°C）",
+            "src": "CPC 诊断讨论 · 9/10"
+          }
         ]
       },
       "timeline": [
@@ -96,9 +117,22 @@
           "src": "NOAA CPC · sstoi.indices"
         },
         "side": [
-          { "num": ">90%", "lbl": "SON–NDJ 非常强概率（三个月 RONI ≥ +2.0°C）", "src": "CPC · 9/10" },
-          { "num": "75%", "lbl": "OND 历史级概率（三个月 RONI ≥ +2.5°C）", "src": "CPC · 9/10" },
-          { "num": "100%", "accent": true, "lbl": "持续至北半球冬季", "src": "JMA · 9/9" }
+          {
+            "num": ">90%",
+            "lbl": "SON–NDJ 非常强概率（三个月 RONI ≥ +2.0°C）",
+            "src": "CPC · 9/10"
+          },
+          {
+            "num": "75%",
+            "lbl": "OND 历史级概率（三个月 RONI ≥ +2.5°C）",
+            "src": "CPC · 9/10"
+          },
+          {
+            "num": "100%",
+            "accent": true,
+            "lbl": "持续至北半球冬季",
+            "src": "JMA · 9/9"
+          }
         ]
       },
       "timeline": [

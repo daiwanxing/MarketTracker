@@ -33,10 +33,6 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
   - `crowding.asOf`
   - `crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`（按成交占比：`<20` 低位冰点，`20–32` 主线活跃，`32–38` 拥挤偏热，`≥38` 极端过热）
   - `crowding.turnoverShare`：`value`（申万电子+计算机+传媒+通信占沪深全市场成交额 %）、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`
-  - `crowding.top5Concentration`：`value`（TMT 内部 Top 5% 成交额占比 %）、`top5AmountYi`、`top5Count`、`totalTmtCount`、`label`、`unit`、`desc`
-  - `crowding.circulatingHeatRatio`：`value`（TMT 单日成交额 / TMT 流通市值 %，严格标注为流通口径而非自由流通）、`tmtNmcYi`、`label`、`unit`、`desc`、`scopeLabel`
-  - `crowding.sectorBreakdown`：申万电子/计算机/传媒/通信四大板块的 `count`、`amountYi`、`share`、`heatRatio`
-  - `crowding.topStocks`：成交额前 10 龙头标的的 `code`、`name`、`sector`、`amountYi`
 
 ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers**（每天 07:15 与 19:15 UTC）。只读 CPC 纯文本指数，不抓 HTML。传统和相对指数绝不共用字段。只有文件里出现更新的、并且已经结束的中心周、月份或季节时才提交。
 
@@ -58,7 +54,7 @@ ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers*
 
 - 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
 - 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
-- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`、`note`）、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental`、`roadmap`、`timeline`、`news`、`risks`、`footer`
+- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`）、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental`、`timeline`、`news`、`risks`、`footer`
 - ENSO：`lastUpdated`、`head`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`
 
 这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies`、`fundamental` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率、CSP 资本开支、CoWoS 与 EPS 修订保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。
