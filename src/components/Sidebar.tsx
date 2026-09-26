@@ -43,14 +43,14 @@ export default function Sidebar() {
             <div className="group-label">地缘与能源</div>
             <NavLink to="/oil" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              原油行情
+              原油
             </NavLink>
           </div>
           <div className="nav-group">
             <div className="group-label">贵金属</div>
             <NavLink to="/gold" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              黄金行情
+              黄金
             </NavLink>
           </div>
           <div className="nav-group">
@@ -64,7 +64,7 @@ export default function Sidebar() {
             <div className="group-label">科技半导体</div>
             <NavLink to="/semi" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              算力与芯片
+              AI与半导体
             </NavLink>
           </div>
         </nav>

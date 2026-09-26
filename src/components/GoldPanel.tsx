@@ -329,8 +329,8 @@ export default function GoldPanel() {
         <div className="hero-inner">
           <div className="hero-main">
             <div className="kicker">THEME 03 · GOLD</div>
-            <h1>黄金行情</h1>
-            <p className="hero-lead">伦敦金为现货定价核心、纽约金 COMEX 在价格发现上同样关键：市场价格、技术形态、持仓资金、宏观驱动与实物需求的综合追踪。</p>
+            <h1>黄金</h1>
+            <p className="hero-lead">以伦敦金现货为核心，对照纽约 COMEX：价格、持仓资金与实物需求。</p>
           </div>
           <div className="hero-aside">
             <span className="hero-chip">XAU/USD · LBMA SPOT</span>

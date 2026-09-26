@@ -84,7 +84,7 @@ export default function EnsoPanel() {
           <div className="hero-main">
             <div className="kicker">THEME 02 · ENSO</div>
             <h1>厄尔尼诺</h1>
-            <p className="hero-lead">Niño3.4 海温距平与官方机构动态，按 NOAA CPC 口径每日追踪事件强度演变。</p>
+            <p className="hero-lead">以 Niño3.4 海温距平为核心：NOAA CPC 口径下的事件强度演变。</p>
           </div>
           <div className="hero-aside">
             <span className="hero-chip">ENSO · NOAA CPC</span>

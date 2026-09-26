@@ -108,8 +108,8 @@ export default function OilPanel() {
         <div className="hero-inner">
           <div className="hero-main">
             <div className="kicker">THEME 01 · CRUDE OIL</div>
-            <h1>原油行情</h1>
-            <p className="hero-lead">以 ICE Brent 布伦特原油为核心：供需、库存、宏观金融与地缘事件驱动的行情信号与热点新闻。</p>
+            <h1>原油</h1>
+            <p className="hero-lead">以 ICE Brent 布伦特原油为核心：供需、库存、宏观金融与地缘事件。</p>
           </div>
           <div className="hero-aside">
             <span className="hero-chip">CRUDE · ICE BRENT</span>
