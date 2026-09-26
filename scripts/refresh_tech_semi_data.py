@@ -322,11 +322,11 @@ def update_normalized(
 MARGIN_URL = (
     "https://datacenter-web.eastmoney.com/api/data/v1/get"
     "?reportName=RPTA_RZRQ_LSHJ&columns=DIM_DATE,RZMRE"
-    "&pageSize=8&pageNumber=1&sortColumns=DIM_DATE&sortTypes=-1"
+    "&pageSize=60&pageNumber=1&sortColumns=DIM_DATE&sortTypes=-1"
 )
 TURNOVER_URL = (
     "https://proxy.finance.qq.com/ifzqgtimg/appstock/app/newfqkline/get"
-    "?param={code},day,,,12,qfq"
+    "?param={code},day,,,80,qfq"
 )
 EASTMONEY_HEADERS = {
     "Referer": "https://data.eastmoney.com/",
@@ -348,6 +348,7 @@ def match_margin_share(
     turnover: dict[str, float],
 ) -> dict[str, object] | None:
     """Pair 融资买入额 with the same day's 上证+深证成指成交额. Both amounts are yuan."""
+    points: list[tuple[str, float, float, float]] = []
     for day, buy in buys:
         market = turnover.get(day)
         if buy <= 0 or market is None or market <= 0:
@@ -356,18 +357,24 @@ def match_margin_share(
         if not 0.5 <= share <= 30:
             log("WARN", f"margin share {share} on {day} outside 0.5..30; skipping")
             continue
-        zone, label = classify_margin_share(share)
-        return {
-            "value": share,
-            "asOf": day,
-            "buyYi": round(buy / 1e8, 2),
-            "marketAmountYi": round(market / 1e8, 2),
-            "zone": zone,
-            "v": label,
-            "status": "live",
-            "src": f"东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · {day}",
-        }
-    return None
+        points.append((day, share, buy, market))
+    if not points:
+        return None
+    points.sort()
+    day, share, buy, market = points[-1]
+    zone, label = classify_margin_share(share)
+    return {
+        "value": share,
+        "asOf": day,
+        "buyYi": round(buy / 1e8, 2),
+        "marketAmountYi": round(market / 1e8, 2),
+        "zone": zone,
+        "v": label,
+        "status": "live",
+        "src": f"东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · {day}",
+        "dates": [item[0][5:] for item in points],
+        "shares": [item[1] for item in points],
+    }
 
 
 def update_margin_buy_share(
@@ -598,8 +605,8 @@ def self_test() -> int:
             mock_quotes=mock_quotes,
             mock_history=mock_history,
             mock_margin=(
-                [("2026-09-24", 50e8), ("2026-09-23", 100e8)],
-                {"2026-09-23": 1000e8},
+                [("2026-09-24", 50e8), ("2026-09-23", 100e8), ("2026-09-22", 80e8)],
+                {"2026-09-23": 1000e8, "2026-09-22": 1000e8},
             ),
         )
         _assert(status == 0, "status 0")
@@ -628,6 +635,8 @@ def self_test() -> int:
         _assert(margin["watch"] == "保留观察", "margin wording kept")
         _assert(margin["asOf"] == "2026-09-23", "margin uses the day with turnover")
         _assert(margin["value"] == 10.0, f"margin share {margin['value']}")
+        _assert(margin["dates"] == ["09-22", "09-23"], "margin series order")
+        _assert(margin["shares"] == [8.0, 10.0], "margin series values")
         _assert(margin["v"] == "高于平常", "margin above the ordinary band")
         _assert(updated["leverage"]["note"] == "保留说明", "leverage note kept")
         log("INFO", "self-test passed successfully!")

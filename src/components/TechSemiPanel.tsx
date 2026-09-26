@@ -6,6 +6,7 @@ import { useReveal } from '../hooks/useReveal';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+const AMBER = '#F5C542';
 type Bench = {
   name: string;
   symbol: string;
@@ -62,6 +63,8 @@ export default function TechSemiPanel() {
         asOf?: string;
         buyYi?: number;
         marketAmountYi?: number;
+        dates?: string[];
+        shares?: number[];
       };
     };
     fundamental?: { note: string; items: Anomaly[] };
@@ -122,6 +125,58 @@ export default function TechSemiPanel() {
       lineStyle: { color: item.color, width: item.width },
       itemStyle: { color: item.color },
     })),
+  };
+
+  const margin = data.leverage?.marginBuyShare;
+  const marginDates = margin?.dates ?? [];
+  const marginShares = margin?.shares ?? [];
+  const marginOpt: EChartsOption = {
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(0,0,0,0.92)',
+      borderColor: 'rgba(240,240,250,0.35)',
+      borderWidth: 1,
+      textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
+    },
+    grid: { left: 42, right: 16, top: 16, bottom: 26 },
+    xAxis: {
+      type: 'category',
+      data: marginDates,
+      axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
+      axisTick: { show: false },
+      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
+    },
+    yAxis: {
+      type: 'value',
+      scale: true,
+      splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
+      axisLabel: {
+        color: 'rgba(240,240,250,0.6)',
+        fontFamily: MONO,
+        fontSize: 10,
+        formatter: (v: number) => `${v}%`,
+      },
+    },
+    series: [
+      {
+        name: '融资买入占比',
+        type: 'line',
+        data: marginShares,
+        showSymbol: false,
+        lineStyle: { color: AMBER, width: 2 },
+        itemStyle: { color: AMBER },
+        markLine: {
+          symbol: 'none',
+          label: { color: 'rgba(240,240,250,0.55)', fontFamily: MONO, fontSize: 10 },
+          lineStyle: { type: 'dashed', color: 'rgba(245,197,66,0.55)' },
+          data: [
+            { yAxis: 7, label: { formatter: '7% 平常起' } },
+            { yAxis: 9, label: { formatter: '9% 平常上沿' } },
+          ],
+        },
+      },
+    ],
   };
 
   return (
@@ -190,39 +245,19 @@ export default function TechSemiPanel() {
               </div>
             </div>
           )}
-          {data.leverage && (
-            <div className="card real-crowd-card">
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{data.leverage.marginBuyShare.k}</span>
-                <span className={`crowd-badge ${data.leverage.marginBuyShare.zone}`}>{data.leverage.marginBuyShare.v}</span>
-              </div>
-              {typeof data.leverage.marginBuyShare.value === 'number' ? (
-                <>
-                  <div className="real-crowd-num-row">
-                    <span className="real-crowd-val num">{data.leverage.marginBuyShare.value}</span>
-                    <span className="real-crowd-unit">%</span>
-                  </div>
-                  <div className="gauge-track" aria-hidden="true">
-                    <div
-                      className={`gauge-fill ${data.leverage.marginBuyShare.zone}`}
-                      style={{ width: `${Math.max(4, Math.min(100, (data.leverage.marginBuyShare.value / 15) * 100))}%` }}
-                    />
-                  </div>
-                  <div className="gauge-marks">
-                    <span>7 平常起</span>
-                    <span>9 平常上沿</span>
-                  </div>
-                  <div className="real-crowd-detail">
-                    融资买入 {data.leverage.marginBuyShare.buyYi?.toLocaleString()} 亿 / 两市 {data.leverage.marginBuyShare.marketAmountYi?.toLocaleString()} 亿 · 截至 {data.leverage.marginBuyShare.asOf}
-                  </div>
-                </>
-              ) : (
-                <div className="real-crowd-desc">{data.leverage.marginBuyShare.metric}</div>
-              )}
-              <div className="real-crowd-detail">{data.leverage.marginBuyShare.watch}</div>
-            </div>
-          )}
         </div>
+        {marginShares.length > 0 && (
+          <div className="card chart-panel" style={{ marginTop: 16 }}>
+            <div className="chart-title">
+              全市场融资买入占比
+              {typeof margin?.value === 'number' && (
+                <> · 最新 {margin.value}% · 截至 {margin.asOf} · {margin.v}</>
+              )}
+            </div>
+            <ReactECharts option={marginOpt} style={{ height: 260, width: '100%' }} notMerge lazyUpdate />
+            {margin?.watch && <div className="real-crowd-detail">{margin.watch}</div>}
+          </div>
+        )}
         {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>

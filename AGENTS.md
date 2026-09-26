@@ -25,7 +25,7 @@ GitHub Actions 和云端代理改的不是同一类内容。云端代理不要�
   - `snapshot`
   - `benchmarks.sox`、`benchmarks.star50`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
   - `charts.normalized`：`dates`、`sox`、`star50`、`chip_etf`（近半年标准化收益走势 %）
-  - `leverage.marginBuyShare`：`value`（全市场融资买入额 / 同日上证+深证成指成交额 %）、`asOf`（两融交易日）、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`。`<7` 低于平常，`7–9` 平常，`>9` 高于平常。不写个股融资余额
+  - `leverage.marginBuyShare`：`value`（最新交易日全市场融资买入额 / 同日上证+深证成指成交额 %）、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`（近约 60 个交易日的占比序列，供折线）。`<7` 低于平常，`7–9` 平常，`>9` 高于平常。不写个股融资余额
 
 科技半导体 A 股 TMT 真实拥挤度：`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**（工作日周一至周五 07:30 UTC / 15:30 上海时间收盘后）。
 
@@ -55,6 +55,6 @@ ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers*
 - 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
 - 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
 - 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`）、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental`、`timeline`、`news`、`risks`、`footer`
-- ENSO：`lastUpdated`、`head`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`
+- ENSO：`lastUpdated`、`head`、`anchor`、`impactTree`、`cropRegions`、`commodityOutlook`、`timeline`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`。农产品产量、出口配额、库容、墒情分位和港口等待天数没有已发布材料时保持「未接入」
 
 这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies`、`fundamental` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率、CSP 资本开支、CoWoS 与 EPS 修订保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。

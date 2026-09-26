@@ -18,10 +18,6 @@ function CpcNumbers() {
   const rel = cpc.relative;
   return (
     <>
-      <h2 className="sec-title">
-        CPC 数值
-        <span className="hint">传统与相对分栏 · 只收录已经结束的周和月</span>
-      </h2>
       <div className="cpc-grid">
         <div className="card cpc-card trad">
           <div className="family">传统 traditional</div>
@@ -72,8 +68,13 @@ function CpcNumbers() {
 
 export default function EnsoPanel() {
   const tlRef = useReveal<HTMLDivElement>();
-  const vwRef = useReveal<HTMLDivElement>();
-  const { editions, footer, lastUpdated } = ensoData;
+  const treeRef = useReveal<HTMLDivElement>();
+  const regionRef = useReveal<HTMLDivElement>();
+  const outlookRef = useReveal<HTMLDivElement>();
+  const {
+    head, anchor, impactTree, cropRegions, commodityOutlook,
+    timeline, timelineTitle, timelineHint, footer, lastUpdated,
+  } = ensoData;
 
   return (
     <article>
@@ -82,12 +83,12 @@ export default function EnsoPanel() {
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
-            <div className="kicker">THEME 02 · ENSO</div>
-            <h1>厄尔尼诺</h1>
-            <p className="hero-lead">以 Niño3.4 海温距平为核心：NOAA CPC 口径下的事件强度演变。</p>
+            <div className="kicker">{head.kicker}</div>
+            <h1>{head.title}</h1>
+            <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-chip">ENSO · NOAA CPC</span>
+            <span className="hero-chip">ENSO · 农产品</span>
             <span className="hero-meta"><b>最后更新：{lastUpdated}</b></span>
             <span className="hero-credit">影像 · NASA SVS / 1997 年赤道太平洋海表温度距平移 / 公有领域</span>
           </div>
@@ -95,72 +96,91 @@ export default function EnsoPanel() {
       </header>
 
       <div className="content">
-      <CpcNumbers />
-      {editions.map((ed, idx) => (
-        <section className="edition" key={idx}>
-          <div className="ed-head">
-            <span className={ed.badge === '最新一期' ? 'ed-badge hot' : 'ed-badge'}>{ed.badge}</span>
-            <h2>{ed.title}</h2>
-          </div>
-
-          <div className="card metrics">
-            <div className="metric-main">
-              <div className={ed.metrics.main.accent ? 'num accent' : 'num'}>{ed.metrics.main.num}</div>
-              <div className="lbl">{ed.metrics.main.lbl}</div>
-              <div className="src-lbl">{ed.metrics.main.src}</div>
+        <h2 className="sec-title">
+          {anchor.secTitle}
+          <span className="hint">{anchor.hint}</span>
+        </h2>
+        <div className="card metrics">
+          {anchor.refs.map((ref) => (
+            <div className="m-item" key={ref.k}>
+              <div className="num">{ref.v}</div>
+              <div className="lbl">{ref.k}</div>
             </div>
-            <div className="metric-side">
-              {ed.metrics.side.map((m, i) => (
-                <div className="m-item" key={i}>
-                  <div className={m.accent ? 'num accent' : 'num'}>{m.num}</div>
-                  <div className="lbl">{m.lbl}</div>
-                  <div className="src-lbl">{m.src}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
+        </div>
+        <p className="cpc-asof">{anchor.note}</p>
+        <CpcNumbers />
 
-          {ed.timeline.length > 0 && (
-            <>
+        <h2 className="sec-title">
+          {impactTree.secTitle}
+          <span className="hint">{impactTree.hint}</span>
+        </h2>
+        <div ref={treeRef}>
+          {impactTree.tiers.map((tier) => (
+            <section key={tier.name}>
               <h3 className="sec-title">
-                本期重要动态
-                <span className="hint">官方机构 / 科研动态 · 最新在前</span>
+                {tier.name}
+                <span className="hint">{tier.label}</span>
               </h3>
-              <div className="tl" ref={tlRef}>
-                {ed.timeline.map((n, i) => (
-                  <div className="node" key={i}>
-                    <div className="dot" />
-                    <div className="tags">
-                      <span className="date">{n.date}</span>
-                      <span className="tag">{n.tag}</span>
-                    </div>
-                    <div className="d">{n.body}</div>
+              <div className="risks">
+                {tier.crops.map((crop) => (
+                  <div className="card rcard" key={crop.name}>
+                    <div className="rk"><i className={tier.tone} aria-hidden="true" />{crop.name}</div>
+                    <p>{crop.body}</p>
+                    <div className="src">{crop.src}</div>
                   </div>
                 ))}
               </div>
-            </>
-          )}
+            </section>
+          ))}
+        </div>
 
-          {ed.views.length > 0 && (
-            <>
-              <h3 className="sec-title">
-                国际一线科学家观点
-                <span className="hint">研究方向判断 · 仅供追踪参考</span>
-              </h3>
-              <div className="views" ref={vwRef}>
-                {ed.views.map((v, i) => (
-                  <div className="card view" key={i}>
-                    <div className="who">{v.who}</div>
-                    <div className="txt">{v.txt}</div>
-                  </div>
-                ))}
+        <h2 className="sec-title">
+          {cropRegions.secTitle}
+          <span className="hint">{cropRegions.hint}</span>
+        </h2>
+        <div className="tech-grid" ref={regionRef}>
+          {cropRegions.items.map((item) => (
+            <div className="t-item" key={item.name}>
+              <b>{item.name}</b>
+              <span>{item.body}</span>
+              <div className="src">{item.src}</div>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="sec-title">
+          {commodityOutlook.secTitle}
+          <span className="hint">{commodityOutlook.hint}</span>
+        </h2>
+        <div className="risks" ref={outlookRef}>
+          {commodityOutlook.rows.map((row) => (
+            <div className="card rcard" key={row.name}>
+              <div className="rk">{row.name}</div>
+              <p>{row.hazard}</p>
+              <div className="src">{row.lag} · {row.bias} · {row.gap}</div>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="sec-title">
+          {timelineTitle}
+          <span className="hint">{timelineHint}</span>
+        </h2>
+        <div className="tl" ref={tlRef}>
+          {timeline.map((n) => (
+            <div className="node" key={`${n.date}-${n.tag}`}>
+              <div className="dot" />
+              <div className="tags">
+                <span className="date">{n.date}</span>
+                <span className="tag">{n.tag}</span>
               </div>
-            </>
-          )}
-        </section>
-      ))}
+              <div className="d">{n.body}</div>
+            </div>
+          ))}
+        </div>
 
-      <footer className="src">{footer}</footer>
+        <footer className="src">{footer}</footer>
       </div>
     </article>
   );

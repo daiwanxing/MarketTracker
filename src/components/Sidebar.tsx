@@ -57,7 +57,7 @@ export default function Sidebar() {
             <div className="group-label">气候与农业</div>
             <NavLink to="/enso" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              厄尔尼诺
+              农产品
             </NavLink>
           </div>
           <div className="nav-group">
