@@ -474,13 +474,10 @@ body {
     border-bottom: 1px solid var(--line);
   }
   .hamburger {
-    display: flex; flex-direction: column; justify-content: center; gap: 5px;
-    width: 40px; height: 40px; padding: 8px;
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; padding: 0;
     background: transparent; border: none; cursor: pointer;
-  }
-  .hamburger span {
-    display: block; height: 2px; width: 100%;
-    background: var(--text); border-radius: 1px;
+    color: var(--text);
   }
   .mobile-brand {
     font-family: var(--font-display);
@@ -518,7 +515,7 @@ body {
     margin-left: auto;
     width: 36px; height: 36px;
     background: transparent; border: none; cursor: pointer;
-    color: var(--text-faint); font-size: 28px; line-height: 1;
+    color: var(--text-faint);
     display: flex; align-items: center; justify-content: center;
   }
   .drawer-close:hover { color: var(--text); }
@@ -533,13 +530,13 @@ body {
     font-size: 15px;
   }
   .nav-link.active { border-left: 3px solid var(--text); border-bottom: none; }
-  .sidebar-foot { display: none; }
-  .main { padding: 20px 16px 48px; }
+  .main { padding: 0; }
+  .content { padding: 24px 16px 48px; }
+  .hero-inner { padding-left: 16px; padding-right: 16px; }
   .head h1 { font-size: 26px; }
 }
-/* 桌面端隐藏移动端元素 */
-.mobile-topbar, .drawer-mask, .drawer-close { display: none; }
 @media (min-width: 961px) {
+  .mobile-topbar, .drawer-mask, .drawer-close { display: none; }
   .sidebar { position: sticky; transform: none !important; }
 }
 @media (max-width: 760px) {

@@ -1,12 +1,28 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+
+const PAGES: { to: string; label: string }[] = [
+  { to: '/oil', label: '原油' },
+  { to: '/gold', label: '黄金' },
+  { to: '/enso', label: '农产品' },
+  { to: '/semi', label: 'AI与半导体' },
+];
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const current = PAGES.find((page) => pathname.startsWith(page.to))?.label ?? '市场追踪';
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
   return (
     <>
-      {/* 移动端顶栏：汉堡按钮 + 品牌名 */}
       <div className="mobile-topbar">
         <button
           type="button"
@@ -15,14 +31,11 @@ export default function Sidebar() {
           aria-expanded={open}
           onClick={() => setOpen(true)}
         >
-          <span />
-          <span />
-          <span />
+          <Menu size={16} strokeWidth={1.75} aria-hidden="true" />
         </button>
-        <span className="mobile-brand">市场追踪</span>
+        <span className="mobile-brand">{current}</span>
       </div>
 
-      {/* 遮罩 */}
       {open && <div className="drawer-mask" onClick={() => setOpen(false)} aria-hidden="true" />}
 
       <aside className={`sidebar${open ? ' drawer-open' : ''}`}>
@@ -35,7 +48,7 @@ export default function Sidebar() {
             aria-label="关闭导航菜单"
             onClick={() => setOpen(false)}
           >
-            ×
+            <X size={16} strokeWidth={1.75} aria-hidden="true" />
           </button>
         </div>
         <nav onClick={() => setOpen(false)}>
@@ -72,3 +85,4 @@ export default function Sidebar() {
     </>
   );
 }
+
