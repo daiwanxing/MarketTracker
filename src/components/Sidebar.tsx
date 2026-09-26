@@ -6,7 +6,9 @@ const PAGES: { to: string; label: string }[] = [
   { to: '/oil', label: '原油' },
   { to: '/gold', label: '黄金' },
   { to: '/enso', label: '农产品' },
-  { to: '/semi', label: 'AI与半导体' },
+  { to: '/semi', label: '科技指数宏观' },
+  { to: '/equip', label: '设备材料' },
+  { to: '/optics', label: '光模块' },
 ];
 
 export default function Sidebar() {
@@ -77,7 +79,15 @@ export default function Sidebar() {
             <div className="group-label">AI与半导体</div>
             <NavLink to="/semi" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              AI与半导体
+              科技指数宏观
+            </NavLink>
+            <NavLink to="/equip" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              <span className="dot-mini" aria-hidden="true" />
+              设备材料
+            </NavLink>
+            <NavLink to="/optics" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              <span className="dot-mini" aria-hidden="true" />
+              光模块
             </NavLink>
           </div>
         </nav>

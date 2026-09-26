@@ -4,6 +4,8 @@ import OilPanel from './components/OilPanel';
 import EnsoPanel from './components/EnsoPanel';
 import GoldPanel from './components/GoldPanel';
 import TechSemiPanel from './components/TechSemiPanel';
+import EquipPanel from './components/EquipPanel';
+import OpticsPanel from './components/OpticsPanel';
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/enso" element={<EnsoPanel />} />
           <Route path="/gold" element={<GoldPanel />} />
           <Route path="/semi" element={<TechSemiPanel />} />
+          <Route path="/equip" element={<EquipPanel />} />
+          <Route path="/optics" element={<OpticsPanel />} />
         </Routes>
       </main>
     </div>

@@ -2,7 +2,6 @@ import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
-import { useReveal } from '../hooks/useReveal';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -49,11 +48,30 @@ function crowdTone(share: number, priceDown: boolean) {
   return { zone: 'cold', label: '低位冰点', note: '成交占比偏低，主题并不拥挤。' };
 }
 
-export default function TechSemiPanel() {
-  const tlRef = useReveal<HTMLDivElement>();
-  const newsRef = useReveal<HTMLDivElement>();
-  const riskRef = useReveal<HTMLDivElement>();
+function macroVerdict(
+  benches: Bench[],
+  paths: { name: string; last: number }[],
+  share: number,
+  tone: { label: string; note: string },
+  margin: { value?: number; v?: string } | undefined,
+  capex: string | undefined,
+) {
+  const parts: string[] = [];
+  if (benches.length) parts.push(`当天${benches.map((b) => `${b.name} ${b.chg}`).join('，')}。`);
+  if (paths.length) {
+    parts.push(
+      `近半年累计（起点为 0）：${paths
+        .map((p) => `${p.name}${p.last >= 0 ? '还在起点上方' : '已经跌回起点下方'}（${p.last > 0 ? '+' : ''}${p.last.toFixed(1)}%）`)
+        .join('，')}。`,
+    );
+  }
+  if (share) parts.push(`成交占比 ${share.toFixed(2)}%，${tone.label}。${tone.note}`);
+  if (typeof margin?.value === 'number') parts.push(`全市场融资买入占比 ${margin.value.toFixed(2)}%，${margin.v ?? ''}。`);
+  if (capex) parts.push(`四大云厂商资本开支：${capex}。`);
+  return parts.join('');
+}
 
+export default function TechSemiPanel() {
   const data = techSemiData as typeof techSemiData & {
     anomalies?: { note: string; items: Anomaly[] };
     leverage?: {
@@ -69,7 +87,7 @@ export default function TechSemiPanel() {
     };
     fundamental?: { note: string; items: Anomaly[] };
   };
-  const { head, benchmarks, crowding, signal, charts, timeline, news, risks, footer, snapshot } = data;
+  const { head, benchmarks, crowding, charts, footer, snapshot } = data;
   const benchMap = benchmarks as Record<string, Bench | undefined>;
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
@@ -208,7 +226,7 @@ export default function TechSemiPanel() {
             <div className="card real-crowd-card" key={item.k}>
               <div className="real-crowd-head">
                 <span className="real-crowd-title">{item.k}</span>
-                <span className={`crowd-badge ${item.zone}`}>{item.v}</span>
+                <span className={`crowd-badge ${item.zone}`}>{item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}</span>
               </div>
               <div className="real-crowd-desc">{item.metric}</div>
               <div className="real-crowd-detail">{item.watch}</div>
@@ -286,94 +304,47 @@ export default function TechSemiPanel() {
         </div>
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
-          产业底座
-          <span className="hint">季度和月度。没有核实过的 Capex、交期和盈利修订不填数字</span>
+          云厂商开支
+          <span className="hint">最近一季是加速、持平还是下调。没有已发布材料就不填</span>
         </h2>
         <div className="base-grid">
-          {(data.fundamental?.items ?? []).map((item) => (
-            <div className="card real-crowd-card" key={item.k}>
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{item.k}</span>
-                <span className={`crowd-badge ${item.zone}`}>{item.v}</span>
+          {(data.fundamental?.items ?? [])
+            .filter((item) => item.k === '四大 CSP 资本开支')
+            .map((item) => (
+              <div className="card real-crowd-card" key={item.k}>
+                <div className="real-crowd-head">
+                  <span className="real-crowd-title">{item.k}</span>
+                  <span className={`crowd-badge ${item.zone}`}>
+                    {item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}
+                  </span>
+                </div>
+                <div className="real-crowd-desc">{item.metric}</div>
+                <div className="real-crowd-detail">{item.watch}</div>
               </div>
-              <div className="real-crowd-desc">{item.metric}</div>
-              <div className="real-crowd-detail">{item.watch}</div>
-            </div>
-          ))}
+            ))}
         </div>
-        {data.fundamental?.note && <div className="sec-note">{data.fundamental.note}</div>}
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
-          {signal.secTitle}
-          <span className="hint">{signal.secHint}</span>
+          研判
+          <span className="hint">只引用本页已经展示的报价、累计涨跌、成交占比和融资买入</span>
         </h2>
         <div className="card signal">
           <div className="sig-verdict">
-            <div className="v-main">{signal.verdict}</div>
-            <div className="v-sub">{signal.sub}</div>
-          </div>
-          <div className="sig-cols">
-            <div className="sig-col">
-              <div className="col-h up"><i aria-hidden="true" />{signal.bullTitle}</div>
-              {signal.bull.map((b) => (
-                <div className="sig-item up" key={b.k}>
-                  <i aria-hidden="true" />
-                  <span className="k">{b.k}</span>
-                  <span className="v">{b.v}</span>
-                </div>
-              ))}
-            </div>
-            <div className="sig-col">
-              <div className="col-h down"><i aria-hidden="true" />{signal.bearTitle}</div>
-              {signal.bear.map((b) => (
-                <div className="sig-item down" key={b.k}>
-                  <i aria-hidden="true" />
-                  <span className="k">{b.k}</span>
-                  <span className="v">{b.v}</span>
-                </div>
-              ))}
+            <div className="v-main">
+              {macroVerdict(
+                benches,
+                CHART_SERIES.flatMap((series) => {
+                  const values = norm[series.key];
+                  const last = Array.isArray(values) ? values[values.length - 1] : undefined;
+                  return typeof last === 'number' ? [{ name: series.name, last }] : [];
+                }),
+                share,
+                tone,
+                data.leverage?.marginBuyShare,
+                (data.fundamental?.items ?? []).find((item) => item.k === '四大 CSP 资本开支' && item.status !== 'pending')?.v,
+              )}
             </div>
           </div>
-          <div className="sig-watch"><b>跟踪重点 · </b>{signal.watch}</div>
-        </div>
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>产业与事件时间轴</h2>
-        <div className="tl" ref={tlRef}>
-          {timeline.map((n) => (
-            <div className={n.hot ? 'node hot' : 'node'} key={`${n.date}-${n.t}`}>
-              <div className="dot" />
-              <div className="tags">
-                <span className="date">{n.date}</span>
-                <span className="tag">{n.tag}</span>
-              </div>
-              <div className="t">{n.t}</div>
-              <div className="d">{n.d}</div>
-              <div className="src">{n.src}</div>
-            </div>
-          ))}
-        </div>
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>行业前沿要闻</h2>
-        <div className="card news" ref={newsRef}>
-          {news.map((n) => (
-            <a className="nrow" key={n.url} href={n.url} target="_blank" rel="noopener noreferrer">
-              <span className="n-src">{n.src}</span>
-              <span className="n-t">{n.title}</span>
-              <span className="n-date">{n.date}</span>
-              <span className="n-go">↗</span>
-            </a>
-          ))}
-        </div>
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>产业周期与宏观风险</h2>
-        <div className="risks" ref={riskRef}>
-          {risks.map((r) => (
-            <div className="card rcard" key={r.k}>
-              <div className="rk"><i className={r.level} aria-hidden="true" />{r.k}</div>
-              <p>{r.desc}</p>
-              <div className="src">{r.src}</div>
-            </div>
-          ))}
         </div>
 
         <footer className="src">{footer}</footer>

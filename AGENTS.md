@@ -54,7 +54,9 @@ ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers*
 
 - 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
 - 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
-- 科技半导体：`head`、`signal`（含 `bull`、`bear`、`watch`）、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental`、`timeline`、`news`、`risks`、`footer`
+- 科技半导体分三页。`/semi` 科技指数宏观的自动刷新只有上面列出的 `benchmarks`、`charts.normalized`、`crowding.turnoverShare`、`leverage.marginBuyShare`。叙述是 `head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental` 里四大云厂商资本开支那一格、`footer`。研判由页面按这些读数现算，不另写一套硬件结论
+- `/equip` 设备材料：`src/data/equipData.json` 的 `head`、`items`、`footer`。订单能见度、CoWoS 与交付周期、耗材是带日期和来源的披露，不进每小时任务。没有披露就保持「未接入」
+- `/optics` 光模块：`src/data/opticsData.json` 的 `head`、`rate`、`names`、`footer`。800G/1.6T 出货结构是带日期和来源的披露，不进每小时任务。开支方向只引用 `/semi` 那一格云厂商资本开支，不另造数字。`names` 若填写，必须是标明为标的的公开报价，不合成行业指数
 - ENSO：`lastUpdated`、`head`、`anchor`、`impactTree`、`cropRegions`、`commodityOutlook`、`timeline`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`。农产品产量、出口配额、库容、墒情分位和港口等待天数没有已发布材料时保持「未接入」
 
-这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies`、`fundamental` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率、CSP 资本开支、CoWoS 与 EPS 修订保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。
+这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率，以及云厂商开支、订单、交期、耗材、800G/1.6T，没有已发布材料时保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。

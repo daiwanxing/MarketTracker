@@ -9,7 +9,9 @@
 - `/oil` — 原油（首页默认跳转到这里）
 - `/gold` — 黄金
 - `/enso` — 厄尔尼诺
-- `/semi` — AI与半导体
+- `/semi` — 科技指数宏观（AI与半导体）
+- `/equip` — 设备材料（最近一次已发布的订单、交期、耗材；没有披露就留空）
+- `/optics` — 光模块（速率结构与相对费半；开支方向引用宏观页同一格）
 
 例如：https://daiwanxing.github.io/MarketTracker/semi
 
