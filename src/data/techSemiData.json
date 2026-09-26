@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-26 11:07",
+  "snapshot": "2026-09-26 11:39",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "AI与半导体",
@@ -13,7 +13,7 @@
       "chg": "+6.27%",
       "chgClass": "up",
       "previousClose": 11921.69,
-      "src": "^SOX 09-26 11:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-26 11:39 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -22,7 +22,7 @@
       "chg": "-2.35%",
       "chgClass": "down",
       "previousClose": 1660.85,
-      "src": "000688.SS 09-26 11:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-26 11:39 上海 · Yahoo Finance (000688.SS)"
     },
     "chip_etf": {
       "name": "中证半导体ETF",
@@ -31,7 +31,7 @@
       "chg": "-1.73%",
       "chgClass": "down",
       "previousClose": 1.041,
-      "src": "512480.SS 09-26 11:07 上海 · Yahoo Finance (512480.SS)"
+      "src": "512480.SS 09-26 11:39 上海 · Yahoo Finance (512480.SS)"
     }
   },
   "signal": {
