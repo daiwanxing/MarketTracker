@@ -110,7 +110,7 @@ graph TD
   - Google News RSS 原油/能源中英双语检索频道（`when:1d`，最近 24 小时内的 30~40 条即时快讯）。
 - **LLM 研判与结构化提炼**：
   - **模型**：DeepSeek-V3 (`deepseek-chat`)，基于仓库 Secret `DS_API_KEY`。
-  - **系统提示词规范**：严格遵守 [`docs/editorial-guidelines.md`](docs/editorial-guidelines.md) 机构标准，坚决剔除自媒体口语、说教与情绪化词汇。
+  - **系统提示词规范**：严格遵守 [`docs/editorial-guidelines.md`](../editorial-guidelines.md) 机构标准，坚决剔除自媒体口语、说教与情绪化词汇。
   - **结构化提炼三大板块**：
     1. **时间轴 (`timeline`)**：
        - 对比已有时间轴，仅收录对供需、库存、航运或政策有实质增量的事实（最多 2 条）；
