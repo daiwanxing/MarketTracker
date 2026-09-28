@@ -79,7 +79,7 @@ export default function EnsoPanel() {
   return (
     <article>
       <header className="hero">
-        <img className="hero-bg" src={heroEnso} alt="1997 年 3-8 月 AVHRR 海表温度距平（NASA SVS · 公有领域）" />
+        <img className="hero-bg" src={heroEnso} alt="1997 年 3-8 月 AVHRR 海表温度距平" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
@@ -90,7 +90,6 @@ export default function EnsoPanel() {
           <div className="hero-aside">
             <span className="hero-chip">ENSO · 农产品</span>
             <span className="hero-meta"><b>最后更新：{lastUpdated}</b></span>
-            <span className="hero-credit">影像 · NASA SVS / 1997 年赤道太平洋海表温度距平移 / 公有领域</span>
           </div>
         </div>
       </header>

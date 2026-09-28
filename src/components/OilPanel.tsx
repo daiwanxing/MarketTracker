@@ -103,7 +103,7 @@ export default function OilPanel() {
   return (
     <article>
       <header className="hero">
-        <img className="hero-bg" src={heroOil} alt="Preemraff 炼油厂 · 蓝调时刻（W.carter / CC BY-SA 4.0）" />
+        <img className="hero-bg" src={heroOil} alt="Preemraff 炼油厂 · 蓝调时刻" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
@@ -114,7 +114,6 @@ export default function OilPanel() {
           <div className="hero-aside">
             <span className="hero-chip">CRUDE · ICE BRENT</span>
             <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
-            <span className="hero-credit">影像 · W.carter / Preemraff 炼油厂（布罗峡湾）/ CC BY-SA 4.0 / 维基共享资源</span>
           </div>
         </div>
       </header>

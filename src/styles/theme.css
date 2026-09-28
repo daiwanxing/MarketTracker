@@ -205,7 +205,6 @@ body {
 }
 .hero-meta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1px; color: rgba(240,240,250,.65); line-height: 1.5; }
 .hero-meta b { font-weight: 700; color: rgba(240,240,250,.85); }
-.hero-credit { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .4px; color: rgba(240,240,250,.45); max-width: 36ch; line-height: 1.55; }
 @media (max-width: 760px) {
   .hero-aside { align-items: flex-start; text-align: left; }
   .hero-main h1 { font-size: 40px; }

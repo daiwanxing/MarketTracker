@@ -1338,7 +1338,7 @@ export default function OpticsPanel() {
         <img
           className="hero-bg"
           src={heroSemi}
-          alt="12 英寸微电子硅晶圆 · 现代芯片制造（DrHughManning / CC BY-SA 4.0）"
+          alt="12 英寸微电子硅晶圆 · 现代芯片制造"
         />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
@@ -1349,7 +1349,6 @@ export default function OpticsPanel() {
           </div>
           <div className="hero-aside">
             <span className="hero-chip">OPTICS</span>
-            <span className="hero-credit">影像 · DrHughManning / 12 英寸微电子硅晶圆 / CC BY-SA 4.0 / 维基共享资源</span>
           </div>
         </div>
       </header>

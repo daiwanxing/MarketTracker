@@ -30,7 +30,7 @@ export default function EquipPanel() {
   return (
     <article>
       <header className="hero">
-        <img className="hero-bg" src={heroSemi} alt="12 英寸微电子硅晶圆 · 现代芯片制造（DrHughManning / CC BY-SA 4.0）" />
+        <img className="hero-bg" src={heroSemi} alt="12 英寸微电子硅晶圆 · 现代芯片制造" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
@@ -40,7 +40,6 @@ export default function EquipPanel() {
           </div>
           <div className="hero-aside">
             <span className="hero-chip">EQUIPMENT · MATERIALS</span>
-            <span className="hero-credit">影像 · DrHughManning / 12 英寸微电子硅晶圆 / CC BY-SA 4.0 / 维基共享资源</span>
           </div>
         </div>
       </header>
