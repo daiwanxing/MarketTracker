@@ -40,8 +40,8 @@
 - **受保护文件与字段**：
   - `src/data/techSemiData.json`
     - `snapshot`
-    - `benchmarks.sox`、`benchmarks.star50`、`benchmarks.chip_etf`（各标的的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
-    - `charts.normalized`（`dates`、`sox`、`star50`、`chip_etf` 近半年标准化序列）
+    - `benchmarks.sox`、`benchmarks.kospi`、`benchmarks.star50`（各标的的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
+    - `charts.normalized`（`dates`、`sox`、`kospi`、`star50` 近半年标准化序列）
     - `leverage.marginBuyShare`（`value`、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`）
 
 ### 2.3 A 股 TMT 行业拥挤度 (`scripts/refresh_tech_semi_crowding.py`)

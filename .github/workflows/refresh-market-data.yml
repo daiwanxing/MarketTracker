@@ -97,12 +97,12 @@ jobs:
                   bm = doc.get("benchmarks") or {}
                   sox = bm.get("sox") or {}
                   star50 = bm.get("star50") or {}
-                  chip = bm.get("chip_etf") or {}
+                  kospi = bm.get("kospi") or {}
                   crowd = (doc.get("crowding") or {}).get("turnoverShare") or {}
                   return (
                       sox.get("price"), sox.get("chg"),
                       star50.get("price"), star50.get("chg"),
-                      chip.get("price"), chip.get("chg"),
+                      kospi.get("price"), kospi.get("chg"),
                       crowd.get("value"),
                   )
               sys.exit(0 if quote(old) != quote(new) else 1)

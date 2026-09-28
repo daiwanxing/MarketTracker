@@ -63,11 +63,11 @@ type RiskItem = {
   src: string;
 };
 
-const BENCH_KEYS = ['sox', 'star50', 'chip_etf'] as const;
+const BENCH_KEYS = ['sox', 'kospi', 'star50'] as const;
 const CHART_SERIES = [
   { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
+  { key: 'kospi', name: '韩国 KOSPI', color: '#f43f5e', width: 2.0 },
   { key: 'star50', name: '科创50', color: '#facc15', width: 1.8 },
-  { key: 'chip_etf', name: '中证半导体ETF', color: '#4ade80', width: 1.8 },
 ] as const;
 
 const SEMI_DIM: Record<string, string> = {
@@ -127,8 +127,8 @@ export default function TechSemiPanel() {
 
   const benches = BENCH_KEYS.map((key) => benchMap[key]).filter((item): item is Bench => Boolean(item));
   const share = crowding?.turnoverShare?.value ?? 0;
-  const chipDown = benchMap.chip_etf?.chgClass === 'down';
-  const tone = crowdTone(share, chipDown);
+  const starDown = benchMap.star50?.chgClass === 'down';
+  const tone = crowdTone(share, starDown);
   const crowdZone = crowding?.zone || tone.zone;
   const crowdLabel = crowding?.label || tone.label;
   const norm = charts.normalized as Record<string, number[] | string[]>;
@@ -311,7 +311,7 @@ export default function TechSemiPanel() {
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           核心基准
-          <span className="hint">费半、科创50、中证半导体 ETF</span>
+          <span className="hint">费半、韩国KOSPI、科创50</span>
         </h2>
         <div className="benchmarks-grid">
           {benches.map((bm) => (
@@ -330,7 +330,7 @@ export default function TechSemiPanel() {
         </div>
 
         <div className="card chart-panel" style={{ marginTop: 16 }}>
-          <div className="chart-title">费半、科创50、中证半导体 ETF（近半年累计涨跌，起点为 0）</div>
+          <div className="chart-title">费半、韩国KOSPI、科创50（近半年累计涨跌，起点为 0）</div>
           <ReactECharts option={normalizedOpt} style={{ height: 320, width: '100%' }} notMerge lazyUpdate />
         </div>
 

@@ -16,13 +16,13 @@ graph TD
     end
 
     subgraph NumericalPipeline ["二、 高频与日频数值流水线 (scripts/refresh_tech_semi_*.py)"]
-        fetchYahoo["Yahoo Finance 多源抓取<br/>(^SOX 费半 / 000688.SS 科创50 / 512480.SS 芯片ETF)"]
+        fetchYahoo["Yahoo Finance 多源抓取<br/>(^SOX 费半 / ^KS11 韩国KOSPI / 000688.SS 科创50)"]
         sanitizeNum["数值清洗与安全边界过滤<br/>(RANGES 过滤 / 跨平台 SSL 适配)"]
         normalizeSeries["时序跨市场对齐与半年标准化<br/>(等长对齐 / 起点归0 / 周末自愈修剪)"]
         fetchMargin["全市场融资买入强度维护<br/>(leverage.marginBuyShare 时序与最新占比)"]
         fetchCrowding["A 股 TMT 行业拥挤度推导<br/>(申万四行业成交额 / 两市占比 / 阈值温区划分)"]
         writeNumJson["写入数值字段<br/>(techSemiData.json: snapshot / benchmarks / charts / leverage / crowding)"]
-        checkQuoteChange{"核心报价与拥挤度是否变动?<br/>(sox / star50 / chip_etf / crowd.value)"}
+        checkQuoteChange{"核心报价与拥挤度是否变动?<br/>(sox / kospi / star50 / crowd.value)"}
     end
 
     subgraph NarrativePipeline ["三、 认知分析流水线 (scripts/refresh_tech_semi_timeline.py)"]
@@ -96,12 +96,12 @@ graph TD
   - Yahoo Finance API（主节点 `query1.finance.yahoo.com`，备用节点 `query2.finance.yahoo.com`）；
   - 核心标的：
     - `^SOX`：费城半导体指数（PHLX Semiconductor Sector）；
-    - `000688.SS`：科创50指数；
-    - `512480.SS`：中证半导体 ETF。
+    - `^KS11`：韩国KOSPI综合指数（涵盖三星电子与SK海力士存储双寡头）；
+    - `000688.SS`：科创50指数。
 - **核心逻辑与防固机制**：
   1. **跨平台 SSL 自适应**：内置 `_ssl_context()`，本地环境优先使用 `certifi` CA 证书池，CI 容器使用系统证书，防止握手失败。
-  2. **价格绝对窗口过滤 (`RANGES`)**：设置合理区间校验（如 `^SOX` 位于 1000~50000、`000688.SS` 位于 200~10000、`512480.SS` 位于 0.1~50.0），排除网络抖动引入的坏点。
-  3. **时序跨市场对齐与半年标准化归一 (`charts.normalized`)**：以美股和 A 股约 120 交易日为基准，提取起点收盘价计算相对涨跌百分比（\(\text{Norm}_t = (\text{Close}_t / \text{Base} - 1) \times 100\)）。自动对齐两地非重合交易日并修剪周末。
+  2. **价格绝对窗口过滤 (`RANGES`)**：设置合理区间校验（如 `^SOX` 位于 1000~50000、`^KS11` 位于 500~50000、`000688.SS` 位于 200~10000），排除网络抖动引入的坏点。
+  3. **时序跨市场对齐与半年标准化归一 (`charts.normalized`)**：以美股、韩股和 A 股约 120 交易日为基准，提取起点收盘价计算相对涨跌百分比（\(\text{Norm}_t = (\text{Close}_t / \text{Base} - 1) \times 100\)）。自动对齐三地非重合交易日并修剪周末。
   4. **全市场融资买入强度维护 (`leverage.marginBuyShare`)**：提取全市场两融最新披露日的融资买入额占两市成交额比例及其历史时序，标识两融情绪区间（7% 平常起，9% 平常上沿）。
 - **写入字段**：
   - `src/data/techSemiData.json` 中的 `snapshot`、`benchmarks.*`、`charts.normalized`、`leverage.marginBuyShare`。
@@ -119,7 +119,7 @@ graph TD
      - `< 20%`：低位冰点 (`cold`)
      - `20% ~ 32%`：主线活跃 (`neutral`)
      - `32% ~ 38%`：拥挤偏热 (`warning`)
-     - `>= 38%`：极端过热 (`danger`)，并结合当天芯片 ETF 涨跌区分“极端过热 · 下跌放量（恐慌）”与“极端过热 · 主升拥挤”。
+     - `>= 38%`：极端过热 (`danger`)，并结合当天科技板块涨跌区分“极端过热 · 下跌放量（恐慌）”与“极端过热 · 主升拥挤”。
 - **写入字段**：
   - `src/data/techSemiData.json` 中的 `crowding` 对象（`asOf`、`label`、`zone`、`methodNote`、`turnoverShare`、`src`）。
 
