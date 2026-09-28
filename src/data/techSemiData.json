@@ -696,9 +696,9 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 42.52,
+      "value": 42.17,
       "tmtAmountYi": 7240.16,
-      "marketAmountYi": 17027.99,
+      "marketAmountYi": 17168.51,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
