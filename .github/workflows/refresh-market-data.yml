@@ -83,6 +83,39 @@ jobs:
             echo "Gold quote unchanged; narrative left for the scheduled pass"
           fi
 
+      - name: Refresh tech semi narrative when the quote moves
+        env:
+          DS_API_KEY: ${{ secrets.DS_API_KEY }}
+        run: |
+          set -euo pipefail
+          if python3 - << 'PY'
+          import json, subprocess, sys
+          try:
+              old = json.loads(subprocess.check_output(["git", "show", "HEAD:src/data/techSemiData.json"]))
+              new = json.load(open("src/data/techSemiData.json", encoding="utf-8"))
+              def quote(doc):
+                  bm = doc.get("benchmarks") or {}
+                  sox = bm.get("sox") or {}
+                  star50 = bm.get("star50") or {}
+                  chip = bm.get("chip_etf") or {}
+                  crowd = (doc.get("crowding") or {}).get("turnoverShare") or {}
+                  return (
+                      sox.get("price"), sox.get("chg"),
+                      star50.get("price"), star50.get("chg"),
+                      chip.get("price"), chip.get("chg"),
+                      crowd.get("value"),
+                  )
+              sys.exit(0 if quote(old) != quote(new) else 1)
+          except Exception as exc:
+              print(f"WARN: tech semi quote comparison failed: {exc}", file=sys.stderr)
+              sys.exit(0)
+          PY
+          then
+            python3 scripts/refresh_tech_semi_timeline.py
+          else
+            echo "Tech semi quote unchanged; narrative left for the scheduled pass"
+          fi
+
       - name: Commit and push
         run: |
           set -euo pipefail

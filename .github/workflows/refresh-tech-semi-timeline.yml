@@ -1,0 +1,40 @@
+name: Refresh tech semi timeline
+
+on:
+  schedule:
+    # 00:30 and 12:30 UTC = 08:30 and 20:30 Asia/Shanghai.
+    - cron: "30 0,12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-tech-semi-timeline
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Refresh tech semi timeline
+        env:
+          DS_API_KEY: ${{ secrets.DS_API_KEY }}
+        run: python3 scripts/refresh_tech_semi_timeline.py
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/techSemiData.json
+          if git diff --cached --quiet; then
+            echo "No tech semi timeline changes to commit"
+            exit 0
+          fi
+          git commit -m "Refresh tech semi market timeline and narrative"
+          git push origin HEAD:main
