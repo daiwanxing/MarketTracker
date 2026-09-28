@@ -50,8 +50,9 @@
     - `crowding.asOf`、`crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`
     - `crowding.turnoverShare`（`value`、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`）
 
-### 2.4 原油时间轴 (`scripts/refresh_oil_timeline.py`)
+### 2.4 原油时间轴与认知分析 (`scripts/refresh_oil_timeline.py`)
 - **工作流**：`refresh-market-data.yml` 在原油报价（现价、涨跌、WTI、美元指数）相对上一版发生变化后立刻调用本脚本；`refresh-oil-timeline.yml` 仍在每日 00:30 与 12:30 UTC 再跑一次，覆盖报价未动但出现新快讯的时段。
+- **架构详解与 Mermaid 流程图**：详见 [`docs/oil-pipeline.md`](oil-pipeline.md)。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：只改 `src/data/oilData.json` 的 `timeline`、`signal`、`risks`、`risksTitle`。抓取失败、模型失败或字段校验失败时不写文件。
 - **不写**：`snapshot`、`metrics`、`charts`、`news`、`footer`。时间轴条目的 `url` 只能来自当次抓取的原文链接。

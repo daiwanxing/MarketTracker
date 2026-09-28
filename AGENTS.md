@@ -19,6 +19,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │ 4. 治理与规范层 (Governance & Specifications)               │
 │    docs/data-ownership.md, docs/editorial-guidelines.md     │
+│    docs/oil-pipeline.md                                     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -30,7 +31,7 @@
 
 | 业务板块 | 视图组件 (Presentation) | 数据契约 (Data Contract) | 自动化脚本 (Automation) | CI/CD 工作流 (Workflow) |
 | :--- | :--- | :--- | :--- | :--- |
-| **原油 (Crude Oil)** | `src/components/OilPanel.tsx` | `src/data/oilData.json` | `scripts/refresh_market_data.py`<br>`scripts/refresh_oil_timeline.py` | `refresh-market-data.yml`（每小时；报价变动后接着写结论）<br>`refresh-oil-timeline.yml`（每日 2 次） |
+| **原油 (Crude Oil)** | `src/components/OilPanel.tsx` | `src/data/oilData.json` | `scripts/refresh_market_data.py`<br>`scripts/refresh_oil_timeline.py` | `refresh-market-data.yml`（每小时；报价变动联动分析）<br>`refresh-oil-timeline.yml`（每日 2 次）<br>*(详见 [`docs/oil-pipeline.md`](docs/oil-pipeline.md))* |
 | **黄金 (Gold)** | `src/components/GoldPanel.tsx` | `src/data/goldData.json` | `scripts/refresh_market_data.py` | `refresh-market-data.yml` (每小时) |
 | **科技宏观 (Tech Semi)** | `src/components/TechSemiPanel.tsx` | `src/data/techSemiData.json` | `scripts/refresh_tech_semi_data.py`<br>`scripts/refresh_tech_semi_crowding.py` | `refresh-market-data.yml` (每小时)<br>`refresh-tech-semi-crowding.yml` (工作日) |
 | **设备材料 (Equip)** | `src/components/EquipPanel.tsx` | `src/data/equipData.json` | *(手动/代理披露跟踪，无高频采集)* | — |
@@ -46,6 +47,8 @@
 - **数据所有权与自动化保护边界** ➔ 详见 [`docs/data-ownership.md`](docs/data-ownership.md)
   - 规定 GitHub Actions 负责维护的高频数值键白名单。
   - 规定代理严禁覆写数值字段及异常回退机制。
+- **原油数据拉取与认知分析模型架构** ➔ 详见 [`docs/oil-pipeline.md`](docs/oil-pipeline.md)
+  - 规定原油双轨流水线、DeepSeek 结构化研判链路、全景 Mermaid 图解与容错机制。
 - **严肃机构投研叙事与文风纪律** ➔ 详见 [`docs/editorial-guidelines.md`](docs/editorial-guidelines.md)
   - 规定 Bloomberg Terminal / 顶级投行研报基准文风。
   - 规定口语俗语禁用词表、专业机构术语替换映射与事实来源标注规范。
