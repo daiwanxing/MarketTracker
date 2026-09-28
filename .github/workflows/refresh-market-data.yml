@@ -48,6 +48,36 @@ jobs:
             echo "Oil quote unchanged; narrative left for the scheduled pass"
           fi
 
+      - name: Refresh gold narrative when the quote moves
+        env:
+          DS_API_KEY: ${{ secrets.DS_API_KEY }}
+        run: |
+          set -euo pipefail
+          if python3 - << 'PY'
+          import json, subprocess, sys
+          old = json.loads(subprocess.check_output(["git", "show", "HEAD:src/data/goldData.json"]))
+          new = json.load(open("src/data/goldData.json", encoding="utf-8"))
+          def quote(doc):
+              main = doc.get("metrics", {}).get("main", {})
+              quotes = main.get("quotes") or {}
+              macro_items = {it.get("k"): it.get("quote", {}) for it in (doc.get("macro", {}).get("items") or [])}
+              us10y = macro_items.get("美债 10 年期收益率", {})
+              return (
+                  main.get("num"),
+                  main.get("chg"),
+                  quotes.get("gc"),
+                  quotes.get("dxy"),
+                  us10y.get("value"),
+                  us10y.get("bp"),
+              )
+          sys.exit(0 if quote(old) != quote(new) else 1)
+          PY
+          then
+            python3 scripts/refresh_gold_timeline.py
+          else
+            echo "Gold quote unchanged; narrative left for the scheduled pass"
+          fi
+
       - name: Commit and push
         run: |
           set -euo pipefail
