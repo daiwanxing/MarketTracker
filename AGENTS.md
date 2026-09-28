@@ -30,7 +30,7 @@
 
 | 业务板块 | 视图组件 (Presentation) | 数据契约 (Data Contract) | 自动化脚本 (Automation) | CI/CD 工作流 (Workflow) |
 | :--- | :--- | :--- | :--- | :--- |
-| **原油 (Crude Oil)** | `src/components/OilPanel.tsx` | `src/data/oilData.json` | `scripts/refresh_market_data.py`<br>`scripts/refresh_oil_timeline.py` | `refresh-market-data.yml` (每小时)<br>`refresh-oil-timeline.yml` (每日 2 次) |
+| **原油 (Crude Oil)** | `src/components/OilPanel.tsx` | `src/data/oilData.json` | `scripts/refresh_market_data.py`<br>`scripts/refresh_oil_timeline.py` | `refresh-market-data.yml`（每小时；报价变动后接着写结论）<br>`refresh-oil-timeline.yml`（每日 2 次） |
 | **黄金 (Gold)** | `src/components/GoldPanel.tsx` | `src/data/goldData.json` | `scripts/refresh_market_data.py` | `refresh-market-data.yml` (每小时) |
 | **科技宏观 (Tech Semi)** | `src/components/TechSemiPanel.tsx` | `src/data/techSemiData.json` | `scripts/refresh_tech_semi_data.py`<br>`scripts/refresh_tech_semi_crowding.py` | `refresh-market-data.yml` (每小时)<br>`refresh-tech-semi-crowding.yml` (工作日) |
 | **设备材料 (Equip)** | `src/components/EquipPanel.tsx` | `src/data/equipData.json` | *(手动/代理披露跟踪，无高频采集)* | — |

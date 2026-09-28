@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Refresh oil market timeline narrative from public headlines via DeepSeek.
+"""Refresh oil narrative from public headlines via DeepSeek.
 
-Only ``timeline`` on ``src/data/oilData.json`` is rewritten. Numeric keys
-owned by ``scripts/refresh_market_data.py`` (snapshot, metrics, charts) stay
-untouched. Empty model output leaves the file unchanged.
+Rewrites ``timeline``, ``signal``, and ``risks`` on ``src/data/oilData.json``.
+Numeric keys owned by ``scripts/refresh_market_data.py`` (snapshot, metrics,
+charts) stay untouched. A failed fetch or model call leaves the file unchanged.
 
 Sources: Google News RSS (English + Chinese crude/Brent queries, last 24h).
 Model: DeepSeek ``deepseek-chat`` at ``https://api.deepseek.com``.
@@ -42,15 +42,25 @@ MAX_TIMELINE = 18
 MAX_AGE_DAYS = 30
 TAGS = ("隔夜", "亚盘", "美盘", "EIA", "OPEC+", "海峡", "谈判", "库存", "供应")
 
-SYSTEM_PROMPT = """你是大宗商品卖方研究编辑，按 Bloomberg / 投行研报口径写原油时间轴。
-只收录对供需、库存、航运或政策有实质增量的事实。价格波动本身、排名图、无新事实的盘面复述不要写。
-禁止口语与情绪词：突发、暴跌、狂飙、抢购、散户、我们、大家、避坑、焦虑。
-标题 t 控制在 25–40 字，正文 d 控制在 120–180 字，写清事实、来源与对供需或价格的含义。
-src 必须写「来源：」并点名报道机构与日期。
+SYSTEM_PROMPT = """你是大宗商品卖方研究编辑，按 Bloomberg / 投行研报口径更新原油看板。
+输入含最新报价、已有时间轴和 24 小时快讯。只依据这些材料，不编造未出现的数字。
+禁止口语与情绪词：突发、暴跌、狂飙、抢购、散户、我们、大家、避坑、焦虑、极端暴涨。
+时间轴 events：只收录对供需、库存、航运或政策有实质增量的事实，最多 2 条。
+无新事实时 events 为空数组，但仍须按当前报价和已有时间轴重写 signal 与 risks。
+每条 event 的 url 必须原样复制输入 headlines 里对应条目的 link，不得改写或留空。
 tag 只能从这些里选：隔夜、亚盘、美盘、EIA、OPEC+、海峡、谈判、库存、供应。
 hot 仅在事件改变供应路径或政策预期时为 true。
-若相对已有时间轴没有新事实，events 必须是空数组。
-只输出 JSON：{"events":[{"date":"YYYY-MM-DD","tag":"...","hot":false,"t":"...","d":"...","src":"..."}]}"""
+标题 t 25–40 字，正文 d 120–180 字。src 以「来源：」开头。
+signal.verdict 一句说清当前主矛盾，并引用 quote 里的 BZ=F、涨跌和 WTI。
+signal.sub 说明口径（BZ=F 不是通讯社近月合约）以及报价与事件如何对应。
+signal.bull 与 signal.bear 各 3 条，dim 只能是 geo、supply、stocks、macro。
+signal.watch 用「 · 」连接 4–6 个待核实变量。
+signal.secHint 以「红=利多抬升 / 绿=利空回落 / 黄=待观察 · 」开头，后接 asOf。
+risks 恰好 3 条，level 只能是 r、a、g。k 是变量名，desc 写触发条件与价格含义，src 点名来源。
+只输出 JSON：
+{"events":[{"date":"YYYY-MM-DD","tag":"...","hot":false,"t":"...","d":"...","src":"...","url":"https://..."}],
+"signal":{"secHint":"...","verdict":"...","sub":"...","bull":[{"dim":"geo","k":"...","v":"..."}],"bear":[{"dim":"macro","k":"...","v":"..."}],"watch":"..."},
+"risks":[{"k":"...","level":"a","desc":"...","src":"..."}]}"""
 
 
 def log(level: str, message: str) -> None:
@@ -120,14 +130,20 @@ def parse_model_json(text: str) -> dict:
     return payload
 
 
-def call_deepseek(headlines: list[dict[str, str]], existing: list[dict], api_key: str) -> list[dict]:
+def call_deepseek(
+    headlines: list[dict[str, str]],
+    existing: list[dict],
+    quote: dict,
+    api_key: str,
+) -> dict:
     prior = [
         {"date": item.get("date"), "tag": item.get("tag"), "t": item.get("t")}
         for item in existing[:8]
         if isinstance(item, dict)
     ]
     user = {
-        "today": datetime.now(SHANGHAI).date().isoformat(),
+        "asOf": datetime.now(SHANGHAI).strftime("%Y-%m-%d %H:%M 上海"),
+        "quote": quote,
         "existing_timeline": prior,
         "headlines": headlines,
     }
@@ -153,10 +169,11 @@ def call_deepseek(headlines: list[dict[str, str]], existing: list[dict], api_key
     payload = json.loads(raw.decode("utf-8"))
     content = payload["choices"][0]["message"]["content"]
     parsed = parse_model_json(content)
-    events = parsed.get("events")
-    if not isinstance(events, list):
+    if not isinstance(parsed.get("events"), list):
         raise ValueError("model JSON has no events array")
-    return events
+    if not isinstance(parsed.get("signal"), dict) or not isinstance(parsed.get("risks"), list):
+        raise ValueError("model JSON missing signal or risks")
+    return parsed
 
 
 def _valid_date(value: object) -> str | None:
@@ -169,7 +186,7 @@ def _valid_date(value: object) -> str | None:
     return value
 
 
-def normalize_event(raw: object) -> dict | None:
+def normalize_event(raw: object, headlines: list[dict[str, str]] | None = None) -> dict | None:
     if not isinstance(raw, dict):
         return None
     event_date = _valid_date(raw.get("date"))
@@ -186,7 +203,13 @@ def normalize_event(raw: object) -> dict | None:
     source = source.strip()
     if not (12 <= len(title) <= 80 and 40 <= len(detail) <= 400 and source.startswith("来源：")):
         return None
-    return {
+    url = raw.get("url") if isinstance(raw.get("url"), str) else ""
+    allowed = {row.get("link") for row in headlines or [] if isinstance(row.get("link"), str)}
+    if allowed and url not in allowed:
+        url = ""
+    if url and not url.startswith("https://"):
+        url = ""
+    event = {
         "date": event_date,
         "tag": tag,
         "hot": bool(raw.get("hot")),
@@ -194,6 +217,81 @@ def normalize_event(raw: object) -> dict | None:
         "d": detail,
         "src": source,
     }
+    if url:
+        event["url"] = url
+    return event
+
+
+def _factor(raw: object) -> dict | None:
+    if not isinstance(raw, dict):
+        return None
+    dim = raw.get("dim")
+    key = raw.get("k")
+    value = raw.get("v")
+    if dim not in ("geo", "supply", "stocks", "macro"):
+        return None
+    if not isinstance(key, str) or not isinstance(value, str):
+        return None
+    key, value = key.strip(), value.strip()
+    if not (4 <= len(key) <= 40 and 12 <= len(value) <= 160):
+        return None
+    return {"dim": dim, "k": key, "v": value}
+
+
+def normalize_signal(raw: object, as_of: str) -> dict | None:
+    if not isinstance(raw, dict):
+        return None
+    verdict = raw.get("verdict")
+    sub = raw.get("sub")
+    watch = raw.get("watch")
+    bull = raw.get("bull")
+    bear = raw.get("bear")
+    if not all(isinstance(item, str) for item in (verdict, sub, watch)):
+        return None
+    if not isinstance(bull, list) or not isinstance(bear, list):
+        return None
+    bull_rows = [row for row in (_factor(item) for item in bull) if row]
+    bear_rows = [row for row in (_factor(item) for item in bear) if row]
+    if len(bull_rows) < 3 or len(bear_rows) < 3:
+        return None
+    hint = raw.get("secHint")
+    if not isinstance(hint, str) or "待观察" not in hint:
+        hint = f"红=利多抬升 / 绿=利空回落 / 黄=待观察 · {as_of}"
+    return {
+        "secTitle": "市场信号",
+        "secHint": hint.strip(),
+        "verdict": verdict.strip(),
+        "sub": sub.strip(),
+        "bullTitle": "利多因素",
+        "bullHint": "指向抬升",
+        "bull": bull_rows[:3],
+        "bearTitle": "利空因素",
+        "bearHint": "指向回落",
+        "bear": bear_rows[:3],
+        "watch": watch.strip(),
+    }
+
+
+def normalize_risks(raw: object) -> list[dict] | None:
+    if not isinstance(raw, list):
+        return None
+    rows: list[dict] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        level = item.get("level")
+        key = item.get("k")
+        desc = item.get("desc")
+        source = item.get("src")
+        if level not in ("r", "a", "g"):
+            continue
+        if not all(isinstance(value, str) for value in (key, desc, source)):
+            continue
+        key, desc, source = key.strip(), desc.strip(), source.strip()
+        if not (4 <= len(key) <= 40 and 20 <= len(desc) <= 240 and 4 <= len(source) <= 80):
+            continue
+        rows.append({"k": key, "level": level, "desc": desc, "src": source})
+    return rows[:3] if len(rows) >= 3 else None
 
 
 def fingerprint(item: dict) -> str:
@@ -220,11 +318,24 @@ def merge_timeline(existing: list, incoming: list[dict], today: date) -> list[di
     return kept
 
 
+def quote_context(doc: dict) -> dict:
+    main = doc.get("metrics", {}).get("main", {})
+    quotes = main.get("quotes") if isinstance(main.get("quotes"), dict) else {}
+    return {
+        "asOf": doc.get("snapshot"),
+        "brent": main.get("num"),
+        "change": main.get("chg"),
+        "src": main.get("src"),
+        "wti": quotes.get("wti"),
+        "dxy": quotes.get("dxy"),
+    }
+
+
 def refresh_oil_timeline(
     dry_run: bool = False,
     data_path: Path | None = None,
     headlines: list[dict[str, str]] | None = None,
-    model_events: list | None = None,
+    model_payload: dict | None = None,
     api_key: str | None = None,
 ) -> int:
     path = OIL_PATH if data_path is None else data_path
@@ -249,29 +360,36 @@ def refresh_oil_timeline(
     log("INFO", f"fetched {len(rows)} headlines")
 
     try:
-        if model_events is None:
+        if model_payload is None:
             key = api_key if api_key is not None else os.environ.get("DS_API_KEY", "")
             if not key:
-                log("WARN", "DS_API_KEY missing; timeline left unchanged")
+                log("WARN", "DS_API_KEY missing; narrative left unchanged")
                 return 0
-            raw_events = call_deepseek(rows, timeline, key)
+            payload = call_deepseek(rows, timeline, quote_context(doc), key)
         else:
-            raw_events = model_events
+            payload = model_payload
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, KeyError, ValueError, OSError) as exc:
-        log("WARN", f"model call failed; timeline left unchanged: {exc}")
+        log("WARN", f"model call failed; narrative left unchanged: {exc}")
         return 0
 
-    events = [item for item in (normalize_event(row) for row in raw_events) if item is not None]
-    if not events:
-        log("INFO", "no new timeline events")
+    events = [item for item in (normalize_event(row, rows) for row in payload.get("events", [])) if item]
+    as_of = str(doc.get("snapshot") or datetime.now(SHANGHAI).strftime("%Y-%m-%d %H:%M"))
+    signal = normalize_signal(payload.get("signal"), as_of)
+    risks = normalize_risks(payload.get("risks"))
+    if signal is None or risks is None:
+        log("WARN", "signal or risks failed validation; narrative left unchanged")
         return 0
 
-    merged = merge_timeline(timeline, events, datetime.now(SHANGHAI).date())
-    if merged == timeline:
-        log("INFO", "timeline unchanged after merge")
+    merged = merge_timeline(timeline, events, datetime.now(SHANGHAI).date()) if events else timeline
+    changed = merged != timeline or signal != doc.get("signal") or risks != doc.get("risks")
+    if not changed:
+        log("INFO", "narrative unchanged")
         return 0
     doc["timeline"] = merged
-    log("INFO", f"timeline events accepted={len(events)} kept={len(merged)}")
+    doc["signal"] = signal
+    doc["risks"] = risks
+    doc["risksTitle"] = "原油市场观察变量"
+    log("INFO", f"timeline accepted={len(events)} kept={len(merged)}; signal and risks updated")
 
     if dry_run:
         log("INFO", "dry-run: oilData.json not written")
@@ -318,11 +436,43 @@ def self_test() -> int:
             "t": "OPEC+ 维持 10 月产量不变，供应政策没有新增调整",
             "d": "路透报道七国维持现行产量安排，会议未宣布额外增产或减产。供应路径相对前次声明没有变化，价格影响取决于后续库存与航运数据，而不是产量目标本身的再次重申。",
             "src": "来源：路透（9-28）",
-        }
+            "url": "https://example.com/opec",
+        },
+        [{"title": "OPEC", "link": "https://example.com/opec"}],
     )
-    _assert(good is not None and good["hot"] is True, "valid event")
+    _assert(good is not None and good["url"] == "https://example.com/opec", "valid event")
     _assert(normalize_event({"date": "09-28", "tag": "OPEC+", "t": "短", "d": "短", "src": "路透"}) is None, "reject bad shape")
     _assert(normalize_event({**good, "tag": "突发"}) is None, "reject unknown tag")
+    rejected_url = normalize_event({**good, "url": "https://evil.example/story"}, [{"link": "https://example.com/opec"}])
+    _assert(rejected_url is not None and "url" not in rejected_url, "drop unknown url")
+
+    signal = normalize_signal(
+        {
+            "verdict": "供应约束仍在，报价回落反映谈判预期而非库存反转。",
+            "sub": "面板主价为 Yahoo BZ=F，与通讯社近月合约不是同一代码。",
+            "bull": [
+                {"dim": "geo", "k": "海峡通行仍受限制", "v": "商船通行数量低于战前，供应路径没有完全恢复。"},
+                {"dim": "supply", "k": "OPEC+ 未增加供应", "v": "现行产量安排维持，没有新增增产对冲地缘缺口。"},
+                {"dim": "stocks", "k": "馏分油库存偏紧", "v": "成品油库存下降，炼厂开工回落限制成品油供应。"},
+            ],
+            "bear": [
+                {"dim": "geo", "k": "谈判仍在进行", "v": "双方仍在交换条件，外交通道没有关闭。"},
+                {"dim": "supply", "k": "绕行货量维持", "v": "海峡以外交割继续补充一部分现货。"},
+                {"dim": "macro", "k": "美元与利率偏强", "v": "美元指数与美债收益率抬升，压制远期需求预期。"},
+            ],
+            "watch": "海峡通行量 · OPEC+ 会议 · EIA 库存 · BZ=F 与近月价差",
+        },
+        "2026-09-28 11:00",
+    )
+    _assert(signal is not None and len(signal["bull"]) == 3, "signal")
+    risks = normalize_risks(
+        [
+            {"k": "霍尔木兹通行", "level": "r", "desc": "通行条件若收紧，现货贴水与运费会同时上升，供应路径重新变成价格主变量。", "src": "路透 9/28"},
+            {"k": "炼厂开工", "level": "a", "desc": "开工回落会把原油累库转成成品油紧张，柴油裂解价差随之走阔。", "src": "EIA 9/24"},
+            {"k": "美元与利率", "level": "g", "desc": "利率继续上行会压制非商业净多与远期需求，地缘溢价更难维持。", "src": "美债 9/28"},
+        ]
+    )
+    _assert(risks is not None and len(risks) == 3, "risks")
 
     existing = [
         {
@@ -355,19 +505,21 @@ def self_test() -> int:
         status = refresh_oil_timeline(
             dry_run=False,
             data_path=test_file,
-            headlines=[{"title": "OPEC+ holds", "source": "Reuters", "published": "", "link": ""}],
-            model_events=[good],
+            headlines=[{"title": "OPEC+ holds", "source": "Reuters", "published": "", "link": "https://example.com/opec"}],
+            model_payload={"events": [good], "signal": signal, "risks": risks},
         )
         _assert(status == 0, "status")
         written = json.loads(test_file.read_text(encoding="utf-8"))
-        _assert(written["timeline"][0]["tag"] == "OPEC+", "prepended")
+        _assert(written["timeline"][0]["url"] == "https://example.com/opec", "url kept")
+        _assert(written["signal"]["verdict"].startswith("供应约束"), "signal written")
+        _assert(written["risks"][0]["level"] == "r", "risks written")
         _assert(written["metrics"]["main"]["num"] == "100", "metrics untouched")
         _assert(written["charts"]["dates"] == ["09-28"], "charts untouched")
         empty = refresh_oil_timeline(
             dry_run=True,
             data_path=test_file,
             headlines=[{"title": "noise", "source": "", "published": "", "link": ""}],
-            model_events=[],
+            model_payload={"events": [], "signal": signal, "risks": risks},
         )
         _assert(empty == 0, "empty events")
         again = json.loads(test_file.read_text(encoding="utf-8"))

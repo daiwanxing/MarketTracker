@@ -2,7 +2,6 @@ import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import oilData from '../data/oilData.json';
 import heroOil from '../assets/hero-oil.jpg';
-import { useReveal } from '../hooks/useReveal';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -16,10 +15,7 @@ function oilQuoteLine(quotes: { wti?: number; dxy?: number } | undefined): strin
 }
 
 export default function OilPanel() {
-  const tlRef = useReveal<HTMLDivElement>();
-  const newsRef = useReveal<HTMLDivElement>();
-  const riskRef = useReveal<HTMLDivElement>();
-  const { metrics, signal, charts, timeline, news, risks, footer, snapshot, timelineTitle, newsTitle, risksTitle } = oilData;
+  const { metrics, signal, charts, timeline, risks, footer, snapshot, timelineTitle, risksTitle } = oilData;
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`; // 2026-09-22 15:15 → 2026年09月22日 15:15
 
@@ -213,41 +209,36 @@ export default function OilPanel() {
       <h2 className="sec-title">
         {timelineTitle}
       </h2>
-      <div className="tl" ref={tlRef}>
-        {timeline.slice(0, 10).map((n, i) => (
-          <div className={n.hot ? 'node hot' : 'node'} key={i}>
-            <div className="dot" />
-            <div className="tags">
-              <span className="date">{n.date}</span>
-              <span className="tag">{n.tag}</span>
+      <div className="tl">
+        {timeline.slice(0, 10).map((n, i) => {
+          const body = (
+            <>
+              <div className="dot" />
+              <div className="tags">
+                <span className="date">{n.date}</span>
+                <span className="tag">{n.tag}</span>
+              </div>
+              <div className="t">{n.t}</div>
+              <div className="d">{n.d}</div>
+              <div className="src">{n.src}{n.url ? ' ↗' : ''}</div>
+            </>
+          );
+          return n.url ? (
+            <a className={n.hot ? 'node hot' : 'node'} key={i} href={n.url} target="_blank" rel="noopener noreferrer">
+              {body}
+            </a>
+          ) : (
+            <div className={n.hot ? 'node hot' : 'node'} key={i}>
+              {body}
             </div>
-            <div className="t">{n.t}</div>
-            <div className="d">{n.d}</div>
-            <div className="src">{n.src}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* 最新要闻 */}
-      <h2 className="sec-title">
-        {newsTitle}
-      </h2>
-      <div className="card news" ref={newsRef}>
-        {news.slice(0, 5).map((n, i) => (
-          <a className="nrow" key={i} href={n.url} target="_blank" rel="noopener noreferrer">
-            <span className="n-src">{n.src}</span>
-            <span className="n-t">{n.title}</span>
-            <span className="n-date">{n.date}</span>
-            <span className="n-go">↗</span>
-          </a>
-        ))}
-      </div>
-
-      {/* 供应风险 */}
       <h2 className="sec-title">
         {risksTitle}
       </h2>
-      <div className="risks" ref={riskRef}>
+      <div className="risks">
         {risks.map((r, i) => (
           <div className="card rcard" key={i}>
             <div className="rk">

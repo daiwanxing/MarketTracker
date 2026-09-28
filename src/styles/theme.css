@@ -371,7 +371,7 @@ body {
 /* ===== 时间轴 ===== */
 .tl { position: relative; padding-left: 24px; }
 .tl::before { content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: var(--line-strong); }
-.node { position: relative; margin-bottom: 30px; }
+.node a, .node { text-decoration: none; color: inherit; display: block; }
 .node:last-child { margin-bottom: 0; }
 .dot { position: absolute; left: -24px; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--text); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--text-dim); box-sizing: border-box; }
 .node.hot .dot { background: var(--up); box-shadow: 0 0 0 1px var(--up); }

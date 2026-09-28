@@ -51,10 +51,10 @@
     - `crowding.turnoverShare`（`value`、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`）
 
 ### 2.4 原油时间轴 (`scripts/refresh_oil_timeline.py`)
-- **工作流**：`.github/workflows/refresh-oil-timeline.yml`（每日 00:30 与 12:30 UTC / 上海 08:30 与 20:30）
+- **工作流**：`refresh-market-data.yml` 在原油报价（现价、涨跌、WTI、美元指数）相对上一版发生变化后立刻调用本脚本；`refresh-oil-timeline.yml` 仍在每日 00:30 与 12:30 UTC 再跑一次，覆盖报价未动但出现新快讯的时段。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
-- **写入范围**：只改 `src/data/oilData.json` 的 `timeline`。无新增事实、抓取失败或模型失败时不写文件。
-- **不写**：`snapshot`、`metrics`、`charts`、`signal`、`news`、`risks`、`footer`。
+- **写入范围**：只改 `src/data/oilData.json` 的 `timeline`、`signal`、`risks`、`risksTitle`。抓取失败、模型失败或字段校验失败时不写文件。
+- **不写**：`snapshot`、`metrics`、`charts`、`news`、`footer`。时间轴条目的 `url` 只能来自当次抓取的原文链接。
 
 ### 2.5 ENSO 厄尔尼诺气候数值 (`scripts/refresh_enso_data.py`)
 - **工作流**：`.github/workflows/refresh-enso-data.yml` (每日 07:15 与 19:15 UTC)
@@ -69,7 +69,7 @@
 ## 3. 分析代理职责（Agent 负责）
 
 分析代理负责定性叙述、宏观联动解析、产业链模型及研究结论：
-- **原油 (`oilData.json`)**：`head`、`signal`、`news`、`risks`、图表副标题、`metrics.main.refs`。`timeline` 由 `refresh_oil_timeline.py` 按披露增量维护，人工修订仍可直接改该数组。
+- **原油 (`oilData.json`)**：`head`、`news`、图表副标题、`metrics.main.refs`。`timeline`、`signal`、`risks` 由 `refresh_oil_timeline.py` 按最新报价与快讯维护，人工修订仍可直接改这些字段。页面不再展示 `news`。
 - **黄金 (`goldData.json`)**：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓结构说明、`macro.items[].v`、ETF 资金流向、情绪说明、`action`。
 - **科技半导体宏观 (`techSemiData.json`)**：`head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的标签定义、`fundamental` 云厂商资本开支项、`footer`。研判由页面运行时计算，不硬编码硬件结论。
 - **半导体设备材料 (`equipData.json`)**：`head`、`items`、`footer`。订单能见度与交期披露需带发布日期与来源，无官方披露保持「未接入」。
