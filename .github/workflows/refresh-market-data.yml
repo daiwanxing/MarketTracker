@@ -55,22 +55,27 @@ jobs:
           set -euo pipefail
           if python3 - << 'PY'
           import json, subprocess, sys
-          old = json.loads(subprocess.check_output(["git", "show", "HEAD:src/data/goldData.json"]))
-          new = json.load(open("src/data/goldData.json", encoding="utf-8"))
-          def quote(doc):
-              main = doc.get("metrics", {}).get("main", {})
-              quotes = main.get("quotes") or {}
-              macro_items = {it.get("k"): it.get("quote", {}) for it in (doc.get("macro", {}).get("items") or [])}
-              us10y = macro_items.get("美债 10 年期收益率", {})
-              return (
-                  main.get("num"),
-                  main.get("chg"),
-                  quotes.get("gc"),
-                  quotes.get("dxy"),
-                  us10y.get("value"),
-                  us10y.get("bp"),
-              )
-          sys.exit(0 if quote(old) != quote(new) else 1)
+          try:
+              old = json.loads(subprocess.check_output(["git", "show", "HEAD:src/data/goldData.json"]))
+              new = json.load(open("src/data/goldData.json", encoding="utf-8"))
+              def quote(doc):
+                  main = (doc.get("metrics") or {}).get("main") or {}
+                  quotes = main.get("quotes") or {}
+                  items = (doc.get("macro") or {}).get("items") or []
+                  macro_items = {it.get("k"): (it.get("quote") or {}) for it in items if isinstance(it, dict)}
+                  us10y = macro_items.get("美债 10 年期收益率") or {}
+                  return (
+                      main.get("num"),
+                      main.get("chg"),
+                      quotes.get("gc"),
+                      quotes.get("dxy"),
+                      us10y.get("value"),
+                      us10y.get("bp"),
+                  )
+              sys.exit(0 if quote(old) != quote(new) else 1)
+          except Exception as exc:
+              print(f"WARN: gold quote comparison failed: {exc}", file=sys.stderr)
+              sys.exit(0)
           PY
           then
             python3 scripts/refresh_gold_timeline.py
