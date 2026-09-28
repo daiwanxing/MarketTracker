@@ -353,12 +353,12 @@
   ],
   "footer": "说明：本页用 NOAA CPC 的 Niño3.4 给 2026/2027 厄尔尼诺定强度，再只追踪农产品的传导路径。产区句子来自已经收录的 BOM 9/22 周报、BOM 9/15 南半球监测和 IRI 9/21。白糖、棕榈油、小麦、水稻、咖啡、可可、大豆的产量、出口配额、水库库容、土壤墒情分位和港口等待天数未接入，不填未核实的数字。传统 Niño3.4 与相对指数不能相减。ONI 历史峰值（1997/98 NDJ +2.4°C，2015/16 NDJ +2.6°C）只作对照，不是本季读数。不构成气候预报、农业决策或投资建议。",
   "cpc": {
-    "asOf": "2026-09-16",
+    "asOf": "2026-09-23",
     "traditional": {
       "weekly": {
-        "centerDate": "2026-09-16",
-        "nino34": 3.0,
-        "nino34Sst": 29.6,
+        "centerDate": "2026-09-23",
+        "nino34": 3.1,
+        "nino34Sst": 29.7,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
       },
       "monthly": {
@@ -376,8 +376,8 @@
     },
     "relative": {
       "weekly": {
-        "centerDate": "2026-09-16",
-        "nino34": 2.1,
+        "centerDate": "2026-09-23",
+        "nino34": 2.2,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/rel_wksst9120.txt"
       },
       "monthly": {
