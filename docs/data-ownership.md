@@ -60,6 +60,7 @@
 
 ### 2.5 黄金认知分析与交易研判 (`scripts/refresh_gold_timeline.py`)
 - **工作流**：`refresh-market-data.yml` 在黄金盘面报价（现货价、涨跌幅、COMEX GC、美元指数、美债 10 年期收益率及基点变化）相对上一版发生变动后联动调用本脚本；`refresh-gold-timeline.yml` 仍在每日 00:30 与 12:30 UTC 再跑一次，覆盖报价未动但资讯更新的时段。
+- **架构详解与 Mermaid 流程图**：详见 [`docs/gold/pipeline.md`](gold/pipeline.md)。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：维护 `src/data/goldData.json` 的 `tech.support`、`tech.resistance`、`tech.trend`、`supportDesc`、`resistanceDesc`、`sentiment.riskReward`（`support`、`resistance`、`stop`、`src`）、`macro.items` 中的研判属性（`v`、`signal`、`signalText`）、`action` 以及 `footer`。抓取失败、模型失败或字段校验失败时不写文件。
 - **不写**：`snapshot`、`metrics`、`tech.candles`、`tech.volume`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（期现基差行）。
