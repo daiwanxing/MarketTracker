@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import ssl
 import sys
 import tempfile
 import urllib.error
@@ -73,12 +74,31 @@ def log(level: str, message: str) -> None:
     print(f"{level} {message}", flush=True)
 
 
+def _ssl_context() -> ssl.SSLContext | None:
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        try:
+            return ssl.create_default_context()
+        except Exception:
+            return None
+
+
+def next_weekday(day: date) -> date:
+    nxt = day + timedelta(days=1)
+    while nxt.weekday() >= 5:
+        nxt += timedelta(days=1)
+    return nxt
+
+
 def http_json(url: str, extra_headers: dict[str, str] | None = None) -> object:
     headers = {"User-Agent": UA, "Accept": "application/json,text/plain,*/*"}
     if extra_headers:
         headers.update(extra_headers)
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=25) as resp:
+    with urllib.request.urlopen(req, timeout=25, context=_ssl_context()) as resp:
         raw = resp.read()
     return json.loads(raw.decode("utf-8"))
 
@@ -133,9 +153,11 @@ def bars_from_yahoo(result: dict) -> tuple[dict[date, Bar], date, float]:
         raise ValueError("Yahoo payload has no regularMarketPrice")
     live_moment = datetime.fromtimestamp(market_time, tz)
     live_date = live_moment.date()
+    if live_date.weekday() >= 5:
+        live_date = next_weekday(live_date)
 
     bars: dict[date, Bar] = {
-        day: bar for day, bar in official.items() if bar.close is not None and day != live_date
+        day: bar for day, bar in official.items() if bar.close is not None and day != live_date and day.weekday() < 5
     }
     official_today = official.get(live_date)
     opened = official_today.open if official_today else None
@@ -176,11 +198,11 @@ def fetch_yahoo(symbol: str, range_param: str = "5d") -> Quote:
             errors.append(f"{host}: {exc}")
             continue
 
-        prev_close = _num(meta.get("previousClose") or meta.get("chartPreviousClose"))
-        if range_param != "5d" or prev_close is None:
-            earlier = [d for d in bars if d < session and bars[d].close is not None]
-            if earlier:
-                prev_close = bars[max(earlier)].close
+        earlier = [d for d in bars if d < session and bars[d].close is not None]
+        if earlier:
+            prev_close = bars[max(earlier)].close
+        else:
+            prev_close = _num(meta.get("previousClose") or meta.get("chartPreviousClose"))
 
         lo, hi = RANGES.get(symbol, (None, None))
         if lo is not None and not (lo <= price <= hi):

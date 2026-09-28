@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import ssl
 import sys
 import tempfile
 import urllib.error
@@ -345,9 +346,21 @@ PARSERS = {
 }
 
 
+def _ssl_context() -> ssl.SSLContext | None:
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        try:
+            return ssl.create_default_context()
+        except Exception:
+            return None
+
+
 def http_text(url: str) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/plain,*/*"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
+    with urllib.request.urlopen(req, timeout=30, context=_ssl_context()) as resp:
         raw = resp.read()
     text = raw.decode("utf-8", errors="replace")
     if text.lstrip().startswith("<"):

@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-28 10:07",
+  "snapshot": "2026-09-28 10:38",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -10,28 +10,28 @@
       "name": "费城半导体指数",
       "symbol": "^SOX",
       "price": 12668.93,
-      "chg": "+6.27%",
+      "chg": "+1.41%",
       "chgClass": "up",
-      "previousClose": 11921.69,
-      "src": "^SOX 09-28 10:07 上海 · Yahoo Finance (^SOX)"
+      "previousClose": 12492.54,
+      "src": "^SOX 09-28 10:38 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1591.96,
-      "chg": "-1.84%",
+      "price": 1572.54,
+      "chg": "-3.04%",
       "chgClass": "down",
       "previousClose": 1621.87,
-      "src": "000688.SS 09-28 10:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-28 10:38 上海 · Yahoo Finance (000688.SS)"
     },
     "chip_etf": {
       "name": "中证半导体ETF",
       "symbol": "512480.SS",
-      "price": 1.008,
-      "chg": "-3.45%",
+      "price": 0.99,
+      "chg": "-3.23%",
       "chgClass": "down",
-      "previousClose": 1.044,
-      "src": "512480.SS 09-28 10:07 上海 · Yahoo Finance (512480.SS)"
+      "previousClose": 1.023,
+      "src": "512480.SS 09-28 10:38 上海 · Yahoo Finance (512480.SS)"
     }
   },
   "signal": {

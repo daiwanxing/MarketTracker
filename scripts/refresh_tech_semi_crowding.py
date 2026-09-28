@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import ssl
 import sys
 import tempfile
 import time
@@ -80,12 +81,24 @@ def shanghai_now() -> datetime:
     return datetime.now(SHANGHAI)
 
 
+def _ssl_context() -> ssl.SSLContext | None:
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        try:
+            return ssl.create_default_context()
+        except Exception:
+            return None
+
+
 def http_get(url: str, referer: str | None = None, timeout: int = 15) -> str:
     headers = {"User-Agent": UA}
     if referer:
         headers["Referer"] = referer
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+    with urllib.request.urlopen(req, timeout=timeout, context=_ssl_context()) as resp:
         raw = resp.read()
     return raw.decode("gbk", errors="ignore")
 

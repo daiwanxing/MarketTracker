@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import ssl
 import sys
 import tempfile
 import urllib.error
@@ -106,12 +107,24 @@ def log(level: str, message: str) -> None:
     print(f"{level} {message}", flush=True)
 
 
+def _ssl_context() -> ssl.SSLContext | None:
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        try:
+            return ssl.create_default_context()
+        except Exception:
+            return None
+
+
 def http_json(url: str) -> object:
     req = urllib.request.Request(
         url,
         headers={"User-Agent": UA, "Accept": "application/json,text/plain,*/*"},
     )
-    with urllib.request.urlopen(req, timeout=25) as resp:
+    with urllib.request.urlopen(req, timeout=25, context=_ssl_context()) as resp:
         raw = resp.read()
     return json.loads(raw.decode("utf-8"))
 
@@ -222,16 +235,17 @@ def bars_from_yahoo(result: dict) -> tuple[dict[date, Bar], date, float]:
         return opened, high, low, volume
 
     bars: dict[date, Bar] = {
-        day: bar for day, bar in official.items() if bar.close is not None and day != live_date
+        day: bar for day, bar in official.items() if bar.close is not None and day != live_date and day.weekday() < 5
     }
     if rolled and official_today is not None and overlay is not None:
         session = next_weekday(live_date)
-        bars[live_date] = official_today
+        if live_date.weekday() < 5:
+            bars[live_date] = official_today
         _moment, opened, high, low, _close, volume = overlay
         opened, high, low, volume = apply_live_range(opened, high, low, volume)
         bars[session] = Bar(session, opened, high, low, price, volume)
     else:
-        session = live_date
+        session = live_date if live_date.weekday() < 5 else next_weekday(live_date)
         opened = official_today.open if official_today else None
         high = official_today.high if official_today else None
         low = official_today.low if official_today else None
@@ -449,15 +463,15 @@ def update_oil_chart(charts: dict, wti: Quote | None, brent: Quote | None, sessi
         if day > session:
             continue
         if day < session:
-            if wti_series[i] is None:
-                value = close_for(wti, day)
-                if value is not None:
-                    wti_series[i] = value
+            wti_val = close_for(wti, day)
+            if wti_val is not None:
+                if wti_series[i] is None or (day >= session - timedelta(days=7) and wti_series[i] != wti_val):
+                    wti_series[i] = wti_val
                     written += 1
-            if brent_series[i] is None:
-                value = close_for(brent, day)
-                if value is not None:
-                    brent_series[i] = value
+            brent_val = close_for(brent, day)
+            if brent_val is not None:
+                if brent_series[i] is None or (day >= session - timedelta(days=7) and brent_series[i] != brent_val):
+                    brent_series[i] = brent_val
                     written += 1
             continue
         # Current session is still printing; keep the chart point on the live price.
@@ -477,7 +491,7 @@ def update_oil_chart(charts: dict, wti: Quote | None, brent: Quote | None, sessi
     if brent is not None:
         extra_days.update(brent.bars)
     for day in sorted(extra_days):
-        if day <= last or day > session:
+        if day <= last or day > session or day.weekday() >= 5:
             continue
         wti_close = close_for(wti, day)
         brent_close = close_for(brent, day)
@@ -700,6 +714,8 @@ def update_gold(
     data["snapshot"] = snapshot_stamp(moment)
     main = data["metrics"]["main"]
     session = comex.session if comex is not None else moment.astimezone(ZoneInfo("America/New_York")).date()
+    if session.weekday() >= 5:
+        session = next_weekday(session)
     prev_price = None
     prev_is_prior_session = False
     candles = data["tech"]["candles"]
