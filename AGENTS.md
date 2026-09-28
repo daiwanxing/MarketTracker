@@ -1,89 +1,72 @@
-# 数值字段归属
+# MarketTracker 代理架构地图与导航索引
 
-GitHub Actions 和云端代理改的不是同一类内容。云端代理不要覆盖 Actions 负责的数字键，除非用户明确要求改这些字段的结构。
+本项目为基于纯静态数据驱动的专业级大宗商品与科技半导体行情决策看板（MarketTracker）。本文件充当智能代理（Agent）的代码库全景地图与任务路由索引，指导代理在执行不同工程任务时精准定位目标文件与规范文档。
 
-## Actions 负责
+---
 
-原油、黄金与科技半导体：`scripts/refresh_market_data.py` 与 `scripts/refresh_tech_semi_data.py`，工作流 **Refresh market data**（每小时 `0 * * * *`）。不写 ENSO。
+## 1. 系统分层架构
 
-- `src/data/oilData.json`
-  - `snapshot`
-  - `metrics.main.num`、`metrics.main.chg`、`metrics.main.chgClass`、`metrics.main.src`
-  - `metrics.main.quotes.wti`、`metrics.main.quotes.dxy`
-  - `charts.dates`、`charts.wti`、`charts.brent`、`charts.wtiHigh`、`charts.brentHigh`
-  - `charts.sc` 只在新增交易日时为了对齐补一个空位；脚本不会把空值当成已核实的 SC 收盘，也不会清掉已有的 SC
-- `src/data/goldData.json`
-  - `snapshot`
-  - `metrics.main.num`、`metrics.main.chg`、`metrics.main.chgClass`、`metrics.main.src`
-  - `metrics.main.quotes.gc`、`metrics.main.quotes.dxy`
-  - `tech.candles`、`tech.volume`
-  - `tech.momentum` 里这三行的 `v`：`近 20 交易日`、`近 5 交易日`、`今日现货`
-  - `sentiment.riskReward.price`
-  - `positioning.table` 中 `k` 以 `期现基差` 开头的那一行：`v`、`wk`、`gc`、`spot`、`basis`、`dir`、`src`（这几个一起写，避免只改 `v` 留下旧的周字段）
-  - `macro.items` 里 `k` 为 `美元指数` 或 `美债 10 年期收益率` 的 `quote`
-- `src/data/techSemiData.json`
-  - `snapshot`
-  - `benchmarks.sox`、`benchmarks.star50`、`benchmarks.chip_etf`（各序列的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
-  - `charts.normalized`：`dates`、`sox`、`star50`、`chip_etf`（近半年标准化收益走势 %）
-  - `leverage.marginBuyShare`：`value`（最新交易日全市场融资买入额 / 同日上证+深证成指成交额 %）、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`（近约 60 个交易日的占比序列，供折线）。`<7` 低于平常，`7–9` 平常，`>9` 高于平常。不写个股融资余额
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 1. 视图表现层 (Presentation Layer)                         │
+│    src/components/*.tsx, src/styles/theme.css               │
+├─────────────────────────────────────────────────────────────┤
+│ 2. 数据契约层 (Data Contract Layer)                         │
+│    src/data/*.json                                          │
+├─────────────────────────────────────────────────────────────┤
+│ 3. 自动化采集流水线 (Automation Pipeline)                   │
+│    scripts/*.py, .github/workflows/*.yml                    │
+├─────────────────────────────────────────────────────────────┤
+│ 4. 治理与规范层 (Governance & Specifications)               │
+│    docs/data-ownership.md, docs/editorial-guidelines.md     │
+└─────────────────────────────────────────────────────────────┘
+```
 
-科技半导体 A 股 TMT 真实拥挤度：`scripts/refresh_tech_semi_crowding.py`，工作流 **Refresh tech semi crowding**（工作日周一至周五 07:30 UTC / 15:30 上海时间收盘后）。
+---
 
-- `src/data/techSemiData.json` 的 `crowding`
-  - `crowding.asOf`
-  - `crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`（按成交占比：`<20` 低位冰点，`20–32` 主线活跃，`32–38` 拥挤偏热，`≥38` 极端过热）
-  - `crowding.turnoverShare`：`value`（申万电子+计算机+传媒+通信占沪深全市场成交额 %）、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`
+## 2. 业务板块导航矩阵 (Domain Routing Matrix)
 
-ENSO 数值：`scripts/refresh_enso_data.py`，工作流 **Refresh ENSO numbers**（每天 07:15 与 19:15 UTC）。只读 CPC 纯文本指数，不抓 HTML。传统和相对指数绝不共用字段。只有文件里出现更新的、并且已经结束的中心周、月份或季节时才提交。
+代理在处理各业务板块时，请依据下表进行精准文件导航：
 
-- `src/data/ensoData.json` 的 `cpc`
-  - `cpc.asOf`
-  - `cpc.traditional.weekly`：`centerDate`、`nino34`、`nino34Sst`、`sourceUrl`（`wksst9120.for`）
-  - `cpc.traditional.monthly`：`year`、`month`、`nino34`、`sourceUrl`（`sstoi.indices`）
-  - `cpc.traditional.oni`：`season`、`year`、`value`、`sourceUrl`（`oni.ascii.txt`）
-  - `cpc.relative.weekly`：`centerDate`、`nino34`、`sourceUrl`（`rel_wksst9120.txt`）
-  - `cpc.relative.monthly`：`year`、`month`、`nino34`、`sourceUrl`（`rel_mthsst9120.txt`）
-  - `cpc.relative.rnino34`：`year`、`month`、`value`、`sourceUrl`（`Rnino34.ascii.txt`）
-  - `cpc.relative.roni`：`season`、`year`、`value`、`sourceUrl`（`RONI.ascii.txt`）
+| 业务板块 | 视图组件 (Presentation) | 数据契约 (Data Contract) | 自动化脚本 (Automation) | CI/CD 工作流 (Workflow) |
+| :--- | :--- | :--- | :--- | :--- |
+| **原油 (Crude Oil)** | `src/components/OilPanel.tsx` | `src/data/oilData.json` | `scripts/refresh_market_data.py` | `refresh-market-data.yml` (每小时) |
+| **黄金 (Gold)** | `src/components/GoldPanel.tsx` | `src/data/goldData.json` | `scripts/refresh_market_data.py` | `refresh-market-data.yml` (每小时) |
+| **科技宏观 (Tech Semi)** | `src/components/TechSemiPanel.tsx` | `src/data/techSemiData.json` | `scripts/refresh_tech_semi_data.py`<br>`scripts/refresh_tech_semi_crowding.py` | `refresh-market-data.yml` (每小时)<br>`refresh-tech-semi-crowding.yml` (工作日) |
+| **设备材料 (Equip)** | `src/components/EquipPanel.tsx` | `src/data/equipData.json` | *(手动/代理披露跟踪，无高频采集)* | — |
+| **光模块 (Optics)** | `src/components/OpticsPanel.tsx` | `src/data/opticsData.json` | *(引用宏观页 Actions 与披露更新)* | — |
+| **气象气候 (ENSO)** | `src/components/EnsoPanel.tsx` | `src/data/ensoData.json` | `scripts/refresh_enso_data.py` | `refresh-enso-data.yml` (每日 2 次) |
 
-副序列失败或缺少昨收时，保留原来的数字并打 WARN。不要写入 null 或空字符串来冒充行情。
+---
 
-## 云端代理负责
+## 3. 规范与准则指引 (Governance Protocols)
 
-信号正文、新闻、时间轴、观点，以及各板块与期次里的叙述。
+代理在执行修改前，必须阅读并遵照下述专项规范：
 
-- 原油：`head`、`signal`、`timeline`、`news`、`risks`、图表标题，以及 `metrics.main.refs`（叙述，不是实时报价）
-- 黄金：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓说明、`macro.items[].v`、ETF、情绪文案、`action`
-- 科技半导体分三页。`/semi` 科技指数宏观的自动刷新只有上面列出的 `benchmarks`、`charts.normalized`、`crowding.turnoverShare`、`leverage.marginBuyShare`。叙述是 `head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的 `k` / `metric` / `watch`、`fundamental` 里四大云厂商资本开支那一格、`footer`。研判由页面按这些读数现算，不另写一套硬件结论
-- `/equip` 设备材料：`src/data/equipData.json` 的 `head`、`items`、`footer`。订单能见度、CoWoS 与交付周期、耗材是带日期和来源的披露，不进每小时任务。没有披露就保持「未接入」
-- `/optics` 光模块：`src/data/opticsData.json` 的 `head`、`rate`、`names`、`footer`。800G/1.6T 出货结构是带日期和来源的披露，不进每小时任务。开支方向只引用 `/semi` 那一格云厂商资本开支，不另造数字。`names` 若填写，必须是标明为标的的公开报价，不合成行业指数
-- ENSO：`lastUpdated`、`head`、`anchor`、`impactTree`、`cropRegions`、`commodityOutlook`、`timeline`、`editions`（含 `metrics`、`timeline`、`views`）、`footer`。农产品产量、出口配额、库容、墒情分位和港口等待天数没有已发布材料时保持「未接入」
+- **数据所有权与自动化保护边界** ➔ 详见 [`docs/data-ownership.md`](docs/data-ownership.md)
+  - 规定 GitHub Actions 负责维护的高频数值键白名单。
+  - 规定代理严禁覆写数值字段及异常回退机制。
+- **严肃机构投研叙事与文风纪律** ➔ 详见 [`docs/editorial-guidelines.md`](docs/editorial-guidelines.md)
+  - 规定 Bloomberg Terminal / 顶级投行研报基准文风。
+  - 规定口语俗语禁用词表、专业机构术语替换映射与事实来源标注规范。
+- **视觉设计系统与 Design Tokens** ➔ 详见 [`src/styles/theme.css`](src/styles/theme.css)
+  - 规定暗色高对比（SpaceX Design Token）、圆角规范（Sharp）、排版层级与颜色变量。
 
-这些文字里可以出现数字，但不要改上面列出的 Actions 键，也不要把传统 Niño3.4 和相对 Niño3.4 写进同一个字段。不捏造虚假 A 股 TMT 成交占比或融资余额数据。`anomalies` 里没有自动源的份额申赎、市场宽度、期权偏度、炸板率，以及云厂商开支、订单、交期、耗材、800G/1.6T，没有已发布材料时保持「未接入」，不要填未核实的数字。全市场融资买入占比只写 `leverage.marginBuyShare` 里 Actions 负责的数字，不另造核心股篮子。
+---
 
-## 投研叙事与文风纪律（严肃机构标准）
+## 4. 代理任务执行协议 (Agent Task Protocols)
 
-云端代理生成的所有正文、解读、观点与字段说明，必须遵循 **Bloomberg Terminal / 顶级投行 Equity Research 报告** 的冷峻、严谨、客观与克制风格。页面面向专业机构投资人与产业研究员，严禁自媒体风、公众号科普风与散户教学语调。
+### 场景 A：更新产业研判、事件点评与文本分析
+1. **查阅规范**：阅读 [`docs/editorial-guidelines.md`](docs/editorial-guidelines.md) 确认术语标准。
+2. **定位目标**：根据导航矩阵定位至对应 `src/data/{domain}Data.json` 的叙述字段。
+3. **执行约束**：仅更新叙事属性，严禁变更自动化脚本维护的数值结构。
 
-### 1. 禁用词与专业机构术语替换映射表（强制执行）
+### 场景 B：调整数据采集逻辑或扩展指标
+1. **查阅规范**：阅读 [`docs/data-ownership.md`](docs/data-ownership.md) 确认权责归属与异常容错规则。
+2. **定位目标**：修改对应 `scripts/refresh_*.py` 及其对应的 `.github/workflows/*.yml`。
+3. **执行约束**：禁止伪造数据或返回 `null`，保持上一有效读数并输出日志警报。
 
-| 严禁表述（口语/俗语/夸张隐喻） | 机构专业替换术语 | 规范说明 |
-| :--- | :--- | :--- |
-| **抢芯 / 抢货 / 囤货** | 供应链锁量 / 芯片保供锁定 / 战略备货 | 准确描述供应链契约机制 |
-| **水龙头 / 需求水龙头** | 需求底座 / 资本开支驱动源 | 杜绝生活化俗语隐喻 |
-| **交不出货 / 拿不到货** | 交付脱节 / 产线良率与供给约束 | 描述为产业供需瓶颈 |
-| **吃掉几个点毛利 / 吞噬利润** | 成本转嫁困难 / 毛利率承压 / 成本挤压 | 严谨陈述财务指标影响 |
-| **谁在占出货** | 800G / 1.6T 出货结构 / 代际渗透率 | 规范产业代际升级表达 |
-| **避坑指南 / 警惕认知陷阱 / 最大的误判** | 预期偏差 / 路径演进分歧 / 商业化节奏差异 | 严禁居高临下的说教式口吻 |
-| **拒绝XX焦虑 / 短期不必恐慌** | 中远期技术路线 / 近端替代有限 | 严禁情绪化、心理抚慰式用语 |
-| **普通投资者 / 散户 / 我们 / 大家** | 市场 / 机构持仓 / 产业侧 | 严禁假定读者为小白或进行立场代入 |
-| **极其亮眼 / 急剧 / 暴增 / 无可撼动** | 高增阶段 / 明显提速 / 居出货主力 | 杜绝情绪化极值修饰词，改用客观事实 |
-| **真假壁垒 / 虚假泡沫错觉** | 成本与壁垒结构 / 静态估值分位与前瞻中枢 | 客观陈述估值逻辑，不做主观审判 |
-| **继续拿 / 割肉 / 适合买入** | 保持观察 / 估值消化 / 依赖下一期披露验证 | 严禁给出非法/散户式的交易指令 |
-
-### 2. 数据与事实纪律
-- **禁止捏造宏观数据**：云厂商资本开支、A 股 TMT 拥挤度只读宏观页 Actions 字段，不平行捏造年度总额或写死读数。
-- **引用必带出处**：如「14.88 亿元预付款（中际旭创 2026 年一季报）」、「市占率 61.4%（LightCounting）」、「市场规模（高盛研报情景测算）」。
-- **测算与行情隔离**：前瞻 PE / PEG 必须标明为「产业框架测算」，不得表述为「合理估值」或「已核实行情」，严禁代替市场给出目标价。
-- **研判客观中立**：所有研判结论遵循「事实从句 + 边际变化 + 跟踪条件」，缺读数时保持「未接入」，不臆造持仓结论。
-
+### 场景 C：重构界面交互与数据可视化
+1. **查阅规范**：查阅 [`src/styles/theme.css`](src/styles/theme.css) 遵循统一设计变量。
+2. **定位目标**：修改对应 `src/components/{Domain}Panel.tsx`。
+3. **质量保证**：通过 `tsc -b` 与 `npm run build` 确保零类型错误与构建安全。
