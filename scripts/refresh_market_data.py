@@ -611,6 +611,8 @@ def update_gold_candles(tech: dict, price: float, session: date, volume: float |
         candle["c"] = rounded
         candle["h"] = round(max(float(candle["h"]), rounded), 2)
         candle["l"] = round(min(float(candle["l"]), rounded), 2)
+        if volume is not None and volume > 0:
+            volumes[-1] = int(round(volume))
         return "updated-today"
     if parsed[-1] > session:
         return "skipped-future-candle"
@@ -627,8 +629,8 @@ def update_gold_candles(tech: dict, price: float, session: date, volume: float |
         volumes.append(int(round(volume)))
         log("INFO", "appended gold candle volume from COMEX GC=F (spot volume is not published)")
     else:
-        volumes.append(volumes[-1] if volumes else 0)
-        log("WARN", "COMEX volume missing; carried forward the previous gold volume so the chart stays aligned")
+        volumes.append(0)
+        log("WARN", "COMEX volume missing; appended 0 volume")
     return "appended"
 
 
@@ -709,12 +711,20 @@ def update_basis_row(
     table = (data.get("positioning") or {}).get("table") or []
     for row in table:
         if str(row.get("k", "")).startswith("期现基差"):
+            prev_basis = row.get("basis")
             row["gc"] = gc
             row["spot"] = spot_n
             row["basis"] = basis
             row["v"] = f"{basis:+.1f} 美元（{moment.month}/{moment.day}）"
             row["wk"] = f"{gc:.1f} − {spot_n:.2f}"
-            row["dir"] = "up" if basis > 0 else "down" if basis < 0 else "flat"
+            if prev_basis is not None:
+                try:
+                    diff = round(basis - float(prev_basis), 2)
+                    row["dir"] = "up" if diff > 0.05 else "down" if diff < -0.05 else "flat"
+                except (ValueError, TypeError):
+                    row["dir"] = "flat"
+            else:
+                row["dir"] = "flat"
             row["src"] = f"Yahoo GC=F − {source_label(spot_source)} · {snapshot_stamp(moment)} 上海"
             return True
     log("WARN", "期现基差 row missing; basis left unchanged")
@@ -1065,9 +1075,18 @@ def self_test() -> int:
     _assert(tech["momentum"][0]["v"] == "old", "short history kept")
     update_momentum(tech, None)
     _assert(spot_row["v"] == "-0.92%（现货）", "missing change does not clear 今日现货")
-    _assert(update_gold_candles(tech, 4280.0, session, 17180) == "updated-today", "same session")
+    _assert(update_gold_candles(tech, 4280.0, session, 25000) == "updated-today", "same session")
+    _assert(tech["volume"][-1] == 25000, f"intraday volume updated, got {tech['volume'][-1]}")
     _assert(tech["candles"][-1]["c"] == 4280.0 and tech["candles"][-1]["o"] == 4278.4, "open preserved")
     _assert(len(tech["candles"]) == len(tech["volume"]) == 2, "lengths")
+
+    # New candle with missing COMEX volume appends 0 (clean placeholder, not previous volume)
+    tech_missing_vol = {
+        "candles": [{"d": "09-22", "o": 4369.0, "h": 4375.0, "l": 4291.0, "c": 4318.18}],
+        "volume": [100000],
+    }
+    _assert(update_gold_candles(tech_missing_vol, 4278.4, session, None) == "appended", "append missing volume")
+    _assert(tech_missing_vol["volume"][-1] == 0, f"missing volume appends 0 placeholder, got {tech_missing_vol['volume'][-1]}")
 
     _assert(previous_weekday(date(2026, 9, 23)) == date(2026, 9, 22), "weekday")
     _assert(previous_weekday(date(2026, 9, 21)) == date(2026, 9, 18), "monday")
@@ -1243,6 +1262,30 @@ def self_test() -> int:
     _assert(basis_row["gc"] == 4320.0 and basis_row["spot"] == 4280.0 and basis_row["basis"] == 40.0, basis_row)
     _assert(basis_row["wk"] == "4320.0 − 4280.00", basis_row["wk"])
     _assert(basis_row["v"] == "+40.0 美元（9/24）", basis_row["v"])
+    _assert(basis_row["dir"] == "up", f"basis widened 1.0 -> 40.0: {basis_row['dir']}")
+
+    # Basis narrows from 40.0 to 30.0 (still positive > 0): dir must be "down"
+    _assert(update_basis_row(gold_doc, 4310.0, 4280.0, moment, "test"), "basis narrowed update")
+    _assert(basis_row["basis"] == 30.0, "basis 30.0")
+    _assert(basis_row["dir"] == "down", f"narrowing basis must be down, got {basis_row['dir']}")
+
+    # Basis widens from 30.0 to 50.0: dir must be "up"
+    _assert(update_basis_row(gold_doc, 4330.0, 4280.0, moment, "test"), "basis widened update")
+    _assert(basis_row["basis"] == 50.0, "basis 50.0")
+    _assert(basis_row["dir"] == "up", f"widening basis must be up, got {basis_row['dir']}")
+
+    # Diff within ±0.05 stays "flat"
+    _assert(update_basis_row(gold_doc, 4330.03, 4280.0, moment, "test"), "basis flat update")
+    _assert(basis_row["dir"] == "flat", f"minimal diff must be flat, got {basis_row['dir']}")
+
+    # Fallback to "flat" when prev basis is None
+    table_no_basis = {"positioning": {"table": [{"k": "期现基差 GC−现货"}]}}
+    _assert(update_basis_row(table_no_basis, 4320.0, 4280.0, moment, "test"), "no prev basis")
+    _assert(table_no_basis["positioning"]["table"][0]["dir"] == "flat", "missing prev basis falls back to flat")
+
+    # Re-establish 40.0 basis on gold_doc for subsequent assertions
+    _assert(update_basis_row(gold_doc, 4320.0, 4280.0, moment, "test"), "basis restored to 40.0")
+
     _assert(gold_doc["macro"]["items"][0]["v"] == "叙述保持不动", "macro prose kept")
     _assert(gold_doc["macro"]["items"][0]["quote"] == {"value": 101.13, "chg": "+0.91%"}, gold_doc["macro"]["items"][0]["quote"])
     _assert(gold_doc["macro"]["items"][1]["v"] == "收益率叙述保持不动", "yield prose kept")
@@ -1251,6 +1294,7 @@ def self_test() -> int:
     saved_wk = basis_row["wk"]
     update_gold(gold_doc, 4280.0, "https://api.gold-api.com/price/XAU", None, None, None, moment)
     _assert(gold_doc["positioning"]["table"][0]["wk"] == saved_wk, "failed GC leaves basis fields")
+    _assert(gold_doc["tech"]["volume"][-1] == 0, "missing comex volume appends 0 in update_gold")
     _assert(gold_doc["metrics"]["main"]["quotes"]["gc"] == 4320.0, "failed GC leaves quote")
     _assert(gold_doc["macro"]["items"][0]["quote"]["value"] == 101.13, "failed DXY leaves macro quote")
 
