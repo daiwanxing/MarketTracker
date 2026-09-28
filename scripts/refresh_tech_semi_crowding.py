@@ -52,11 +52,12 @@ SW1_NAMES: dict[str, str] = {
 }
 
 # Market turnover index feeds
-# sh000001 (上证指数) + sz399001 (深证成指) from Sina hq feed
-# Alternatively sh000002 (上证A指) + sz399107 (深证A指)
-MARKET_INDEX_URL = "http://hq.sinajs.cn/list=sh000001,sz399001"
+# sh000001 (上证指数) + sz399106 (深证综指) + bj899050 (北证50) from Sina hq feed
+MARKET_INDEX_URL = "http://hq.sinajs.cn/list=sh000001,sz399106,bj899050"
+TARGET_MARKET_SYMBOLS = {"sh000001", "sz399106", "bj899050"}
 SINA_NODE_DATA_URL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData"
 SINA_NODE_COUNT_URL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount"
+MIN_TMT_STOCKS = 600
 
 
 @dataclass
@@ -103,25 +104,51 @@ def http_get(url: str, referer: str | None = None, timeout: int = 15) -> str:
     return raw.decode("gbk", errors="ignore")
 
 
-def fetch_market_turnover() -> tuple[float, str]:
-    """Fetch total market turnover (成交额) in 元 from Sina index quote."""
-    raw = http_get(MARKET_INDEX_URL, referer="https://finance.sina.com.cn")
+def parse_market_turnover(raw: str) -> tuple[float, str]:
+    """Parse Sina index quote and sum turnover for sh000001, sz399106, and bj899050."""
     total_amt = 0.0
     date_str = ""
+    seen_symbols: set[str] = set()
+
     for line in raw.strip().split("\n"):
-        parts = line.split(",")
+        line = line.strip()
+        if not line or "=" not in line:
+            continue
+        left, _, right = line.partition("=")
+        sym = left.replace("var hq_str_", "").strip()
+        if sym not in TARGET_MARKET_SYMBOLS:
+            continue
+
+        content = right.strip('"; \r\n')
+        parts = content.split(",")
         if len(parts) > 30:
-            # Field 9 is turnover amount in RMB (元)
-            amt = float(parts[9])
-            total_amt += amt
-            if not date_str and parts[30]:
-                date_str = parts[30]
+            try:
+                amt = float(parts[9])
+                if amt > 0:
+                    total_amt += amt
+                    seen_symbols.add(sym)
+                if not date_str and parts[30]:
+                    date_str = parts[30].strip()
+            except (ValueError, IndexError):
+                continue
+
+    if "sh000001" not in seen_symbols or "sz399106" not in seen_symbols:
+        raise ValueError(
+            f"Missing required market turnover symbols in response. Seen: {seen_symbols}"
+        )
     if total_amt <= 0:
         raise ValueError("Invalid total market turnover <= 0")
+
     return total_amt, date_str
 
 
-def fetch_sector_stocks(sector_id: str, sector_node: str) -> list[StockItem]:
+def fetch_market_turnover() -> tuple[float, str]:
+    """Fetch total market turnover (成交额) in 元 from Sina index quote."""
+    raw = http_get(MARKET_INDEX_URL, referer="https://finance.sina.com.cn")
+    return parse_market_turnover(raw)
+
+
+def fetch_sector_stocks(sector_id: str, sector_node: str, max_retries: int = 2) -> list[StockItem]:
     """Fetch all stocks for a given SW1 sector node, paginated."""
     stocks: list[StockItem] = []
     page = 1
@@ -135,13 +162,58 @@ def fetch_sector_stocks(sector_id: str, sector_node: str) -> list[StockItem]:
             "node": sector_node,
         })
         url = f"{SINA_NODE_DATA_URL}?{query}"
-        raw = http_get(url)
-        items = json.loads(raw)
-        if not items or not isinstance(items, list):
+
+        items: list | None = None
+        for attempt in range(max_retries + 1):
+            try:
+                raw = http_get(url)
+                if not raw or not raw.strip():
+                    if page > 1 and attempt < max_retries:
+                        time.sleep(0.2 * (attempt + 1))
+                        continue
+                    items = []
+                    break
+
+                parsed = json.loads(raw)
+                if not isinstance(parsed, list):
+                    if page > 1 and attempt < max_retries:
+                        time.sleep(0.2 * (attempt + 1))
+                        continue
+                    items = []
+                    break
+
+                if len(parsed) == 0:
+                    if page > 1 and attempt < max_retries:
+                        time.sleep(0.15 * (attempt + 1))
+                        continue
+                    items = []
+                    break
+
+                items = parsed
+                break
+            except Exception as exc:
+                if page > 1 and attempt < max_retries:
+                    log("WARN", f"Sector {sector_node} page {page} attempt {attempt + 1} failed: {exc}; retrying...")
+                    time.sleep(0.2 * (attempt + 1))
+                    continue
+                elif attempt < max_retries:
+                    log("WARN", f"Sector {sector_node} page {page} attempt {attempt + 1} failed: {exc}; retrying...")
+                    time.sleep(0.2 * (attempt + 1))
+                    continue
+                else:
+                    log("ERROR", f"Sector {sector_node} page {page} failed after {max_retries + 1} attempts: {exc}")
+                    items = None
+                    break
+
+        if items is None or not isinstance(items, list):
+            break
+
+        if not items:
             break
 
         for it in items:
-            stocks.append(StockItem(amount=float(it.get("amount") or 0.0)))
+            if isinstance(it, dict):
+                stocks.append(StockItem(amount=float(it.get("amount") or 0.0)))
 
         if len(items) < 100:
             break
@@ -155,9 +227,14 @@ def compute_crowding_metrics(
     stocks: list[StockItem],
     market_amount: float,
     as_of_date: str,
+    min_stocks: int = MIN_TMT_STOCKS,
 ) -> CrowdingResult:
     if not stocks:
         raise ValueError("No TMT stocks provided")
+    if len(stocks) < min_stocks:
+        raise ValueError(
+            f"Suspiciously low TMT stock count ({len(stocks)}) < minimum threshold ({min_stocks})"
+        )
     if market_amount <= 0:
         raise ValueError("market_amount must be > 0")
 
@@ -234,6 +311,14 @@ def refresh_tech_semi_crowding(
 
             stocks = all_stocks
 
+        if len(stocks) < MIN_TMT_STOCKS:
+            msg = (
+                f"Total fetched TMT stocks ({len(stocks)}) suspiciously low "
+                f"(< {MIN_TMT_STOCKS}, expected ~1100). Aborting update to avoid faking cold zone."
+            )
+            log("ERROR", msg)
+            raise ValueError(msg)
+
         crowd_res = compute_crowding_metrics(stocks, market_amt, as_of_date)
         crowding_dict = build_crowding_payload(crowd_res)
 
@@ -263,17 +348,38 @@ def self_test() -> int:
     """Run offline self-test with mock data fixtures."""
     log("INFO", "running refresh_tech_semi_crowding self-test...")
 
+    # 1. Test market turnover parsing with sh000001, sz399106, and bj899050
+    mock_raw_hq = (
+        'var hq_str_sh000001="上证指数,3878.4,3888.3,3823.6,3878.4,3806.6,0,0,452350675,800000000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2026-09-28,15:35:31,00,";\n'
+        'var hq_str_sz399106="深证综指,2469.5,2476.0,2400.1,2469.7,2388.6,0.0,0.0,54017426672,900000000000,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,2026-09-28,15:00:03,00";\n'
+        'var hq_str_bj899050="北证50,1057.3,1055.7,1026.5,1057.6,1023.1,0.0,0.0,621598978,15000000000,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,2026-09-28,15:30:02,00,0,0,0,0,,";\n'
+        'var hq_str_ignored="无关代码,0,0,0,0,0,0,0,0,999999999,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2026-09-28,15:00:00,00";\n'
+    )
+    amt, date_str = parse_market_turnover(mock_raw_hq)
+    expected_amt = 800000000000.0 + 900000000000.0 + 15000000000.0
+    assert abs(amt - expected_amt) < 1e-4, f"Turnover mismatch: got {amt}, expected {expected_amt}"
+    assert date_str == "2026-09-28", f"Date mismatch: got {date_str}"
+
+    # Missing required symbol should raise ValueError
+    try:
+        parse_market_turnover('var hq_str_sh000001="...,0,0,0,0,0,0,0,0,800000000000,...";\n')
+        raise AssertionError("Expected ValueError when sz399106 is missing")
+    except ValueError:
+        pass
+
+    # 2. Test low stock count validation
+    try:
+        compute_crowding_metrics([StockItem(amount=100.0)] * 50, 100000.0, "2026-09-24")
+        raise AssertionError("Expected ValueError when TMT stock count < MIN_TMT_STOCKS")
+    except ValueError:
+        pass
+
+    # 3. Test full refresh with >= 600 mock stocks
     mock_stocks = [
-        StockItem(amount=100.0 * (20 - i)) for i in range(20)
-    ] + [
-        StockItem(amount=50.0 * (15 - i)) for i in range(15)
-    ] + [
-        StockItem(amount=30.0 * (10 - i)) for i in range(10)
-    ] + [
-        StockItem(amount=80.0 * (10 - i)) for i in range(10)
+        StockItem(amount=100.0 + (i % 20) * 10.0) for i in range(650)
     ]
 
-    market_amount = 100000.0  # Total market amount
+    market_amount = 1000000.0  # Total market amount
     doc = {
         "snapshot": "2026-09-24 15:30",
         "head": {"title": "科技半导体", "sub": "保留不改的叙述"},
@@ -313,6 +419,21 @@ def self_test() -> int:
         assert "topStocks" not in cr
         assert "crowdingProxy" not in updated, "legacy proxy removed"
         assert cr["label"] in {"低位冰点", "主线活跃", "拥挤偏热", "极端过热"}
+
+        # Verify fail-soft on suspicious stock count < MIN_TMT_STOCKS
+        low_stocks = [StockItem(amount=100.0) for _ in range(50)]
+        status_low = refresh_tech_semi_crowding(
+            dry_run=False,
+            data_path=test_file,
+            mock_stocks=low_stocks,
+            mock_market_amount=market_amount,
+            mock_as_of="2026-09-25",
+        )
+        assert status_low == 0, "fail soft status 0"
+        with open(test_file, "r", encoding="utf-8") as f:
+            preserved = json.load(f)
+        assert preserved["crowding"]["asOf"] == "2026-09-24", "preserved previous data on low stock count"
+
         log("INFO", "self-test passed successfully!")
     finally:
         if test_file.exists():
