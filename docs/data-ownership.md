@@ -9,7 +9,7 @@
 系统采用**职责严格分离（Separation of Concerns）**模式：
 - **自动化流水线（GitHub Actions）**：负责实时/周期性高频数值、时序曲线、收盘行情与交易所衍生指标的自动采集与写入。
 - **分析代理（Agent / Manual）**：负责产业背景、驱动逻辑、风险雷达、周期判断等分析性叙事字段的结构化编排与更新。
-- **隔离纪律**：分析代理不得篡改自动化采集程序所属的数值键，除非用户明确要求变更底层数据结构；自动化程序绝不改写分析代理所属的叙事文本。
+- **隔离纪律**：分析代理不得篡改自动化采集程序所属的数值键，除非用户明确要求变更底层数据结构。数值脚本不改写叙事字段。原油时间轴是例外：仅 `scripts/refresh_oil_timeline.py` 可改 `timeline`。
 
 ---
 
@@ -50,7 +50,13 @@
     - `crowding.asOf`、`crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`
     - `crowding.turnoverShare`（`value`、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`）
 
-### 2.4 ENSO 厄尔尼诺气候数值 (`scripts/refresh_enso_data.py`)
+### 2.4 原油时间轴 (`scripts/refresh_oil_timeline.py`)
+- **工作流**：`.github/workflows/refresh-oil-timeline.yml`（每日 00:30 与 12:30 UTC / 上海 08:30 与 20:30）
+- **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
+- **写入范围**：只改 `src/data/oilData.json` 的 `timeline`。无新增事实、抓取失败或模型失败时不写文件。
+- **不写**：`snapshot`、`metrics`、`charts`、`signal`、`news`、`risks`、`footer`。
+
+### 2.5 ENSO 厄尔尼诺气候数值 (`scripts/refresh_enso_data.py`)
 - **工作流**：`.github/workflows/refresh-enso-data.yml` (每日 07:15 与 19:15 UTC)
 - **受保护文件与字段**：
   - `src/data/ensoData.json`
@@ -63,7 +69,7 @@
 ## 3. 分析代理职责（Agent 负责）
 
 分析代理负责定性叙述、宏观联动解析、产业链模型及研究结论：
-- **原油 (`oilData.json`)**：`head`、`signal`、`timeline`、`news`、`risks`、图表副标题、`metrics.main.refs`。
+- **原油 (`oilData.json`)**：`head`、`signal`、`news`、`risks`、图表副标题、`metrics.main.refs`。`timeline` 由 `refresh_oil_timeline.py` 按披露增量维护，人工修订仍可直接改该数组。
 - **黄金 (`goldData.json`)**：`tech.trend`、`supportDesc`、`resistanceDesc`、`tech.note`、持仓结构说明、`macro.items[].v`、ETF 资金流向、情绪说明、`action`。
 - **科技半导体宏观 (`techSemiData.json`)**：`head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的标签定义、`fundamental` 云厂商资本开支项、`footer`。研判由页面运行时计算，不硬编码硬件结论。
 - **半导体设备材料 (`equipData.json`)**：`head`、`items`、`footer`。订单能见度与交期披露需带发布日期与来源，无官方披露保持「未接入」。
