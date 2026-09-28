@@ -38,11 +38,17 @@ DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
 MODEL_NAME = "deepseek-flash"
 
 RSS_QUERIES = (
+    # TrendForce 集邦咨询官方行业洞察（中文半导体一手研判与供需报价）
+    "https://www.trendforce.cn/feed/Semiconductors.html",
+    # TrendForce Global Market Intelligence (English)
+    "https://www.trendforce.com/feed/Semiconductors.html",
+    # Google News 英文：聚焦全球先进制程、算力芯片、晶圆代工与封装 (TSMC / ASML / NVIDIA / CoWoS / HBM)
     "https://news.google.com/rss/search?q=(semiconductor+OR+TSMC+OR+ASML+OR+NVIDIA+OR+foundry+OR+CoWoS+OR+HBM)+when:1d&hl=en-US&gl=US&ceid=US:en",
+    # Google News 中文：聚焦国内半导体晶圆代工、前道设备自主化与科创板芯片
     "https://news.google.com/rss/search?q=(%E5%8D%8A%E5%AF%BC%E4%BD%93+OR+%E8%8A%AF%E7%89%87+OR+%E7%A7%91%E5%88%9B50+OR+%E5%85%88%E8%BF%9B%E5%88%B6%E7%A8%8B+OR+%E5%85%89%E5%88%BB%E6%9C%BA)+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
 )
 
-MAX_HEADLINES = 40
+MAX_HEADLINES = 50
 MAX_TIMELINE = 18
 MAX_AGE_DAYS = 30
 TAGS = ("算力基础设施", "制程产能", "国产替代", "行业周期", "政策监管")
@@ -207,15 +213,18 @@ def fetch_headlines(urls: tuple[str, ...] = RSS_QUERIES) -> list[dict[str, str]]
             if not title or title in seen:
                 continue
             seen.add(title)
-            source = item.findtext("source") or ""
+            source = (item.findtext("source") or "").strip()
+            if not source and "trendforce" in url.lower():
+                source = "TrendForce 集邦咨询"
             published = item.findtext("pubDate") or ""
-            link = item.findtext("link") or ""
+            link = (item.findtext("link") or "").strip()
+            link = link.replace("http://test.new.trendforce.com", "https://www.trendforce.cn")
             rows.append(
                 {
                     "title": title,
-                    "source": source.strip(),
+                    "source": source,
                     "published": published.strip(),
-                    "link": link.strip(),
+                    "link": link,
                 }
             )
             if len(rows) >= MAX_HEADLINES:
