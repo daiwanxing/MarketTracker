@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-28 08:07",
+  "snapshot": "2026-09-28 09:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,7 +13,7 @@
       "chg": "+6.27%",
       "chgClass": "up",
       "previousClose": 11921.69,
-      "src": "^SOX 09-28 08:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-28 09:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -22,7 +22,7 @@
       "chg": "-2.35%",
       "chgClass": "down",
       "previousClose": 1660.85,
-      "src": "000688.SS 09-28 08:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-28 09:07 上海 · Yahoo Finance (000688.SS)"
     },
     "chip_etf": {
       "name": "中证半导体ETF",
@@ -31,7 +31,7 @@
       "chg": "-1.73%",
       "chgClass": "down",
       "previousClose": 1.041,
-      "src": "512480.SS 09-28 08:07 上海 · Yahoo Finance (512480.SS)"
+      "src": "512480.SS 09-28 09:07 上海 · Yahoo Finance (512480.SS)"
     }
   },
   "signal": {
@@ -730,16 +730,15 @@
       "k": "两融买入强度",
       "metric": "全市场融资买入额 / 两市成交额",
       "status": "live",
-      "zone": "warning",
-      "v": "高于平常",
+      "zone": "neutral",
+      "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 9.13,
-      "asOf": "2026-09-23",
-      "buyYi": 1610.78,
-      "marketAmountYi": 17649.76,
-      "src": "东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · 2026-09-23",
+      "value": 8.59,
+      "asOf": "2026-09-24",
+      "buyYi": 1419.78,
+      "marketAmountYi": 16533.57,
+      "src": "东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · 2026-09-24",
       "dates": [
-        "07-02",
         "07-03",
         "07-06",
         "07-07",
@@ -798,10 +797,10 @@
         "09-18",
         "09-21",
         "09-22",
-        "09-23"
+        "09-23",
+        "09-24"
       ],
       "shares": [
-        9.4,
         9.33,
         9.11,
         8.87,
@@ -860,7 +859,8 @@
         9.06,
         9.19,
         9.83,
-        9.13
+        9.13,
+        8.59
       ]
     }
   },
