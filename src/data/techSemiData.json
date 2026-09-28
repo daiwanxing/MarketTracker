@@ -673,19 +673,19 @@
   ],
   "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
   "crowding": {
-    "asOf": "2026-09-24",
+    "asOf": "2026-09-28",
     "label": "极端过热",
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 40.66,
-      "tmtAmountYi": 6722.44,
-      "marketAmountYi": 16533.57,
+      "value": 42.52,
+      "tmtAmountYi": 7240.16,
+      "marketAmountYi": 17027.99,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
     },
-    "src": "申万一级行业与沪深市场快照 · 新浪行情节点 (asOf: 2026-09-24)"
+    "src": "申万一级行业与沪深市场快照 · 新浪行情节点 (asOf: 2026-09-28)"
   },
   "anomalies": {
     "note": "份额申赎、成分股宽度、期权偏度、炸板率没有自动行情源。这些格子只说明该看什么，不显示未核实的数字。",
