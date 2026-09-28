@@ -56,7 +56,7 @@ BULL_DIMS = ("capex", "foundry", "substitute")
 BEAR_DIMS = ("mature", "geo", "memory")
 
 SYSTEM_PROMPT = """你是半导体与科技硬件行业卖方研究编辑，按彭博终端（Bloomberg Terminal）与顶级投行研报口径更新科技半导体宏观认知看板。
-输入包含当前盘面基准（费城半导体 SOX、科创50、中证半导体 ETF）、TMT 成交额占比与拥挤度分区、全市场融资买入强度、四大 CSP 资本开支跟踪、既有时间轴及 24 小时中英资讯。
+输入包含当前盘面基准（费城半导体 SOX、韩国KOSPI、科创50）、TMT 成交额占比与拥挤度分区、全市场融资买入强度、四大 CSP 资本开支跟踪、既有时间轴及 24 小时中英资讯。
 只依据这些事实材料，不编造未出现的数字与虚假行情。
 
 【文风与表达禁令】
@@ -236,7 +236,7 @@ def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) ->
     benchmarks = doc.get("benchmarks", {})
     sox = benchmarks.get("sox", {})
     star50 = benchmarks.get("star50", {})
-    chip_etf = benchmarks.get("chip_etf", {})
+    kospi = benchmarks.get("kospi", {})
 
     crowding = doc.get("crowding", {})
     turnover = crowding.get("turnoverShare", {})
@@ -267,17 +267,17 @@ def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) ->
                 "chg": sox.get("chg"),
                 "previousClose": sox.get("previousClose"),
             },
+            "kospi": {
+                "name": kospi.get("name", "韩国KOSPI指数"),
+                "price": kospi.get("price"),
+                "chg": kospi.get("chg"),
+                "previousClose": kospi.get("previousClose"),
+            },
             "star50": {
                 "name": star50.get("name", "科创50指数"),
                 "price": star50.get("price"),
                 "chg": star50.get("chg"),
                 "previousClose": star50.get("previousClose"),
-            },
-            "chip_etf": {
-                "name": chip_etf.get("name", "中证半导体ETF"),
-                "price": chip_etf.get("price"),
-                "chg": chip_etf.get("chg"),
-                "previousClose": chip_etf.get("previousClose"),
             },
         },
         "crowding": {
@@ -748,12 +748,12 @@ def self_test() -> int:
                 "chg": "-4.06%",
                 "previousClose": 1621.87,
             },
-            "chip_etf": {
-                "name": "中证半导体ETF",
-                "symbol": "512480.SS",
-                "price": 0.98,
-                "chg": "-4.20%",
-                "previousClose": 1.023,
+            "kospi": {
+                "name": "韩国KOSPI指数",
+                "symbol": "^KS11",
+                "price": 6889.74,
+                "chg": "-2.70%",
+                "previousClose": 7080.92,
             },
         },
         "crowding": {
@@ -796,7 +796,7 @@ def self_test() -> int:
     ctx = extract_context(mock_doc, extracted_headlines)
     _assert(ctx["benchmarks"]["sox"]["price"] == 12668.93, "sox price mismatch")
     _assert(ctx["benchmarks"]["star50"]["chg"] == "-4.06%", "star50 chg mismatch")
-    _assert(ctx["benchmarks"]["chip_etf"]["previousClose"] == 1.023, "chip_etf previousClose mismatch")
+    _assert(ctx["benchmarks"]["kospi"]["previousClose"] == 7080.92, "kospi previousClose mismatch")
     _assert(ctx["crowding"]["turnoverShare"] == 42.52, "turnoverShare mismatch")
     _assert(ctx["crowding"]["zone"] == "danger", "crowding zone mismatch")
     _assert(ctx["leverage"]["marginBuyShare"] == 8.59, "marginBuyShare mismatch")
@@ -1008,8 +1008,8 @@ def self_test() -> int:
             "normalized": {
                 "dates": ["09-24", "09-25"],
                 "sox": [1.5, 2.0],
+                "kospi": [-0.5, -0.8],
                 "star50": [-1.0, -1.5],
-                "chip_etf": [-0.5, -0.8],
             }
         },
         "timeline": existing_items[:2],

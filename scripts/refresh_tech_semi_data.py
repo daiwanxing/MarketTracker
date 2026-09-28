@@ -33,6 +33,7 @@ UA = "Mozilla/5.0 (compatible; MarketTrackerRefresh/1.0; +https://github.com/dai
 # Sanity ranges for sanity checks
 RANGES = {
     "^SOX": (1000.0, 50000.0),
+    "^KS11": (500.0, 50000.0),
     "000688.SS": (200.0, 10000.0),
     "588000.SS": (0.1, 50.0),
     "512480.SS": (0.1, 50.0),
@@ -40,11 +41,11 @@ RANGES = {
 
 BENCHMARKS = {
     "sox": ("^SOX", "费城半导体指数", 2),
+    "kospi": ("^KS11", "韩国KOSPI指数", 2),
     "star50": ("000688.SS", "科创50指数", 2),
-    "chip_etf": ("512480.SS", "中证半导体ETF", 3),
 }
-CHART_KEYS = ("sox", "star50", "chip_etf")
-STALE_BENCHMARKS = ("ndx", "hstech", "csi300", "nvda", "tsm")
+CHART_KEYS = ("sox", "kospi", "star50")
+STALE_BENCHMARKS = ("ndx", "hstech", "csi300", "nvda", "tsm", "chip_etf")
 
 
 @dataclass
@@ -605,14 +606,14 @@ def refresh_tech_semi(
     else:
         spot = {
             "sox": "^SOX",
+            "kospi": "^KS11",
             "star50": "000688.SS",
-            "chip_etf": "512480.SS",
         }
         quotes = {key: try_fetch(sym, failures, "5d") for key, sym in spot.items()}
         hist_symbols = {
             "sox": "^SOX",
+            "kospi": "^KS11",
             "star50": "588000.SS",
-            "chip_etf": "512480.SS",
         }
         history = {
             key: try_fetch(sym, failures, "6mo") or quotes.get(key)
@@ -694,21 +695,21 @@ def self_test() -> int:
 
     history_dates = [session - timedelta(days=i) for i in range(25, -1, -1)]
     sox_hist_bars: dict[date, Bar] = {}
-    chip_hist_bars: dict[date, Bar] = {}
+    kospi_hist_bars: dict[date, Bar] = {}
     star_hist_bars: dict[date, Bar] = {}
     for i, d in enumerate(history_dates):
         sox_hist_bars[d] = Bar(d, 10000.0 + i * 100, 10000.0 + i * 100, 10000.0 + i * 100, 10000.0 + i * 100, 100)
-        chip_hist_bars[d] = Bar(d, 1.0 + i * 0.01, 1.0 + i * 0.01, 1.0 + i * 0.01, 1.0 + i * 0.01, 100)
+        kospi_hist_bars[d] = Bar(d, 5000.0 + i * 50, 5000.0 + i * 50, 5000.0 + i * 50, 5000.0 + i * 50, 100)
         star_hist_bars[d] = Bar(d, 1.5 + i * 0.015, 1.5 + i * 0.015, 1.5 + i * 0.015, 1.5 + i * 0.015, 100)
 
     sox_hist = Quote("^SOX", 12600.0, 12500.0, None, None, None, session, sox_hist_bars, "test")
-    chip_hist = Quote("512480.SS", 1.26, 1.25, None, None, None, session, chip_hist_bars, "test")
+    kospi_hist = Quote("^KS11", 6250.0, 6200.0, None, None, None, session, kospi_hist_bars, "test")
     star_hist = Quote("588000.SS", 1.89, 1.88, None, None, None, session, star_hist_bars, "test")
 
     mock_history = {
         "sox": sox_hist,
+        "kospi": kospi_hist,
         "star50": star_hist,
-        "chip_etf": chip_hist,
     }
 
     doc = {
@@ -718,6 +719,7 @@ def self_test() -> int:
         "anomalies": {"note": "保留"},
         "benchmarks": {
             "sox": {"name": "费城半导体", "price": 10000.0, "chg": "+0.00%", "chgClass": ""},
+            "chip_etf": {"name": "中证半导体ETF", "price": 1},
             "nvda": {"name": "英伟达", "price": 1},
             "tsm": {"name": "台积电", "price": 1},
             "ndx": {"name": "纳指", "price": 1},
@@ -764,11 +766,14 @@ def self_test() -> int:
         _assert("ndx" not in updated["benchmarks"], "ndx removed")
         _assert("hstech" not in updated["benchmarks"], "hstech removed")
         _assert("csi300" not in updated["benchmarks"], "csi300 removed")
+        _assert("chip_etf" not in updated["benchmarks"], "chip_etf removed")
         _assert("crowdingProxy" not in updated, "proxy removed")
         _assert("ratios" not in updated["charts"], "ratios removed")
         norm = updated["charts"]["normalized"]
         _assert(len(norm["dates"]) >= 20, "normalized dates")
         _assert(norm["sox"][0] == 0.0 and norm["star50"][0] == 0.0, "normalized base")
+        _assert("kospi" in norm and norm["kospi"][0] == 0.0, "kospi on normalized chart")
+        _assert("chip_etf" not in norm, "chip_etf off normalized chart")
         _assert("nvda" not in norm and "tsm" not in norm, "single names off the chart")
         _assert("liquidity" not in updated, "fx and yield removed")
         margin = updated["leverage"]["marginBuyShare"]
