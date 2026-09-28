@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-28 10:38",
+  "snapshot": "2026-09-28 11:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,25 +13,25 @@
       "chg": "+1.41%",
       "chgClass": "up",
       "previousClose": 12492.54,
-      "src": "^SOX 09-28 10:38 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-28 11:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1572.54,
-      "chg": "-3.04%",
+      "price": 1557.86,
+      "chg": "-3.95%",
       "chgClass": "down",
       "previousClose": 1621.87,
-      "src": "000688.SS 09-28 10:38 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-28 11:07 上海 · Yahoo Finance (000688.SS)"
     },
     "chip_etf": {
       "name": "中证半导体ETF",
       "symbol": "512480.SS",
-      "price": 0.99,
-      "chg": "-3.23%",
+      "price": 0.981,
+      "chg": "-4.11%",
       "chgClass": "down",
       "previousClose": 1.023,
-      "src": "512480.SS 09-28 10:38 上海 · Yahoo Finance (512480.SS)"
+      "src": "512480.SS 09-28 11:07 上海 · Yahoo Finance (512480.SS)"
     }
   },
   "signal": {
