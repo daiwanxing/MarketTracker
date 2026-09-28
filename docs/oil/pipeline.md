@@ -27,7 +27,7 @@ graph TD
     subgraph NarrativePipeline ["三、 认知分析流水线 (scripts/refresh_oil_timeline.py)"]
         fetchRss["能源快讯抓取<br/>(Google News RSS 中英双语最近24h)"]
         readContext["装配输入上下文<br/>(最新盘面报价 + 已有时间轴近8条)"]
-        callDeepSeek["调用 DeepSeek API<br/>(deepseek-chat / 机构研报 Prompt)"]
+        callDeepSeek["调用 DeepSeek API<br/>(deepseek-flash / 机构研报 Prompt)"]
         validateModelJson["数据契约校验与清洗<br/>(JSON 格式 / 原文外链匹配 / 严禁自媒体词)"]
         mergeTimeline["时间轴增量更新<br/>(最新事件置顶 / 保持≤18条 / 修剪>30天)"]
         updateSignalRisks["重写市场信号与观察变量<br/>(verdict / sub / bull & bear / risks)"]
@@ -109,7 +109,7 @@ graph TD
 - **数据源**：
   - Google News RSS 原油/能源中英双语检索频道（`when:1d`，最近 24 小时内的 30~40 条即时快讯）。
 - **LLM 研判与结构化提炼**：
-  - **模型**：DeepSeek-V3 (`deepseek-chat`)，基于仓库 Secret `DS_API_KEY`。
+  - **模型**：DeepSeek-V4.1-Flash (`deepseek-flash`)，基于仓库 Secret `DS_API_KEY`。
   - **系统提示词规范**：严格遵守 [`docs/editorial-guidelines.md`](../editorial-guidelines.md) 机构标准，坚决剔除自媒体口语、说教与情绪化词汇。
   - **结构化提炼三大板块**：
     1. **时间轴 (`timeline`)**：

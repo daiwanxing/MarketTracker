@@ -6,7 +6,7 @@ Numeric keys owned by ``scripts/refresh_market_data.py`` (snapshot, metrics,
 charts) stay untouched. A failed fetch or model call leaves the file unchanged.
 
 Sources: Google News RSS (English + Chinese crude/Brent queries, last 24h).
-Model: DeepSeek ``deepseek-chat`` at ``https://api.deepseek.com``.
+Model: DeepSeek ``deepseek-flash`` (DeepSeek-V4.1-Flash) at ``https://api.deepseek.com``.
 Key: environment variable ``DS_API_KEY``.
 """
 
@@ -147,7 +147,7 @@ def call_deepseek(
         "headlines": headlines,
     }
     body = {
-        "model": "deepseek-chat",
+        "model": "deepseek-flash",
         "temperature": 0.2,
         "response_format": {"type": "json_object"},
         "messages": [
