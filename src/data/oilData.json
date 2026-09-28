@@ -1,63 +1,63 @@
 {
-  "snapshot": "2026-09-29 06:07",
+  "snapshot": "2026-09-29 07:07",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "98.56",
-      "chg": "-5.52%",
+      "num": "98.71",
+      "chg": "-5.38%",
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
-      "src": "BZ=F 布伦特原油期货 9-29 06:07 上海 · 昨收 104.32（现价 98.56/-5.52%，今开 98.50 / 高 101.24 / 低 96.23） · Yahoo Finance",
+      "src": "BZ=F 布伦特原油期货 9-29 07:07 上海 · 昨收 104.32（现价 98.71/-5.38%，今开 98.73 / 高 98.80 / 低 98.43） · Yahoo Finance",
       "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
       "quotes": {
-        "wti": 93.29,
-        "dxy": 101.2
+        "wti": 93.38,
+        "dxy": 101.17
       }
     }
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "当前主矛盾是地缘断供预期与实货供应回升的背离：BZ=F 报 98.56 美元、单日 -5.52%，WTI 报 93.29 美元，海峡通行量未降、沙特管道复产与中东9月装船回升共同挤出风险溢价。",
-    "sub": "口径说明：BZ=F 为布伦特原油连续合约在 Yahoo Finance 的报价代码，昨收 104.32、今开 98.50、高 101.24、低 96.23，并非通讯社引用的近月或首行合约结算价，与 WTI 93.29 的价差约 5.27 美元。报价下挫与事件对应关系为：美方否决伊朗重开海峡方案本应支撑地缘溢价，但伊朗袭击未使海峡通行量下降、沙特管道恢复输送、中东9月装船回升，实货增量压过政策不确定性；SPR 处1982年以来低位限制进一步下行空间。",
+    "verdict": "BZ=F报98.71、-5.38%，WTI报93.38，主矛盾是沙特管道复运与中东装船回升压低海峡断供溢价，而美伊谈判僵持与SPR低位限制下行空间。",
+    "sub": "BZ=F为Yahoo Finance布伦特原油期货连续合约，并非通讯社所引近月现货或首行合约，含换月与连续合约技术因素。当前98.71/-5.38%对应沙特输油管道复运、中东9月装船回升及伊朗霍尔木兹方案被否后的溢价回吐；WTI 93.38同步反映美国柴油出口禁令讨论与SPR低位。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "霍尔木兹通行安排未闭合",
-        "v": "美方否决伊朗重开方案，谈判路径未落地，海峡风险溢价存在重建可能"
+        "k": "美伊谈判",
+        "v": "美方否决伊朗重开霍尔木兹方案，谈判僵持使海峡风险溢价保留底部支撑。"
       },
       {
         "dim": "supply",
-        "k": "俄罗斯对印度出口收紧",
-        "v": "出口回落叠加中国采购走强，乌拉尔与中东现货升水获支撑"
+        "k": "俄罗斯对印度出口",
+        "v": "俄罗斯对印度原油供应收紧，出口回落与中国采购走强，边际减少可流入大西洋盆地船货。"
       },
       {
         "dim": "stocks",
-        "k": "SPR 2.838亿桶",
-        "v": "1982年以来最低，补库需求与政策回购构成需求端边际支撑"
+        "k": "美国SPR",
+        "v": "美国战略石油储备降至2.838亿桶、1982年以来最低，补库空间受限且政策买盘预期存在。"
       }
     ],
     "bearTitle": "利空因素",
     "bearHint": "指向回落",
     "bear": [
       {
-        "dim": "geo",
-        "k": "海峡通行量不降反升",
-        "v": "伊朗宣称打击但船货照常通过，断供预期被实货数据削弱"
+        "dim": "supply",
+        "k": "沙特管道复运",
+        "v": "沙特输油管道恢复输送，中东9月装船量回升，直接增加即期供应并压低布伦特近端溢价。"
       },
       {
         "dim": "supply",
-        "k": "沙特管道复产与中东装船回升",
-        "v": "9月装船量回升、管道恢复输送，供给端增量得到确认"
+        "k": "伊拉克替代出口",
+        "v": "伊拉克寻求绕开霍尔木兹的原油出口替代路径，航运重构降低海峡单一通道依赖，削弱断供溢价。"
       },
       {
         "dim": "macro",
-        "k": "美元指数101.2与美债收益率高位",
-        "v": "金融条件收紧叠加油价同高，压制风险资产与成品油需求预期"
+        "k": "美元与美债收益率",
+        "v": "美元指数101.17且美债收益率上行，提高大宗商品持有成本并压制原油估值。"
       }
     ],
-    "watch": "霍尔木兹通行量与保险费率 · 沙特管道与中东装船后续周度数据 · 美国柴油出口禁令是否进入立法程序 · SPR 补库或回购公告 · 美伊及卡塔尔渠道谈判进展 · BZ=F 与 WTI 价差及近月月差结构"
+    "watch": "霍尔木兹通行与保险成本 · 沙特管道输送量 · 美国柴油出口禁令进展 · SPR补库政策 · 俄罗斯对印度出口量 · 跨里海路线评估"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -125,7 +125,7 @@
       92.16,
       94.61,
       92.41,
-      93.29
+      93.38
     ],
     "brent": [
       90.87,
@@ -158,7 +158,7 @@
       103.08,
       106.6,
       104.32,
-      98.56
+      98.71
     ],
     "sc": [
       574.7,
@@ -199,6 +199,24 @@
   },
   "timelineTitle": "原油市场时间轴",
   "timeline": [
+    {
+      "date": "2026-09-28",
+      "tag": "供应",
+      "hot": false,
+      "t": "哈萨克斯坦原油生产商评估跨里海新路线以规避俄罗斯通道",
+      "d": "据CGEP，哈萨克斯坦原油生产商正评估经跨里海路线出口，以降低对俄罗斯通道的依赖。若推进，将改变中亚原油东向与西向物流，影响黑海、地中海装船节奏及运费结构。当前仍处评估阶段，尚未形成实际装船增量，对即期布伦特供需影响有限，但构成中期供应路径变量。该路线需里海港口与阿塞拜疆、格鲁吉亚或土耳其管线配合，运输成本与保险条件仍是关键约束。",
+      "src": "来源：CGEP",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOZFBfNkg5U0NvX3dDZFhiLWF1eERMMUdUOGtFNmV2bUFhNXdGc2llUDZwSWwwMUl1R3BEMGJwV1NzR1JBRTI1Vkt3RDFtMXhrUGU0eHIzcmp4V3JEZVQ1X29EMk9Fbk5DNWJzYnBkSW1jN3MtWHZUaDNfYkZLNHdXNGdOakk1Sk02dWF1Nk9vVWZEYld3RGxBeHY4NGNoc1E2eW5QVE54YWU1WnJqZEFn?oc=5"
+    },
+    {
+      "date": "2026-09-28",
+      "tag": "海峡",
+      "hot": false,
+      "t": "伊朗宣传霍尔木兹袭击但地区原油流量与油轮通行未受同等干扰",
+      "d": "据半岛电视台，伊朗方面宣传在霍尔木兹的袭击行动，但地区原油流量与油轮通行仍在增加，显示实际航运未受同等程度干扰。该信息削弱此前对海峡中断的供给溢价，与美方否决伊朗重开方案形成对冲。需继续核实袭击是否影响特定船期、保险成本及伊拉克替代出口安排。若后续通行量继续上升，海峡风险溢价将进一步回吐；若袭击升级并波及船期，则溢价可能重新计入。",
+      "src": "来源：Al Jazeera",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcHFndWVQUVpiSnAwM0EtTUdVSVZvSERZZnZkQUswTVRETVpIdWJtU1VrRFpzdUxWNUplbUI3Z2F6UEFZdk43NWN4R1llRVJOMjNDV1oxNTF3dTJOOUdEQVVDT0JLdVpwa1J2UU9mMm5iczcwaEpubnR1WEIzdnBUWE9xVlJtdlIwZTc2YXpGWW5RU1RWdnUxa1B4ODB1RFNUd2lXdlZVazbSAa4BQVVfeXFMT3hIUnlIQUNRSU9pbnFSNTh4cnc0LXRiV3M2OE9VeFNab2FneWpIMUVoaTJvd1dpYnhfUkRRODJRcDNmcmZrRHpFcVhKWHlzTUYtdk0yaGc4YWxOQzVRQlhDOUJXLXdmQjNiMkhyaWZMM0lKZzY0QlRWeGlsMUFtQUt3T0lPNk42bmxnNFhjNWRmc3NUYTI0VGs2N2RjanVvNVZUek5uV0Y1c2dOdDhB?oc=5"
+    },
     {
       "date": "2026-09-28",
       "tag": "海峡",
@@ -340,24 +358,6 @@
       "d": "美方拒绝伊朗提出的以重开霍尔木兹海峡为条件的缓和方案，海峡通航谈判未能推进。该海峡承担中东主要原油与成品油海运出口，通行不确定意味着海湾装船、保险与运费成本仍将维持高位。当日快讯显示布伦特盘中一度升破100美元，另有报道称油价触及108美元，反映市场对供应路径中断风险的定价。",
       "src": "来源：CNBC",
       "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1iS25pUWtaQlhIVkNyU2oyYjg1enVuSE9EV3VvR1RnM1NkeUFBTzNoZW1WZDhkTERTQm5WZmUyYkxMczhLLUVXaExhMEhyc3RCcHlxZHMxNk5JSjNJamZmSklPTXVHWWhwVE80YWR2Y3ZZS0FKakFTQzhGQWhmd9IBgwFBVV95cUxPRkh5X0phRnhfLXYzbGtUbXU2UTA0UVowTU5hTzZKNzJEZHZ2SUZXb1VwSUR5M2lwU0x4Qk9EUU9XeW9pREVrdmRMZjVRZXM1MWZ1NFR0d2xaS0Vzc3dWUnQzVWFfUUE2WTdDcC0xSzZETm1VZ0w0N2pCQjJvbXFjLV9UNA?oc=5"
-    },
-    {
-      "date": "2026-09-28",
-      "tag": "供应",
-      "hot": false,
-      "t": "伊拉克寻求绕过霍尔木兹海峡的原油出口替代路径，管道与陆路方案待评估",
-      "d": "伊拉克方面表示正在评估绕开霍尔木兹海峡的原油出口替代通道，以降低对单一海运节点的依赖。可选路径涉及管道与陆路输送，短期运力与配套终端有限，难以完全替代海峡装船量。若海峡通行风险持续，出口重定向将改变地中海与红海方向的货流分布，并对相关运费与升贴水形成支撑。",
-      "src": "来源：Al Jazeera",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYWFkRk5ZMkJFUmtITDVCbEx3STJmeDVNWnJpbFgtRWlYQVhlb0JxcUpTR0hCUVY1Rlc3NURTdUdycnJCdnVtckNxLXFzSFVENEN2MTMzeGluMTJ5MEtPOUI1bWR0YmZEdW9FUXNqdXBCT0pOQzJKSldNbTdZQTAtNHFVSEtPczBmLWpPUGZPb0FDRGRKV2hGUEpPSzJVNXl5dGVZUFdkTHhJNHRwa3ZxcHJIMUFiUdIBuwFBVV95cUxPcnNvT0owZU5BZUk2Q21rTlNrMlRGQWpPQ0tCSG5DLXJkX2NsVUVzeGtUVy1VQmtPUWxUMTI5TWQ5UVlxc01tc3h0QU9IX1Nndmh1bEFQQXlPazRxZGp3bDVSV2U4d0NLMDk1dWVtN1FkOVVORmNpbG9rSGdlbUR6WWNXUklueHFVaFBIRlBvMFl3ZnY3Z1ZyQl8xaXpET1prdmJlZmtjR1REYXkwYlVldEF1eVgxc0pFQkdR?oc=5"
-    },
-    {
-      "date": "2026-09-28",
-      "tag": "供应",
-      "hot": true,
-      "t": "俄罗斯对印度原油供应收紧，出口下降叠加中国采购走强",
-      "d": "据路透报道，俄罗斯对印度的原油供应因出口量下降而收紧，同期中国采购需求保持强劲，东方买家船货竞争升温。印度炼厂在折价俄油与中东、西非替代桶之间的比价关系随之变化，运费与到岸成本成为采购关键。该变化影响乌拉尔与ESPO向东方的实物流向，对亚洲现货升水构成边际支撑，也使中东出口回升带来的增量被部分对冲。",
-      "src": "来源：路透社（Reuters）",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQbTlqcl9scHJnUzlYbUtkUnpIdDRZWUhiaUVRU0FTZ1hzTVNRVXZLRFZFUmdTc0s2LVNueDBpOHBVZTNIb2ZKei16c2c0VVhFMjd4UFdxclM0bjk0bGJWbHNrT2FpSlBZenVsanlUanZCVk05SHVsS0IyNU5FTno5aS1scFJKT3BUWnhBZjc4Rll2UUFTVEd4eWJRaEFUVzJMdDdMYkE1QVdKYXE4aUdWQ0ljRC14QTZDbURzSVJ4UzI?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -402,22 +402,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "霍尔木兹通行中断",
-      "level": "r",
-      "desc": "若袭击导致海峡通行量实质下降或保险费率跳升，BZ=F 将自 98.56 美元向上重估风险溢价，WTI 同步走高并推动月差转 back。来源：Al Jazeera 9-28 报道。",
-      "src": "Al Jazeera"
-    },
-    {
-      "k": "柴油出口禁令落地",
+      "k": "霍尔木兹通行",
       "level": "a",
-      "desc": "若美国柴油出口禁令进入立法程序，WTI 对布伦特贴水将进一步走阔，BZ=F 与 WTI 价差扩大，美湾裂解价差承压。来源：Virginia Business 9-28 分析。",
-      "src": "Virginia Business"
+      "desc": "若伊朗宣传的袭击转化为实际船期中断或保险成本上升，BZ=F将重新计入海峡风险溢价；来源：Al Jazeera、Reuters。",
+      "src": "来源：Al Jazeera、Reuters"
     },
     {
-      "k": "SPR低位与宏观收紧叠加",
+      "k": "沙特管道输送量",
       "level": "g",
-      "desc": "SPR 处 2.838 亿桶的1982年以来低位，缺乏抛储缓冲；若美元指数 101.2 继续走强、美债收益率上行，需求预期转弱将放大 BZ=F 回落幅度。来源：EnergyNow.com、Newsquawk 与 Yahoo Finance 报价。",
-      "src": "EnergyNow.com / Newsquawk"
+      "desc": "若管道输送量继续回升且中东装船维持高位，布伦特近端供应溢价进一步回吐；若再度检修或遇袭，价格反弹；来源：WSJ、Bloomberg、Reuters。",
+      "src": "来源：WSJ、Bloomberg、Reuters"
+    },
+    {
+      "k": "美国库存与出口政策",
+      "level": "a",
+      "desc": "若SPR低位触发加速补库或柴油出口禁令落地，前者支撑近端、后者收窄WTI对布伦特贴水，两者均改变美国供需平衡；来源：Reuters、Newsquawk、Virginia Business、CA.gov。",
+      "src": "来源：Reuters、Newsquawk、Virginia Business、CA.gov"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
