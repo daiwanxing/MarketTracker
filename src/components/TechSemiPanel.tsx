@@ -63,6 +63,73 @@ type RiskItem = {
   src: string;
 };
 
+type MarketClockItem = {
+  symbol: string;
+  name: string;
+  status: string;
+  statusLabel: string;
+  price: number;
+  chg: string;
+  chgClass: string;
+  role: string;
+};
+
+type AttributionMetric = {
+  label: string;
+  value: string;
+  sub?: string;
+};
+
+type AttributionTransmission = {
+  trigger: string;
+  mechanism: string;
+  outcome: string;
+};
+
+type AttributionPillar = {
+  id: string;
+  pillarName: string;
+  pillarNameEn: string;
+  weight: number;
+  impact: string;
+  impactLabel: string;
+  factorTag: string;
+  metrics: AttributionMetric[];
+  transmission: AttributionTransmission;
+  narrative: string;
+};
+
+type NextDayWatch = {
+  target: string;
+  threshold: string;
+  logic: string;
+  priority: string;
+};
+
+type ClosingReview = {
+  asOf: string;
+  tradingPhase: {
+    phase: string;
+    headline: string;
+    window: string;
+  };
+  verdict: {
+    headline: string;
+    coreSummary: string;
+    riskTone: string;
+    primaryDriver: string;
+  };
+  marketClock: MarketClockItem[];
+  pillars: AttributionPillar[];
+  crossMarket: {
+    spreadMetric: string;
+    spreadStatus: string;
+    divergenceLogic: string;
+    leadLagSignal: string;
+  };
+  nextDayWatch: NextDayWatch[];
+};
+
 const BENCH_KEYS = ['sox', 'kospi', 'star50'] as const;
 const CHART_SERIES = [
   { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
@@ -99,9 +166,9 @@ function crowdTone(share: number, priceDown: boolean) {
 export default function TechSemiPanel() {
   const data = techSemiData as unknown as Omit<
     typeof techSemiData,
-    'anomalies' | 'leverage' | 'fundamental' | 'signal' | 'timeline' | 'risks'
+    'closingReview' | 'leverage' | 'fundamental' | 'signal' | 'timeline' | 'risks'
   > & {
-    anomalies?: { note: string; items: Anomaly[] };
+    closingReview?: ClosingReview;
     leverage?: {
       note: string;
       marginBuyShare: Anomaly & {
@@ -248,23 +315,137 @@ export default function TechSemiPanel() {
       </header>
 
       <div className="content">
-        <h2 className="sec-title">
-          先行异动雷达
-          <span className="hint">大跌前要看的足迹。没有核实过的数，这里留空</span>
-        </h2>
-        <div className="anomaly-grid">
-          {(data.anomalies?.items ?? []).map((item) => (
-            <div className="card real-crowd-card" key={item.k}>
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{item.k}</span>
-                <span className={`crowd-badge ${item.zone}`}>{item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}</span>
+        {/* ==================== 盘后深度归因与收盘复盘 (Post-Market Attribution) ==================== */}
+        {data.closingReview && (
+          <section className="closing-review-section">
+            {/* 1. 彭博终端时钟状态条 */}
+            <div className="terminal-clock-bar">
+              <div className="terminal-clock-title">
+                <span className="live-pulse-dot" aria-hidden="true" />
+                <span className="clock-phase-label">{data.closingReview.tradingPhase.headline}</span>
+                <span className="clock-phase-window mono">{data.closingReview.tradingPhase.window}</span>
               </div>
-              <div className="real-crowd-desc">{item.metric}</div>
-              <div className="real-crowd-detail">{item.watch}</div>
+              <div className="clock-market-pills">
+                {data.closingReview.marketClock.map((m) => (
+                  <div className={`clock-pill ${m.status.toLowerCase()}`} key={m.symbol}>
+                    <span className="pill-name">{m.name}</span>
+                    <span className={`pill-chg num ${m.chgClass}`}>{m.chg}</span>
+                    <span className="pill-status">{m.statusLabel}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-        {data.anomalies?.note && <div className="sec-note">{data.anomalies.note}</div>}
+
+            {/* 2. 收盘总定调巨幕卡片 */}
+            <div className="card closing-verdict-card">
+              <div className="verdict-header">
+                <div className="verdict-tag-group">
+                  <span className="kicker-tag">EXECUTIVE POST-MARKET ATTRIBUTION</span>
+                  <span className="driver-badge">{data.closingReview.verdict.primaryDriver}</span>
+                </div>
+                <span className="verdict-asof mono">{data.closingReview.asOf} 发布</span>
+              </div>
+
+              <h2 className="verdict-title">{data.closingReview.verdict.headline}</h2>
+              <p className="verdict-summary">{data.closingReview.verdict.coreSummary}</p>
+
+              {/* 跨市场分化与比价条 */}
+              <div className="cross-market-strip">
+                <div className="strip-metric mono">
+                  <span className="metric-label">跨市场溢价裂口</span>
+                  <span className="metric-val">{data.closingReview.crossMarket.spreadMetric}</span>
+                </div>
+                <div className="strip-logic">
+                  <span className="logic-badge">分化归因</span>
+                  <span className="logic-text">{data.closingReview.crossMarket.divergenceLogic}</span>
+                </div>
+                <div className="strip-leadlag">
+                  <span className="logic-badge warn">外盘先导映射</span>
+                  <span className="logic-text">{data.closingReview.crossMarket.leadLagSignal}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. 四大多因子归因支柱矩阵 */}
+            <div className="attribution-grid">
+              {data.closingReview.pillars.map((pillar) => (
+                <div className={`card pillar-card ${pillar.impact}`} key={pillar.id}>
+                  <div className="pillar-head">
+                    <div className="pillar-meta">
+                      <span className="pillar-weight mono">WEIGHT {pillar.weight}%</span>
+                      <span className={`pillar-tag ${pillar.impact}`}>{pillar.factorTag}</span>
+                    </div>
+                    <h3 className="pillar-title">{pillar.pillarName}</h3>
+                    <span className="pillar-en mono">{pillar.pillarNameEn}</span>
+                  </div>
+
+                  {/* 硬指标快照 */}
+                  <div className="pillar-metrics">
+                    {pillar.metrics.map((m, idx) => (
+                      <div className="pm-item" key={idx}>
+                        <span className="pm-label">{m.label}</span>
+                        <span className="pm-val mono">{m.value}</span>
+                        {m.sub && <span className="pm-sub">{m.sub}</span>}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* 深度因果传导链条 */}
+                  <div className="transmission-flow">
+                    <div className="flow-step trigger">
+                      <span className="step-tag">诱发源</span>
+                      <p className="step-text">{pillar.transmission.trigger}</p>
+                    </div>
+                    <div className="flow-arrow" aria-hidden="true">↓</div>
+                    <div className="flow-step mechanism">
+                      <span className="step-tag">资金机制</span>
+                      <p className="step-text">{pillar.transmission.mechanism}</p>
+                    </div>
+                    <div className="flow-arrow" aria-hidden="true">↓</div>
+                    <div className="flow-step outcome">
+                      <span className="step-tag">盘面结果</span>
+                      <p className="step-text">{pillar.transmission.outcome}</p>
+                    </div>
+                  </div>
+
+                  {/* 研报级叙述阐述 */}
+                  <div className="pillar-narrative">{pillar.narrative}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* 4. 次日博弈核心哨兵变量 */}
+            <div className="next-watch-deck">
+              <div className="deck-header">
+                <div className="deck-header-left">
+                  <span className="deck-badge mono">SENTINELS</span>
+                  <span className="deck-title">次日博弈核心哨兵与开盘临界</span>
+                </div>
+                <span className="deck-sub-hint">关注开盘承接力与多空分水岭</span>
+              </div>
+              <div className="deck-grid">
+                {data.closingReview.nextDayWatch.map((item, idx) => (
+                  <div className={`deck-item ${item.priority}`} key={idx}>
+                    <div className="item-top">
+                      <span className="item-target">{item.target}</span>
+                      <span className={`item-badge ${item.priority} mono`}>
+                        {item.priority === 'critical' ? 'CRITICAL // 核心观察' : 'WATCH // 观察变量'}
+                      </span>
+                    </div>
+                    <div className="item-threshold-box">
+                      <span className="threshold-label mono">临界触发</span>
+                      <span className="threshold-val">{item.threshold}</span>
+                    </div>
+                    <div className="item-logic-box">
+                      <span className="logic-prefix mono" aria-hidden="true">↳</span>
+                      <p className="item-logic">{item.logic}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           拥挤度与杠杆

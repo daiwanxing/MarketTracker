@@ -723,40 +723,160 @@
     },
     "src": "申万一级行业与沪深市场快照 · 新浪行情节点 (asOf: 2026-09-28)"
   },
-  "anomalies": {
-    "note": "份额申赎、成分股宽度、期权偏度、炸板率没有自动行情源。这些格子只说明该看什么，不显示未核实的数字。",
-    "items": [
+  "closingReview": {
+    "asOf": "2026-09-28 17:30",
+    "tradingPhase": {
+      "phase": "APAC_POST_MARKET",
+      "headline": "亚太盘后定型 · 费半盘前窗口",
+      "window": "15:30 ~ 18:00 CST"
+    },
+    "verdict": {
+      "headline": "微观筹码踩踏与跨节去杠杆共振：科创50重挫-4.06%，亚太半导体遭遇流动性防守出清",
+      "coreSummary": "今日亚太市场半导体板块显现极端承压分化。境内科创50收跌-4.06%，韩国KOSPI收跌-2.70%，核心主矛盾在于A股TMT成交占比升至42.17%历史极值后引发筹码结构松动，叠加国庆长假资金提现倒计时与两融杠杆主动防御收缩，触发高位多杀多踩踏。海外布伦特原油重上100美元推高折现率预期，但隔夜费半（+1.41%）仍处静态基准，亚太深度调整正向美股盘前传导谨慎定价压力。",
+      "riskTone": "bearish",
+      "primaryDriver": "微观拥挤度崩塌 (35%) + 长假资金避险 (30%)"
+    },
+    "marketClock": [
       {
-        "k": "资金暗中撤退",
-        "metric": "ETF 份额净申赎",
-        "status": "pending",
-        "zone": "unknown",
-        "v": "未接入",
-        "watch": "价格还在高位或横盘，但 SMH、SOXX 或芯片 ETF 份额已经连续净赎回。"
+        "symbol": "000688.SS",
+        "name": "科创50指数",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 15:00",
+        "price": 1555.98,
+        "chg": "-4.06%",
+        "chgClass": "down",
+        "role": "境内科技贝塔与流动性风向标"
       },
       {
-        "k": "市场宽度虚脱",
-        "metric": "站上 20 日均线的成分股比例",
-        "status": "pending",
-        "zone": "unknown",
-        "v": "未接入",
-        "watch": "指数还在冲高，但科创50或费半里站上 20 日线的股票比例掉到四成以下。"
+        "symbol": "^KS11",
+        "name": "韩国KOSPI综合",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 14:30",
+        "price": 6889.74,
+        "chg": "-2.70%",
+        "chgClass": "down",
+        "role": "全球存储与代工制造周期锚"
       },
       {
-        "k": "偷买保险",
-        "metric": "看跌期权偏度",
-        "status": "pending",
-        "zone": "unknown",
-        "v": "未接入",
-        "watch": "现货还在涨，深虚值看跌期权的隐含波动率却往上走。"
+        "symbol": "^SOX",
+        "name": "费城半导体指数",
+        "status": "PENDING_OPEN",
+        "statusLabel": "隔夜基准 · 待开盘 21:30",
+        "price": 12668.93,
+        "chg": "+1.41%",
+        "chgClass": "up",
+        "role": "全球AI算力先导资产定价基准"
+      }
+    ],
+    "pillars": [
+      {
+        "id": "crowding",
+        "pillarName": "微观筹码与行业拥挤度",
+        "pillarNameEn": "MICROSTRUCTURE & CROWDING",
+        "weight": 35,
+        "impact": "down",
+        "impactLabel": "多杀多踩踏",
+        "factorTag": "极端过热出清",
+        "metrics": [
+          { "label": "TMT成交额占比", "value": "42.17%", "sub": "处 danger 分区 (警戒线 38%)" },
+          { "label": "TMT单日成交额", "value": "7240.16 亿", "sub": "全市场 17168 亿" }
+        ],
+        "transmission": {
+          "trigger": "TMT成交额占全市场比例冲高至42.17%，创下近两个月极端超买极值，获利盘过于丰厚",
+          "mechanism": "算力与芯片龙头封板乏力，盘中触发趋势量化与绝对收益资金止损指令，演变为场内多杀多",
+          "outcome": "科创50成分股全线放量下挫，高贝塔属性导致跌幅远超大盘宽基"
+        },
+        "narrative": "TMT 成交占比连续两日突破 38% 极端拥挤阈值。高占比下的放量大跌，属于典型的筹码出逃与多杀多踩踏，而非主升浪健康换手，短期微观流动性面临筹码重组。"
       },
       {
-        "k": "游资接力内伤",
-        "metric": "双创 20cm 炸板率",
-        "status": "pending",
-        "zone": "unknown",
-        "v": "未接入",
-        "watch": "创业板和科创板 20cm 炸板率连续高于约 35%，涨停次日溢价转负。不看创业板指数点位。"
+        "id": "liquidity",
+        "pillarName": "资金日历与跨节避险",
+        "pillarNameEn": "LIQUIDITY & CALENDAR DE-RISKING",
+        "weight": 30,
+        "impact": "down",
+        "impactLabel": "杠杆防御收缩",
+        "factorTag": "长假资金撤退",
+        "metrics": [
+          { "label": "节前交易窗口", "value": "T-2 提现日", "sub": "场内银证转账截止前夕" },
+          { "label": "全市场融资买入", "value": "8.59%", "sub": "两融杠杆买入边际回落" }
+        ],
+        "transmission": {
+          "trigger": "国庆长假临近，海外面临中东地缘原油异动与欧美央行讲话等 7 天不确定性真空期",
+          "mechanism": "绝对收益机构与两融杠杆资金主动调降风险敞口，部分资金为锁定现金收益抢先平仓结息",
+          "outcome": "尾盘承接资金匮乏，买盘断层致使指数呈现脉冲式跳水"
+        },
+        "narrative": "长假日前资金回避外部宏观波动的意愿强烈。融资买入强度处于 8.59% 的中枢偏上位置，高估值成长股在资金防守周期往往首当其冲遭遇流动性挤压。"
+      },
+      {
+        "id": "macro",
+        "pillarName": "宏观利率与商品压制",
+        "pillarNameEn": "MACRO YIELDS & COMMODITIES",
+        "weight": 20,
+        "impact": "down",
+        "impactLabel": "折现率抬升",
+        "factorTag": "通胀再起预期",
+        "metrics": [
+          { "label": "布伦特原油 (BZ=F)", "value": "$100.95/桶", "sub": "站稳百元关口" },
+          { "label": "美元指数 (DXY)", "value": "101.14", "sub": "维持强势运行" },
+          { "label": "美债 10Y 收益率", "value": "5.184%", "sub": "压制长久期估值" }
+        ],
+        "transmission": {
+          "trigger": "地缘溢价推升国际原油站上 100 美元大关，二次通胀风险死灰复燃",
+          "mechanism": "海外降息空间受限，长端无风险利率居高不下，推升全球科技成长股的加权平均资本成本 (WACC)",
+          "outcome": "压制半导体等远期现金流折现倍数，全球科技股估值中枢承压"
+        },
+        "narrative": "油价破百与美元指数 101.14 重新强化了海外宏观紧缩的韧性。成长股对利率敏感度高，全球流动性环境收紧构成了今日亚太科技无差别调整的外生宏观底色。"
+      },
+      {
+        "id": "industry",
+        "pillarName": "产业预期差与基本面",
+        "pillarNameEn": "INDUSTRIAL FUNDAMENTALS",
+        "weight": 15,
+        "impact": "mixed",
+        "impactLabel": "结构性预期收敛",
+        "factorTag": "K型景气分化",
+        "metrics": [
+          { "label": "晶圆代工营收", "value": "$534.9 亿", "sub": "AI满产 / 消费疲软" },
+          { "label": "存储合约价增幅", "value": "+15%", "sub": "环比涨幅明显收敛" }
+        ],
+        "transmission": {
+          "trigger": "半导体产业链景气度呈现极端 K 型分化，传统消费电子与工业芯片去库周期拉长",
+          "mechanism": "部分存储芯片与通用芯片涨价斜率放缓，市场对下半年非 AI 链条业绩弹性下修预期",
+          "outcome": "缺乏真实验证的纯主题题材股遭估值挤压，主线逻辑向核心先进制程缩容"
+        },
+        "narrative": "虽有四大 CSP 资本开支上修支撑，但非 AI 环节复苏斜率放缓正在促使市场从‘行业普涨行情’向‘唯确定性业绩是求’切换，未兑现标的估值溢价消退。"
+      }
+    ],
+    "crossMarket": {
+      "spreadMetric": "KC50 vs KOSPI 裂口: -1.36%",
+      "spreadStatus": "divergence",
+      "divergenceLogic": "科创50（-4.06%）跌幅显著深于韩国综合指数（-2.70%）。KOSPI 主要反映三星电子及 SK 海力士的存储周期贝塔，受海外产业基本面影响更直接；而科创50叠加了 A 股内生性 TMT 拥挤度（42.17%）瓦解与节前去杠杆踩踏，体现出高贝塔与筹码扰动的双重放大效应。",
+      "leadLagSignal": "亚太半导体的避险与去杠杆信号已先行释放，隔夜费半（+1.41%）目前仍处于静态基准，今晚美股开盘科技巨头与芯片股将面临严峻的开盘承接力与补跌考验。"
+    },
+    "nextDayWatch": [
+      {
+        "target": "今晚美股费半 (^SOX) 走势",
+        "threshold": "关注 20 日均线支撑与英伟达/台积电 ADR 承接力",
+        "logic": "检验亚太避险情绪是否引发美股科技共振下挫",
+        "priority": "critical"
+      },
+      {
+        "target": "境内 TMT 成交额占比",
+        "threshold": "能否良性回落至 30% ~ 32% 活跃温区",
+        "logic": "衡量筹码多杀多踩踏是否趋于充分出清",
+        "priority": "critical"
+      },
+      {
+        "target": "隔夜原油与 10Y 美债利率",
+        "threshold": "布油能否跌破 $100，美债利率能否回落至 5.0% 下方",
+        "logic": "观察二次通胀风险溢价是否缓解对估值的压制",
+        "priority": "watch"
+      },
+      {
+        "target": "两融资金长假前 T-1 日动向",
+        "threshold": "单日净偿还额是否进一步放大",
+        "logic": "监测杠杆资金节前去化是否进入尾声",
+        "priority": "watch"
       }
     ]
   },
