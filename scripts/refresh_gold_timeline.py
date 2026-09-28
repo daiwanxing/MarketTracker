@@ -745,12 +745,50 @@ def self_test() -> int:
     _assert(parsed_titles == ["Gold edges lower as dollar firms", "Bullion analysis report"], f"rss: {parsed_titles}")
 
     # 2. Test Context Assembly
-    with GOLD_PATH.open(encoding="utf-8") as handle:
-        sample_doc = json.load(handle)
+    mock_test_doc = {
+        "metrics": {
+            "main": {
+                "num": "4163.90",
+                "chg": "-2.59%",
+                "quotes": {
+                    "gc": 4195.1,
+                    "dxy": 101.15,
+                },
+            }
+        },
+        "macro": {
+            "items": [
+                {
+                    "k": "美债 10 年期收益率",
+                    "quote": {"value": 5.184, "unit": "%", "bp": 2.2},
+                }
+            ]
+        },
+        "tech": {
+            "support": [4120, 4140],
+            "resistance": [4200, 4220],
+            "trend": "测试趋势",
+        },
+        "sentiment": {
+            "riskReward": {
+                "price": 4163.9,
+                "support": 4120,
+                "resistance": 4200,
+                "stop": 4090,
+            }
+        },
+        "action": {
+            "summary": "测试摘要",
+            "plans": [
+                {"who": "短线交易者", "stance": "防守", "action": "观望"},
+                {"who": "中长线 / 波段交易者", "stance": "耐心", "action": "等待"},
+            ],
+        },
+    }
     sample_headlines = [
         {"title": "Gold slips on rates", "source": "Reuters", "published": "2026-09-28", "link": "https://example.com/1"}
     ]
-    ctx = extract_context(sample_doc, sample_headlines)
+    ctx = extract_context(mock_test_doc, sample_headlines)
     _assert(ctx["pricing"]["spot"] == 4163.9, f"pricing spot {ctx['pricing']['spot']}")
     _assert(ctx["pricing"]["chg"] == "-2.59%", f"pricing chg {ctx['pricing']['chg']}")
     _assert(ctx["pricing"]["gc"] == 4195.1, f"pricing gc {ctx['pricing']['gc']}")
@@ -765,7 +803,7 @@ def self_test() -> int:
 
     # 3. Test Response Parsing & Validation
     test_price = 4163.90
-    valid_payload = mock_payload_for_doc(sample_doc)
+    valid_payload = mock_payload_for_doc(mock_test_doc)
     v_tech = validate_and_sanitize_tech(valid_payload["tech"], test_price, clamp=False)
     _assert(v_tech is not None, "valid tech should pass validation")
     _assert(v_tech["support"][0] < v_tech["support"][1] < test_price, "support < price")
@@ -843,23 +881,25 @@ def self_test() -> int:
     log("INFO", "safety bounds and self-healing clamping test passed")
 
     # 5. Test Data Preservation of Unmanaged Fields
+    with GOLD_PATH.open(encoding="utf-8") as handle:
+        live_gold_doc = json.load(handle)
     with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
-        json.dump(sample_doc, tmp, ensure_ascii=False)
+        json.dump(live_gold_doc, tmp, ensure_ascii=False)
         test_file = Path(tmp.name)
 
     try:
         # Save snapshot of all unmanaged structures
-        orig_snapshot = sample_doc.get("snapshot")
-        orig_metrics = json.dumps(sample_doc.get("metrics"), sort_keys=True)
-        orig_candles = json.dumps(sample_doc.get("tech", {}).get("candles"), sort_keys=True)
-        orig_volume = json.dumps(sample_doc.get("tech", {}).get("volume"), sort_keys=True)
-        orig_momentum = json.dumps(sample_doc.get("tech", {}).get("momentum"), sort_keys=True)
-        orig_tech_note = sample_doc.get("tech", {}).get("note")
-        orig_positioning = json.dumps(sample_doc.get("positioning"), sort_keys=True)
-        orig_etf = json.dumps(sample_doc.get("etf"), sort_keys=True)
-        orig_ssi = json.dumps(sample_doc.get("sentiment", {}).get("ssi"), sort_keys=True)
-        orig_rr_price = sample_doc.get("sentiment", {}).get("riskReward", {}).get("price")
-        orig_action_sec = sample_doc.get("action", {}).get("secTitle")
+        orig_snapshot = live_gold_doc.get("snapshot")
+        orig_metrics = json.dumps(live_gold_doc.get("metrics"), sort_keys=True)
+        orig_candles = json.dumps(live_gold_doc.get("tech", {}).get("candles"), sort_keys=True)
+        orig_volume = json.dumps(live_gold_doc.get("tech", {}).get("volume"), sort_keys=True)
+        orig_momentum = json.dumps(live_gold_doc.get("tech", {}).get("momentum"), sort_keys=True)
+        orig_tech_note = live_gold_doc.get("tech", {}).get("note")
+        orig_positioning = json.dumps(live_gold_doc.get("positioning"), sort_keys=True)
+        orig_etf = json.dumps(live_gold_doc.get("etf"), sort_keys=True)
+        orig_ssi = json.dumps(live_gold_doc.get("sentiment", {}).get("ssi"), sort_keys=True)
+        orig_rr_price = live_gold_doc.get("sentiment", {}).get("riskReward", {}).get("price")
+        orig_action_sec = live_gold_doc.get("action", {}).get("secTitle")
 
         # Run pipeline with a new payload
         new_payload = {
