@@ -317,9 +317,9 @@ export default function GoldPanel() {
 
   /* ============ 4) 盈亏比现算 ============ */
   const rr = sentiment.riskReward;
-  const downPx = rr.price - rr.support;
-  const upPx = rr.resistance - rr.price;
-  const rrRatio = (upPx / downPx).toFixed(1);
+  const downPx = Math.max(0, rr.price - rr.support);
+  const upPx = Math.max(0, rr.resistance - rr.price);
+  const rrRatio = downPx > 0 ? (upPx / downPx).toFixed(1) : '待重估';
 
   return (
     <article>
@@ -390,9 +390,9 @@ export default function GoldPanel() {
         {/* 盈亏比速览条 */}
         <div className="card rr-strip">
           <span className="rr-lbl">盈亏比速览</span>
-          <span className="rr-item">距支撑 <b>{rr.support}</b> <em>{downPx.toFixed(0)} 美元</em></span>
-          <span className="rr-item">距阻力 <b>{rr.resistance}</b> <em>{upPx.toFixed(0)} 美元</em></span>
-          <span className="rr-item rr-key">盈亏比 <b>1:{rrRatio}</b></span>
+          <span className="rr-item">距支撑 <b>{rr.support}</b> <em>{downPx > 0 ? `${downPx.toFixed(0)} 美元` : '已击穿'}</em></span>
+          <span className="rr-item">距阻力 <b>{rr.resistance}</b> <em>{upPx > 0 ? `${upPx.toFixed(0)} 美元` : '已突破'}</em></span>
+          <span className="rr-item rr-key">盈亏比 <b>{downPx > 0 ? `1:${rrRatio}` : '待重估'}</b></span>
           <span className="rr-item rr-stop">止损参考 <b>{rr.stop}</b> 下方</span>
         </div>
 
@@ -506,11 +506,11 @@ export default function GoldPanel() {
                 <span>上行空间<br />阻力 {rr.resistance} ← 现价 {rr.price.toFixed(2)}</span>
               </div>
               <div className="rr-cell rr-ratio">
-                <b>1:{rrRatio}</b>
+                <b>{downPx > 0 ? `1:${rrRatio}` : '待重估'}</b>
                 <span>盈亏比<br />上行 ÷ 下行</span>
               </div>
             </div>
-            <p className="sent-hint">盈亏比 1:{rrRatio} 只比较现价到阻力 {rr.resistance}、到支撑 {rr.support} 的空间。跌破 {rr.stop} 则这组支撑失效。方向看下方行动准则，不由这个比值单独决定。</p>
+            <p className="sent-hint">盈亏比 {downPx > 0 ? `1:${rrRatio}` : '待重估'} 只比较现价到阻力 {rr.resistance}、到支撑 {rr.support} 的空间。跌破 {rr.stop} 则这组支撑失效。方向看下方行动准则，不由这个比值单独决定。</p>
             <div className="src">{sentiment.riskReward.src}</div>
           </div>
         </div>
