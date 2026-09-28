@@ -371,7 +371,7 @@ export default function TechSemiPanel() {
                 <span>{data.signal?.bullHint || '结构性景气驱动'}</span>
               </div>
               {data.signal?.bull?.map((b, i) => (
-                <div className="sig-item up" key={b.k || i}>
+                <div className="sig-item up" key={`${b.dim}-${i}`}>
                   <i aria-hidden="true" />
                   <span className="k">{b.k}</span>
                   {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
@@ -386,7 +386,7 @@ export default function TechSemiPanel() {
                 <span>{data.signal?.bearHint || '抑制估值与斜率'}</span>
               </div>
               {data.signal?.bear?.map((b, i) => (
-                <div className="sig-item down" key={b.k || i}>
+                <div className="sig-item down" key={`${b.dim}-${i}`}>
                   <i aria-hidden="true" />
                   <span className="k">{b.k}</span>
                   {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
@@ -420,7 +420,7 @@ export default function TechSemiPanel() {
                     {n.url ? (
                       <a href={n.url} target="_blank" rel="noopener noreferrer">
                         {n.t}
-                        <ArrowUpRight size={15} strokeWidth={1.75} />
+                        <ArrowUpRight size={15} strokeWidth={1.75} aria-hidden="true" />
                       </a>
                     ) : (
                       n.t
@@ -444,7 +444,7 @@ export default function TechSemiPanel() {
               {data.risks.map((r, i) => (
                 <div className="card rcard" key={r.k || i}>
                   <div className="rk">
-                    <i className={r.level === 'high' ? 'r' : r.level === 'med' ? 'y' : 'n'} />
+                    <i className={r.level === 'high' ? 'r' : r.level === 'med' ? 'y' : 'n'} aria-hidden="true" />
                     {r.k}
                   </div>
                   <p>{r.desc}</p>

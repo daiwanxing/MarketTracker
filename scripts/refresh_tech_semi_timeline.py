@@ -181,8 +181,14 @@ def parse_item_date(item: dict, today: date) -> date | None:
     return None
 
 
-def fingerprint(item: dict) -> str:
-    text = f"{item.get('date', '')}|{item.get('t', '')}"
+def fingerprint(item: dict, today: date | None = None) -> str:
+    raw_date = item.get("date", "")
+    norm_date = str(raw_date)
+    if today and raw_date:
+        parsed = parse_item_date(item, today)
+        if parsed:
+            norm_date = f"{parsed.month:02d}-{parsed.day:02d}"
+    text = f"{norm_date}|{item.get('t', '')}"
     return re.sub(r"\s+", "", text)
 
 
@@ -313,7 +319,10 @@ def call_deepseek(
         data=json.dumps(body).encode("utf-8"),
     )
     payload = json.loads(raw.decode("utf-8"))
-    content = payload["choices"][0]["message"]["content"]
+    choices = payload.get("choices")
+    if not isinstance(choices, list) or not choices:
+        raise ValueError("model response contains empty choices")
+    content = choices[0]["message"]["content"]
     parsed = parse_model_json(content)
     if not isinstance(parsed.get("events"), list):
         raise ValueError("model JSON has no events array")
@@ -390,6 +399,15 @@ def normalize_signal(raw: object) -> dict | None:
     bear_rows = [row for row in (_factor(item, BEAR_DIMS) for item in bear) if row]
     if len(bull_rows) < 3 or len(bear_rows) < 3:
         return None
+    # Ensure all required dimensions are covered without duplicate dimensions
+    if {r["dim"] for r in bull_rows[:3]} != set(BULL_DIMS) or {r["dim"] for r in bear_rows[:3]} != set(BEAR_DIMS):
+        # Fall back to unique by dim
+        bull_by_dim = {r["dim"]: r for r in bull_rows}
+        bear_by_dim = {r["dim"]: r for r in bear_rows}
+        if set(bull_by_dim.keys()) != set(BULL_DIMS) or set(bear_by_dim.keys()) != set(BEAR_DIMS):
+            return None
+        bull_rows = [bull_by_dim[d] for d in BULL_DIMS]
+        bear_rows = [bear_by_dim[d] for d in BEAR_DIMS]
     return {
         "secTitle": "产业与市场信号",
         "secHint": "只根据已经对上的价格和成交占比。未接入的指标不下结论",
@@ -442,7 +460,7 @@ def merge_timeline(existing: list, incoming: list[dict], today: date) -> list[di
     kept: list[dict] = []
     seen: set[str] = set()
     for item in incoming + [row for row in existing if isinstance(row, dict)]:
-        key = fingerprint(item)
+        key = fingerprint(item, today)
         if not key or key in seen:
             continue
         item_date = parse_item_date(item, today)
