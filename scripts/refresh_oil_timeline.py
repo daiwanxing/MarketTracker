@@ -55,11 +55,10 @@ signal.verdict 一句说清当前主矛盾，并引用 quote 里的 BZ=F、涨�
 signal.sub 说明口径（BZ=F 不是通讯社近月合约）以及报价与事件如何对应。
 signal.bull 与 signal.bear 各 3 条，dim 只能是 geo、supply、stocks、macro。
 signal.watch 用「 · 」连接 4–6 个待核实变量。
-signal.secHint 以「红=利多抬升 / 绿=利空回落 / 黄=待观察 · 」开头，后接 asOf。
 risks 恰好 3 条，level 只能是 r、a、g。k 是变量名，desc 写触发条件与价格含义，src 点名来源。
 只输出 JSON：
 {"events":[{"date":"YYYY-MM-DD","tag":"...","hot":false,"t":"...","d":"...","src":"...","url":"https://..."}],
-"signal":{"secHint":"...","verdict":"...","sub":"...","bull":[{"dim":"geo","k":"...","v":"..."}],"bear":[{"dim":"macro","k":"...","v":"..."}],"watch":"..."},
+"signal":{"verdict":"...","sub":"...","bull":[{"dim":"geo","k":"...","v":"..."}],"bear":[{"dim":"macro","k":"...","v":"..."}],"watch":"..."},
 "risks":[{"k":"...","level":"a","desc":"...","src":"..."}]}"""
 
 
@@ -238,7 +237,7 @@ def _factor(raw: object) -> dict | None:
     return {"dim": dim, "k": key, "v": value}
 
 
-def normalize_signal(raw: object, as_of: str) -> dict | None:
+def normalize_signal(raw: object) -> dict | None:
     if not isinstance(raw, dict):
         return None
     verdict = raw.get("verdict")
@@ -254,12 +253,8 @@ def normalize_signal(raw: object, as_of: str) -> dict | None:
     bear_rows = [row for row in (_factor(item) for item in bear) if row]
     if len(bull_rows) < 3 or len(bear_rows) < 3:
         return None
-    hint = raw.get("secHint")
-    if not isinstance(hint, str) or "待观察" not in hint:
-        hint = f"红=利多抬升 / 绿=利空回落 / 黄=待观察 · {as_of}"
     return {
         "secTitle": "市场信号",
-        "secHint": hint.strip(),
         "verdict": verdict.strip(),
         "sub": sub.strip(),
         "bullTitle": "利多因素",
@@ -373,8 +368,7 @@ def refresh_oil_timeline(
         return 0
 
     events = [item for item in (normalize_event(row, rows) for row in payload.get("events", [])) if item]
-    as_of = str(doc.get("snapshot") or datetime.now(SHANGHAI).strftime("%Y-%m-%d %H:%M"))
-    signal = normalize_signal(payload.get("signal"), as_of)
+    signal = normalize_signal(payload.get("signal"))
     risks = normalize_risks(payload.get("risks"))
     if signal is None or risks is None:
         log("WARN", "signal or risks failed validation; narrative left unchanged")
@@ -446,24 +440,21 @@ def self_test() -> int:
     rejected_url = normalize_event({**good, "url": "https://evil.example/story"}, [{"link": "https://example.com/opec"}])
     _assert(rejected_url is not None and "url" not in rejected_url, "drop unknown url")
 
-    signal = normalize_signal(
-        {
-            "verdict": "供应约束仍在，报价回落反映谈判预期而非库存反转。",
-            "sub": "面板主价为 Yahoo BZ=F，与通讯社近月合约不是同一代码。",
-            "bull": [
-                {"dim": "geo", "k": "海峡通行仍受限制", "v": "商船通行数量低于战前，供应路径没有完全恢复。"},
-                {"dim": "supply", "k": "OPEC+ 未增加供应", "v": "现行产量安排维持，没有新增增产对冲地缘缺口。"},
-                {"dim": "stocks", "k": "馏分油库存偏紧", "v": "成品油库存下降，炼厂开工回落限制成品油供应。"},
-            ],
-            "bear": [
-                {"dim": "geo", "k": "谈判仍在进行", "v": "双方仍在交换条件，外交通道没有关闭。"},
-                {"dim": "supply", "k": "绕行货量维持", "v": "海峡以外交割继续补充一部分现货。"},
-                {"dim": "macro", "k": "美元与利率偏强", "v": "美元指数与美债收益率抬升，压制远期需求预期。"},
-            ],
-            "watch": "海峡通行量 · OPEC+ 会议 · EIA 库存 · BZ=F 与近月价差",
-        },
-        "2026-09-28 11:00",
-    )
+    signal = normalize_signal({
+        "verdict": "供应约束仍在，报价回落反映谈判预期而非库存反转。",
+        "sub": "面板主价为 Yahoo BZ=F，与通讯社近月合约不是同一代码。",
+        "bull": [
+            {"dim": "geo", "k": "海峡通行仍受限制", "v": "商船通行数量低于战前，供应路径没有完全恢复。"},
+            {"dim": "supply", "k": "OPEC+ 未增加供应", "v": "现行产量安排维持，没有新增增产对冲地缘缺口。"},
+            {"dim": "stocks", "k": "馏分油库存偏紧", "v": "成品油库存下降，炼厂开工回落限制成品油供应。"},
+        ],
+        "bear": [
+            {"dim": "geo", "k": "谈判仍在进行", "v": "双方仍在交换条件，外交通道没有关闭。"},
+            {"dim": "supply", "k": "绕行货量维持", "v": "海峡以外交割继续补充一部分现货。"},
+            {"dim": "macro", "k": "美元与利率偏强", "v": "美元指数与美债收益率抬升，压制远期需求预期。"},
+        ],
+        "watch": "海峡通行量 · OPEC+ 会议 · EIA 库存 · BZ=F 与近月价差",
+    })
     _assert(signal is not None and len(signal["bull"]) == 3, "signal")
     risks = normalize_risks(
         [

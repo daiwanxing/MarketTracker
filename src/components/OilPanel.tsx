@@ -1,5 +1,6 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
+import { ArrowUpRight } from 'lucide-react';
 import oilData from '../data/oilData.json';
 import heroOil from '../assets/hero-oil.jpg';
 
@@ -142,7 +143,6 @@ export default function OilPanel() {
       {/* 方向信号 */}
       <h2 className="sec-title">
         {signal.secTitle}
-        <span className="hint">{signal.secHint}</span>
       </h2>
       <div className="card signal">
         <div className="sig-verdict">
@@ -189,7 +189,6 @@ export default function OilPanel() {
       {/* 价格走势 */}
       <h2 className="sec-title">
         {charts.secTitle}
-        <span className="hint">{charts.secHint}</span>
       </h2>
       <div className="charts">
         <div className="card chart-panel">
@@ -210,29 +209,27 @@ export default function OilPanel() {
         {timelineTitle}
       </h2>
       <div className="tl">
-        {timeline.slice(0, 10).map((n, i) => {
-          const body = (
-            <>
-              <div className="dot" />
-              <div className="tags">
-                <span className="date">{n.date}</span>
-                <span className="tag">{n.tag}</span>
-              </div>
-              <div className="t">{n.t}</div>
-              <div className="d">{n.d}</div>
-              <div className="src">{n.src}{n.url ? ' ↗' : ''}</div>
-            </>
-          );
-          return n.url ? (
-            <a className={n.hot ? 'node hot' : 'node'} key={i} href={n.url} target="_blank" rel="noopener noreferrer">
-              {body}
-            </a>
-          ) : (
-            <div className={n.hot ? 'node hot' : 'node'} key={i}>
-              {body}
+        {timeline.slice(0, 10).map((n, i) => (
+          <div className={n.hot ? 'node hot' : 'node'} key={i}>
+            <div className="dot" />
+            <div className="tags">
+              <span className="date">{n.date}</span>
+              <span className="tag">{n.tag}</span>
             </div>
-          );
-        })}
+            <div className="t">
+              {n.url ? (
+                <a href={n.url} target="_blank" rel="noopener noreferrer">
+                  {n.t}
+                  <ArrowUpRight size={15} strokeWidth={1.75} aria-hidden="true" />
+                </a>
+              ) : (
+                n.t
+              )}
+            </div>
+            <div className="d">{n.d}</div>
+            <div className="src">{n.src}</div>
+          </div>
+        ))}
       </div>
 
       <h2 className="sec-title">
