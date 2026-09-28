@@ -9,7 +9,7 @@
 系统采用**职责严格分离（Separation of Concerns）**模式：
 - **自动化流水线（GitHub Actions）**：负责实时/周期性高频数值、时序曲线、收盘行情与交易所衍生指标的自动采集与写入。
 - **分析代理（Agent / Manual）**：负责产业背景、驱动逻辑、风险雷达、周期判断等分析性叙事字段的结构化编排与更新。
-- **隔离纪律**：分析代理不得篡改自动化采集程序所属的数值键，除非用户明确要求变更底层数据结构。数值脚本不改写叙事字段。原油时间轴与黄金认知研判是例外：分别由 `scripts/refresh_oil_timeline.py` 与 `scripts/refresh_gold_timeline.py` 自动化维护相关研判字段。
+- **隔离纪律**：分析代理不得篡改自动化采集程序所属的数值键，除非用户明确要求变更底层数据结构。数值脚本不改写叙事字段。原油时间轴、黄金认知研判与科技宏观产业链研判是例外：分别由 `scripts/refresh_oil_timeline.py`、`scripts/refresh_gold_timeline.py` 与 `scripts/refresh_tech_semi_timeline.py` 自动化维护相关研判字段。
 
 ---
 
@@ -73,6 +73,13 @@
     - `cpc.traditional.*`（`weekly`、`monthly`、`oni`）
     - `cpc.relative.*`（`weekly`、`monthly`、`rnino34`、`roni`）
 
+### 2.7 科技宏观认知分析与产业链研判 (`scripts/refresh_tech_semi_timeline.py`)
+- **工作流**：`refresh-market-data.yml` 在科技半导体核心报价与拥挤度相对上一版发生变动后联动调用本脚本；`refresh-tech-semi-timeline.yml` 仍在每日 00:30 与 12:30 UTC 再跑一次，覆盖报价横盘但产业链资讯更新的时段。
+- **架构详解与 Mermaid 流程图**：详见 [`docs/tech-semi/pipeline.md`](tech-semi/pipeline.md)。
+- **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
+- **写入范围**：维护 `src/data/techSemiData.json` 的 `timeline`、`signal`、`risks`。抓取失败、模型失败或字段校验失败时不写文件。
+- **不写**：`snapshot`、`head`、`benchmarks`、`charts`、`crowding`、`leverage`、`anomalies`、`fundamental`、`news`、`footer`。时间轴条目的 `url` 只能来自当次抓取的原文链接。
+
 ---
 
 ## 3. 分析代理职责（Agent 负责）
@@ -80,7 +87,7 @@
 分析代理负责定性叙述、宏观联动解析、产业链模型及研究结论：
 - **原油 (`oilData.json`)**：`head`、`news`、图表副标题、`metrics.main.refs`。`timeline`、`signal`、`risks` 由 `refresh_oil_timeline.py` 按最新报价与快讯维护，人工修订仍可直接改这些字段。页面不再展示 `news`。
 - **黄金 (`goldData.json`)**：`head`、`tech.note`、持仓结构说明、ETF 资金流向、情绪说明等基础背景。`tech.support`、`tech.resistance`、`tech.trend`、`supportDesc`、`resistanceDesc`、`sentiment.riskReward`（`support`、`resistance`、`stop`、`src`）、`action` 与 `footer` 由 `scripts/refresh_gold_timeline.py` 在报价变动或定时分析时通过 DeepSeek 模型自动化维护，人工修订仍可直接改这些字段。
-- **科技半导体宏观 (`techSemiData.json`)**：`head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的标签定义、`fundamental` 云厂商资本开支项、`footer`。研判由页面运行时计算，不硬编码硬件结论。
+- **科技半导体宏观 (`techSemiData.json`)**：`head`、`anomalies`、`leverage.note`、`leverage.marginBuyShare` 的标签定义、`fundamental` 云厂商资本开支项、`news`、`footer`。`signal`、`timeline` 与 `risks` 由 `scripts/refresh_tech_semi_timeline.py` 在报价变动或定时分析时通过 DeepSeek 模型自动化维护，人工修订仍可直接改这些字段。
 - **半导体设备材料 (`equipData.json`)**：`head`、`items`、`footer`。订单能见度与交期披露需带发布日期与来源，无官方披露保持「未接入」。
 - **光模块 (`opticsData.json`)**：`head`、`rate`、`names`、`investorSummary`、`riskRadar`、`industryDriver`、`bomBreakdown`、`techMatrix`、`tripleCycle`、`competition`、`valuation`、`footer`。开支方向只引用 `/semi` 同一读数，不另造宏观数据。
 - **ENSO 影响评估 (`ensoData.json`)**：`lastUpdated`、`head`、`anchor`、`impactTree`、`cropRegions`、`commodityOutlook`、`timeline`、`editions`、`footer`。农产品指标无可靠来源时标示「未接入」。

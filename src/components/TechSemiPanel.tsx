@@ -1,11 +1,13 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
+import { ArrowUpRight } from 'lucide-react';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
 const AMBER = '#F5C542';
+
 type Bench = {
   name: string;
   symbol: string;
@@ -24,12 +26,58 @@ type Anomaly = {
   watch: string;
 };
 
+type SignalItem = {
+  dim: string;
+  k: string;
+  v: string;
+};
+
+type Signal = {
+  secTitle?: string;
+  secHint?: string;
+  verdict?: string;
+  sub?: string;
+  bullTitle?: string;
+  bullHint?: string;
+  bull?: SignalItem[];
+  bearTitle?: string;
+  bearHint?: string;
+  bear?: SignalItem[];
+  watch?: string;
+};
+
+type TimelineItem = {
+  date: string;
+  tag: string;
+  t: string;
+  d: string;
+  src: string;
+  hot?: boolean;
+  url?: string;
+};
+
+type RiskItem = {
+  k: string;
+  desc: string;
+  level: string;
+  src: string;
+};
+
 const BENCH_KEYS = ['sox', 'star50', 'chip_etf'] as const;
 const CHART_SERIES = [
   { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
   { key: 'star50', name: '科创50', color: '#facc15', width: 1.8 },
   { key: 'chip_etf', name: '中证半导体ETF', color: '#4ade80', width: 1.8 },
 ] as const;
+
+const SEMI_DIM: Record<string, string> = {
+  capex: '资本开支',
+  foundry: '先进制程',
+  substitute: '国产替代',
+  mature: '成熟制程',
+  geo: '地缘管制',
+  memory: '存储周期',
+};
 
 function crowdTone(share: number, priceDown: boolean) {
   if (share >= 38) {
@@ -48,31 +96,11 @@ function crowdTone(share: number, priceDown: boolean) {
   return { zone: 'cold', label: '低位冰点', note: '成交占比偏低，主题并不拥挤。' };
 }
 
-function macroVerdict(
-  benches: Bench[],
-  paths: { name: string; last: number }[],
-  share: number,
-  tone: { label: string; note: string },
-  margin: { value?: number; v?: string } | undefined,
-  capex: string | undefined,
-) {
-  const parts: string[] = [];
-  if (benches.length) parts.push(`当天${benches.map((b) => `${b.name} ${b.chg}`).join('，')}。`);
-  if (paths.length) {
-    parts.push(
-      `近半年累计（起点为 0）：${paths
-        .map((p) => `${p.name}${p.last >= 0 ? '还在起点上方' : '已经跌回起点下方'}（${p.last > 0 ? '+' : ''}${p.last.toFixed(1)}%）`)
-        .join('，')}。`,
-    );
-  }
-  if (share) parts.push(`成交占比 ${share.toFixed(2)}%，${tone.label}。${tone.note}`);
-  if (typeof margin?.value === 'number') parts.push(`全市场融资买入占比 ${margin.value.toFixed(2)}%，${margin.v ?? ''}。`);
-  if (capex) parts.push(`四大云厂商资本开支：${capex}。`);
-  return parts.join('');
-}
-
 export default function TechSemiPanel() {
-  const data = techSemiData as typeof techSemiData & {
+  const data = techSemiData as unknown as Omit<
+    typeof techSemiData,
+    'anomalies' | 'leverage' | 'fundamental' | 'signal' | 'timeline' | 'risks'
+  > & {
     anomalies?: { note: string; items: Anomaly[] };
     leverage?: {
       note: string;
@@ -86,6 +114,9 @@ export default function TechSemiPanel() {
       };
     };
     fundamental?: { note: string; items: Anomaly[] };
+    signal?: Signal;
+    timeline?: TimelineItem[];
+    risks?: RiskItem[];
   };
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
   const benchMap = benchmarks as Record<string, Bench | undefined>;
@@ -98,6 +129,8 @@ export default function TechSemiPanel() {
   const share = crowding?.turnoverShare?.value ?? 0;
   const chipDown = benchMap.chip_etf?.chgClass === 'down';
   const tone = crowdTone(share, chipDown);
+  const crowdZone = crowding?.zone || tone.zone;
+  const crowdLabel = crowding?.label || tone.label;
   const norm = charts.normalized as Record<string, number[] | string[]>;
   const dates = (norm.dates as string[]) || [];
 
@@ -238,18 +271,18 @@ export default function TechSemiPanel() {
           <span className="hint">TMT 成交占比，以及全市场融资买入占比</span>
         </h2>
         <div className="anomaly-grid">
-          {crowding && (
+          {crowding?.turnoverShare && (
             <div className="card real-crowd-card">
               <div className="real-crowd-head">
                 <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
-                <span className={`crowd-badge ${tone.zone}`}>{tone.label}</span>
+                <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
               </div>
               <div className="real-crowd-num-row">
                 <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
-                <span className="real-crowd-unit">%</span>
+                <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
               </div>
               <div className="gauge-track" aria-hidden="true">
-                <div className={`gauge-fill ${tone.zone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
+                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
               </div>
               <div className="gauge-marks">
                 <span>20 冰点外</span>
@@ -302,48 +335,125 @@ export default function TechSemiPanel() {
         </div>
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
-          云厂商开支
+          云厂商开支与基本面
           <span className="hint">最近一季是加速、持平还是下调。没有已发布材料就不填</span>
         </h2>
         <div className="base-grid">
-          {(data.fundamental?.items ?? [])
-            .filter((item) => item.k === '四大 CSP 资本开支')
-            .map((item) => (
-              <div className="card real-crowd-card" key={item.k}>
-                <div className="real-crowd-head">
-                  <span className="real-crowd-title">{item.k}</span>
-                  <span className={`crowd-badge ${item.zone}`}>
-                    {item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}
-                  </span>
-                </div>
-                <div className="real-crowd-desc">{item.metric}</div>
-                <div className="real-crowd-detail">{item.watch}</div>
+          {(data.fundamental?.items ?? []).map((item) => (
+            <div className="card real-crowd-card" key={item.k}>
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{item.k}</span>
+                <span className={`crowd-badge ${item.zone}`}>
+                  {item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}
+                </span>
               </div>
-            ))}
+              <div className="real-crowd-desc">{item.metric}</div>
+              <div className="real-crowd-detail">{item.watch}</div>
+            </div>
+          ))}
         </div>
+        {data.fundamental?.note && <div className="sec-note">{data.fundamental.note}</div>}
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
-          研判
-          <span className="hint">只引用本页已经展示的报价、累计涨跌、成交占比和融资买入</span>
+          {data.signal?.secTitle || '产业与市场信号'}
+          <span className="hint">{data.signal?.secHint || '只根据已经对上的价格和成交占比。未接入的指标不下结论'}</span>
         </h2>
         <div className="card signal">
           <div className="sig-verdict">
-            <div className="v-main">
-              {macroVerdict(
-                benches,
-                CHART_SERIES.flatMap((series) => {
-                  const values = norm[series.key];
-                  const last = Array.isArray(values) ? values[values.length - 1] : undefined;
-                  return typeof last === 'number' ? [{ name: series.name, last }] : [];
-                }),
-                share,
-                tone,
-                data.leverage?.marginBuyShare,
-                (data.fundamental?.items ?? []).find((item) => item.k === '四大 CSP 资本开支' && item.status !== 'pending')?.v,
-              )}
+            <div className="v-main">{data.signal?.verdict}</div>
+            {data.signal?.sub && <div className="v-sub">{data.signal.sub}</div>}
+          </div>
+          <div className="sig-cols">
+            <div className="sig-col">
+              <div className="col-h up">
+                <i aria-hidden="true" />
+                {data.signal?.bullTitle || '利多支撑'}
+                <span>{data.signal?.bullHint || '结构性景气驱动'}</span>
+              </div>
+              {data.signal?.bull?.map((b, i) => (
+                <div className="sig-item up" key={b.k || i}>
+                  <i aria-hidden="true" />
+                  <span className="k">{b.k}</span>
+                  {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
+                  <span className="v">{b.v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="sig-col">
+              <div className="col-h down">
+                <i aria-hidden="true" />
+                {data.signal?.bearTitle || '潜在风险'}
+                <span>{data.signal?.bearHint || '抑制估值与斜率'}</span>
+              </div>
+              {data.signal?.bear?.map((b, i) => (
+                <div className="sig-item down" key={b.k || i}>
+                  <i aria-hidden="true" />
+                  <span className="k">{b.k}</span>
+                  {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
+                  <span className="v">{b.v}</span>
+                </div>
+              ))}
             </div>
           </div>
+          {data.signal?.watch && (
+            <div className="sig-watch">
+              <b>中性 / 待观察 ·</b> {data.signal.watch}
+            </div>
+          )}
         </div>
+
+        {data.timeline && data.timeline.length > 0 && (
+          <>
+            <h2 className="sec-title" style={{ marginTop: 28 }}>
+              半导体与产业链重大事件
+              <span className="hint">过去 30 天内对供给、制程良率、地缘政策及资本开支有实质影响的事实</span>
+            </h2>
+            <div className="tl">
+              {data.timeline.map((n, i) => (
+                <div className={n.hot ? 'node hot' : 'node'} key={`${n.date}-${n.t}-${i}`}>
+                  <div className="dot" />
+                  <div className="tags">
+                    <span className="date">{n.date}</span>
+                    <span className="tag">{n.tag}</span>
+                  </div>
+                  <div className="t">
+                    {n.url ? (
+                      <a href={n.url} target="_blank" rel="noopener noreferrer">
+                        {n.t}
+                        <ArrowUpRight size={15} strokeWidth={1.75} />
+                      </a>
+                    ) : (
+                      n.t
+                    )}
+                  </div>
+                  <div className="d">{n.d}</div>
+                  <div className="src">{n.src}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {data.risks && data.risks.length > 0 && (
+          <>
+            <h2 className="sec-title" style={{ marginTop: 28 }}>
+              产业核心风险雷达
+              <span className="hint">关注宏观流动性、出口管制政策与终端 ROI 变现节奏</span>
+            </h2>
+            <div className="risks">
+              {data.risks.map((r, i) => (
+                <div className="card rcard" key={r.k || i}>
+                  <div className="rk">
+                    <i className={r.level === 'high' ? 'r' : r.level === 'med' ? 'y' : 'n'} />
+                    {r.k}
+                  </div>
+                  <p>{r.desc}</p>
+                  <div className="src">{r.src}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         <footer className="src">{footer}</footer>
       </div>
