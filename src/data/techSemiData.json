@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-28 19:09",
+  "snapshot": "2026-09-28 20:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,7 +13,7 @@
       "chg": "+1.41%",
       "chgClass": "up",
       "previousClose": 12492.54,
-      "src": "^SOX 09-28 19:09 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-28 20:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -22,7 +22,7 @@
       "chg": "-4.06%",
       "chgClass": "down",
       "previousClose": 1621.87,
-      "src": "000688.SS 09-28 19:09 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-28 20:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -31,7 +31,7 @@
       "chg": "-2.70%",
       "chgClass": "down",
       "previousClose": 7080.92,
-      "src": "^KS11 09-28 19:09 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 09-28 20:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -778,8 +778,16 @@
         "impactLabel": "多杀多踩踏",
         "factorTag": "极端过热出清",
         "metrics": [
-          { "label": "TMT成交额占比", "value": "42.17%", "sub": "处 danger 分区 (警戒线 38%)" },
-          { "label": "TMT单日成交额", "value": "7240.16 亿", "sub": "全市场 17168 亿" }
+          {
+            "label": "TMT成交额占比",
+            "value": "42.17%",
+            "sub": "处 danger 分区 (警戒线 38%)"
+          },
+          {
+            "label": "TMT单日成交额",
+            "value": "7240.16 亿",
+            "sub": "全市场 17168 亿"
+          }
         ],
         "transmission": {
           "trigger": "TMT成交额占全市场比例冲高至42.17%，创下近两个月极端超买极值，获利盘过于丰厚",
@@ -797,8 +805,16 @@
         "impactLabel": "杠杆防御收缩",
         "factorTag": "长假资金撤退",
         "metrics": [
-          { "label": "节前交易窗口", "value": "T-2 提现日", "sub": "场内银证转账截止前夕" },
-          { "label": "全市场融资买入", "value": "8.59%", "sub": "两融杠杆买入边际回落" }
+          {
+            "label": "节前交易窗口",
+            "value": "T-2 提现日",
+            "sub": "场内银证转账截止前夕"
+          },
+          {
+            "label": "全市场融资买入",
+            "value": "8.59%",
+            "sub": "两融杠杆买入边际回落"
+          }
         ],
         "transmission": {
           "trigger": "国庆长假临近，海外面临中东地缘原油异动与欧美央行讲话等 7 天不确定性真空期",
@@ -816,9 +832,21 @@
         "impactLabel": "折现率抬升",
         "factorTag": "通胀再起预期",
         "metrics": [
-          { "label": "布伦特原油 (BZ=F)", "value": "$100.95/桶", "sub": "站稳百元关口" },
-          { "label": "美元指数 (DXY)", "value": "101.14", "sub": "维持强势运行" },
-          { "label": "美债 10Y 收益率", "value": "5.184%", "sub": "压制长久期估值" }
+          {
+            "label": "布伦特原油 (BZ=F)",
+            "value": "$100.95/桶",
+            "sub": "站稳百元关口"
+          },
+          {
+            "label": "美元指数 (DXY)",
+            "value": "101.14",
+            "sub": "维持强势运行"
+          },
+          {
+            "label": "美债 10Y 收益率",
+            "value": "5.184%",
+            "sub": "压制长久期估值"
+          }
         ],
         "transmission": {
           "trigger": "地缘溢价推升国际原油站上 100 美元大关，二次通胀风险死灰复燃",
@@ -836,8 +864,16 @@
         "impactLabel": "结构性预期收敛",
         "factorTag": "K型景气分化",
         "metrics": [
-          { "label": "晶圆代工营收", "value": "$534.9 亿", "sub": "AI满产 / 消费疲软" },
-          { "label": "存储合约价增幅", "value": "+15%", "sub": "环比涨幅明显收敛" }
+          {
+            "label": "晶圆代工营收",
+            "value": "$534.9 亿",
+            "sub": "AI满产 / 消费疲软"
+          },
+          {
+            "label": "存储合约价增幅",
+            "value": "+15%",
+            "sub": "环比涨幅明显收敛"
+          }
         ],
         "transmission": {
           "trigger": "半导体产业链景气度呈现极端 K 型分化，传统消费电子与工业芯片去库周期拉长",
