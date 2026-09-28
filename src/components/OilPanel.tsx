@@ -112,7 +112,6 @@ export default function OilPanel() {
             <p className="hero-lead">以 ICE Brent 布伦特原油为核心：供需、库存、宏观金融与地缘事件。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-chip">CRUDE · ICE BRENT</span>
             <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>

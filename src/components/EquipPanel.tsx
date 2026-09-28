@@ -38,9 +38,6 @@ export default function EquipPanel() {
             <h1>{head.title}</h1>
             <p className="hero-lead">{head.sub}</p>
           </div>
-          <div className="hero-aside">
-            <span className="hero-chip">EQUIPMENT · MATERIALS</span>
-          </div>
         </div>
       </header>
       <div className="content">

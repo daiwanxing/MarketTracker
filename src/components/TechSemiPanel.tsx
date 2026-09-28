@@ -209,7 +209,6 @@ export default function TechSemiPanel() {
             <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-chip">SEMIS · AI COMPUTE</span>
             <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>

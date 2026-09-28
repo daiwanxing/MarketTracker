@@ -451,6 +451,20 @@ def update_oil_chart(charts: dict, wti: Quote | None, brent: Quote | None, sessi
     parsed = parse_mmdd_labels(dates, session)
     written = 0
 
+    # Auto-prune any legacy weekend entries to preserve strictly weekday series
+    valid_indices = [i for i, d in enumerate(parsed) if d.weekday() < 5]
+    if len(valid_indices) < len(parsed):
+        charts["dates"] = [dates[i] for i in valid_indices]
+        charts["wti"] = [wti_series[i] for i in valid_indices]
+        charts["brent"] = [brent_series[i] for i in valid_indices]
+        charts["sc"] = [sc_series[i] for i in valid_indices]
+        dates = charts["dates"]
+        wti_series = charts["wti"]
+        brent_series = charts["brent"]
+        sc_series = charts["sc"]
+        parsed = [parsed[i] for i in valid_indices]
+        written += 1
+
     def close_for(quote: Quote | None, day: date) -> float | None:
         if quote is None:
             return None
@@ -464,15 +478,13 @@ def update_oil_chart(charts: dict, wti: Quote | None, brent: Quote | None, sessi
             continue
         if day < session:
             wti_val = close_for(wti, day)
-            if wti_val is not None:
-                if wti_series[i] is None or (day >= session - timedelta(days=7) and wti_series[i] != wti_val):
-                    wti_series[i] = wti_val
-                    written += 1
+            if wti_val is not None and (wti_series[i] is None or wti_series[i] != wti_val):
+                wti_series[i] = wti_val
+                written += 1
             brent_val = close_for(brent, day)
-            if brent_val is not None:
-                if brent_series[i] is None or (day >= session - timedelta(days=7) and brent_series[i] != brent_val):
-                    brent_series[i] = brent_val
-                    written += 1
+            if brent_val is not None and (brent_series[i] is None or brent_series[i] != brent_val):
+                brent_series[i] = brent_val
+                written += 1
             continue
         # Current session is still printing; keep the chart point on the live price.
         value = close_for(wti, day)
@@ -580,7 +592,19 @@ def update_gold_candles(tech: dict, price: float, session: date, volume: float |
         raise ValueError(f"gold candle/volume length mismatch ({len(candles)} vs {len(volumes)})")
     if not candles:
         raise ValueError("gold candles empty")
+    if session.weekday() >= 5:
+        session = next_weekday(session)
     parsed = parse_mmdd_labels([c["d"] for c in candles], session)
+
+    # Prune any legacy weekend candles to safeguard strictly weekday series
+    valid_indices = [i for i, d in enumerate(parsed) if d.weekday() < 5]
+    if len(valid_indices) < len(parsed):
+        tech["candles"] = [candles[i] for i in valid_indices]
+        tech["volume"] = [volumes[i] for i in valid_indices]
+        candles = tech["candles"]
+        volumes = tech["volume"]
+        parsed = [parsed[i] for i in valid_indices]
+
     rounded = round(price, 2)
     if parsed[-1] == session:
         candle = candles[-1]
@@ -954,6 +978,27 @@ def self_test() -> int:
     _assert(charts["brent"][-1] == 97.10, f"live brent {charts['brent'][-1]}")
     _assert(charts["brent"][1] == 99.25, "past close preserved")
 
+    # Reconciles past close when bar contains settled close
+    brent.bars[date(2026, 9, 22)] = Bar(date(2026, 9, 22), 99.0, 102.0, 98.0, 101.50, 10)
+    update_oil_chart(charts, wti, brent, session)
+    _assert(charts["brent"][1] == 101.50, "historical settlement reconciled")
+
+    # Auto-prunes legacy weekend dates from charts
+    weekend_chart = {
+        "dates": ["09-21", "09-22", "09-27"],
+        "wti": [91.97, 94.59, 93.0],
+        "brent": [95.99, 101.50, 98.0],
+        "sc": [722.5, 717.1, None],
+        "wtiHigh": 94.59,
+        "brentHigh": 101.50,
+    }
+    update_oil_chart(weekend_chart, wti, brent, session)
+    _assert("09-27" not in weekend_chart["dates"], "weekend date auto-pruned")
+    _assert(len(weekend_chart["dates"]) == len(weekend_chart["wti"]) == len(weekend_chart["brent"]) == len(weekend_chart["sc"]), "pruned lengths aligned")
+
+    # Rollover logic: Sunday maps to Monday
+    _assert(next_weekday(date(2026, 9, 27)) == date(2026, 9, 28), "sunday rolled to monday")
+
     chg = change_parts(97.73, 99.25)
     _assert(chg == ("-1.53%", "down"), f"chg {chg}")
     _assert(change_parts(100.0, 100.0) == ("0.00%", "flat"), "flat")
@@ -1000,6 +1045,18 @@ def self_test() -> int:
     _assert(update_gold_candles(tech, 4278.4, session, 17180) == "appended", "append")
     _assert(tech["candles"][-1]["c"] == 4278.4, "spot close")
     _assert(len(tech["volume"]) == 2 and tech["volume"][-1] == 17180, "volume")
+
+    # Auto-prune legacy weekend gold candles
+    tech_weekend = {
+        "candles": [
+            {"d": "09-22", "o": 4369.0, "h": 4375.0, "l": 4291.0, "c": 4318.18},
+            {"d": "09-27", "o": 4260.0, "h": 4260.0, "l": 4210.0, "c": 4210.0},
+        ],
+        "volume": [100000, 50000],
+    }
+    update_gold_candles(tech_weekend, 4280.0, session, 17180)
+    _assert(all(c["d"] != "09-27" for c in tech_weekend["candles"]), "gold weekend candle auto-pruned")
+    _assert(len(tech_weekend["candles"]) == len(tech_weekend["volume"]), "gold pruned lengths match")
     update_momentum(tech, "-0.92%")
     spot_row = next(item for item in tech["momentum"] if item["k"] == "今日现货")
     stale_row = next(item for item in tech["momentum"] if item["k"] == "今日盘中")

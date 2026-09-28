@@ -1347,9 +1347,6 @@ export default function OpticsPanel() {
             <h1>{head.title}</h1>
             <p className="hero-lead">{head.sub}</p>
           </div>
-          <div className="hero-aside">
-            <span className="hero-chip">OPTICS</span>
-          </div>
         </div>
       </header>
 

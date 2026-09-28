@@ -202,7 +202,17 @@ def fetch_yahoo(symbol: str, range_param: str = "5d") -> Quote:
         if earlier:
             prev_close = bars[max(earlier)].close
         else:
-            prev_close = _num(meta.get("previousClose") or meta.get("chartPreviousClose"))
+            prev_close = None
+            if range_param == "5d":
+                try:
+                    q_1mo = fetch_yahoo(symbol, range_param="1mo")
+                    earlier_1mo = [d for d in q_1mo.bars if d < session and q_1mo.bars[d].close is not None]
+                    if earlier_1mo:
+                        prev_close = q_1mo.bars[max(earlier_1mo)].close
+                except Exception as exc:  # noqa: BLE001
+                    log("WARN", f"{symbol} 1mo fallback for previous close failed: {exc}")
+            if prev_close is None:
+                prev_close = _num(meta.get("previousClose"))
 
         lo, hi = RANGES.get(symbol, (None, None))
         if lo is not None and not (lo <= price <= hi):
@@ -270,6 +280,10 @@ def update_quotes(
         if q is None:
             log("WARN", f"{key} ({sym}) unavailable; preserving existing numbers")
             continue
+        if q.previous_close is None:
+            existing = bucket.get(key)
+            if isinstance(existing, dict) and _num(existing.get("previousClose")) is not None:
+                q.previous_close = _num(existing.get("previousClose"))
         bucket[key] = quote_record(q, name, ndigits, moment)
         updated.append(key)
     return updated
@@ -641,6 +655,7 @@ def self_test() -> int:
         _assert(updated["anomalies"]["note"] == "保留", "anomalies untouched")
         _assert(updated["benchmarks"]["sox"]["price"] == 12534.27, "sox price updated")
         _assert(updated["benchmarks"]["sox"]["chg"] == "+11.45%", f"sox chg {updated['benchmarks']['sox']['chg']}")
+        _assert(updated["benchmarks"]["sox"]["previousClose"] == 11246.11, "previous close took earlier bar")
         _assert("nvda" not in updated["benchmarks"], "nvda removed")
         _assert("tsm" not in updated["benchmarks"], "tsm removed")
         _assert("ndx" not in updated["benchmarks"], "ndx removed")
@@ -661,6 +676,16 @@ def self_test() -> int:
         _assert(margin["shares"] == [8.0, 10.0], "margin series values")
         _assert(margin["v"] == "高于平常", "margin above the ordinary band")
         _assert(updated["leverage"]["note"] == "保留说明", "leverage note kept")
+
+        # Fallback test: when quote has no previous_close, preserve existing JSON previousClose
+        missing_prev = Quote("^SOX", 12500.0, None, None, None, None, session, {}, "test")
+        bucket_test = {"sox": {"name": "费城半导体", "previousClose": 12000.0}}
+        update_quotes(bucket_test, {"sox": missing_prev}, {"sox": ("^SOX", "费城半导体", 2)}, shanghai_now())
+        _assert(bucket_test["sox"]["previousClose"] == 12000.0, "preserved existing previousClose")
+
+        # Rollover check
+        _assert(next_weekday(date(2026, 9, 27)) == date(2026, 9, 28), "sunday rolled to monday")
+
         log("INFO", "self-test passed successfully!")
     finally:
         if test_file.exists():

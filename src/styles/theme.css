@@ -198,11 +198,6 @@ body {
 }
 .hero-lead { margin: 14px 0 0; font-size: 13.5px; line-height: 1.65; color: rgba(240,240,250,.72); max-width: 70ch; }
 .hero-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
-.hero-chip {
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
-  padding: 5px 10px; border: 1px solid rgba(240,240,250,.45);
-  color: rgba(240,240,250,.9);
-}
 .hero-meta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1px; color: rgba(240,240,250,.65); line-height: 1.5; }
 .hero-meta b { font-weight: 700; color: rgba(240,240,250,.85); }
 @media (max-width: 760px) {

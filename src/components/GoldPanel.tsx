@@ -333,7 +333,6 @@ export default function GoldPanel() {
             <p className="hero-lead">以伦敦金现货为核心，对照纽约 COMEX：价格、持仓资金与实物需求。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-chip">XAU/USD · LBMA SPOT</span>
             <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>
