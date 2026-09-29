@@ -370,52 +370,79 @@ body {
 
 /* ===== 时间轴 ===== */
 .tl { position: relative; padding-left: 24px; }
-.tl::before { content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: var(--line-strong); }
-.node { position: relative; margin-bottom: 30px; display: block; }
+.tl::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--line-strong);
+}
+.node {
+  position: relative;
+  margin-bottom: 30px;
+  display: block;
+}
 .node:last-child { margin-bottom: 0; }
+
+/* 基础时间轴小圆点：清晰规整的银灰质感，在黑底上清晰可见但不过分夺目 */
 .dot {
   position: absolute;
   left: -24px;
-  top: 8px;
-  width: 7px;
-  height: 7px;
+  top: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: rgba(240, 240, 250, 0.3);
+  background: #71717A;
   border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--ghost-border);
+  box-shadow: 0 0 0 1px rgba(240, 240, 250, 0.35);
   box-sizing: border-box;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: all 0.2s ease;
 }
+
+/* 仅最新一条新闻：醒目雷达红点，带双层扩散光晕，一眼锁定最新动态 */
 .node.latest .dot {
   background: var(--up);
-  box-shadow: 0 0 0 1px var(--up), 0 0 8px rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.25), 0 0 10px rgba(255, 107, 107, 0.6);
 }
-.node:not(.latest) {
-  opacity: 0.85;
+
+.tags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: .4px;
 }
-.node:not(.latest) .d {
-  color: var(--text-faint);
-}
-.tags { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.date { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: .3px; }
 .tag {
   font-family: var(--font-display);
-  font-size: 10px; font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--text-dim);
-  background: var(--ghost-surface);
-  border: 1px solid var(--ghost-border);
+  color: rgba(240, 240, 250, 0.8);
+  background: rgba(240, 240, 250, 0.06);
+  border: 1px solid rgba(240, 240, 250, 0.16);
   border-radius: 2px;
   padding: 2px 8px;
 }
 .tag.hot-tag {
-  color: var(--up);
-  border-color: rgba(255, 107, 107, 0.35);
-  background: rgba(255, 107, 107, 0.1);
+  color: #FF8080;
+  border-color: rgba(255, 107, 107, 0.4);
+  background: rgba(255, 107, 107, 0.12);
   font-weight: 700;
 }
-.node .t { font-family: var(--font-display); font-size: 16px; font-weight: 700; letter-spacing: .3px; color: var(--text); line-height: 1.4; margin-top: 8px; text-transform: uppercase; }
+.node .t {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: var(--text);
+  line-height: 1.45;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
 .node .t a {
   display: inline-flex;
   align-items: center;
@@ -423,11 +450,28 @@ body {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.15s ease;
+}
+.node .t a:hover {
+  color: #38bdf8;
 }
 .node .t a svg { flex: none; }
 .node .t em { font-style: normal; color: var(--up); }
-.node .d { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin-top: 6px; }
-.node .src { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+
+/* 时间轴正文：高对比度、清晰舒适的阅读质感 */
+.node .d {
+  font-size: 13.5px;
+  color: rgba(240, 240, 250, 0.85);
+  line-height: 1.75;
+  margin-top: 6px;
+  letter-spacing: 0.15px;
+}
+.node .src {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(240, 240, 250, 0.45);
+  margin-top: 6px;
+}
 
 /* ===== 最新要闻 ===== */
 .news { overflow: hidden; }
