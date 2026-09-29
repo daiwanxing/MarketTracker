@@ -17,25 +17,25 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "主矛盾是中东出口与储备投放同步回归形成的供应宽松压过谈判端扰动：BZ=F 报96.63、跌8.22%，WTI 90.08，价格已回吐前期供应溢价。",
-    "sub": "BZ=F 为布伦特原油连续期货报价，非通讯社当日近月现货评估，96.63 与 -8.22% 为同一合约相对昨收105.28的盘中变动，WTI 90.08 为对应美油连续合约。报价与沙特红海装船恢复、霍尔木兹通行量回升、美方储备借出收尾等供应端事件方向一致，伊朗出口表态则构成反向对冲。",
+    "verdict": "BZ=F 布伦特期货 96.63 美元/桶、单日 -8.22%，WTI 90.08 美元/桶，主矛盾为中东出口恢复与美国 SPR 借出推动供应回归，压过伊朗谈判尾部风险与商业库存去化预期。",
+    "sub": "口径：BZ=F 为布伦特原油连续期货，非通讯社近月合约；该报价 02:07 上海报 96.63，较昨收 105.28 跌 8.22%，对应 9-29 沙特延布装船恢复、霍尔木兹通行量增加、美国 SPR 借出 4000 万桶及 IEA 讨论必要时释放油储。WTI 90.08 同步反映供应路径修复与库存前置。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "伊朗出口表态",
-        "v": "若谈判与制裁豁免议题逆转，霍尔木兹通行与制裁执行风险上升，供应路径扰动重现"
+        "k": "伊朗出口警告",
+        "v": "伊朗议长称若伊朗原油无法出口，其他产油国亦难正常出口，地缘断供尾部风险仍在。"
       },
       {
         "dim": "stocks",
-        "k": "美国原油库存预期",
-        "v": "分析师预期周度库存下降，若EIA录得去库，近月合约下方支撑增强"
+        "k": "美国商业原油库存预期",
+        "v": "分析师预计美国商业原油库存下降，若 EIA 确认去库，近月价差获支撑。"
       },
       {
-        "dim": "supply",
-        "k": "协同释放进入尾声",
-        "v": "最后一批储备兑付后政策性供应缓冲收窄，后续增量供应弹性下降"
+        "dim": "macro",
+        "k": "美元指数",
+        "v": "美元指数 101.59，若自高位回落，美元计价原油压力减轻。"
       }
     ],
     "bearTitle": "利空因素",
@@ -43,21 +43,21 @@
     "bear": [
       {
         "dim": "supply",
-        "k": "中东出口回升",
-        "v": "延布港装载与东西管道恢复叠加海峡通行量上升，出口升至2月以来最高"
+        "k": "红海出口回归",
+        "v": "沙特延布港恢复原油装船，东西管道重启后红海出口通道回归。"
+      },
+      {
+        "dim": "supply",
+        "k": "霍尔木兹通行量",
+        "v": "霍尔木兹海峡通行量增加，中东原油出口升至2月以来最高水平。"
       },
       {
         "dim": "stocks",
-        "k": "IEA储备释放选项",
-        "v": "若进一步释放落地，库存再度前置，近月价差与绝对价格承压"
-      },
-      {
-        "dim": "macro",
-        "k": "美元指数101.59",
-        "v": "美元高位抬升非美买家采购成本，压制边际需求与炼厂买盘"
+        "k": "战略储备前置",
+        "v": "美国从战略储备借出至多4000万桶，为全球协同释放最后一批，库存前置压制近月合约。"
       }
     ],
-    "watch": "霍尔木兹海峡通行量 · 伊朗核谈与制裁豁免进展 · IEA 储备释放决定 · 美国 EIA 周度库存 · 沙特延布港装载节奏 · 美元指数与炼厂开工"
+    "watch": "伊朗核谈与制裁豁免进展 · 霍尔木兹海峡通行量与中东出口 · 美国SPR实际借出节奏 · IEA进一步释放油储决定 · 美国商业原油库存周度变化 · 加拿大油砂增产兑现节奏"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -685,6 +685,24 @@
   "timeline": [
     {
       "date": "2026-09-29",
+      "tag": "库存",
+      "hot": true,
+      "t": "IEA称将在必要时讨论释放油储 欧盟拟推迟甲烷法规审议",
+      "d": "据路透报道，国际能源署表示将在必要时讨论进一步释放战略石油储备，以应对欧洲冬季供应压力；同时欧盟考虑推迟甲烷法规，以缓解能源行业合规成本。两项政策信号均指向供应端政策缓冲仍在，但尚未形成新一轮实物投放。当前布伦特近月已因中东出口恢复与库存前置走弱，若后续释放落地，将进一步压低近月价差与炼厂采购成本。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNLWJHMlpqTU03cjVmdEp0ZTRscGs4YUNNSDNuMmhINkhpWnFjS0dYZE9VX21uYTlnTHF5YVF2ejlESkZmY1BYcmdVNTAzb043Q0lmcXdvRV94aVJUS0x2S3N1d0NiVm1leXJldjJGUjN6ZDR5bDBvZ3cyZTUzNGZLUm9NVk9weHVzMFlONVBfaDM1Zi1DeEpqUzNrSFhieXF0WXVxRm53ak5sUTVkTzZWcldOWmRTT081a2FnQl9QTGpFVnRvZXhSag?oc=5"
+    },
+    {
+      "date": "2026-09-29",
+      "tag": "供应",
+      "hot": false,
+      "t": "北海原油现货WTI报价走高 新装船计划与套保窗口浮现",
+      "d": "据TradingView报道，北海原油市场WTI报价走高，新的装船计划浮现，显示大西洋盆地现货买卖双方在近月价格大幅回落后重新评估套保与提货节奏。该变化尚未改变全球供应总量，但反映实物市场对中东出口恢复与库存前置的定价正在调整。若后续装船量继续增加，西北欧现货升水可能承压，并传导至布伦特近月价差。",
+      "src": "来源：TradingView",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPT1hNRGE1MExBU3A2MmNiaUhyWUc0Wnd1UWhuYXhYMXFKak92a3BZTUtSaWZGSTZ4S3dDZVVLTFR2Zk1yeWVJVXJmMzdMRkIyWkwyejczZjFTLVRDaVlkVVYwdnF5Ulp3eHUtSEVvWUxLWkNZbWgzWUVaSE5PbWVfd21STTRrd3padDByZlNweGhuYVZDMTZRUjl3aTlIOEp2M1ZESjNMOFFIWjVKNzhFMTU1bGw0cUZZSTNVV2xGVQ?oc=5"
+    },
+    {
+      "date": "2026-09-29",
       "tag": "谈判",
       "hot": false,
       "t": "伊朗议长称若伊朗原油无法出口 其他产油国亦难正常出口",
@@ -824,24 +842,6 @@
       "t": "沙特恢复延布装油作业 东西管道重启后红海出口增量落地",
       "d": "来源：Reuters。沙特在东西管道恢复输油后重新启动延布港原油装船，红海方向出口路径得到修复，此前因管道问题受限的原油外运增加。该变化直接增加地中海与欧洲可获供应，并部分抵消霍尔木兹方向不确定性；但装船恢复的持续性仍需观察管道输送能力与港口排船。",
       "src": "来源：Reuters"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "海峡",
-      "hot": true,
-      "t": "中东原油出口回升至战时高位 伊朗对霍尔木兹海峡钳制松动",
-      "d": "来源：WSJ。随着伊朗对霍尔木兹海峡的封锁效力下降，中东原油出口回升至战时高位，供应路径较此前预期改善。该变化削弱此前计入的地缘风险溢价，并部分抵消沙特管道恢复带来的供应增量；但美伊谈判尚无约束性协议，海峡通行与伊朗后续表态仍是关键变量，若装船再度受扰，溢价可能快速回补。",
-      "src": "来源：WSJ",
-      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNbXZCOUR5RDZOTzRjOGhCVjJQRC1UR2I5SklaXzFSWW9WUzVDa2FZTTVoZ2xQakt1SXJCOThvckx5YnN0WWdYV0ZRWHA0YlB6ODFGdV9adng0ZHdjOC1PV3k5X05MYmE4VS15eW9RRkR6M3Y3TXhadmgyeU8tRnpONXBKQVB4TVBDb1RQQk5TQlZrQ1VfTUFMekFPNi03UkNkV2h2QTlsSmhPLVl4bVF2SHNQU0g2UzF4b19B?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "谈判",
-      "hot": true,
-      "t": "美伊分别经斡旋方举行间接谈判 中东原油出口升至战时高位",
-      "d": "美国与伊朗分别与斡旋方举行会谈，谈判尚未形成明确的航运或停火安排，但市场对海峡通行风险的定价已开始回撤。同期中东原油出口升至战时高位，出口路径修复快于此前预期，供给侧实际改善与地缘溢价方向相反。对布伦特而言，这意味着前期计入的供应中断缺口面临重估；若谈判继续推进，风险溢价回归的幅度可能超过基本面本身的变化，短期波动来源仍集中在政策信号而非库存数据。",
-      "src": "来源：CNBC · 2026-09-29 04:02 GMT",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9fZUZGTl9lMzZmQlQ0ZzBhUS1aRmpVdlR0UzNPN0pmd0c4SnZlSndJUUVzRlY3YUJhUzhENVRFN0dCYmg3c29faGI1S3RrMFM3VTgyWG9XczNjVDU4Zk1qY2ZTbjJFNm1xYjhzbVIwWdIBdEFVX3lxTE1HX2NHR3JaYklIYkhGeHd2aGRiX0M5LXpERmdqdnRCUW5LdllQUEtVdU5Jcnc1VS1TLUxibXN5VGJCcTdNWlpDNUJ0cVhUOUtFRmR5SG15NlRNMzlfSHllcTBqNmtzMWk1ODhKWTBwUkFmY1JU?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -886,22 +886,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "海峡通行与中东出口",
+      "k": "伊朗核谈与制裁豁免",
       "level": "r",
-      "desc": "若霍尔木兹通行量自当前水平回落、中东装船再度中断，近月供应溢价将快速重建，BZ=F 与 WTI 存在向上跳空风险；来源：Barchart.com、Reuters。",
-      "src": "来源：Barchart.com / Reuters"
+      "desc": "若谈判破裂或伊朗原油出口受阻，霍尔木兹供应尾部风险重估，BZ=F 可能反弹至 100 美元上方；若豁免落地则地缘溢价继续回吐。",
+      "src": "来源：IranWire / Reuters"
     },
     {
-      "k": "伊朗谈判与制裁豁免",
+      "k": "IEA油储释放与欧盟甲烷法",
       "level": "a",
-      "desc": "若谈判取得实质进展或豁免扩大，伊朗出口回归将增加中重质供应，BZ=F 下行压力加大；若谈判决裂并触发出口受限表述兑现，则方向反转；来源：IranWire、OilPrice.com。",
-      "src": "来源：IranWire / OilPrice.com"
+      "desc": "若 IEA 决定进一步释放战略储备或欧盟推迟甲烷法规，供应与政策预期偏松，WTI 可能下探 88 美元；若仅停留在讨论层面，影响有限。",
+      "src": "来源：Reuters"
     },
     {
-      "k": "库存与储备释放节奏",
+      "k": "美国商业原油库存",
       "level": "g",
-      "desc": "若 EIA 周度库存录得去库并叠加协同释放确认结束，近月结构获得支撑；若 IEA 追加释放或库存累积，BZ=F 将测试95.71日内低点下方；来源：marketscreener.com、Reuters。",
-      "src": "来源：marketscreener.com / Reuters"
+      "desc": "若 EIA 周度库存确认下降，近月合约获支撑，BZ=F 或修复至 99 美元；若库存累积，则近月贴水加深。",
+      "src": "来源：marketscreener.com"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
