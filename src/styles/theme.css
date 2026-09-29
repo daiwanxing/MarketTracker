@@ -373,8 +373,29 @@ body {
 .tl::before { content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: var(--line-strong); }
 .node { position: relative; margin-bottom: 30px; display: block; }
 .node:last-child { margin-bottom: 0; }
-.dot { position: absolute; left: -24px; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--text); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--text-dim); box-sizing: border-box; }
-.node.hot .dot { background: var(--up); box-shadow: 0 0 0 1px var(--up); }
+.dot {
+  position: absolute;
+  left: -24px;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(240, 240, 250, 0.3);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--ghost-border);
+  box-sizing: border-box;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.node.latest .dot {
+  background: var(--up);
+  box-shadow: 0 0 0 1px var(--up), 0 0 8px rgba(255, 107, 107, 0.5);
+}
+.node:not(.latest) {
+  opacity: 0.85;
+}
+.node:not(.latest) .d {
+  color: var(--text-faint);
+}
 .tags { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .date { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: .3px; }
 .tag {
@@ -387,6 +408,12 @@ body {
   border: 1px solid var(--ghost-border);
   border-radius: 2px;
   padding: 2px 8px;
+}
+.tag.hot-tag {
+  color: var(--up);
+  border-color: rgba(255, 107, 107, 0.35);
+  background: rgba(255, 107, 107, 0.1);
+  font-weight: 700;
 }
 .node .t { font-family: var(--font-display); font-size: 16px; font-weight: 700; letter-spacing: .3px; color: var(--text); line-height: 1.4; margin-top: 8px; text-transform: uppercase; }
 .node .t a {

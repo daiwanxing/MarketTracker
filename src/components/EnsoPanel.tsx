@@ -166,8 +166,8 @@ export default function EnsoPanel() {
           <span className="hint">{timelineHint}</span>
         </h2>
         <div className="tl" ref={tlRef}>
-          {timeline.map((n) => (
-            <div className="node" key={`${n.date}-${n.tag}`}>
+          {timeline.map((n, i) => (
+            <div className={`node ${i === 0 ? 'latest' : ''}`} key={`${n.date}-${n.tag}-${i}`}>
               <div className="dot" />
               <div className="tags">
                 <span className="date">{n.date}</span>

@@ -222,11 +222,12 @@ export default function OilPanel() {
       </h2>
       <div className="tl">
         {timeline.slice(0, 10).map((n, i) => (
-          <div className={n.hot ? 'node hot' : 'node'} key={i}>
+          <div className={`node ${i === 0 ? 'latest' : ''} ${n.hot ? 'hot' : ''}`} key={i}>
             <div className="dot" />
             <div className="tags">
               <span className="date">{n.date}</span>
               <span className="tag">{n.tag}</span>
+              {n.hot && <span className="tag hot-tag">重大事件</span>}
             </div>
             <div className="t">
               {n.url ? (
