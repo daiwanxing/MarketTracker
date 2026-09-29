@@ -587,6 +587,38 @@ def fetch_margin_inputs(failures: list[str]) -> tuple[list[tuple[str, float]], d
     return buys, turnover
 
 
+def sync_closing_review_clock(doc: dict, moment: datetime) -> list[str]:
+    """Sync latest numeric quotes from benchmarks to closingReview.marketClock if present."""
+    cr = doc.get("closingReview")
+    if not isinstance(cr, dict):
+        return []
+    clock_items = cr.get("marketClock")
+    if not isinstance(clock_items, list):
+        return []
+    bms = doc.get("benchmarks", {})
+    mapping = {
+        "000688.SS": bms.get("star50"),
+        "^KS11": bms.get("kospi"),
+        "^SOX": bms.get("sox"),
+    }
+    updated = False
+    for item in clock_items:
+        if not isinstance(item, dict):
+            continue
+        bm = mapping.get(item.get("symbol"))
+        if isinstance(bm, dict):
+            if bm.get("price") is not None and item.get("price") != bm["price"]:
+                item["price"] = bm["price"]
+                updated = True
+            if bm.get("chg") is not None and item.get("chg") != bm["chg"]:
+                item["chg"] = bm["chg"]
+                updated = True
+            if bm.get("chgClass") is not None and item.get("chgClass") != bm["chgClass"]:
+                item["chgClass"] = bm["chgClass"]
+                updated = True
+    return ["closingReview.marketClock"] if updated else []
+
+
 def refresh_tech_semi(
     dry_run: bool = False,
     data_path: Path | None = None,
@@ -637,6 +669,10 @@ def refresh_tech_semi(
     # Update benchmarks
     bm_fields = update_benchmarks(doc, quotes, moment)
     updated_fields.extend(bm_fields)
+
+    # Sync latest quotes to closingReview.marketClock if present
+    clock_fields = sync_closing_review_clock(doc, moment)
+    updated_fields.extend(clock_fields)
 
     chart_fields = update_normalized(doc, history)
     updated_fields.extend(chart_fields)
@@ -733,6 +769,11 @@ def self_test() -> int:
             "note": "保留说明",
             "marginBuyShare": {"k": "两融买入强度", "metric": "融资买入额 / 成交额", "watch": "保留观察"},
         },
+        "closingReview": {
+            "marketClock": [
+                {"symbol": "^SOX", "name": "费城半导体指数", "price": 10000.0, "chg": "+0.00%", "chgClass": ""},
+            ]
+        },
     }
 
     with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
@@ -761,6 +802,8 @@ def self_test() -> int:
         _assert(updated["benchmarks"]["sox"]["price"] == 12534.27, "sox price updated")
         _assert(updated["benchmarks"]["sox"]["chg"] == "+11.45%", f"sox chg {updated['benchmarks']['sox']['chg']}")
         _assert(updated["benchmarks"]["sox"]["previousClose"] == 11246.11, "previous close took earlier bar")
+        _assert(updated["closingReview"]["marketClock"][0]["price"] == 12534.27, "market clock sox synced")
+        _assert(updated["closingReview"]["marketClock"][0]["chg"] == "+11.45%", "market clock chg synced")
         _assert("nvda" not in updated["benchmarks"], "nvda removed")
         _assert("tsm" not in updated["benchmarks"], "tsm removed")
         _assert("ndx" not in updated["benchmarks"], "ndx removed")

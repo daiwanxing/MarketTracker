@@ -845,19 +845,19 @@
         "name": "韩国KOSPI综合",
         "status": "CLOSED",
         "statusLabel": "已收盘 14:30",
-        "price": 6889.74,
-        "chg": "-2.70%",
+        "price": 6861.68,
+        "chg": "-3.10%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
       {
         "symbol": "^SOX",
         "name": "费城半导体指数",
-        "status": "PENDING_OPEN",
-        "statusLabel": "隔夜基准 · 待开盘 21:30",
-        "price": 12668.93,
-        "chg": "+1.41%",
-        "chgClass": "up",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 04:00",
+        "price": 12465.24,
+        "chg": "-1.61%",
+        "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
     ],
