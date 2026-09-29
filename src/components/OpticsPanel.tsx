@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from 'react';
-import heroSemi from '../assets/hero-semi.jpg';
+import heroOptics from '../assets/hero-optics.jpg';
 import opticsData from '../data/opticsData.json';
 import techSemiData from '../data/techSemiData.json';
 
@@ -1337,8 +1337,8 @@ export default function OpticsPanel() {
       <header className="hero">
         <img
           className="hero-bg"
-          src={heroSemi}
-          alt="12 英寸微电子硅晶圆 · 现代芯片制造"
+          src={heroOptics}
+          alt="数据中心光网络 · 高速光纤与光收发模块互联"
         />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">

@@ -1,10 +1,10 @@
-import heroSemi from '../assets/hero-semi.jpg';
+import heroRobot from '../assets/hero-robot.jpg';
 
 export default function RobotPanel() {
   return (
     <article>
       <header className="hero">
-        <img className="hero-bg" src={heroSemi} alt="具身智能与工业机器人产业链" />
+        <img className="hero-bg" src={heroRobot} alt="具身智能人形机器人 · 精密机械臂与关节传感器" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">

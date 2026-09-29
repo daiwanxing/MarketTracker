@@ -1,4 +1,4 @@
-import heroSemi from '../assets/hero-semi.jpg';
+import heroEquip from '../assets/hero-equip.jpg';
 import equipData from '../data/equipData.json';
 
 const EMPTY = '未接入 · 还没有可引用的披露';
@@ -30,7 +30,7 @@ export default function EquipPanel() {
   return (
     <article>
       <header className="hero">
-        <img className="hero-bg" src={heroSemi} alt="12 英寸微电子硅晶圆 · 现代芯片制造" />
+        <img className="hero-bg" src={heroEquip} alt="半导体制造洁净室 · 微纳光刻步进机与前道核心设备" />
         <span className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-main">
