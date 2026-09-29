@@ -3,6 +3,7 @@ import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import goldData from '../data/goldData.json';
 import heroGold from '../assets/hero-gold.jpg';
+import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -39,10 +40,18 @@ function macroQuoteText(quote: { value?: number; chg?: string; unit?: string; se
 
 export default function GoldPanel() {
   const { metrics, tech, positioning, macro, etf, sentiment, action, footer, snapshot } = goldData;
+  const { liveQuotes, isLive } = useLiveQuotes();
+
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
 
-  const quoteLine = goldQuoteLine(metrics.main.quotes);
+  const liveGold = liveQuotes?.gold;
+  const displayNum = liveGold?.price || metrics.main.num;
+  const displayChg = liveGold?.chg || metrics.main.chg;
+  const displayChgClass = liveGold?.chgClass || metrics.main.chgClass;
+  const displayQuotes = liveGold?.quotes ? { ...metrics.main.quotes, ...liveGold.quotes } : metrics.main.quotes;
+
+  const quoteLine = goldQuoteLine(displayQuotes);
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
   const DIM: Record<string, string> = {
     rates: '利率',
@@ -333,7 +342,10 @@ export default function GoldPanel() {
             <p className="hero-lead">以伦敦金现货为核心，对照纽约 COMEX：价格、持仓资金与实物需求。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
+            <span className="hero-meta">
+              <b>最后更新：{snapDate}</b>
+              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
+            </span>
           </div>
         </div>
       </header>
@@ -344,9 +356,9 @@ export default function GoldPanel() {
         <div className="card metrics">
           <div className="metric-main">
             <div className="price-row">
-              <div className="num">{metrics.main.num.startsWith('$') ? metrics.main.num : `$${metrics.main.num}`}</div>
-              {metrics.main.chg && (
-                <span className={`chg ${chgCls(metrics.main.chgClass)}`}>{metrics.main.chg}</span>
+              <div className="num">{displayNum.startsWith('$') ? displayNum : `$${displayNum}`}</div>
+              {displayChg && (
+                <span className={`chg ${chgCls(displayChgClass)}`}>{displayChg}</span>
               )}
             </div>
             <div className="lbl">{metrics.main.label}</div>

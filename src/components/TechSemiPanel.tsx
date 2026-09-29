@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
 import { resolveMarketClock } from '../utils/marketClock';
+import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -188,7 +189,35 @@ export default function TechSemiPanel() {
     risks?: RiskItem[];
   };
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
-  const benchMap = benchmarks as Record<string, Bench | undefined>;
+  const rawBenchMap = benchmarks as Record<string, Bench | undefined>;
+  const { liveQuotes, isLive } = useLiveQuotes();
+
+  // 融合 Vercel Serverless / Edge API 实时行情
+  const benchMap = useMemo(() => {
+    if (!liveQuotes?.techSemi) return rawBenchMap;
+    const lSemi = liveQuotes.techSemi;
+    return {
+      ...rawBenchMap,
+      sox: rawBenchMap.sox ? {
+        ...rawBenchMap.sox,
+        price: lSemi.sox.price,
+        chg: lSemi.sox.chg,
+        chgClass: lSemi.sox.chgClass,
+      } : undefined,
+      star50: rawBenchMap.star50 ? {
+        ...rawBenchMap.star50,
+        price: lSemi.star50.price,
+        chg: lSemi.star50.chg,
+        chgClass: lSemi.star50.chgClass,
+      } : undefined,
+      kospi: rawBenchMap.kospi ? {
+        ...rawBenchMap.kospi,
+        price: lSemi.kospi.price,
+        chg: lSemi.kospi.chg,
+        chgClass: lSemi.kospi.chgClass,
+      } : undefined,
+    };
+  }, [rawBenchMap, liveQuotes]);
 
   // 实时市场时钟更新（每 30 秒自动校准一次客户端当前状态）
   const [currentTime, setCurrentTime] = useState(() => new Date());
@@ -330,7 +359,10 @@ export default function TechSemiPanel() {
             <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
+            <span className="hero-meta">
+              <b>最后更新：{snapDate}</b>
+              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
+            </span>
           </div>
         </div>
       </header>

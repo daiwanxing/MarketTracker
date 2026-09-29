@@ -28,9 +28,10 @@ function spaFallback404(): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   // Production (build and preview) uses the project Pages base.
-  // `pnpm run dev` stays at `/`. Override with VITE_BASE, including the
-  // leading and trailing slash (for example VITE_BASE=/MarketTracker/).
-  const base = env.VITE_BASE || (mode === 'production' ? PAGES_BASE : '/')
+  // When deploying on Vercel (process.env.VERCEL is set) or in dev, base is `/`.
+  // Override with VITE_BASE if explicitly provided.
+  const isVercel = Boolean(process.env.VERCEL || env.VERCEL)
+  const base = env.VITE_BASE || (isVercel ? '/' : (mode === 'production' ? PAGES_BASE : '/'))
   return {
     base,
     plugins: [react(), spaFallback404()],

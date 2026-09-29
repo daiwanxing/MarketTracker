@@ -3,6 +3,7 @@ import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import oilData from '../data/oilData.json';
 import heroOil from '../assets/hero-oil.jpg';
+import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -17,8 +18,16 @@ function oilQuoteLine(quotes: { wti?: number; dxy?: number } | undefined): strin
 
 export default function OilPanel() {
   const { metrics, signal, charts, timeline, risks, footer, snapshot, timelineTitle, risksTitle } = oilData;
+  const { liveQuotes, isLive } = useLiveQuotes();
+
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`; // 2026-09-22 15:15 → 2026年09月22日 15:15
+
+  const liveOil = liveQuotes?.oil;
+  const displayNum = liveOil?.price || metrics.main.num;
+  const displayChg = liveOil?.chg || metrics.main.chg;
+  const displayChgClass = liveOil?.chgClass || metrics.main.chgClass;
+  const displayQuotes = liveOil?.quotes ? { ...metrics.main.quotes, ...liveOil.quotes } : metrics.main.quotes;
 
   const mainOpt: EChartsOption = {
     backgroundColor: 'transparent',
@@ -85,7 +94,7 @@ export default function OilPanel() {
     ],
   };
 
-  const quoteLine = oilQuoteLine(metrics.main.quotes);
+  const quoteLine = oilQuoteLine(displayQuotes);
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
   const DIM: Record<string, string> = {
     supply: '供需',
@@ -109,7 +118,10 @@ export default function OilPanel() {
             <p className="hero-lead">以 ICE Brent 布伦特原油为核心：供需、库存、宏观金融与地缘事件。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
+            <span className="hero-meta">
+              <b>最后更新：{snapDate}</b>
+              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
+            </span>
           </div>
         </div>
       </header>
@@ -122,10 +134,10 @@ export default function OilPanel() {
       <div className="card metrics">
         <div className="metric-main">
           <div className="price-row">
-            <div className="num">{metrics.main.num.startsWith('$') ? metrics.main.num : `$${metrics.main.num}`}</div>
-            {metrics.main.chg && (
-              <span className={`chg ${chgCls(metrics.main.chgClass)}`}>
-                {metrics.main.chg}
+            <div className="num">{displayNum.startsWith('$') ? displayNum : `$${displayNum}`}</div>
+            {displayChg && (
+              <span className={`chg ${chgCls(displayChgClass)}`}>
+                {displayChg}
               </span>
             )}
           </div>
