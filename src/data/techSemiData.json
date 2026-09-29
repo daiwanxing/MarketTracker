@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-29 18:07",
+  "snapshot": "2026-09-29 19:06",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,7 +13,7 @@
       "chg": "-1.61%",
       "chgClass": "down",
       "previousClose": 12668.93,
-      "src": "^SOX 09-29 18:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-29 19:06 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -22,7 +22,7 @@
       "chg": "+0.86%",
       "chgClass": "up",
       "previousClose": 1555.98,
-      "src": "000688.SS 09-29 18:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-29 19:06 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -31,7 +31,7 @@
       "chg": "-0.27%",
       "chgClass": "down",
       "previousClose": 6889.74,
-      "src": "^KS11 09-29 18:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 09-29 19:06 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {

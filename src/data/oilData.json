@@ -1,63 +1,63 @@
 {
-  "snapshot": "2026-09-29 18:07",
+  "snapshot": "2026-09-29 19:06",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "97.52",
-      "chg": "-7.37%",
+      "num": "97.07",
+      "chg": "-7.80%",
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
-      "src": "BZ=F 布伦特原油期货 9-29 18:07 上海 · 昨收 105.28（现价 97.52/-7.37%，今开 98.73 / 高 100.29 / 低 97.11） · Yahoo Finance",
+      "src": "BZ=F 布伦特原油期货 9-29 19:06 上海 · 昨收 105.28（现价 97.07/-7.80%，今开 98.73 / 高 100.29 / 低 97.06） · Yahoo Finance",
       "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
       "quotes": {
-        "wti": 92.45,
-        "dxy": 101.46
+        "wti": 91.85,
+        "dxy": 101.34
       }
     }
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "BZ=F 报 99.42、日内 -5.57%，WTI 报 94.0，主矛盾是美伊谈判推进与中东出口恢复削弱地缘溢价，而库存低位与俄罗斯/印度供应扰动仍提供底部支撑。",
-    "sub": "BZ=F 为布伦特原油连续期货报价，不等同于通讯社近月合约；当前 99.42 较昨收 105.28 跌 5.57%，与 WTI 94.0 的价差反映大西洋盆地相对偏紧。快讯中早间油价上涨多计入美伊谈判前的地缘风险，最新报价则对应谈判推进、延布装船恢复与霍尔木兹出口回升的重新定价。",
+    "verdict": "主矛盾是供应路径修复与政策博弈并存下的地缘溢价重定价：BZ=F 报 97.07、日内 -7.80%，WTI 91.85，昨收 105.28 的高位升水快速收敛。",
+    "sub": "口径说明：BZ=F 为布伦特原油连续期货合约（Yahoo Finance 口径），非通讯社所引近月或首行合约报价，绝对价位与日内区间（今开 98.73 / 高 100.29 / 低 97.06）均以该合约计。报价与快讯的对应关系是：中东出口回升至战时高位、沙特延布装油恢复构成供应增量，美伊间接谈判停滞构成政策分歧，两者共同对应风险溢价自昨收 105.28 的收敛，WTI 91.85 同步走低。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
         "k": "霍尔木兹通行风险",
-        "v": "谈判若无约束性安排，海峡拦截或保险费率上升将重新推高地缘溢价。"
+        "v": "中东出口虽回升至战时高位，海峡钳制松动尚未完全逆转，通行量或保险费率反复可即时抬升风险溢价。"
       },
       {
         "dim": "supply",
-        "k": "俄罗斯对印度供应趋紧",
-        "v": "出口下降与中国需求走强同步，供应端扰动支撑布伦特。"
+        "k": "俄伊制裁与关税",
+        "v": "对俄能源主要买家加征关税的法案若推进，俄油流向受限将抬升替代供应成本，支撑中东与北海油种升水。"
       },
       {
         "dim": "stocks",
-        "k": "SPR降至1982年以来最低",
-        "v": "库存缓冲垫变薄，任何供应中断都会放大近月合约上行弹性。"
+        "k": "美国战略储备",
+        "v": "SPR 降至 1982 年以来最低，库存缓冲垫变薄，供应端扰动对价格的传导弹性上升。"
       }
     ],
     "bearTitle": "利空因素",
     "bearHint": "指向回落",
     "bear": [
       {
+        "dim": "supply",
+        "k": "中东装油与管道恢复",
+        "v": "沙特延布装油作业与东西管道重启落地，中东出口回升至战时高位，供应路径修复持续压缩地缘溢价。"
+      },
+      {
         "dim": "macro",
         "k": "美元与美债收益率",
-        "v": "DXY 101.28，美债收益率上行压制大宗商品估值与需求预期。"
+        "v": "DXY 101.34，油价与美债收益率联动为1990年以来最紧，金融条件收紧抑制多头持仓与远期升水。"
       },
       {
-        "dim": "supply",
-        "k": "沙特管道及延布装船恢复",
-        "v": "红海出口路径修复，中东供应增量削弱地缘溢价。"
-      },
-      {
-        "dim": "geo",
-        "k": "美伊间接谈判推进",
-        "v": "谈判降低霍尔木兹封锁预期，市场回吐战时风险溢价。"
+        "dim": "stocks",
+        "k": "区域炼厂与成品油供应",
+        "v": "内华达州唯一原油炼厂恢复运营，加州提前切换冬季汽油规格，区域成品油供应增加，压制炼厂进料与裂解价差。"
       }
     ],
-    "watch": "美伊间接谈判下一轮安排 · 霍尔木兹海峡通行量与保险费率 · 沙特东西管道及延布装船恢复持续性 · 美国柴油出口政策讨论 · SPR库存与回购节奏 · 哈萨克斯坦跨里海路线进展"
+    "watch": "美伊间接谈判下一轮接触与方案文本 · 霍尔木兹海峡实际通行量与保险费率 · 沙特东西管道及延布装油装载排期 · 美国战略原油储备释放与补库节奏 · 俄罗斯对印度原油出口及关税落地进度 · 美元指数与美债收益率联动"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -367,7 +367,7 @@
       94.61,
       92.41,
       92.6,
-      92.45
+      91.85
     ],
     "brent": [
       91.02,
@@ -521,7 +521,7 @@
       106.6,
       104.32,
       105.28,
-      97.52
+      97.07
     ],
     "sc": [
       601.0,
@@ -685,6 +685,24 @@
   "timeline": [
     {
       "date": "2026-09-29",
+      "tag": "谈判",
+      "hot": true,
+      "t": "美伊间接谈判现分歧 特朗普拒绝伊朗方案 供应预期再度重估",
+      "d": "《华尔街日报》9月29日报道，美方与伊朗经斡旋方的间接谈判停滞，特朗普拒绝伊朗方面方案；engine.online 同日称油价因此获得支撑。CNBC 指出，美伊分别接触的同时中东原油出口升至战时高位，油价在谈判疑虑与供应回归之间震荡。上述进展决定制裁松动与伊朗出口回归节奏，但尚未改变装油与航运恢复的既成事实。来源：WSJ、engine.online、CNBC",
+      "src": "来源：WSJ、engine.online、CNBC",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNRXVfY2J4VE5CQTNyaWlYdlE1MTZaVGxmNEphMHBRanFoOVNKTFlMVmNQTllHMUpaMVFiemVMNW1BdGhGT2ZPUzhVczJTbW92bWlXcWVQMmxpTTZnYVNoRFFOUmpIbjgwc3hlZVRuUlJxODZFbGxqaWhhQjM5SW1TOU55c3R3Qy1ybzVyREdKaXZsWFJHUF9vOVN1XzMzb2lPMXVTWXVJMHNIei1z?oc=5"
+    },
+    {
+      "date": "2026-09-29",
+      "tag": "供应",
+      "hot": true,
+      "t": "美制裁法案拟对俄能源买家加征关税 印度原油采购或受约束",
+      "d": "Stephenson Harwood 9月29日发布的法律分析显示，美国《Graham制裁俄伊法案》拟对俄罗斯能源主要买家输美商品加征限制性关税。相关措施若进入执行阶段，将改变俄油流向与替代供应来源结构；OilPrice.com 同日报道，印度在100%关税威胁下仍不倾向放弃俄油采购。乌拉尔与中东原油价差、印度炼厂进料结构为主要观测点。来源：Stephenson Harwood、OilPrice.com",
+      "src": "来源：Stephenson Harwood、OilPrice.com",
+      "url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxQWXg1WExONkNocmh0WUx2aldNdy1pU2FYYzh0RFI4VVcwbk82WnNfUVB3UUFZMEk0MGVuTE1CUExidFRNbWNPZThzeHlPRHlqRHJDclEzNVlLMTUxMWtmYnNxWG1UZGNPSjl4MlNKRXlqVVZpd0xaeHZvVDlJNTdhVThSYXM0cFBSN3lweWdsRUxrWEJmUXRQSVYwWkgyczlzbkt1bUwybl9Lc18yQmlaQjNPZkNaWHZGQThrX21ncWtjVXBMVHJfME50V0lLcW9ocnd1ZG9iLTh0TzNNZjVBR2hzQU9pM1hEdzRmWHhmMWJVVkFhN0c5Sm5qQTFsRnRmcnRFWWhBMnBOWHdhckV5ZndvY0w?oc=5"
+    },
+    {
+      "date": "2026-09-29",
       "tag": "供应",
       "hot": true,
       "t": "沙特恢复延布装油作业 东西管道重启后红海出口增量落地",
@@ -824,24 +842,6 @@
       "d": "美国战略石油储备（SPR）原油库存上周降至2.838亿桶，为1982年以来最低水平。该数据强化了美国在供应冲击下缓冲能力受限的判断，也意味着任何额外地缘断供都更难通过SPR释放来对冲。低库存本身不直接改变产量，但会影响政策对价格上行的容忍度与补库预期，后续释放或补库节奏值得关注。",
       "src": "来源：Newsquawk",
       "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQRzRWRjNpRml4dVFVdWRManlGT3UxeUNJdUQxV0V1OS1NdE9aNEVQR1lrQzlZRW05M19HVkxOOHR1Y1NISzZ0UVRhWEU5c2VUbXVRajBYVTVaWTdKSF8xRVBHb29wR251VVNnaW9qek5nSksyY1h2MmJSZS11LTktTkV6d2Y1dVRwdjdIS05jMkJWMTU3V1Zqc3M2TXJaMFdXN2c?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "供应",
-      "hot": true,
-      "t": "波斯湾原油出口恢复至战前72% 美方称伊朗受封锁削弱",
-      "d": "波斯湾原油出口量已回升至战前水平的72%，显示沙特管道恢复与装船增加正在修复区域供应。该比例仍低于冲突前，表明供应路径尚未完全正常化，运费与保险成本可能继续高于常态。美方称伊朗受封锁削弱，谈判与海峡通行仍是边际变量；若装船量继续抬升，供应溢价可能进一步回落。",
-      "src": "来源：New York Post",
-      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOeFpWVTFwWnptOENIb1BaM2pSWVowX2tHVHhVdnZDS0lWOF8wVnVSa2xYSGJ6WjZBcmFfbWhSaUZGYllRbWVaZkNjdDdnS3FQd2wzRy1DSWpvaGJrZ0lSY3NEd3pYTk5TNVQ3T0ZENzMyZEFtMS1NUlhOZ3B3VldxTTF0a1lIUzdWTWdKYU85MURFZ2F6VkNCamRQalh5bWxCS3JIdm9ZZDNxRndldzNyYnBFSTJjZHB6blMwdHFWeXNHNUZCOHl1ZkNUUQ?oc=5"
-    },
-    {
-      "date": "2026-09-28",
-      "tag": "供应",
-      "hot": true,
-      "t": "市场关注美国柴油出口禁令讨论加深WTI对全球基准贴水",
-      "d": "有分析指出，市场关于美国可能限制柴油出口的讨论升温，令美国原油期货对全球基准的贴水加深。该预期若兑现，将改变美国成品油出口流向并收紧大西洋盆地柴油供应；但当前仅为讨论阶段，未形成正式政策，短期对Brent与WTI价差结构的影响大于对绝对价格。叠加美伊谈判僵局与霍尔木兹通行不确定性，政策风险溢价仍存。",
-      "src": "来源：Virginia Business",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlNTUDMwcl94akFaN1FQU1Q2RXhwZkpfV3hMdWd6MTRSYWwxMF81QUhZUlQ5UXdnSmpjcDREdk1lT0MwZzk4ejFUaENrYzlJelhTNE9TV3VYTm5BQ01mWkIwZGF6UzMxc3dmUVZLX0pGVDVra0x4T19NaWF2RTNzb0w1SGN0RVhGb2ln?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -886,22 +886,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "美伊谈判反复",
-      "level": "a",
-      "desc": "若间接谈判未达成约束性安排或伊朗在霍尔木兹采取拦截行动，地缘溢价将重新计入，BZ=F 或自 99.42 反弹；来源：CNBC、WSJ。",
-      "src": "CNBC、WSJ"
-    },
-    {
-      "k": "中东供应恢复超预期",
+      "k": "霍尔木兹通行安全",
       "level": "r",
-      "desc": "若沙特延布装船与东西管道出口持续回升、伊拉克出口维持高位，供应增量将压制价格，BZ=F 或自 99.42 进一步回落；来源：Reuters、IraqiNews。",
-      "src": "Reuters、IraqiNews"
+      "desc": "若海峡通行量自战时高位回落或油轮保险费率上行，供应路径将再度收紧，BZ=F 存在向 100 美元上沿快速修复的可能；反之溢价继续收敛。来源：WSJ、FXEmpire。",
+      "src": "来源：WSJ、FXEmpire"
     },
     {
-      "k": "宏观需求与美元走强",
+      "k": "美伊谈判与制裁执行",
+      "level": "a",
+      "desc": "若间接谈判出现实质进展，或对俄能源买家关税进入执行阶段，俄伊原油流向与中东出口结构将重排，BZ=F 与 WTI 价差及波动区间双向放大。来源：WSJ、Stephenson Harwood、OilPrice.com。",
+      "src": "来源：WSJ、Stephenson Harwood、OilPrice.com"
+    },
+    {
+      "k": "库存缓冲与金融条件",
       "level": "g",
-      "desc": "若美元指数维持 101 上方且美债收益率继续上行，需求侧估值承压，WTI 94.0 可能下探；来源：Financial Times、FXStreet。",
-      "src": "Financial Times、FXStreet"
+      "desc": "若美国战略储备维持 1982 年以来低位且美元指数守在 101 上方，库存与金融面难提供方向，价格更多由地缘消息驱动，趋势跟随策略有效性下降。来源：Reuters、AMWatch、Financial Times。",
+      "src": "来源：Reuters、AMWatch、Financial Times"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
