@@ -8,7 +8,7 @@
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
       "src": "BZ=F 布伦特原油期货 9-29 08:07 上海 · 昨收 104.32（现价 98.65/-5.44%，今开 98.73 / 高 98.80 / 低 98.43） · Yahoo Finance",
-      "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
+      "refs": "路透口径 11 月布伦特结算约 98.65 美元（较昨收 104.32 大跌 5.44%）",
       "quotes": {
         "wti": 93.24,
         "dxy": 101.19
@@ -363,40 +363,38 @@
   "newsTitle": "原油市场热点",
   "news": [
     {
-      "src": "Gate News / 路透",
-      "title": "油价隔夜涨超 3%：胡塞导弹袭击沙特能源设施推高油价，美伊探讨分步解封海峡协议",
-      "date": "09-24",
-      "url": "https://www.gate.com/news/detail/oil-prices-rise-34-as-us-iran-hormuz-talks-cap-houthi-driven-surge-24536101"
+      "src": "Reuters",
+      "title": "中东 9 月原油出口回升：沙特与伊拉克发运提速对冲海峡地缘风险，压制布伦特高位溢价",
+      "date": "09-28",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPdHV0WUlQdWJ2UVdjY2FzaFliQU1TaEEtYmJQUzVUbjUwcWJkNkhZSXYwV1BwbkFqY3Z6MVRkT21jbWhCUEg0eGY0TnFnY25XVjFiQzBMbE5yOXJlbzZVYVZ3UTJMc1BjLUFtb0FVaDRWVW9jRVFUZDQ0N2hGX19NREk0MHhZZVNSekNVb01JLWVPR0gzdm9fQ1ZTbFlHa2hYSDFBY2JpdkpmeDRFM0dpU0VmdHluNzZGbkpZ?oc=5"
     },
     {
-      "src": "CNA / 路透",
-      "title": "周四油价小幅回落：布伦特 102.13（-0.9%）、WTI 91.56（-0.7%），伊朗称仍愿谈但双方距离很远",
-      "date": "09-24",
-      "url": "https://www.channelnewsasia.com/business/oil-prices-edge-lower-iran-says-it-open-diplomacy-end-war-6406841"
+      "src": "Quantum Commodity Intelligence",
+      "title": "卡塔尔斡旋美伊霍尔木兹通行三方会谈重回议程，布伦特自 104 美元上方回吐涨幅",
+      "date": "09-28"
     },
     {
-      "src": "Emirates News Agency",
-      "title": "周三布伦特结算 103.08（+3.86%）、WTI 92.16；EIA 原油库存 +300 万桶至 4.264 亿桶",
-      "date": "09-24",
-      "url": "https://www.wam.ae/en/article/17fvc9m-crude-inventories-rise-gasoline-stocks-fall"
+      "src": "Al Jazeera",
+      "title": "伊朗宣称袭击海峡目标但霍尔木兹油轮通行量未降，实际发运正常削弱断供恐慌",
+      "date": "09-28",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcHFndWVQUVpiSnAwM0EtTUdVSVZvSERZZnZkQUswTVRETVpIdWJtU1VrRFpzdUxWNUplbUI3Z2F6UEFZdk43NWN4R1llRVJOMjNDV1oxNTF3dTJOOUdEQVVDT0JLdVpwa1J2UU9mMm5iczcwaEpubnR1WEIzdnBUWE9xVlJtdlIwZTc2YXpGWW5RU1RWdnUxa1B4ODB1RFNUd2lXdlZVazbSAa4BQVVfeXFMT3hIUnlIQUNRSU9pbnFSNTh4cnc0LXRiV3M2OE9VeFNab2FneWpIMUVoaTJvd1dpYnhfUkRRODJRcDNmcmZrRHpFcVhKWHlzTUYtdk0yaGc4YWxOQzVRQlhDOUJXLXdmQjNiMkhyaWZMM0lKZzY0QlRWeGlsMUFtQUt3T0lPNk42bmxnNFhjNWRmc3NUYTI0VGs2N2RjanVvNVZUek5uV0Y1c2dOdDhB?oc=5"
     },
     {
-      "src": "The Business Times",
-      "title": "佩泽希齐扬誓言绝不投降，油价周三收高近 4%；雷扎伊称条件未满足前不重开海峡",
-      "date": "09-23",
-      "url": "https://www.businesstimes.com.sg/companies-markets/energy-commodities/oil-settles-around-4-irans-president-vows-never-surrender"
+      "src": "CNBC",
+      "title": "沙特境内输油管道恢复输送提速，替代通道保障原油外运能力，油价跌破 100 美元",
+      "date": "09-28"
     },
     {
-      "src": "CNBC TV18",
-      "title": "周四布伦特仍在 100 美元上方整理；佩泽希齐扬列出谈判条件，市场等待沙特管道消息",
-      "date": "09-24",
-      "url": "https://www.cnbctv18.com/market/commodities/oil-prices-steady-iran-pezeshkian-un-brent-crude-wti-strait-of-hormuz-scott-bessent-19997089.htm"
+      "src": "Virginia Business",
+      "title": "市场关注美国柴油出口禁令政策讨论，潜在出口限制加深 WTI 对全球基准贴水",
+      "date": "09-28",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWlNTUDMwcl94akFaN1FQU1Q2RXhwZkpfV3hMdWd6MTRSYWwxMF81QUhZUlQ5UXdnSmpjcDREdk1lT0MwZzk4ejFUaENrYzlJelhTNE9TV3VYTm5BQ01mWkIwZGF6UzMxc3dmUVZLX0pGVDVra0x4T19NaWF2RTNzb0w1SGN0RVhGb2ln?oc=5"
     },
     {
-      "src": "The Business Standard",
-      "title": "佩泽希齐扬：不能人人使用霍尔木兹而伊朗被排除；沙特已售出海峡以外的本月及下月原油",
-      "date": "09-23",
-      "url": "https://www.tbsnews.net/world/iran-us-still-far-apart-peace-talks-iranian-official-says-pezeshkian-vows-no-surrender-1552146"
+      "src": "Al Jazeera",
+      "title": "伊拉克寻求绕开霍尔木兹的原油出口替代路径，评估陆上管道重构航运格局",
+      "date": "09-28",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYWFkRk5ZMkJFUmtITDVCbEx3STJmeDVNWnJpbFgtRWlYQVhlb0JxcUpTR0hCUVY1Rlc3NURTdUdycnJCdnVtckNxLXFzSFVENEN2MTMzeGluMTJ5MEtPOUI1bWR0YmZEdW9FUXNqdXBCT0pOQzJKSldNbTdZQTAtNHFVSEtPczBmLWpPUGZPb0FDRGRKV2hGUEpPSzJVNXl5dGVZUFdkTHhJNHRwa3ZxcHJIMUFiUdIBuwFBVV95cUxPcnNvT0owZU5BZUk2Q21rTlNrMlRGQWpPQ0tCSG5DLXJkX2NsVUVzeGtUVy1VQmtPUWxUMTI5TWQ5UVlxc01tc3h0QU9IX1Nndmh1bEFQQXlPazRxZGp3bDVSV2U4d0NLMDk1dWVtN1FkOVVORmNpbG9rSGdlbUR6WWNXUklueHFVaFBIRlBvMFl3ZnY3Z1ZyQl8xaXpET1prdmJlZmtjR1REYXkwYlVldEF1eVgxc0pFQkdR?oc=5"
     }
   ],
   "risksTitle": "原油市场观察变量",
@@ -420,5 +418,5 @@
       "src": "WSJ、Reuters"
     }
   ],
-  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
+  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-29 08:07 上海 98.65 美元/桶，相对前收盘 104.32 为 -5.44%（日内高 98.80 / 低 98.43）。路透口径 11 月布伦特隔夜结算约 98.65 美元、WTI 约 93.24 美元，较前期高点明显回吐。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Reuters、Quantum、Al Jazeera、CNBC、EIA、IEA 等）。仅作个人追踪参考，不构成投资建议。"
 }
