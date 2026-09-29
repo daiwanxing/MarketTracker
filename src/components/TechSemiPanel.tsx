@@ -365,7 +365,11 @@ export default function TechSemiPanel() {
             <div className="card closing-verdict-card">
               <div className="verdict-header">
                 <div className="verdict-tag-group">
-                  <span className="kicker-tag">EXECUTIVE POST-MARKET ATTRIBUTION</span>
+                  <span className="kicker-tag">
+                    {dynamicClock?.tradingPhase.phase === 'APAC_POST_MARKET'
+                      ? 'EXECUTIVE POST-MARKET ATTRIBUTION'
+                      : 'PREVIOUS CLOSE ATTRIBUTION // 前一交易日收盘定型'}
+                  </span>
                   <span className="driver-badge">{data.closingReview.verdict.primaryDriver}</span>
                 </div>
                 <span className="verdict-asof mono">{data.closingReview.asOf} 发布</span>

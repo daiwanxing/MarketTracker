@@ -16,6 +16,7 @@ concurrency:
 jobs:
   refresh:
     if: github.ref == 'refs/heads/main'
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -127,4 +128,5 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh oil, gold and tech semi market numbers"
+          git pull --rebase origin main
           git push origin HEAD:main

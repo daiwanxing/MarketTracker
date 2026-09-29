@@ -935,8 +935,13 @@ body {
   color: #c084fc;
 }
 
-.clock-pill.weekend {
+.clock-pill.weekend,
+.clock-pill.holiday {
   opacity: 0.75;
+}
+
+.clock-pill.holiday .pill-status {
+  color: var(--amber);
 }
 
 .closing-verdict-card {

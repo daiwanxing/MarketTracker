@@ -16,6 +16,7 @@ concurrency:
 jobs:
   refresh:
     if: github.ref == 'refs/heads/main'
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

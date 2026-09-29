@@ -542,6 +542,92 @@ def normalize_risks(raw: object) -> list[dict] | None:
     return rows[:3] if len(rows) >= 3 else None
 
 
+def normalize_closing_review(
+    raw: object,
+    existing: dict | None,
+    moment: datetime,
+) -> dict | None:
+    if not isinstance(raw, dict):
+        return None
+    verdict = raw.get("verdict")
+    pillars = raw.get("pillars")
+    cross_market = raw.get("crossMarket")
+    next_day_watch = raw.get("nextDayWatch")
+
+    # 1. 校验 verdict
+    if not isinstance(verdict, dict):
+        return None
+    headline = verdict.get("headline")
+    core_summary = verdict.get("coreSummary")
+    risk_tone = verdict.get("riskTone")
+    primary_driver = verdict.get("primaryDriver")
+    if not all(isinstance(v, str) and v.strip() for v in (headline, core_summary, risk_tone, primary_driver)):
+        return None
+
+    # 2. 校验 pillars：必须包含 crowding, liquidity, macro, industry，且 weight 之和为 100
+    if not isinstance(pillars, list) or len(pillars) != 4:
+        return None
+    allowed_ids = {"crowding", "liquidity", "macro", "industry"}
+    seen_ids = set()
+    total_weight = 0
+    norm_pillars = []
+    for p in pillars:
+        if not isinstance(p, dict):
+            return None
+        pid = p.get("id")
+        if pid not in allowed_ids or pid in seen_ids:
+            return None
+        seen_ids.add(pid)
+        weight = p.get("weight")
+        if not isinstance(weight, (int, float)):
+            return None
+        total_weight += int(weight)
+        norm_pillars.append(p)
+    if seen_ids != allowed_ids or total_weight != 100:
+        return None
+
+    # 3. 校验 crossMarket
+    if not isinstance(cross_market, dict):
+        return None
+    spread_metric = cross_market.get("spreadMetric")
+    div_logic = cross_market.get("divergenceLogic")
+    lead_lag = cross_market.get("leadLagSignal")
+    if not all(isinstance(v, str) and v.strip() for v in (spread_metric, div_logic, lead_lag)):
+        return None
+
+    # 4. 校验 nextDayWatch
+    if not isinstance(next_day_watch, list) or len(next_day_watch) < 2:
+        return None
+
+    # 5. 保留 existing 中的 tradingPhase 和 marketClock（由客户端动态时钟和 refresh_tech_semi_data 驱动）
+    trading_phase = (existing or {}).get("tradingPhase") or {
+        "phase": "APAC_POST_MARKET",
+        "headline": "亚太盘后定型 · 欧美盘前博弈窗口",
+        "window": "15:00 ~ 18:00 CST",
+    }
+    market_clock = (existing or {}).get("marketClock") or []
+
+    return {
+        "asOf": moment.strftime("%Y-%m-%d %H:%M"),
+        "tradingPhase": trading_phase,
+        "verdict": {
+            "headline": headline.strip(),
+            "coreSummary": core_summary.strip(),
+            "riskTone": risk_tone.strip(),
+            "primaryDriver": primary_driver.strip(),
+        },
+        "marketClock": market_clock,
+        "pillars": norm_pillars,
+        "crossMarket": {
+            "spreadMetric": spread_metric.strip(),
+            "spreadStatus": cross_market.get("spreadStatus", "divergence"),
+            "divergenceLogic": div_logic.strip(),
+            "leadLagSignal": lead_lag.strip(),
+        },
+        "nextDayWatch": next_day_watch,
+    }
+
+
 def merge_timeline(existing: list, incoming: list[dict], today: date) -> list[dict]:
     kept: list[dict] = []
     seen: set[str] = set()
@@ -644,6 +730,7 @@ def mock_payload_for_doc(doc: dict, headlines: list[dict[str, str]] | None = Non
                 "src": "科技产业洞察",
             },
         ],
+        "closingReview": doc.get("closingReview"),
     }
 
 
@@ -724,15 +811,21 @@ def refresh_tech_semi_timeline(
         log("WARN", "signal or risks failed validation; narrative left unchanged")
         return 0
 
-    merged = merge_timeline(timeline, events, datetime.now(SHANGHAI).date()) if events else timeline
-    changed = merged != timeline or signal != doc.get("signal") or risks != doc.get("risks")
+    now_shanghai = datetime.now(SHANGHAI)
+    norm_cr = normalize_closing_review(payload.get("closingReview"), doc.get("closingReview"), now_shanghai)
+
+    merged = merge_timeline(timeline, events, now_shanghai.date()) if events else timeline
+    cr_changed = norm_cr is not None and norm_cr != doc.get("closingReview")
+    changed = merged != timeline or signal != doc.get("signal") or risks != doc.get("risks") or cr_changed
     if not changed:
         log("INFO", "narrative unchanged")
         return 0
     doc["timeline"] = merged
     doc["signal"] = signal
     doc["risks"] = risks
-    log("INFO", f"timeline accepted={len(events)} kept={len(merged)}; signal and risks updated")
+    if norm_cr is not None:
+        doc["closingReview"] = norm_cr
+    log("INFO", f"timeline accepted={len(events)} kept={len(merged)}; signal and risks updated" + (" (closingReview updated)" if cr_changed else ""))
 
     if dry_run:
         log("INFO", f"dry-run: {path.name} not written")

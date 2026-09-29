@@ -13,7 +13,8 @@ export type MarketStatus =
   | 'PENDING_OPEN'
   | 'PRE_MARKET'
   | 'INTERMISSION'
-  | 'WEEKEND';
+  | 'WEEKEND'
+  | 'HOLIDAY';
 
 export interface MarketClockItem {
   symbol: string;
@@ -119,9 +120,40 @@ export function isUSDaylightSaving(now: Date = new Date()): boolean {
 }
 
 /**
+ * 中国 A 股常见法定节假日休市识别 (格式: YYYY-MM-DD)
+ */
+function getChinaHoliday(_year: number, month: number, date: number): string | null {
+  const mmdd = `${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+  // 元旦
+  if (mmdd === '01-01' || mmdd === '01-02' || mmdd === '01-03') return '元旦休市';
+  // 劳动节
+  if (mmdd >= '05-01' && mmdd <= '05-05') return '劳动节休市';
+  // 国庆节
+  if (mmdd >= '10-01' && mmdd <= '10-07') return '国庆长假休市';
+  return null;
+}
+
+/**
+ * 美股主要法定节假日休市识别
+ */
+function getUSHoliday(_year: number, month: number, date: number): string | null {
+  const mmdd = `${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+  if (mmdd === '01-01') return '元旦休市';
+  if (mmdd === '07-04') return '独立日休市';
+  if (mmdd === '12-25') return '圣诞节休市';
+  return null;
+}
+
+/**
  * 获取科创50（A股）的实时交易状态
  */
 export function getStar50Status(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
+  // 节假日休市
+  const holiday = getChinaHoliday(bj.year, bj.month, bj.date);
+  if (holiday) {
+    return { status: 'HOLIDAY', statusLabel: holiday };
+  }
+
   // 周末休市
   if (bj.day === 0 || bj.day === 6) {
     return { status: 'WEEKEND', statusLabel: '周末休市' };
@@ -195,6 +227,11 @@ export function getSoxStatus(
 
   const m = bj.totalMinutes;
   const day = bj.day; // 0: Sun, 1: Mon, ..., 5: Fri, 6: Sat
+
+  const usHoliday = getUSHoliday(bj.year, bj.month, bj.date);
+  if (usHoliday) {
+    return { status: 'HOLIDAY', statusLabel: usHoliday };
+  }
 
   // 1. 周六：北京时间 00:00 至 closeMinutes (04:00/05:00) 仍然是美股周五尾盘常规交易！
   if (day === 6) {
