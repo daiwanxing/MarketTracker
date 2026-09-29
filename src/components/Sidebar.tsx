@@ -6,9 +6,10 @@ const PAGES: { to: string; label: string }[] = [
   { to: '/oil', label: '原油' },
   { to: '/gold', label: '黄金' },
   { to: '/enso', label: '农产品' },
-  { to: '/semi', label: '科技指数宏观' },
-  { to: '/equip', label: '设备材料' },
+  { to: '/semi', label: '科创 50 & SOX & KOSPI' },
+  { to: '/equip', label: '半导体设备材料' },
   { to: '/optics', label: '光模块' },
+  { to: '/robot', label: '机器人' },
 ];
 
 export default function Sidebar() {
@@ -76,18 +77,23 @@ export default function Sidebar() {
             </NavLink>
           </div>
           <div className="nav-group">
-            <div className="group-label">AI与半导体</div>
+            <div className="group-label">科技产业</div>
             <NavLink to="/semi" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              科技指数宏观
+              科创 50 & SOX & KOSPI
             </NavLink>
             <NavLink to="/equip" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
-              设备材料
+              半导体设备材料
             </NavLink>
             <NavLink to="/optics" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
               光模块
+            </NavLink>
+            <NavLink to="/robot" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              <span className="dot-mini" aria-hidden="true" />
+              机器人
+              <span className="nav-badge">预留</span>
             </NavLink>
           </div>
         </nav>

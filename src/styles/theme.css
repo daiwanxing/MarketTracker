@@ -143,6 +143,18 @@ body {
   background: var(--ghost-surface);
 }
 .nav-link .dot-mini { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .5; }
+.nav-link .nav-badge {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+  background: rgba(240, 240, 250, 0.05);
+  border: 1px solid rgba(240, 240, 250, 0.12);
+  border-radius: 2px;
+  padding: 1px 5px;
+}
 .sidebar-foot {
   margin-top: auto;
   padding-top: 20px;

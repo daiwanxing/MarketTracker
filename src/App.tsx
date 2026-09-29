@@ -6,6 +6,7 @@ import GoldPanel from './components/GoldPanel';
 import TechSemiPanel from './components/TechSemiPanel';
 import EquipPanel from './components/EquipPanel';
 import OpticsPanel from './components/OpticsPanel';
+import RobotPanel from './components/RobotPanel';
 import { LiveQuotesProvider } from './context/LiveQuotesProvider';
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/semi" element={<TechSemiPanel />} />
             <Route path="/equip" element={<EquipPanel />} />
             <Route path="/optics" element={<OpticsPanel />} />
+            <Route path="/robot" element={<RobotPanel />} />
           </Routes>
         </main>
       </div>
