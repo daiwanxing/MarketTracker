@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-29 08:07",
+  "snapshot": "2026-09-29 09:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,7 +13,7 @@
       "chg": "-1.61%",
       "chgClass": "down",
       "previousClose": 12668.93,
-      "src": "^SOX 09-29 08:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-29 09:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -22,40 +22,40 @@
       "chg": "-4.06%",
       "chgClass": "down",
       "previousClose": 1621.87,
-      "src": "000688.SS 09-29 08:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 09-29 09:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 6889.74,
-      "chg": "-2.70%",
+      "price": 6861.68,
+      "chg": "-3.10%",
       "chgClass": "down",
       "previousClose": 7080.92,
-      "src": "^KS11 09-29 08:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 09-29 09:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
     "secTitle": "产业与市场信号",
     "secHint": "只根据已经对上的价格和成交占比。未接入的指标不下结论",
-    "verdict": "AI资本开支扩张与先进制程、存储供给紧缺构成基本面支撑，但TMT成交占比42.17%处danger分区、科创50单日-4.06%及节前杠杆防御，显示拥挤筹码主导短期定价，宏观油价百元与利率约束持续压制估值。",
-    "sub": "指标口径：TMT成交额占比为TMT行业成交额/全市场成交额，42.17%属极端过热；融资买入占比8.59%为2026-09-24口径，处平常区间；CSP资本开支采用Alphabet/Amazon 2026年二季报上修指引；SOX、KOSPI、科创50为最新收盘价。",
+    "verdict": "核心主矛盾为AI资本开支加速与微观筹码极端拥挤的背离。Alphabet全年资本开支上修至1950–2050亿美元、Amazon现金资本开支上修至约2200亿美元，晶圆代工2Q26营收534.9亿美元、DRAM营收季增59.5%，产业景气延续；但TMT成交额占比达42.17%落于danger分区，费城半导体指数收跌1.61%、韩国KOSPI跌3.10%、科创50跌4.06%，短期定价权由景气转向筹码。",
+    "sub": "口径边界：TMT成交额占比为A股全市场口径（7240.16亿元／17168.51亿元）；融资买入占比8.06%截至2026-09-28，属平常区间；CSP资本开支为公司二季报业绩会指引口径，非实际支出。观察维度：成交占比回落斜率、节前杠杆边际变化、先进制程与存储合约价落地节奏。",
     "bullTitle": "利多支撑",
     "bullHint": "结构性景气驱动",
     "bull": [
       {
         "dim": "capex",
-        "k": "CSP资本开支上修",
-        "v": "Alphabet 2026年上修至1950–2050亿美元，Amazon上修至约2200亿美元，AI服务器与网络设备拉货能见度延长。"
+        "k": "北美CSP资本开支指引",
+        "v": "Alphabet全年上修至1950–2050亿美元，Amazon现金资本开支上修至约2200亿美元，算力投入维持加速"
       },
       {
         "dim": "foundry",
-        "k": "先进制程与AI需求",
-        "v": "2Q26全球晶圆代工营收近534.9亿美元，AI与先进制程满产，SMIC与Samsung份额差距收窄。"
+        "k": "2Q26全球晶圆代工营收",
+        "v": "接近534.9亿美元，先进制程与AI需求强劲，SMIC与三星份额差距收窄"
       },
       {
         "dim": "substitute",
-        "k": "大陆供应链验证",
-        "v": "日韩MLCC厂转向AI应用，中国大陆厂商进入一线品牌验证，国产替代由消费级向高可靠场景渗透。"
+        "k": "被动元件国产验证",
+        "v": "日韩MLCC厂转向AI应用，中国大陆厂商进入一线品牌验证，替代窗口打开"
       }
     ],
     "bearTitle": "潜在风险",
@@ -63,21 +63,21 @@
     "bear": [
       {
         "dim": "mature",
-        "k": "成熟制程消费疲软",
-        "v": "消费电子与工业需求恢复温和，成熟制程稼动率与价格承压，低容量NOR等产品价格分化拖累二线厂毛利。"
+        "k": "消费类成熟需求",
+        "v": "日韩厂削减消费规格MLCC供给，消费电子与成熟制程订单能见度偏低"
       },
       {
         "dim": "geo",
-        "k": "地缘与AI安全监管",
-        "v": "AI代理安全事件与出口管制不确定性抬升合规成本，供应链区域化重复建设，跨境技术协作受限。"
+        "k": "对华AI芯片政策不确定性",
+        "v": "英伟达对华销售与政策影响力争议持续，出口规则扰动订单结构"
       },
       {
         "dim": "memory",
-        "k": "存储涨价挤压下游",
-        "v": "DRAM、Enterprise SSD、NOR价格上行虽利好原厂，但模组与终端成本抬升，若传导不畅将抑制出货与库存回补。"
+        "k": "存储涨价向下游传导",
+        "v": "2Q26 DRAM营收季增59.5%，Enterprise SSD第四季价格续涨，成本压力向模组与终端传导"
       }
     ],
-    "watch": "美债10年期收益率与美联储路径 · 布伦特原油百元关口持续性 · TMT成交占比能否回落至35%下方 · 10月上旬CSP资本开支指引 · DRAM与NAND月度合约价涨幅"
+    "watch": "TMT成交额占比能否自42.17%回落 · 节前融资买入占比8.06%的边际变化 · 费城半导体指数12000关口得失 · 4Q26 Enterprise SSD与DRAM合约价落地 · 科创50相对KOSPI裂口收敛节奏"
   },
   "charts": {
     "normalized": {
@@ -460,7 +460,7 @@
         40.15,
         40.15,
         40.15,
-        36.36
+        40.15
       ],
       "star50": [
         0.0,
@@ -592,6 +592,24 @@
     }
   },
   "timeline": [
+    {
+      "date": "2026-09-29",
+      "tag": "行业周期",
+      "hot": true,
+      "t": "英伟达追加1500亿美元回购授权，为美股史上最大单笔规模",
+      "d": "英伟达宣布将股票回购授权规模上调1500亿美元，创美股史上最大单笔授权，并同步发布面向AI智能体的开放安全平台，试图在模型部署环节建立标准。回购规模增速超越当期自由现金流增速，指向管理层对算力需求持续性的信心；但路透指出AI芯片竞争加剧已构成其股价承压因素之一，资本回报强化亦可能被解读为成长叙事的边际弱化。对上游先进封装与HBM供应链而言，中期订单能见度维持。",
+      "src": "来源：Reuters / NVIDIA Newsroom",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNTzg4UzFUbWw0cThEbUEwYVdsdF9WVVpuSDZ0RkJjLWd1UE5XdVJFWjRKazNRU2lyVkxiX2xIZFplVnkxTTl4QUhnV1NaM21SdFNxTFBMYXVJMlJVU2lobmtWYkpqa2wyWlRPLWxuZTMtTzhRUVpHZ1V6VkRLS0psbzlQTWQwcGNpVXNuSGRYSjlCQU9sU3lXcXVteXk2ZmZf?oc=5"
+    },
+    {
+      "date": "2026-09-24",
+      "tag": "国产替代",
+      "hot": false,
+      "t": "日韩MLCC厂削减消费供给转向AI，中国大陆厂商进入一线品牌验证",
+      "d": "TrendForce指出，日韩被动元件厂正将消费类MLCC产能转投AI服务器与车载应用，消费规格供给同步收缩，中国大陆厂商开启一线品牌验证流程。产业链含义双向：其一，AI服务器所需高容值、高可靠MLCC供需趋紧，价格中枢上移；其二，消费类订单外溢为国产厂商切入高端供应链提供窗口，验证通过节奏决定替代弹性。被动元件环节的景气分化与存储、先进制程同向，共同强化AI与非AI需求的K型结构。",
+      "src": "来源：TrendForce 集邦咨询",
+      "url": "https://www.trendforce.cn/presscenter/news/19700101-13251.html"
+    },
     {
       "date": "2026-09-14",
       "tag": "行业周期",
@@ -734,23 +752,6 @@
       "d": "据shattered.io报道，受HBM供应短缺影响，NVIDIA Rubin Ultra内存配置较原规划缩减约33%。HBM是AI加速器关键BOM，供给缺口将传导至GPU模组与云厂商算力集群交付节奏；若缺口延续，2027年先进AI算力预订订单或面临延期风险，并强化原厂产能锁定与战略备货行为。",
       "src": "来源：shattered.io",
       "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9sczBUZkxfdWYzaFY3c2VNeVk1TGRQQnYyY1c1Z2dYcGY5V3BRRDlnNXlPTXB0aWpQWFR4MWRucGdrZHB6TlZBUWF2clZTMHVCNS1HYTc5QWxFZS1LVHh6Q1pKOFF1T2N5UGlGcFFWdWJoRlUxLW0yTg?oc=5"
-    },
-    {
-      "date": "2026-09-28",
-      "tag": "政策监管",
-      "hot": true,
-      "t": "中国或允许阿里巴巴采购英伟达RTX芯片，对华AI算力准入现边际变化",
-      "d": "据Bloomberg报道，中国可能允许阿里巴巴采购NVIDIA RTX系列芯片。若落地，将在训练与推理算力供给上形成海外GPU与国产替代方案的再平衡，影响国内AI服务器BOM、渠道库存与云厂商资本开支节奏。当前仍处市场传闻与政策观察阶段，出口管制细则、采购用途与合规边界尚待明确。",
-      "src": "来源：Bloomberg.com",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNSmpMYk0xRTBfdm5NMXRfNVNfMlE0cnppenNvTHNITzhVNXZ0R2NIX0Z3bmlWSmV1RHBpYURmWmdMT1ZLY2hUWG5WcDRsaFVSWktoRWFNQkdtRzg5UHpLeGstQXFGdkprdGhEbk05RUE5MEM4UTVlb281N3lOb2Y2WndNNHhzNUEtU3JlMUd5Z2FQRFRiM29JMU1fa25QRzBnekJJU3FYZGZlby1faklDS1pURG8?oc=5"
-    },
-    {
-      "date": "09-24",
-      "tag": "算力基础设施",
-      "t": "头部云厂商追加 2027 年先进 AI 算力集群预定订单",
-      "d": "海外科技巨头在投资者交流中重申对下一代生成式 AI 模型训练的资本开支承诺，光模块与先进制程供应链订单预期进一步巩固。",
-      "src": "彭博新闻社",
-      "hot": true
     }
   ],
   "news": [
@@ -781,22 +782,22 @@
   ],
   "risks": [
     {
-      "k": "TMT拥挤度极端出清",
+      "k": "TMT筹码拥挤度",
       "level": "high",
-      "desc": "TMT成交额占比42.17%处danger分区，融资买入占比8.59%虽平常，但长假前资金撤退与科创50单日-4.06%叠加，若出现外部利空，筹码踩踏将放大半导体高β回撤。",
-      "src": "交易所统计 / Bloomberg"
+      "desc": "成交额占比42.17%处danger分区，若节前无法回落至38%下方，高β半导体与算力品种将面临被动减仓与止损单级联，多杀多踩踏风险上升。",
+      "src": "来源：市场成交数据（2026-09-28）"
     },
     {
-      "k": "地缘与AI安全监管",
+      "k": "AI芯片出口与地缘",
       "level": "med",
-      "desc": "Nvidia OpenShell发布与Hugging Face相关安全事件，AI代理安全与数据跨境监管趋严，可能抬升合规成本并扰动算力基础设施交付节奏。",
-      "src": "Reuters / NVIDIA Newsroom"
+      "desc": "对华AI芯片销售规则与政策影响力争议持续。若出口许可进一步收紧，将直接压缩算力平台厂商中国区收入，并扰动HBM与先进封装订单节奏。",
+      "src": "来源：Ars Technica"
     },
     {
-      "k": "存储价格上行传导风险",
+      "k": "存储涨价传导",
       "level": "med",
-      "desc": "TrendForce预估Enterprise SSD第四季价格续涨、NOR高容量涨幅90-110%、DRAM供需缺口延续，若终端无法消化成本，模组厂与消费品牌毛利承压并可能下修订单。",
-      "src": "TrendForce 集邦咨询"
+      "desc": "DRAM营收季增59.5%、企业级SSD第四季价格续涨。若涨幅超下游承受阈值，云厂商采购节奏与整机毛利将承压，形成需求侧反噬。",
+      "src": "来源：TrendForce 集邦咨询"
     }
   ],
   "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
@@ -1017,13 +1018,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 8.59,
-      "asOf": "2026-09-24",
-      "buyYi": 1419.78,
-      "marketAmountYi": 16533.57,
-      "src": "东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · 2026-09-24",
+      "value": 8.06,
+      "asOf": "2026-09-28",
+      "buyYi": 1372.86,
+      "marketAmountYi": 17027.99,
+      "src": "东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · 2026-09-28",
       "dates": [
-        "07-03",
         "07-06",
         "07-07",
         "07-08",
@@ -1082,10 +1082,10 @@
         "09-21",
         "09-22",
         "09-23",
-        "09-24"
+        "09-24",
+        "09-28"
       ],
       "shares": [
-        9.33,
         9.11,
         8.87,
         8.88,
@@ -1144,7 +1144,8 @@
         9.19,
         9.83,
         9.13,
-        8.59
+        8.59,
+        8.06
       ]
     }
   },
