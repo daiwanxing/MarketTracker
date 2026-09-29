@@ -17,10 +17,11 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
+    timeout-minutes: 10
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -60,6 +61,7 @@ jobs:
 
   deploy:
     needs: build
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     environment:
       name: github-pages
