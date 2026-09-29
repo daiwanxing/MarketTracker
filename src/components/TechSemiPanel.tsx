@@ -17,6 +17,7 @@ type Bench = {
   price: number;
   chg: string;
   chgClass: string;
+  previousClose?: number;
   src: string;
 };
 
@@ -133,7 +134,7 @@ type ClosingReview = {
   nextDayWatch: NextDayWatch[];
 };
 
-const BENCH_KEYS = ['sox', 'kospi', 'star50'] as const;
+const BENCH_KEYS = ['sox', 'star50', 'kospi'] as const;
 const CHART_SERIES = [
   { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
   { key: 'kospi', name: '韩国 KOSPI', color: '#f43f5e', width: 2.0 },
@@ -203,18 +204,24 @@ export default function TechSemiPanel() {
         price: lSemi.sox.price,
         chg: lSemi.sox.chg,
         chgClass: lSemi.sox.chgClass,
+        previousClose: lSemi.sox.previousClose ?? rawBenchMap.sox.previousClose,
+        src: `${rawBenchMap.sox.symbol} · Vercel 边缘实时 · Yahoo Finance`,
       } : undefined,
       star50: rawBenchMap.star50 ? {
         ...rawBenchMap.star50,
         price: lSemi.star50.price,
         chg: lSemi.star50.chg,
         chgClass: lSemi.star50.chgClass,
+        previousClose: lSemi.star50.previousClose ?? rawBenchMap.star50.previousClose,
+        src: `${rawBenchMap.star50.symbol} · Vercel 边缘实时 · Yahoo Finance`,
       } : undefined,
       kospi: rawBenchMap.kospi ? {
         ...rawBenchMap.kospi,
         price: lSemi.kospi.price,
         chg: lSemi.kospi.chg,
         chgClass: lSemi.kospi.chgClass,
+        previousClose: lSemi.kospi.previousClose ?? rawBenchMap.kospi.previousClose,
+        src: `${rawBenchMap.kospi.symbol} · Vercel 边缘实时 · Yahoo Finance`,
       } : undefined,
     };
   }, [rawBenchMap, liveQuotes]);
@@ -244,7 +251,7 @@ export default function TechSemiPanel() {
 
   const benches = BENCH_KEYS.map((key) => benchMap[key]).filter((item): item is Bench => Boolean(item));
   const share = crowding?.turnoverShare?.value ?? 0;
-  const starDown = benchMap.star50?.chgClass === 'down';
+  const starDown = (benchMap.star50?.chgClass === 'down') || (benchMap.star50?.chg.startsWith('-') ?? false);
   const tone = crowdTone(share, starDown);
   const crowdZone = crowding?.zone || tone.zone;
   const crowdLabel = crowding?.label || tone.label;
@@ -556,19 +563,26 @@ export default function TechSemiPanel() {
           <span className="hint">费半、韩国KOSPI、科创50</span>
         </h2>
         <div className="benchmarks-grid">
-          {benches.map((bm) => (
-            <div className="card bm-card" key={bm.symbol}>
-              <div className="bm-header">
-                <span className="bm-name">{bm.name}</span>
-                <span className="bm-sym">{bm.symbol}</span>
+          {benches.map((bm) => {
+            const chgClass = bm.chgClass || (bm.chg.startsWith('+') ? 'up' : (bm.chg.startsWith('-') ? 'down' : ''));
+            return (
+              <div className="card bm-card" key={bm.symbol}>
+                <div className="bm-header">
+                  <span className="bm-name">{bm.name}</span>
+                  <span className="bm-sym">{bm.symbol}</span>
+                </div>
+                <div className="bm-price-row">
+                  <span className="bm-price num">
+                    {typeof bm.price === 'number'
+                      ? bm.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                      : bm.price}
+                  </span>
+                  <span className={`bm-chg ${chgCls(chgClass)}`}>{bm.chg || '--'}</span>
+                </div>
+                <div className="bm-src">{bm.src}</div>
               </div>
-              <div className="bm-price-row">
-                <span className="bm-price num">{bm.price.toLocaleString()}</span>
-                <span className={`bm-chg ${chgCls(bm.chgClass)}`}>{bm.chg || '--'}</span>
-              </div>
-              <div className="bm-src">{bm.src}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="card chart-panel" style={{ marginTop: 16 }}>

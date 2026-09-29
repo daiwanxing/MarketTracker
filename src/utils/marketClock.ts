@@ -412,7 +412,11 @@ export function resolveMarketClock(
 
     const price = liveQuote?.price ?? item.price;
     const chg = liveQuote?.chg ?? item.chg;
-    const chgClass = liveQuote?.chgClass ?? item.chgClass;
+    let chgClass = liveQuote?.chgClass ?? item.chgClass;
+    if (!chgClass && typeof chg === 'string') {
+      if (chg.startsWith('+')) chgClass = 'up';
+      else if (chg.startsWith('-')) chgClass = 'down';
+    }
 
     return {
       ...item,

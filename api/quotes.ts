@@ -35,18 +35,18 @@ const FALLBACK = {
     star50: {
       name: '科创50指数',
       symbol: '000688.SS',
-      price: 1555.98,
-      chg: '-4.06%',
-      chgClass: 'down' as const,
-      previousClose: 1621.87,
+      price: 1569.34,
+      chg: '+0.86%',
+      chgClass: 'up' as const,
+      previousClose: 1555.98,
     },
     kospi: {
       name: '韩国KOSPI指数',
       symbol: '^KS11',
-      price: 6861.68,
-      chg: '-3.10%',
+      price: 6870.81,
+      chg: '-0.27%',
       chgClass: 'down' as const,
-      previousClose: 7080.92,
+      previousClose: 6889.74,
     },
   },
 };
@@ -79,9 +79,12 @@ async function fetchYahooQuote(symbol: string, timeoutMs = 4000): Promise<QuoteR
     const result = json?.chart?.result?.[0];
     const meta = result?.meta;
     const price = typeof meta?.regularMarketPrice === 'number' ? meta.regularMarketPrice : null;
-    const prev = typeof meta?.chartPreviousClose === 'number'
-      ? meta.chartPreviousClose
-      : (typeof meta?.previousClose === 'number' ? meta.previousClose : null);
+    // 优先使用 regularMarketPreviousClose，若无则使用 chartPreviousClose / previousClose
+    const prev = typeof (meta as Record<string, unknown>)?.regularMarketPreviousClose === 'number'
+      ? (meta as Record<string, unknown>).regularMarketPreviousClose as number
+      : (typeof meta?.chartPreviousClose === 'number'
+        ? meta.chartPreviousClose
+        : (typeof meta?.previousClose === 'number' ? meta.previousClose : null));
 
     if (price === null) return null;
 
@@ -196,8 +199,10 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
 
   // 3. 黄金组装
   const fbGold = FALLBACK.gold;
-  const goldPriceNum = spotGold?.price ?? parseFloat(fbGold.num);
+  const goldPriceNum = spotGold?.price ?? (gc?.price ?? parseFloat(fbGold.num));
   const goldPrice = goldPriceNum.toFixed(2);
+  const goldChg = gc?.chg || fbGold.chg;
+  const goldChgClass = gc?.chgClass || fbGold.chgClass;
   const goldQuotes = {
     gc: gc?.price ?? fbGold.quotes.gc,
     dxy: dxy?.price ?? fbGold.quotes.dxy,
@@ -215,8 +220,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     },
     gold: {
       price: goldPrice,
-      chg: fbGold.chg,
-      chgClass: fbGold.chgClass,
+      chg: goldChg,
+      chgClass: goldChgClass,
       quotes: goldQuotes,
     },
     techSemi: techSemiData,

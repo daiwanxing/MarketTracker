@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-09-29 16:07",
+  "snapshot": "2026-09-29 16:12",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -13,16 +13,16 @@
       "chg": "-1.61%",
       "chgClass": "down",
       "previousClose": 12668.93,
-      "src": "^SOX 09-29 16:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 09-29 16:12 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
       "price": 1569.34,
-      "chg": "-3.24%",
-      "chgClass": "down",
-      "previousClose": 1621.87,
-      "src": "000688.SS 09-29 16:07 上海 · Yahoo Finance (000688.SS)"
+      "chg": "+0.86%",
+      "chgClass": "up",
+      "previousClose": 1555.98,
+      "src": "000688.SS 09-29 16:12 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -31,7 +31,7 @@
       "chg": "-0.27%",
       "chgClass": "down",
       "previousClose": 6889.74,
-      "src": "^KS11 09-29 16:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 09-29 16:12 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -836,8 +836,8 @@
         "status": "CLOSED",
         "statusLabel": "已收盘 15:00",
         "price": 1569.34,
-        "chg": "-3.24%",
-        "chgClass": "down",
+        "chg": "+0.86%",
+        "chgClass": "up",
         "role": "境内科技贝塔与流动性风向标"
       },
       {

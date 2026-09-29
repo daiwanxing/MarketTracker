@@ -315,7 +315,7 @@ def fetch_yahoo(symbol: str, range_param: str = "5d") -> Quote:
                 except Exception as exc:  # noqa: BLE001
                     log("WARN", f"{symbol} 1mo fallback for previous close failed: {exc}")
             if prev_close is None:
-                prev_close = _num(meta.get("previousClose"))
+                prev_close = _num(meta.get("chartPreviousClose")) or _num(meta.get("previousClose"))
 
         lo, hi = RANGES.get(symbol, (None, None))
         if lo is not None and not (lo <= price <= hi):
