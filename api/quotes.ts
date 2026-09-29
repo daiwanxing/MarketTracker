@@ -1,7 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import oilFallback from '../src/data/oilData.json';
-import goldFallback from '../src/data/goldData.json';
-import techSemiFallback from '../src/data/techSemiData.json';
 
 interface QuoteResult {
   symbol: string;
@@ -12,6 +9,47 @@ interface QuoteResult {
 }
 
 const UA = 'Mozilla/5.0 (compatible; MarketTracker/1.0; +https://github.com/daiwanxing/MarketTracker)';
+
+const FALLBACK = {
+  oil: {
+    num: '98.80',
+    chg: '-5.29%',
+    chgClass: 'down' as const,
+    quotes: { wti: 93.35, dxy: 101.23 },
+  },
+  gold: {
+    num: '4120.30',
+    chg: '-0.14%',
+    chgClass: 'down' as const,
+    quotes: { gc: 4150.2, dxy: 101.23, us10y: 5.184 },
+  },
+  techSemi: {
+    sox: {
+      name: '费城半导体指数',
+      symbol: '^SOX',
+      price: 12465.24,
+      chg: '-1.61%',
+      chgClass: 'down' as const,
+      previousClose: 12668.93,
+    },
+    star50: {
+      name: '科创50指数',
+      symbol: '000688.SS',
+      price: 1555.98,
+      chg: '-4.06%',
+      chgClass: 'down' as const,
+      previousClose: 1621.87,
+    },
+    kospi: {
+      name: '韩国KOSPI指数',
+      symbol: '^KS11',
+      price: 6861.68,
+      chg: '-3.10%',
+      chgClass: 'down' as const,
+      previousClose: 7080.92,
+    },
+  },
+};
 
 /**
  * 带有超时控制的 Yahoo Finance 价格抓取
@@ -27,7 +65,17 @@ async function fetchYahooQuote(symbol: string, timeoutMs = 4000): Promise<QuoteR
       signal: AbortSignal.timeout(timeoutMs),
     });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json = (await res.json()) as {
+      chart?: {
+        result?: Array<{
+          meta?: {
+            regularMarketPrice?: number;
+            chartPreviousClose?: number;
+            previousClose?: number;
+          };
+        }>;
+      };
+    };
     const result = json?.chart?.result?.[0];
     const meta = result?.meta;
     const price = typeof meta?.regularMarketPrice === 'number' ? meta.regularMarketPrice : null;
@@ -67,7 +115,7 @@ async function fetchSpotGold(timeoutMs = 3500): Promise<{ price: number } | null
       signal: AbortSignal.timeout(timeoutMs),
     });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json = (await res.json()) as { price?: number };
     if (typeof json?.price === 'number') {
       return { price: json.price };
     }
@@ -108,27 +156,27 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const spotGold = spotGoldRes.status === 'fulfilled' ? spotGoldRes.value : null;
 
   // 1. 科技半导体组装
-  const fbSemi = techSemiFallback.benchmarks;
+  const fbSemi = FALLBACK.techSemi;
   const techSemiData = {
     sox: {
-      name: '费城半导体指数',
-      symbol: '^SOX',
+      name: fbSemi.sox.name,
+      symbol: fbSemi.sox.symbol,
       price: sox?.price ?? fbSemi.sox.price,
       chg: sox?.chg || fbSemi.sox.chg,
       chgClass: sox?.chgClass || fbSemi.sox.chgClass,
       previousClose: sox?.previousClose ?? fbSemi.sox.previousClose,
     },
     star50: {
-      name: '科创50指数',
-      symbol: '000688.SS',
+      name: fbSemi.star50.name,
+      symbol: fbSemi.star50.symbol,
       price: star50?.price ?? fbSemi.star50.price,
       chg: star50?.chg || fbSemi.star50.chg,
       chgClass: star50?.chgClass || fbSemi.star50.chgClass,
       previousClose: star50?.previousClose ?? fbSemi.star50.previousClose,
     },
     kospi: {
-      name: '韩国KOSPI指数',
-      symbol: '^KS11',
+      name: fbSemi.kospi.name,
+      symbol: fbSemi.kospi.symbol,
       price: ks11?.price ?? fbSemi.kospi.price,
       chg: ks11?.chg || fbSemi.kospi.chg,
       chgClass: ks11?.chgClass || fbSemi.kospi.chgClass,
@@ -137,7 +185,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   };
 
   // 2. 原油组装
-  const fbOil = oilFallback.metrics.main;
+  const fbOil = FALLBACK.oil;
   const oilPrice = brent?.price ? brent.price.toFixed(2) : fbOil.num;
   const oilChg = brent?.chg || fbOil.chg;
   const oilChgClass = brent?.chgClass || fbOil.chgClass;
@@ -147,13 +195,13 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   };
 
   // 3. 黄金组装
-  const fbGold = goldFallback.metrics.main;
-  const goldPriceNum = spotGold?.price ?? (typeof fbGold.num === 'string' ? parseFloat(fbGold.num) : fbGold.num);
-  const goldPrice = typeof goldPriceNum === 'number' ? goldPriceNum.toFixed(2) : String(goldPriceNum);
+  const fbGold = FALLBACK.gold;
+  const goldPriceNum = spotGold?.price ?? parseFloat(fbGold.num);
+  const goldPrice = goldPriceNum.toFixed(2);
   const goldQuotes = {
     gc: gc?.price ?? fbGold.quotes.gc,
     dxy: dxy?.price ?? fbGold.quotes.dxy,
-    us10y: tnx?.price ?? 5.184,
+    us10y: tnx?.price ?? fbGold.quotes.us10y,
   };
 
   return res.status(200).json({

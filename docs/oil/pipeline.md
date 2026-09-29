@@ -129,16 +129,14 @@ graph TD
 
 ---
 
-### 2.3 自动提交与静态发布管道 (`.github/workflows/deploy-pages.yml`)
+### 2.3 自动提交与云端发布管道 (Vercel Platform)
 
 - **Git 自动化**：
   - 脚本执行后，工作流执行 `git diff --cached --quiet` 校验。
   - 仅当产生实际数据变动时，使用 `github-actions[bot]` 自动提交并推送至 `main` 分支。
-- **下游构建联动 (`workflow_run`)**：
-  - `deploy-pages.yml` 监听 `Refresh market data` 与 `Refresh oil timeline` 工作流的 `completed` 事件。
-  - 只要上游任一工作流推送了新数据，自动触发拉取最新代码 ➔ `pnpm install` ➔ `pnpm run build` 静态打包 ➔ 发布至 GitHub Pages。
-- **端到端延迟**：
-  - 从交易所报价异动或重大新闻发生，到线上看板完成渲染，全程仅需约 1~2 分钟。
+- **下游构建联动与秒级推流**：
+  - 代码推送到 `main` 分支后，由 Vercel 自动执行无感构建部署并推向全球 CDN 边缘节点。
+  - 同时前端通过 `/api/quotes` 边缘函数直连盘中行情，用户访问即享准实时秒级更新。
 
 ---
 
