@@ -52,9 +52,9 @@ SW1_NAMES: dict[str, str] = {
 }
 
 # Market turnover index feeds
-# sh000001 (上证指数) + sz399106 (深证综指) + bj899050 (北证50) from Sina hq feed
-MARKET_INDEX_URL = "http://hq.sinajs.cn/list=sh000001,sz399106,bj899050"
-TARGET_MARKET_SYMBOLS = {"sh000001", "sz399106", "bj899050"}
+# sh000001 (上证指数) + sz399106 (深证综指) from Sina hq feed (纯沪深两市)
+MARKET_INDEX_URL = "http://hq.sinajs.cn/list=sh000001,sz399106"
+TARGET_MARKET_SYMBOLS = {"sh000001", "sz399106"}
 SINA_NODE_DATA_URL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData"
 SINA_NODE_COUNT_URL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount"
 MIN_TMT_STOCKS = 600
@@ -105,7 +105,7 @@ def http_get(url: str, referer: str | None = None, timeout: int = 15) -> str:
 
 
 def parse_market_turnover(raw: str) -> tuple[float, str]:
-    """Parse Sina index quote and sum turnover for sh000001, sz399106, and bj899050."""
+    """Parse Sina index quote and sum turnover for sh000001 and sz399106 (纯沪深两市)."""
     total_amt = 0.0
     date_str = ""
     seen_symbols: set[str] = set()
@@ -348,15 +348,14 @@ def self_test() -> int:
     """Run offline self-test with mock data fixtures."""
     log("INFO", "running refresh_tech_semi_crowding self-test...")
 
-    # 1. Test market turnover parsing with sh000001, sz399106, and bj899050
+    # 1. Test market turnover parsing with sh000001 and sz399106 (纯沪深两市)
     mock_raw_hq = (
         'var hq_str_sh000001="上证指数,3878.4,3888.3,3823.6,3878.4,3806.6,0,0,452350675,800000000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2026-09-28,15:35:31,00,";\n'
         'var hq_str_sz399106="深证综指,2469.5,2476.0,2400.1,2469.7,2388.6,0.0,0.0,54017426672,900000000000,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,2026-09-28,15:00:03,00";\n'
-        'var hq_str_bj899050="北证50,1057.3,1055.7,1026.5,1057.6,1023.1,0.0,0.0,621598978,15000000000,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,2026-09-28,15:30:02,00,0,0,0,0,,";\n'
         'var hq_str_ignored="无关代码,0,0,0,0,0,0,0,0,999999999,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2026-09-28,15:00:00,00";\n'
     )
     amt, date_str = parse_market_turnover(mock_raw_hq)
-    expected_amt = 800000000000.0 + 900000000000.0 + 15000000000.0
+    expected_amt = 800000000000.0 + 900000000000.0
     assert abs(amt - expected_amt) < 1e-4, f"Turnover mismatch: got {amt}, expected {expected_amt}"
     assert date_str == "2026-09-28", f"Date mismatch: got {date_str}"
 

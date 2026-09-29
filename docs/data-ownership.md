@@ -42,7 +42,7 @@
     - `snapshot`
     - `benchmarks.sox`、`benchmarks.kospi`、`benchmarks.star50`（各标的的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
     - `charts.normalized`（`dates`、`sox`、`kospi`、`star50` 近半年标准化序列）
-    - `leverage.marginBuyShare`（`value`、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`）
+    - `leverage.marginBuyShare`（`value`、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`，纯沪深两市口径）
 
 ### 2.3 A 股 TMT 行业拥挤度 (`scripts/refresh_tech_semi_crowding.py`)
 - **工作流**：`.github/workflows/refresh-tech-semi-crowding.yml` (工作日周一至周五 07:30 UTC / 15:30 上海收盘)

@@ -102,7 +102,7 @@ graph TD
   1. **跨平台 SSL 自适应**：内置 `_ssl_context()`，本地环境优先使用 `certifi` CA 证书池，CI 容器使用系统证书，防止握手失败。
   2. **价格绝对窗口过滤 (`RANGES`)**：设置合理区间校验（如 `^SOX` 位于 1000~50000、`^KS11` 位于 500~50000、`000688.SS` 位于 200~10000），排除网络抖动引入的坏点。
   3. **时序跨市场对齐与半年标准化归一 (`charts.normalized`)**：以美股、韩股和 A 股约 120 交易日为基准，提取起点收盘价计算相对涨跌百分比（\(\text{Norm}_t = (\text{Close}_t / \text{Base} - 1) \times 100\)）。自动对齐三地非重合交易日并修剪周末。
-  4. **全市场融资买入强度维护 (`leverage.marginBuyShare`)**：提取全市场两融最新披露日的融资买入额占两市成交额比例及其历史时序，标识两融情绪区间（7% 平常起，9% 平常上沿）。
+  4. **两市融资买入强度维护 (`leverage.marginBuyShare`)**：提取沪深两市两融最新披露日的融资买入额占两市成交额比例及其历史时序，标识两融情绪区间（7% 平常起，9% 平常上沿）。
 - **写入字段**：
   - `src/data/techSemiData.json` 中的 `snapshot`、`benchmarks.*`、`charts.normalized`、`leverage.marginBuyShare`。
   - **严守边界**：绝不改写 `signal`、`timeline`、`risks`、`fundamental` 等定性与研判字段。

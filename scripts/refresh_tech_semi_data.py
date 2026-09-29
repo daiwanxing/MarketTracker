@@ -511,7 +511,7 @@ def match_margin_share(
         "zone": zone,
         "v": label,
         "status": "live",
-        "src": f"东方财富融资买入额 / 腾讯日K上证+深证成指成交额 · {day}",
+        "src": f"东方财富融资买入额 / 腾讯日K沪深两市成交额 · {day}",
         "dates": [item[0][5:] for item in points],
         "shares": [item[1] for item in points],
     }

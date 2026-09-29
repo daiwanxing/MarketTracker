@@ -1,8 +1,10 @@
+import { useState, useEffect, useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
+import { resolveMarketClock } from '../utils/marketClock';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -188,6 +190,25 @@ export default function TechSemiPanel() {
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
   const benchMap = benchmarks as Record<string, Bench | undefined>;
 
+  // 实时市场时钟更新（每 30 秒自动校准一次客户端当前状态）
+  const [currentTime, setCurrentTime] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 30000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // 动态解析三大核心市场与全球宏观阶段实时状态机
+  const dynamicClock = useMemo(() => {
+    if (!data.closingReview?.marketClock) return null;
+    return resolveMarketClock(
+      data.closingReview.marketClock as unknown as Parameters<typeof resolveMarketClock>[0],
+      benchMap,
+      currentTime
+    );
+  }, [data.closingReview, benchMap, currentTime]);
+
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
@@ -322,11 +343,15 @@ export default function TechSemiPanel() {
             <div className="terminal-clock-bar">
               <div className="terminal-clock-title">
                 <span className="live-pulse-dot" aria-hidden="true" />
-                <span className="clock-phase-label">{data.closingReview.tradingPhase.headline}</span>
-                <span className="clock-phase-window mono">{data.closingReview.tradingPhase.window}</span>
+                <span className="clock-phase-label">
+                  {dynamicClock?.tradingPhase.headline ?? data.closingReview.tradingPhase.headline}
+                </span>
+                <span className="clock-phase-window mono">
+                  {dynamicClock?.tradingPhase.window ?? data.closingReview.tradingPhase.window}
+                </span>
               </div>
               <div className="clock-market-pills">
-                {data.closingReview.marketClock.map((m) => (
+                {(dynamicClock?.marketClock ?? data.closingReview.marketClock).map((m) => (
                   <div className={`clock-pill ${m.status.toLowerCase()}`} key={m.symbol}>
                     <span className="pill-name">{m.name}</span>
                     <span className={`pill-chg num ${m.chgClass}`}>{m.chg}</span>
@@ -449,7 +474,7 @@ export default function TechSemiPanel() {
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           拥挤度与杠杆
-          <span className="hint">TMT 成交占比，以及全市场融资买入占比</span>
+          <span className="hint">TMT 成交占比，以及沪深两市融资买入占比</span>
         </h2>
         <div className="anomaly-grid">
           {crowding?.turnoverShare && (
@@ -479,7 +504,7 @@ export default function TechSemiPanel() {
         {marginShares.length > 0 && (
           <div className="card chart-panel" style={{ marginTop: 16 }}>
             <div className="chart-title">
-              全市场融资买入占比
+              两市融资买入占比
               {typeof margin?.value === 'number' && (
                 <> · 最新 {margin.value}% · 截至 {margin.asOf} · {margin.v}</>
               )}
