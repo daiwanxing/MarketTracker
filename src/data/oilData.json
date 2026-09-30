@@ -1,41 +1,41 @@
 {
-  "snapshot": "2026-09-30 08:07",
+  "snapshot": "2026-09-30 09:05",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "95.81",
-      "chg": "-9.00%",
+      "num": "96.16",
+      "chg": "-8.66%",
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
-      "src": "BZ=F 布伦特原油期货 9-30 08:07 上海 · 昨收 105.28（现价 95.81/-9.00%，今开 95.95 / 高 96.32 / 低 95.27） · Yahoo Finance",
+      "src": "BZ=F 布伦特原油期货 9-30 09:05 上海 · 昨收 105.28（现价 96.16/-8.66%，今开 95.95 / 高 96.32 / 低 95.27） · Yahoo Finance",
       "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
       "quotes": {
-        "wti": 89.1,
+        "wti": 89.36,
         "dxy": 101.41
       }
     }
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "当前主矛盾是中东供应路径正常化与伊朗谈判降温，BZ=F 报 95.81、跌幅 -9.00%，WTI 报 89.10，地缘溢价快速回吐；但馏分油紧张与SPR最后一批投放限制下行斜率。",
-    "sub": "BZ=F 为布伦特原油期货连续合约，不等同于通讯社报价的现货近月合约；本看板以 9-30 08:07 上海 BZ=F 95.81/-9.00% 与 WTI 89.10 为基准。报价对应 9-29 时间轴中的海湾出口回升、沙特延布装载恢复、伊朗谈判推进，以及美原油库存累积；SPR 与欧洲柴油储备释放更多影响中期供应缓冲。",
+    "verdict": "当前主矛盾是海湾供应路径正常化与美国原油库存意外累积共同压制地缘风险溢价，BZ=F 报 96.16、日内跌 8.66%，WTI 89.36 同步走弱。",
+    "sub": "口径说明：BZ=F 为布伦特原油连续期货合约报价，不等同于通讯社引用的近月首行合约或现货报价，含展期与资金成本差异，绝对价位因此存在小幅偏差；本次 -8.66% 的跌幅与隔夜中东出口回升至战事以来最高、美国原油库存意外累积两条事实方向一致，WTI 89.36 与美元指数 101.41 一并作为交叉验证。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
-        "dim": "geo",
-        "k": "海峡与谈判反复风险",
-        "v": "伊朗谈判推进但霍尔木兹通行仍是关键瓶颈，任何逆转可重新计入风险溢价（CNN、The Economist）"
+        "dim": "stocks",
+        "k": "中间馏分紧张",
+        "v": "美国馏分油库存继续下降，柴油裂解与炼厂利润维持高位，对原油需求端与炼厂进料形成支撑"
       },
       {
         "dim": "supply",
-        "k": "战略储备最后一批",
-        "v": "美方自SPR借出至多4000万桶为协调投放最后一批，后续政策缓冲空间收窄（Reuters）"
+        "k": "战略储备借出",
+        "v": "美方自 SPR 借出至多4000万桶且为协调投放最后一批，后续政策缓冲空间收窄，供应端可动用余量下降"
       },
       {
-        "dim": "stocks",
-        "k": "馏分油库存偏紧",
-        "v": "美国馏分油库存继续下降，柴油价格高企，近月合约与炼油利润获支撑（oilprice.com）"
+        "dim": "geo",
+        "k": "谈判路径反复",
+        "v": "伊朗相关谈判若出现反复，霍尔木兹通行与航运保险费率仍可能被重新定价，风险溢价存在回补可能"
       }
     ],
     "bearTitle": "利空因素",
@@ -43,21 +43,21 @@
     "bear": [
       {
         "dim": "supply",
-        "k": "中东出口路径恢复",
-        "v": "海湾出口回升至年内最佳，沙特延布装载恢复，供应正常化压制油价（Reuters、WSJ）"
+        "k": "海湾出口回升",
+        "v": "中东原油出口升至伊朗战事以来最高，霍尔木兹外运量与装船节奏改善，供应中断溢价持续回吐"
       },
       {
-        "dim": "geo",
-        "k": "伊朗谈判降温",
-        "v": "伊朗相关谈判推进，市场对供应中断风险的定价进一步降温（oilprice.com）"
+        "dim": "stocks",
+        "k": "美国原油累库",
+        "v": "美国商业原油库存意外累积，炼厂检修季开工回落，近月合约与月差结构承压"
       },
       {
         "dim": "macro",
-        "k": "美元与长端利率压力",
-        "v": "DXY 101.41且长端收益率上行，金融条件对油价形成压制（WSJ、Yahoo Finance）"
+        "k": "美元与利率",
+        "v": "美元指数 101.41，长端收益率上行，金融条件收紧对大宗商品估值与持仓构成压制"
       }
     ],
-    "watch": "霍尔木兹海峡实际通行量 · 伊拉克经叙利亚替代运输持续性 · 沙特延布装船与管输回归节奏 · 美国SPR与欧洲柴油储备释放执行 · 美国原油累积与馏分油去库分化 · 伊朗谈判后续与制裁政策预期"
+    "watch": "霍尔木兹海峡通行量与航运保险费率 · 沙特延布装载与红海管输持续性 · 美国炼厂开工率与原油出口节奏 · 馏分油库存与柴油裂解价差 · 伊朗相关谈判进展 · 美元指数与长端收益率"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -367,7 +367,7 @@
       94.61,
       92.41,
       92.6,
-      89.1
+      89.36
     ],
     "brent": [
       91.02,
@@ -521,7 +521,7 @@
       106.6,
       104.32,
       105.28,
-      95.81
+      96.16
     ],
     "sc": [
       601.0,
@@ -684,6 +684,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-09-30",
+      "tag": "库存",
+      "hot": false,
+      "t": "美国商业原油库存意外累积 与馏分油持续去库形成结构分化",
+      "d": "WSJ 称最新周度数据显示美国商业原油库存出现意外累积，与馏分油库存继续下降形成分化。原油端累库对应炼厂检修季开工回落与进口到港节奏，馏分油偏紧则对应柴油裂解价差维持高位。结构分化的含义是：绝对库存压力压制原油近月合约，中间馏分紧张继续支撑炼厂利润与柴油溢价。后续需跟踪炼厂开工率与原油出口节奏能否消化累库。",
+      "src": "来源：WSJ",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQOUg3NXFscHNvUUVUalowcWxsU2k2YnlnVG5YX2tfNUNvTEg4SUZiWFl4T1VaT3RsVU1QLUp6a0NuQ3djQmdwQ3lYcmlNZ2ZNdTVaSGRhUGpqYzEySXJIaW9UeU93ZU9RRjM5SDBFU1NfdWV4S1pLcFYwMjRIbVp5dVlrekFqYVV0STdoQS1TT0FXQ1pFdHYyOHdOMA?oc=5"
+    },
+    {
+      "date": "2026-09-30",
+      "tag": "供应",
+      "hot": true,
+      "t": "中东原油出口回升至战事以来最高 供应路径继续正常化",
+      "d": "多家媒体报称中东原油出口升至伊朗战事爆发以来最高，海湾装船与霍尔木兹通行量改善，沙特红海方向管输与延布装载已复位。供应路径正常化直接压缩此前为潜在中断支付的风险溢价，叠加伊朗相关谈判推进，构成隔夜两市下跌的主要驱动。需观察装船回升的持续性、浮仓与运费变化，若出口维持高位，风险溢价回吐仍有空间。",
+      "src": "来源：Financial Times",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcjFUZVJMbWJUaGE0ajR1SDhOS0JpejcweGdVcWRueWczNDh3ZVdtdWRuRVNPTkgwSnZDbjZzeDFVZlB2M3pLM1Z5Qm04WGN1VFJ4c0pBRVVxQnVsWktzdFlNSS1FQVFkNjZiWks5cUdJQnRhVzhDMHJLZEE1SjZvTzBOS2U?oc=5"
+    },
+    {
       "date": "2026-09-29",
       "tag": "海峡",
       "hot": false,
@@ -825,24 +843,6 @@
       "d": "市场报道显示伊朗相关谈判推进，交易者对霍尔木兹海峡通行受阻的定价权重下降。结合中东原油出口升至2月以来最高、延布港装船恢复，供应中断情景概率被下修，前期累积的地缘溢价持续释放。若谈判路径指向制裁执行松动，伊朗浮仓与在途原油可回流出口市场，边际增加中质含硫供应；若谈判反复，波动率将重新抬升。当前价格反应以风险溢价回吐为主，尚未见实物装船量实质跳增。",
       "src": "来源：Crude Oil Prices Today | OilPrice.com",
       "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQZDJjelloNGlVaXBLTjJkc2pjeXVKRy1qMXlQZzlvby1xZ2Rld0JXX3pSWjYzRkFxWWs0M0I4cW1UNUFQaW1WeGVqeTVmaTR6ZnBWaVRFWThwanhiM2ZJVGZyTWFPVnhjV0t3eXBBWVJIc01YVTF0Tjd4Q1JXY1lqX2hwcUcwUlM1aF9ORl9YSmI0QdIBlwFBVV95cUxQeGV6WmdocmNhWGZWUWdFTVJ2ai14aWd1ZUt2c1lTUUVfQjliaU41a0M2NVVCWHFTa1BfNXpSZkdPZnkzVDIybXoyWGhLTnlNTmR4RkVGMllzS0RoRV9lTDJJWi1LcWJDdnE3eDR0aXhkcklBMF9MMEM3OEJWWFhOaE9fdXkycXdERWZnRmY4THFtRWdXR1Jn?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "供应",
-      "hot": true,
-      "t": "沙特延布港恢复原油装船 东西管道重启后红海出口通道回归",
-      "d": "沙特在东西管道修复后恢复红海延布港原油装船。此前管道停运令红海方向出口受限，延布装载中断，市场一度计入沙特需绕行霍尔木兹的额外成本。装船恢复意味着沙特可重新经红海向欧洲与亚洲客户直接交付，出口路径回归常态，运输与保险溢价随之收敛。叠加中东整体出口回升，供应溢价进一步回吐，构成当日油价连续第四个交易日回落的关键增量。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPNE80QTVVd2tvbHZWR1VLTzh5enAxOUZGMUVGNnQxcXhHeVJiYzU2S2NaZWVReFdmaF83cjJ1dGFVRGREalh4aWFtaWxuR1hLUFdtSTRmb0dsM0ZDQkVOX1RxdG1FNDItMlN0Y0lPN1JlSTAxdXRncndISmxYc3hnaWZKekpVVDZ5RlJOLTNQS3RJSXFhY29RV2psazdPOTlpajFJVVVUc09hZw?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "海峡",
-      "hot": false,
-      "t": "霍尔木兹海峡通行量增加 中东原油出口升至2月以来最高水平",
-      "d": "中东原油出口回升至2月以来最高，通过霍尔木兹海峡的油轮流量同步增加。海峡是海湾产油国唯一的近海出口通道，通行量回升直接对应可交付货量上升，运费与战争险溢价回落。市场此前计入的供应中断情景被逐步移除，价格从高位回落。该变化与沙特红海装船恢复形成叠加，使供应端溢价继续回吐，但美国相关表态与美伊分歧仍构成尾部风险。",
-      "src": "来源：Barchart.com",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOWjdJY2ZvaUh6dlpGS3VzRVZIT0duLTBBWlFVRVpuSUU0TERFclRHSG9wSlhuQzYyV3RCOHp5dEc3WnY5UEdKa1hnUms0THNSNFp4RndRcnBBejhLRHdSM3c4ZHYxYmt4R1dJVGhKSFpUcEpZNUtVeTVuc19aXzcyTzJVTzhJYzF2TTdKa2tnb1lveGNFZGY3VTdWOFJlOG9LQkd1eVF5RlhFNFZ3S0owc1ltQQ?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -887,22 +887,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "中东出口恢复",
-      "level": "a",
-      "desc": "若霍尔木兹外运与延布装载继续回升，供应正常化将使 BZ=F 95.81 与 WTI 89.10 的下行压力延续。来源：Reuters、WSJ。",
-      "src": "来源：Reuters、WSJ"
-    },
-    {
-      "k": "伊朗谈判与海峡风险",
+      "k": "霍尔木兹通行量",
       "level": "r",
-      "desc": "若谈判逆转或霍尔木兹通行受扰，风险溢价重新计入，BZ=F 95.81 与 WTI 89.10 可能自低位反弹。来源：CNN、The Economist。",
-      "src": "来源：CNN、The Economist"
+      "desc": "若海湾装船量回落或航运保险费率跳升，供应路径再度收窄，地缘风险溢价将快速回补，BZ=F 存在重回 100 上方的可能。来源：Barchart.com、Financial Times。",
+      "src": "来源：Barchart.com"
     },
     {
-      "k": "馏分油与战略储备释放",
+      "k": "库存结构分化",
       "level": "a",
-      "desc": "若欧洲未跟进释放柴油储备且美国馏分油库存继续下降，近月合约获支撑，BZ=F 95.81 与 WTI 89.10 下方空间受限。来源：Politico、oilprice.com。",
-      "src": "来源：Politico、oilprice.com"
+      "desc": "若美国原油累库延续而馏分油继续去库，原油近月承压与柴油端溢价并存的格局将放大，裂解价差与月差波动加大。来源：WSJ、OilPrice.com。",
+      "src": "来源：WSJ"
+    },
+    {
+      "k": "政策缓冲余量",
+      "level": "g",
+      "desc": "SPR 借出为协调投放最后一批，若欧洲柴油储备释放落地不及预期，中间馏分紧张将转为阶段性上行驱动，柴油端价格弹性高于原油。来源：Reuters、Hart Energy。",
+      "src": "来源：Reuters"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
