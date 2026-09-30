@@ -1,41 +1,41 @@
 {
-  "snapshot": "2026-09-30 10:07",
+  "snapshot": "2026-09-30 11:07",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "96.53",
-      "chg": "-5.91%",
+      "num": "96.40",
+      "chg": "-6.03%",
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
-      "src": "BZ=F 布伦特原油期货 9-30 10:07 上海 · 昨收 102.59（现价 96.53/-5.91%，今开 95.95 / 高 96.84 / 低 95.27） · Yahoo Finance",
+      "src": "BZ=F 布伦特原油期货 9-30 11:07 上海 · 昨收 102.59（现价 96.40/-6.03%，今开 95.95 / 高 96.84 / 低 95.27） · Yahoo Finance",
       "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
       "quotes": {
-        "wti": 89.54,
-        "dxy": 101.39
+        "wti": 89.6,
+        "dxy": 101.35
       }
     }
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "主矛盾是中东实货出口正常化带来的宽松与伊朗政策表态反复之间的对冲：BZ=F 报 96.53 美元、跌 5.91%，WTI 报 89.54 美元，供应路径修复主导定价，制裁表态仅提供低位支撑。",
-    "sub": "口径说明：BZ=F 为 Yahoo Finance 布伦特原油连续期货报价，不是通讯社口径的近月合约结算价，昨收 102.59 对应 9 月 29 日结算水平。本时点 96.53 主要反映亚洲时段对中东外运恢复至战前 98%、美国商业原油库存意外累积的定价，同时部分计入特朗普否认放松对伊制裁带来的风险溢价回补，两股力量在盘中对冲，跌幅仍由供应正常化主导。",
+    "verdict": "BZ=F 报 96.40 美元/桶、日内跌 6.03%，WTI 报 89.60 美元/桶，核心矛盾是中东供应路径正常化与美国原油库存累积共同压制价格，而 SPR 借出与欧盟柴油库存政策构成短期供应与政策预期扰动。",
+    "sub": "BZ=F 为布伦特原油期货连续合约报价，并非通讯社近月合约；当前 96.40 的报价与 9-30 亚盘前中东出口恢复至战前 98%、美国原油库存意外累积、以及 SPR 借出最多 4000 万桶等供应增量事件对应。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "伊朗制裁路径",
-        "v": "特朗普否认放松制裁，伊朗原油回流时点后移，供应中断风险溢价存在回补空间"
+        "k": "霍尔木兹残余风险",
+        "v": "海峡通航量虽回升，但伊朗影响力下降后仍存在航运扰动可能，任何中断可迅速推升风险溢价。"
       },
       {
         "dim": "supply",
-        "k": "SPR 投放余量",
-        "v": "自战略储备借出至多4000万桶属协调投放最后一批，后续应急供应缓冲有限"
+        "k": "伊朗制裁未放松",
+        "v": "特朗普否认愿放松对伊制裁，伊朗原油回归市场的政策路径受限，边际供应增量低于此前预期。"
       },
       {
         "dim": "stocks",
-        "k": "馏分油库存",
-        "v": "美国馏分油库存持续下降、柴油价格高企，成品油紧张可向原油裂解价差传导"
+        "k": "馏分油持续去库",
+        "v": "美国馏分油库存继续下降，柴油市场偏紧，取暖季前补库需求可能对原油形成托底。"
       }
     ],
     "bearTitle": "利空因素",
@@ -43,21 +43,21 @@
     "bear": [
       {
         "dim": "supply",
-        "k": "中东出口流量",
-        "v": "摩根大通口径外运已达战前98%，延布与霍尔木兹路径正常化，实货溢价继续回吐"
+        "k": "中东出口恢复",
+        "v": "中东原油外运恢复至战前 98%，沙特延布装船恢复，供应路径正常化持续压制价格。"
       },
       {
         "dim": "stocks",
-        "k": "美国原油库存",
-        "v": "商业原油库存意外累积，与馏分油去库形成分化，累库压制前端月差结构"
+        "k": "美国原油库存累积",
+        "v": "美国商业原油库存意外累积，与馏分油去库形成分化，原油端累库直接压制价格。"
       },
       {
         "dim": "macro",
-        "k": "美元与长端收益率",
-        "v": "美元指数101.39、长端美债收益率上行，金融条件收紧压制大宗商品估值"
+        "k": "美元与利率",
+        "v": "DXY 报 101.35，长端美债收益率上行，金融条件收紧，压制原油等风险资产估值。"
       }
     ],
-    "watch": "霍尔木兹海峡通行量与船舶保险费率 · 伊朗制裁豁免是否进入正式议程 · 美国商业原油与馏分油周度库存 · 沙特延布装船与红海航线运费 · 战略储备借出实际执行进度 · 美元指数与长端美债收益率"
+    "watch": "霍尔木兹海峡通航量 · 美国 SPR 实际借出节奏 · 伊朗制裁政策信号 · 美国馏分油库存变化 · 美元指数与长端美债收益率 · 中东出口装船数据"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -369,7 +369,7 @@
       92.41,
       92.6,
       89.38,
-      89.54
+      89.6
     ],
     "brent": [
       91.02,
@@ -524,7 +524,7 @@
       104.32,
       105.28,
       102.59,
-      96.53
+      96.4
     ],
     "sc": [
       601.0,
@@ -688,6 +688,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-09-29",
+      "tag": "供应",
+      "hot": true,
+      "t": "美国将借出最多4000万桶战略原油储备 为全球联合释储最后一批",
+      "d": "美国能源部宣布将借出最多4000万桶战略石油储备原油，为全球联合释储行动的最后一批。此举将增加短期可流通供应，并对WTI与布伦特近月合约形成压制。市场将关注实际借出节奏、交付窗口及炼厂承接能力，若落地快于预期，库存压力可能进一步上升。近期油价已计价部分供应增量。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPYzc4cTNMeUhoSHg2R2Mxa1hVMUtWb2xGbk92dHp0aWUzejZKbWVVbjBRb240dzRuX0dNVTMwbDVPOXRJbWJhT28xTEpwTGMyZEZKMXpSTlJFLTRVZkd6RDVzYk9vZFBKNkNEdE9ENFo0WDhXaWRTZ2Q0bzBpeEFRUDM5WF9JOFpBYmJ6U3ZkRnRtdFBUQmkzN0M3WEtsazI5TDFPNEl3eHViVGNuSlJHZzBVbFN6eXdrVVNYWmx2OA?oc=5"
+    },
+    {
+      "date": "2026-09-29",
+      "tag": "库存",
+      "hot": true,
+      "t": "白宫敦促欧盟释放柴油库存 以缓解馏分油市场紧张并压制柴油价格",
+      "d": "白宫已敦促欧盟成员国释放柴油库存，以缓解馏分油市场紧张并抑制柴油价格。该政策若落地，将增加欧洲成品油短期供应，并可能改变跨区套利与炼厂开工节奏，对原油需求预期形成边际影响。市场关注欧盟回应及实际释放规模。若欧盟拒绝或释放规模有限，则柴油紧张对原油的支撑仍在。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNSGFuSHhGcV83YnRvQ0R5YWJhcHBHMHp3RVlKMXd4Z2dWQURJUXJsenl2elFYRjU2YlV0WmNDanhTV2swT1Q0X3phR2ZQVEZIT0xCR09HM2ZjcF9OMVVLME43blJHUVQzWGtsNkNxM3NPWHlSX2UzZURZS0VkbGRwN0NGRmdIX19wbkl6bTZ2b3dNSlZBYlpXYjUyZFFxVUlKTHVoWGpNT08xWHBibmNqcjNJNXg?oc=5"
+    },
+    {
       "date": "2026-09-30",
       "tag": "供应",
       "hot": false,
@@ -830,24 +848,6 @@
       "d": "机构前瞻显示，分析师预计最新一周美国原油库存下降，与柴油价格升至 6 美元以上共同指向馏分油及原油端的结构性偏紧。该预期与 9-29 时间轴中美国借出至多 4000 万桶战略储备、IEA 称必要时讨论释放油储形成对冲，库存前置是否削弱去库对近月结构与月差的支撑，仍须以实际 EIA 数据验证。",
       "src": "来源：MarketScreener",
       "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNR2VvZDN1NWJ6SmhiYTNjci01V0dPSTZlSEJpTmxiVlBxYmNqSXBndWU5Ml9wcWotSEhfNEhfT1hmX29vVTk2eWs4QjFNTlZ2YVFvWmVDLTNGSDJmLXkxY0VScVJ4aGdYN2IzOFNSUEpTYTdpUDVJQlZtUXc0eE5xX0pjZ2U4Z2dtWXRQbHcxQ21UeVAzRE51cDF4SWxrbURGRHExR3dR?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "库存",
-      "hot": true,
-      "t": "IEA称将在必要时讨论释放油储 欧盟拟推迟甲烷法规审议",
-      "d": "据路透报道，国际能源署表示将在必要时讨论进一步释放战略石油储备，以应对欧洲冬季供应压力；同时欧盟考虑推迟甲烷法规，以缓解能源行业合规成本。两项政策信号均指向供应端政策缓冲仍在，但尚未形成新一轮实物投放。当前布伦特近月已因中东出口恢复与库存前置走弱，若后续释放落地，将进一步压低近月价差与炼厂采购成本。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNLWJHMlpqTU03cjVmdEp0ZTRscGs4YUNNSDNuMmhINkhpWnFjS0dYZE9VX21uYTlnTHF5YVF2ejlESkZmY1BYcmdVNTAzb043Q0lmcXdvRV94aVJUS0x2S3N1d0NiVm1leXJldjJGUjN6ZDR5bDBvZ3cyZTUzNGZLUm9NVk9weHVzMFlONVBfaDM1Zi1DeEpqUzNrSFhieXF0WXVxRm53ak5sUTVkTzZWcldOWmRTT081a2FnQl9QTGpFVnRvZXhSag?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "供应",
-      "hot": false,
-      "t": "北海原油现货WTI报价走高 新装船计划与套保窗口浮现",
-      "d": "据TradingView报道，北海原油市场WTI报价走高，新的装船计划浮现，显示大西洋盆地现货买卖双方在近月价格大幅回落后重新评估套保与提货节奏。该变化尚未改变全球供应总量，但反映实物市场对中东出口恢复与库存前置的定价正在调整。若后续装船量继续增加，西北欧现货升水可能承压，并传导至布伦特近月价差。",
-      "src": "来源：TradingView",
-      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPT1hNRGE1MExBU3A2MmNiaUhyWUc0Wnd1UWhuYXhYMXFKak92a3BZTUtSaWZGSTZ4S3dDZVVLTFR2Zk1yeWVJVXJmMzdMRkIyWkwyejczZjFTLVRDaVlkVVYwdnF5Ulp3eHUtSEVvWUxLWkNZbWgzWUVaSE5PbWVfd21STTRrd3padDByZlNweGhuYVZDMTZRUjl3aTlIOEp2M1ZESjNMOFFIWjVKNzhFMTU1bGw0cUZZSTNVV2xGVQ?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -892,22 +892,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "制裁预期反转",
-      "level": "r",
-      "desc": "若伊朗制裁豁免重新进入正式议程，供应中断溢价将进一步回吐，BZ=F 近月结构与月差同步走弱；若制裁明确收紧或谈判中断，风险溢价快速回补。",
-      "src": "来源：reuters.com（9-30 特朗普否认放松对伊制裁）"
-    },
-    {
-      "k": "中东实货出口流量",
-      "level": "g",
-      "desc": "若后续周度数据显示流量维持在战前98%以上，实货宽松将持续压制近月升水；若海峡通行或装船再度中断，价格将向上修复。",
-      "src": "来源：Bloomberg.com（9-30 摩根大通中东流量报告）"
-    },
-    {
-      "k": "库存与成品油结构",
+      "k": "中东供应恢复节奏",
       "level": "a",
-      "desc": "若原油累库延续而馏分油继续去库，裂解价差走强但原油单边承压；若馏分油转为补库或炼厂开工回升，结构性支撑减弱。",
-      "src": "来源：WSJ / OilPrice.com（美国商业原油库存意外累积、馏分油持续下降）"
+      "desc": "若中东原油出口持续高于战前水平且霍尔木兹通航顺利，Brent 可能下探 95 美元/桶下方；若出现航运中断，价格将迅速反弹至 100 美元/桶上方。来源：Reuters、Bloomberg。",
+      "src": "Reuters、Bloomberg"
+    },
+    {
+      "k": "SPR 借出执行",
+      "level": "a",
+      "desc": "美国最多借出 4000 万桶 SPR 原油，若落地快于预期将增加短期供应并压制 WTI；若执行遇阻或规模缩减，则供应增量证伪并支撑价格。来源：Reuters。",
+      "src": "Reuters"
+    },
+    {
+      "k": "馏分油库存与柴油价格",
+      "level": "r",
+      "desc": "美国馏分油持续去库且柴油价格高企，若欧洲跟进去库或冬季需求超预期，裂解价差走强可能带动原油反弹；若库存转为累积，则下行压力加大。来源：WSJ、OilPrice.com。",
+      "src": "WSJ、OilPrice.com"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
