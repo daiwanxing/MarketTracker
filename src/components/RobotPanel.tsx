@@ -1,6 +1,8 @@
-import type { CSSProperties } from 'react';
+import { useMemo, type CSSProperties } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import heroRobot from '../assets/hero-robot.jpg';
 import robotData from '../data/robotData.json';
+import { useReveal } from '../hooks/useReveal';
 
 const S = {
   anchorCard: {
@@ -170,7 +172,12 @@ const S = {
 };
 
 export default function RobotPanel() {
-  const { head, anchor, dimensions, components } = robotData;
+  const { head, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
+  const tlRef = useReveal<HTMLDivElement>();
+
+  const sortedTimeline = useMemo(() => {
+    return [...(timeline || [])].sort((a, b) => b.date.localeCompare(a.date));
+  }, [timeline]);
 
   return (
     <article>
@@ -442,13 +449,51 @@ export default function RobotPanel() {
           ))}
         </div>
 
-        {/* 5. 治理与规范说明 */}
+        {/* 5. 具身智能与人形机器人产业大事记 */}
+        {sortedTimeline.length > 0 && (
+          <>
+            <h2 className="sec-title" style={{ marginTop: 36 }}>
+              {timelineTitle || '产业大事记与动态追踪'}
+              <span className="hint">{timelineHint}</span>
+            </h2>
+            <div className="tl" ref={tlRef}>
+              {sortedTimeline.map((n, i) => (
+                <div className={`node ${i === 0 ? 'latest' : ''} ${n.hot ? 'hot' : ''}`} key={`${n.date}-${n.t}-${i}`}>
+                  <div className="dot" />
+                  <div className="tags">
+                    <span className="date">{n.date}</span>
+                    <span className="tag">{n.tag}</span>
+                    {n.hot && <span className="tag hot-tag">重大事件</span>}
+                  </div>
+                  <div className="t">
+                    {n.url ? (
+                      <a href={n.url} target="_blank" rel="noopener noreferrer">
+                        {n.t}
+                        <ArrowUpRight size={15} strokeWidth={1.75} aria-hidden="true" />
+                      </a>
+                    ) : (
+                      n.t
+                    )}
+                  </div>
+                  <div className="d">{n.d}</div>
+                  <div className="src">{n.src}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* 6. 治理与规范说明 */}
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           模块规范与数据说明
         </h2>
         <div className="sec-note">
           本页面为人形机器人整机商业化进展与产业链研判观察盘。指标数据严格基于经核实的公司公开公告、正式招股说明书、财报期次及权威第三方行业调研（如 Counterpoint 等），严禁采纳自媒体传闻与未经审计的投融资推算。未获得持续连续披露之项均保留客观事实边界，不下主观投资建议。
         </div>
+
+        <footer className="src">
+          {footer}
+        </footer>
       </div>
     </article>
   );
