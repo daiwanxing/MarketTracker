@@ -30,26 +30,6 @@ type Anomaly = {
   watch: string;
 };
 
-type SignalItem = {
-  dim: string;
-  k: string;
-  v: string;
-};
-
-type Signal = {
-  secTitle?: string;
-  secHint?: string;
-  verdict?: string;
-  sub?: string;
-  bullTitle?: string;
-  bullHint?: string;
-  bull?: SignalItem[];
-  bearTitle?: string;
-  bearHint?: string;
-  bear?: SignalItem[];
-  watch?: string;
-};
-
 type TimelineItem = {
   date: string;
   tag: string;
@@ -58,13 +38,6 @@ type TimelineItem = {
   src: string;
   hot?: boolean;
   url?: string;
-};
-
-type RiskItem = {
-  k: string;
-  desc: string;
-  level: string;
-  src: string;
 };
 
 type MarketClockItem = {
@@ -140,15 +113,6 @@ const CHART_SERIES = [
   { key: 'star50', name: '科创50', color: '#F5C542', width: 2.0 },
 ] as const;
 
-const SEMI_DIM: Record<string, string> = {
-  capex: '资本开支',
-  foundry: '先进制程',
-  substitute: '国产替代',
-  mature: '成熟制程',
-  geo: '地缘管制',
-  memory: '存储周期',
-};
-
 function crowdTone(share: number, priceDown: boolean) {
   if (share >= 38) {
     return {
@@ -169,7 +133,7 @@ function crowdTone(share: number, priceDown: boolean) {
 export default function TechSemiPanel() {
   const data = techSemiData as unknown as Omit<
     typeof techSemiData,
-    'closingReview' | 'leverage' | 'fundamental' | 'signal' | 'timeline' | 'risks'
+    'closingReview' | 'leverage' | 'timeline'
   > & {
     closingReview?: ClosingReview;
     leverage?: {
@@ -183,10 +147,7 @@ export default function TechSemiPanel() {
         shares?: number[];
       };
     };
-    fundamental?: { note: string; items: Anomaly[] };
-    signal?: Signal;
     timeline?: TimelineItem[];
-    risks?: RiskItem[];
   };
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
   const rawBenchMap = benchmarks as Record<string, Bench | undefined>;
@@ -590,10 +551,59 @@ export default function TechSemiPanel() {
           </div>
         </section>
 
-        {/* ==================== 2. 盘后深度归因与收盘复盘 (Post-Market Attribution) ==================== */}
+        {/* ==================== 2. 资金面与杠杆量化哨兵 (Capital & Leverage Sentinel · 🔑2) ==================== */}
+        <h2 className="sec-title" style={{ marginTop: 28 }}>
+          资金面与杠杆量化哨兵
+          <span className="hint">TMT 成交占比衡量微观拥挤，沪深两市融资买入强度反映场内杠杆攻防</span>
+        </h2>
+        <div className="anomaly-grid">
+          {crowding?.turnoverShare && (
+            <div className="card real-crowd-card">
+              <div className="real-crowd-head">
+                <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
+                <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
+              </div>
+              <div className="real-crowd-num-row">
+                <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
+                <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
+              </div>
+              <div className="gauge-track" aria-hidden="true">
+                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
+              </div>
+              <div className="gauge-marks">
+                <span>20 冰点外</span>
+                <span>32 偏热</span>
+                <span>38 极端</span>
+              </div>
+              <div className="real-crowd-detail">
+                TMT {crowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{tone.note}
+              </div>
+            </div>
+          )}
+        </div>
+        {marginShares.length > 0 && (
+          <div className="card chart-panel" style={{ marginTop: 16 }}>
+            <div className="chart-title">
+              两市融资买入占比
+              {typeof margin?.value === 'number' && (
+                <> · 最新 {margin.value}% · 截至 {margin.asOf} · {margin.v}</>
+              )}
+            </div>
+            <ReactECharts option={marginOpt} style={{ height: 260, width: '100%' }} notMerge lazyUpdate />
+            {margin?.watch && <div className="real-crowd-detail">{margin.watch}</div>}
+          </div>
+        )}
+        {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
+
+        {/* ==================== 3. 盘后深度归因与次日博弈 (Post-Market Attribution · ⬇️4 & ⭐1) ==================== */}
         {data.closingReview && (
           <section className="closing-review-section">
-            {/* 2. 收盘总定调巨幕卡片 */}
+            <h2 className="sec-title" style={{ marginTop: 28 }}>
+              宏观因果归因与次日博弈
+              <span className="hint">微观筹码、资金避险、宏观利率与产业景气多因子传导</span>
+            </h2>
+
+            {/* 收盘总定调巨幕卡片 */}
             <div className="card closing-verdict-card">
               <div className="verdict-header">
                 <div className="verdict-tag-group">
@@ -627,7 +637,7 @@ export default function TechSemiPanel() {
               </div>
             </div>
 
-            {/* 3. 四大多因子归因支柱矩阵 */}
+            {/* 四大多因子归因支柱矩阵 */}
             <div className="attribution-grid">
               {data.closingReview.pillars.map((pillar) => (
                 <div className={`card pillar-card ${pillar.impact}`} key={pillar.id}>
@@ -675,7 +685,7 @@ export default function TechSemiPanel() {
               ))}
             </div>
 
-            {/* 4. 次日博弈核心哨兵变量 */}
+            {/* 次日博弈核心哨兵变量 */}
             <div className="next-watch-deck">
               <div className="deck-header">
                 <div className="deck-header-left">
@@ -708,117 +718,7 @@ export default function TechSemiPanel() {
           </section>
         )}
 
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          拥挤度与杠杆
-          <span className="hint">TMT 成交占比，以及沪深两市融资买入占比</span>
-        </h2>
-        <div className="anomaly-grid">
-          {crowding?.turnoverShare && (
-            <div className="card real-crowd-card">
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
-                <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
-              </div>
-              <div className="real-crowd-num-row">
-                <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
-                <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
-              </div>
-              <div className="gauge-track" aria-hidden="true">
-                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
-              </div>
-              <div className="gauge-marks">
-                <span>20 冰点外</span>
-                <span>32 偏热</span>
-                <span>38 极端</span>
-              </div>
-              <div className="real-crowd-detail">
-                TMT {crowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{tone.note}
-              </div>
-            </div>
-          )}
-        </div>
-        {marginShares.length > 0 && (
-          <div className="card chart-panel" style={{ marginTop: 16 }}>
-            <div className="chart-title">
-              两市融资买入占比
-              {typeof margin?.value === 'number' && (
-                <> · 最新 {margin.value}% · 截至 {margin.asOf} · {margin.v}</>
-              )}
-            </div>
-            <ReactECharts option={marginOpt} style={{ height: 260, width: '100%' }} notMerge lazyUpdate />
-            {margin?.watch && <div className="real-crowd-detail">{margin.watch}</div>}
-          </div>
-        )}
-        {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          云厂商开支与基本面
-          <span className="hint">最近一季是加速、持平还是下调。没有已发布材料就不填</span>
-        </h2>
-        <div className="base-grid">
-          {(data.fundamental?.items ?? []).map((item) => (
-            <div className="card real-crowd-card" key={item.k}>
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{item.k}</span>
-                <span className={`crowd-badge ${item.zone}`}>
-                  {item.status === 'pending' ? '未接入 · 还没有可引用的披露' : item.v}
-                </span>
-              </div>
-              <div className="real-crowd-desc">{item.metric}</div>
-              <div className="real-crowd-detail">{item.watch}</div>
-            </div>
-          ))}
-        </div>
-        {data.fundamental?.note && <div className="sec-note">{data.fundamental.note}</div>}
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          {data.signal?.secTitle || '产业与市场信号'}
-          <span className="hint">{data.signal?.secHint || '只根据已经对上的价格和成交占比。未接入的指标不下结论'}</span>
-        </h2>
-        <div className="card signal">
-          <div className="sig-verdict">
-            <div className="v-main">{data.signal?.verdict}</div>
-            {data.signal?.sub && <div className="v-sub">{data.signal.sub}</div>}
-          </div>
-          <div className="sig-cols">
-            <div className="sig-col">
-              <div className="col-h up">
-                <i aria-hidden="true" />
-                {data.signal?.bullTitle || '利多支撑'}
-                <span>{data.signal?.bullHint || '结构性景气驱动'}</span>
-              </div>
-              {data.signal?.bull?.map((b, i) => (
-                <div className="sig-item up" key={`${b.dim}-${i}`}>
-                  <i aria-hidden="true" />
-                  <span className="k">{b.k}</span>
-                  {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
-                  <span className="v">{b.v}</span>
-                </div>
-              ))}
-            </div>
-            <div className="sig-col">
-              <div className="col-h down">
-                <i aria-hidden="true" />
-                {data.signal?.bearTitle || '潜在风险'}
-                <span>{data.signal?.bearHint || '抑制估值与斜率'}</span>
-              </div>
-              {data.signal?.bear?.map((b, i) => (
-                <div className="sig-item down" key={`${b.dim}-${i}`}>
-                  <i aria-hidden="true" />
-                  <span className="k">{b.k}</span>
-                  {(SEMI_DIM[b.dim] || b.dim) && <span className="dim">{SEMI_DIM[b.dim] || b.dim}</span>}
-                  <span className="v">{b.v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          {data.signal?.watch && (
-            <div className="sig-watch">
-              <b>中性 / 待观察 ·</b> {data.signal.watch}
-            </div>
-          )}
-        </div>
-
+        {/* ==================== 4. 市场动态与催化事实 (Market Dynamics · 🚩3) ==================== */}
         {sortedTimeline.length > 0 && (
           <>
             <h2 className="sec-title" style={{ marginTop: 28 }}>
@@ -845,27 +745,6 @@ export default function TechSemiPanel() {
                   </div>
                   <div className="d">{n.d}</div>
                   <div className="src">{n.src}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {data.risks && data.risks.length > 0 && (
-          <>
-            <h2 className="sec-title" style={{ marginTop: 28 }}>
-              产业核心风险雷达
-              <span className="hint">关注宏观流动性、出口管制政策与终端 ROI 变现节奏</span>
-            </h2>
-            <div className="risks">
-              {data.risks.map((r, i) => (
-                <div className="card rcard" key={r.k || i}>
-                  <div className="rk">
-                    <i className={r.level === 'high' ? 'r' : r.level === 'med' ? 'y' : 'n'} aria-hidden="true" />
-                    {r.k}
-                  </div>
-                  <p>{r.desc}</p>
-                  <div className="src">{r.src}</div>
                 </div>
               ))}
             </div>
