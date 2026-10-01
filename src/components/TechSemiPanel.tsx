@@ -134,11 +134,10 @@ type ClosingReview = {
   nextDayWatch: NextDayWatch[];
 };
 
-const BENCH_KEYS = ['sox', 'star50', 'kospi'] as const;
 const CHART_SERIES = [
   { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
   { key: 'kospi', name: '韩国 KOSPI', color: '#f43f5e', width: 2.0 },
-  { key: 'star50', name: '科创50', color: '#facc15', width: 1.8 },
+  { key: 'star50', name: '科创50', color: '#F5C542', width: 2.0 },
 ] as const;
 
 const SEMI_DIM: Record<string, string> = {
@@ -228,6 +227,9 @@ export default function TechSemiPanel() {
 
   // 实时市场时钟更新（每 30 秒自动校准一次客户端当前状态）
   const [currentTime, setCurrentTime] = useState(() => new Date());
+  const [activeTab, setActiveTab] = useState<'star50' | 'sox' | 'kospi'>('star50');
+  const [isOverlay, setIsOverlay] = useState<boolean>(false);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -245,62 +247,156 @@ export default function TechSemiPanel() {
     );
   }, [data.closingReview, benchMap, currentTime]);
 
+  const clockMap = useMemo(() => {
+    const list = dynamicClock?.marketClock ?? data.closingReview?.marketClock ?? [];
+    const map: Record<'star50' | 'sox' | 'kospi', (typeof list)[0] | undefined> = {
+      star50: undefined,
+      sox: undefined,
+      kospi: undefined,
+    };
+    for (const item of list) {
+      if (item.symbol === '000688.SS') map.star50 = item;
+      else if (item.symbol === '^SOX') map.sox = item;
+      else if (item.symbol === '^KS11') map.kospi = item;
+    }
+    return map;
+  }, [dynamicClock, data.closingReview]);
+
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
   const chgCls = (c: string) => (c === 'up' ? ' up' : c === 'down' ? ' down' : '');
 
-  const benches = BENCH_KEYS.map((key) => benchMap[key]).filter((item): item is Bench => Boolean(item));
   const share = crowding?.turnoverShare?.value ?? 0;
   const starDown = (benchMap.star50?.chgClass === 'down') || (benchMap.star50?.chg.startsWith('-') ?? false);
   const tone = crowdTone(share, starDown);
   const crowdZone = crowding?.zone || tone.zone;
   const crowdLabel = crowding?.label || tone.label;
-  const norm = charts.normalized as Record<string, number[] | string[]>;
-  const dates = (norm.dates as string[]) || [];
+  const norm = useMemo(() => charts.normalized as Record<string, number[] | string[]>, [charts.normalized]);
+  const dates = useMemo(() => (norm.dates as string[]) || [], [norm]);
 
-  const normalizedOpt: EChartsOption = {
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: 'rgba(0,0,0,0.92)',
-      borderColor: 'rgba(240,240,250,0.35)',
-      borderWidth: 1,
-      textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
-    },
-    legend: {
-      top: 0,
-      itemWidth: 14,
-      itemHeight: 3,
-      textStyle: { color: 'rgba(240,240,250,0.85)', fontFamily: DISPLAY, fontSize: 11 },
-    },
-    grid: { left: 48, right: 16, top: 36, bottom: 26 },
-    xAxis: {
-      type: 'category',
-      data: dates,
-      axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
-      axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
-    },
-    yAxis: {
-      type: 'value',
-      scale: true,
-      splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
-      axisLabel: {
-        color: 'rgba(240,240,250,0.6)',
-        fontFamily: MONO,
-        fontSize: 10,
-        formatter: (v: number) => `${v >= 0 ? '+' : ''}${v}%`,
+  const activeColor = activeTab === 'star50' ? '#F5C542' : (activeTab === 'sox' ? '#38bdf8' : '#f43f5e');
+  const activeSeriesMeta = CHART_SERIES.find((s) => s.key === activeTab) ?? CHART_SERIES[2];
+
+  const normalizedOpt: EChartsOption = useMemo(() => {
+    let seriesList;
+    if (isOverlay) {
+      seriesList = CHART_SERIES.map((item) => {
+        const isCurrent = item.key === activeTab;
+        return {
+          name: item.name,
+          type: 'line' as const,
+          data: (norm[item.key] as number[]) || [],
+          showSymbol: false,
+          z: isCurrent ? 4 : 2,
+          lineStyle: {
+            color: item.color,
+            width: isCurrent ? 2.5 : 1.5,
+            opacity: isCurrent ? 1 : 0.45,
+          },
+          itemStyle: { color: item.color },
+        };
+      });
+    } else {
+      seriesList = [
+        {
+          name: activeSeriesMeta.name,
+          type: 'line' as const,
+          data: (norm[activeTab] as number[]) || [],
+          showSymbol: false,
+          lineStyle: { color: activeColor, width: 2.2 },
+          itemStyle: { color: activeColor },
+          areaStyle: {
+            color: {
+              type: 'linear' as const,
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: `${activeColor}33` },
+                { offset: 1, color: `${activeColor}00` },
+              ],
+            },
+          },
+        },
+      ];
+    }
+
+    return {
+      backgroundColor: 'transparent',
+      animationDuration: 300,
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'rgba(0,0,0,0.92)',
+        borderColor: 'rgba(240,240,250,0.35)',
+        borderWidth: 1,
+        textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
+        valueFormatter: (v) => (v == null ? '--' : `${(v as number) >= 0 ? '+' : ''}${v}%`),
       },
+      legend: isOverlay ? {
+        top: 0,
+        right: 16,
+        itemWidth: 14,
+        itemHeight: 3,
+        textStyle: { color: 'rgba(240,240,250,0.85)', fontFamily: DISPLAY, fontSize: 11 },
+      } : { show: false },
+      grid: { left: 46, right: 16, top: isOverlay ? 30 : 16, bottom: 24 },
+      xAxis: {
+        type: 'category',
+        data: dates,
+        axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
+        axisTick: { show: false },
+        axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
+      },
+      yAxis: {
+        type: 'value',
+        scale: true,
+        splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
+        axisLabel: {
+          color: 'rgba(240,240,250,0.6)',
+          fontFamily: MONO,
+          fontSize: 10,
+          formatter: (v: number) => `${v >= 0 ? '+' : ''}${v}%`,
+        },
+      },
+      series: seriesList,
+    };
+  }, [activeTab, isOverlay, norm, dates, activeColor, activeSeriesMeta]);
+
+  const activeSeriesData = (norm[activeTab] as number[]) || [];
+  const statMax = activeSeriesData.length ? Math.max(...activeSeriesData) : 0;
+  const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
+  const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
+
+  const tabConfigs: Array<{
+    key: 'star50' | 'sox' | 'kospi';
+    name: string;
+    symbol: string;
+    bench: Bench | undefined;
+    clock: (typeof clockMap)['star50'];
+  }> = [
+    {
+      key: 'star50',
+      name: '科创50指数',
+      symbol: '000688.SS',
+      bench: benchMap.star50,
+      clock: clockMap.star50,
     },
-    series: CHART_SERIES.map((item) => ({
-      name: item.name,
-      type: 'line',
-      data: (norm[item.key] as number[]) || [],
-      showSymbol: false,
-      lineStyle: { color: item.color, width: item.width },
-      itemStyle: { color: item.color },
-    })),
-  };
+    {
+      key: 'sox',
+      name: '费城半导体',
+      symbol: '^SOX',
+      bench: benchMap.sox,
+      clock: clockMap.sox,
+    },
+    {
+      key: 'kospi',
+      name: '韩国KOSPI综合',
+      symbol: '^KS11',
+      bench: benchMap.kospi,
+      clock: clockMap.kospi,
+    },
+  ];
 
   const margin = data.leverage?.marginBuyShare;
   const marginDates = margin?.dates ?? [];
@@ -375,31 +471,121 @@ export default function TechSemiPanel() {
       </header>
 
       <div className="content">
-        {/* ==================== 盘后深度归因与收盘复盘 (Post-Market Attribution) ==================== */}
-        {data.closingReview && (
-          <section className="closing-review-section">
-            {/* 1. 彭博终端时钟状态条 */}
-            <div className="terminal-clock-bar">
-              <div className="terminal-clock-title">
-                <span className="live-pulse-dot" aria-hidden="true" />
-                <span className="clock-phase-label">
-                  {dynamicClock?.tradingPhase.headline ?? data.closingReview.tradingPhase.headline}
-                </span>
-                <span className="clock-phase-window mono">
-                  {dynamicClock?.tradingPhase.window ?? data.closingReview.tradingPhase.window}
-                </span>
-              </div>
-              <div className="clock-market-pills">
-                {(dynamicClock?.marketClock ?? data.closingReview.marketClock).map((m) => (
-                  <div className={`clock-pill ${m.status.toLowerCase()}`} key={m.symbol}>
-                    <span className="pill-name">{m.name}</span>
-                    <span className={`pill-chg num ${m.chgClass}`}>{m.chg}</span>
-                    <span className="pill-status">{m.statusLabel}</span>
+        {/* ==================== 1. 终端宏观交易时钟、Tab切换栏与走势图表一体化系统 ==================== */}
+        <section className="terminal-macro-viewport">
+          {/* A. 彭博终端宏观时钟与模式切换条 */}
+          <div className="terminal-clock-bar">
+            <div className="terminal-clock-title">
+              <span className="live-pulse-dot" aria-hidden="true" />
+              <span className="clock-phase-label">
+                {dynamicClock?.tradingPhase.headline ?? data.closingReview?.tradingPhase?.headline ?? '全球半导体核心行情'}
+              </span>
+              <span className="clock-phase-window mono">
+                {dynamicClock?.tradingPhase.window ?? data.closingReview?.tradingPhase?.window}
+              </span>
+            </div>
+            <div className="terminal-mode-toggles">
+              <button
+                type="button"
+                className={`terminal-mode-btn ${!isOverlay ? 'active' : ''}`}
+                onClick={() => setIsOverlay(false)}
+              >
+                单指聚焦
+              </button>
+              <button
+                type="button"
+                className={`terminal-mode-btn ${isOverlay ? 'active' : ''}`}
+                onClick={() => setIsOverlay(true)}
+              >
+                三地全景对比
+              </button>
+            </div>
+          </div>
+
+          {/* B. 三大指数无框 Tab 切换栏 */}
+          <div className="terminal-index-tabs-bar" role="tablist">
+            {tabConfigs.map((tc) => {
+              const isActive = activeTab === tc.key;
+              const priceDisplay = typeof tc.bench?.price === 'number'
+                ? tc.bench.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                : (tc.bench?.price ?? '--');
+              const chgClass = tc.bench?.chgClass || (tc.bench?.chg?.startsWith('+') ? 'up' : (tc.bench?.chg?.startsWith('-') ? 'down' : ''));
+              const statusClass = tc.clock?.status.toLowerCase() ?? 'closed';
+              const statusLabel = tc.clock?.statusLabel ?? '已收盘';
+
+              return (
+                <button
+                  key={tc.key}
+                  type="button"
+                  className={`index-tab-button ${tc.key} ${isActive ? 'active' : ''}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(tc.key)}
+                >
+                  <div className="index-tab-head-row">
+                    <div className="index-tab-name-box">
+                      <span className="index-tab-name">{tc.name}</span>
+                      <span className="index-tab-sym">{tc.symbol}</span>
+                    </div>
+                    <span className={`index-tab-status ${statusClass}`}>{statusLabel}</span>
                   </div>
-                ))}
+                  <div className="index-tab-data-row">
+                    <span className="index-tab-price">{priceDisplay}</span>
+                    <span className={`index-tab-chg ${chgCls(chgClass)}`}>{tc.bench?.chg || '--'}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* C. 紧随其后的走势图表 */}
+          <div className="terminal-chart-viewport">
+            <div className="terminal-chart-caption-bar">
+              <div className="terminal-chart-title">
+                <span className="terminal-chart-indicator" style={{ background: activeColor }} />
+                <span>
+                  {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '叠加对照' : '单指聚焦'})
+                </span>
               </div>
             </div>
 
+            <ReactECharts option={normalizedOpt} style={{ height: 280, width: '100%' }} notMerge lazyUpdate />
+
+            {/* 底部技术位统计速览条 */}
+            <div className="terminal-chart-stats">
+              <div className="stat-item">
+                <span className="stat-label">阶段起点:</span>
+                <span className="stat-val">{dates[0] || '04-02'} (0%)</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">期间高位:</span>
+                <span className="stat-val" style={{ color: 'var(--up)' }}>
+                  {statMax >= 0 ? '+' : ''}{statMax.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">期间低位:</span>
+                <span className="stat-val" style={{ color: 'var(--down)' }}>
+                  {statMin >= 0 ? '+' : ''}{statMin.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">当前累计收益:</span>
+                <span className="stat-val" style={{ color: statLatest >= 0 ? 'var(--up)' : 'var(--down)' }}>
+                  {statLatest >= 0 ? '+' : ''}{statLatest.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">基准对齐:</span>
+                <span className="stat-val">{dates.length} 交易日</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==================== 2. 盘后深度归因与收盘复盘 (Post-Market Attribution) ==================== */}
+        {data.closingReview && (
+          <section className="closing-review-section">
             {/* 2. 收盘总定调巨幕卡片 */}
             <div className="card closing-verdict-card">
               <div className="verdict-header">
@@ -557,38 +743,6 @@ export default function TechSemiPanel() {
           </div>
         )}
         {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
-
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          核心基准
-          <span className="hint">费半、韩国KOSPI、科创50</span>
-        </h2>
-        <div className="benchmarks-grid">
-          {benches.map((bm) => {
-            const chgClass = bm.chgClass || (bm.chg.startsWith('+') ? 'up' : (bm.chg.startsWith('-') ? 'down' : ''));
-            return (
-              <div className="card bm-card" key={bm.symbol}>
-                <div className="bm-header">
-                  <span className="bm-name">{bm.name}</span>
-                  <span className="bm-sym">{bm.symbol}</span>
-                </div>
-                <div className="bm-price-row">
-                  <span className="bm-price num">
-                    {typeof bm.price === 'number'
-                      ? bm.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                      : bm.price}
-                  </span>
-                  <span className={`bm-chg ${chgCls(chgClass)}`}>{bm.chg || '--'}</span>
-                </div>
-                <div className="bm-src">{bm.src}</div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="card chart-panel" style={{ marginTop: 16 }}>
-          <div className="chart-title">费半、韩国KOSPI、科创50（近半年累计涨跌，起点为 0）</div>
-          <ReactECharts option={normalizedOpt} style={{ height: 320, width: '100%' }} notMerge lazyUpdate />
-        </div>
 
         <h2 className="sec-title" style={{ marginTop: 28 }}>
           云厂商开支与基本面
