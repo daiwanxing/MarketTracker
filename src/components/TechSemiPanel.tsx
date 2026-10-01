@@ -637,50 +637,84 @@ export default function TechSemiPanel() {
               </div>
             </div>
 
-            {/* 四大多因子归因支柱矩阵 */}
+            {/* 因子影响力全景光谱条 (Cockpit Factor Spectrum) */}
+            <div className="attribution-spectrum-deck">
+              <div className="spectrum-header">
+                <span className="spectrum-title mono">FACTOR INFLUENCE SPECTRUM // 多因子影响力权重全景</span>
+                <span className="spectrum-total mono">TOTAL 100%</span>
+              </div>
+              <div className="spectrum-bar">
+                {data.closingReview.pillars.map((pillar) => (
+                  <div
+                    key={pillar.id}
+                    className={`spectrum-segment ${pillar.impact}`}
+                    style={{ width: `${pillar.weight}%` }}
+                    title={`${pillar.pillarName}: 权重 ${pillar.weight}% (${pillar.factorTag})`}
+                  >
+                    <span className="seg-name">{pillar.pillarName}</span>
+                    <span className="seg-pct mono">{pillar.weight}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 四大多因子归因驾驶舱矩阵 (Cockpit Matrix) */}
             <div className="attribution-grid">
               {data.closingReview.pillars.map((pillar) => (
                 <div className={`card pillar-card ${pillar.impact}`} key={pillar.id}>
+                  {/* 1. 头部标题与因子状态 */}
                   <div className="pillar-head">
                     <div className="pillar-meta">
                       <span className="pillar-weight mono">WEIGHT {pillar.weight}%</span>
-                      <span className={`pillar-tag ${pillar.impact}`}>{pillar.factorTag}</span>
+                      <div className="pillar-tags-group">
+                        <span className={`pillar-tag ${pillar.impact}`}>{pillar.factorTag}</span>
+                        {pillar.impactLabel && (
+                          <span className={`pillar-impact-badge ${pillar.impact}`}>{pillar.impactLabel}</span>
+                        )}
+                      </div>
                     </div>
-                    <h3 className="pillar-title">{pillar.pillarName}</h3>
-                    <span className="pillar-en mono">{pillar.pillarNameEn}</span>
+                    <div className="pillar-title-box">
+                      <h3 className="pillar-title">{pillar.pillarName}</h3>
+                      <span className="pillar-en mono">{pillar.pillarNameEn}</span>
+                    </div>
                   </div>
 
-                  {/* 硬指标快照 */}
-                  <div className="pillar-metrics">
+                  {/* 2. 核心量化 KPI 磁贴面板 (Hero Metric Deck) */}
+                  <div className="pillar-kpi-deck">
                     {pillar.metrics.map((m, idx) => (
-                      <div className="pm-item" key={idx}>
-                        <span className="pm-label">{m.label}</span>
-                        <span className="pm-val mono">{m.value}</span>
-                        {m.sub && <span className="pm-sub">{m.sub}</span>}
+                      <div className="kpi-cell" key={idx}>
+                        <div className="kpi-val-row">
+                          <span className="kpi-num mono">{m.value}</span>
+                          {m.sub && <span className="kpi-sub-badge mono">{m.sub}</span>}
+                        </div>
+                        <span className="kpi-label">{m.label}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* 深度因果传导链条 */}
-                  <div className="transmission-flow">
-                    <div className="flow-step trigger">
-                      <span className="step-tag">诱发源</span>
-                      <p className="step-text">{pillar.transmission.trigger}</p>
+                  {/* 3. 横向因果传导管线 (Horizontal Transmission Pipeline) */}
+                  <div className="transmission-pipeline">
+                    <div className="pipe-node trigger">
+                      <span className="pipe-tag">1. 诱发源</span>
+                      <p className="pipe-desc">{pillar.transmission.trigger}</p>
                     </div>
-                    <div className="flow-arrow" aria-hidden="true">↓</div>
-                    <div className="flow-step mechanism">
-                      <span className="step-tag">资金机制</span>
-                      <p className="step-text">{pillar.transmission.mechanism}</p>
+                    <div className="pipe-arrow" aria-hidden="true">➔</div>
+                    <div className="pipe-node mechanism">
+                      <span className="pipe-tag">2. 资金机制</span>
+                      <p className="pipe-desc">{pillar.transmission.mechanism}</p>
                     </div>
-                    <div className="flow-arrow" aria-hidden="true">↓</div>
-                    <div className="flow-step outcome">
-                      <span className="step-tag">盘面结果</span>
-                      <p className="step-text">{pillar.transmission.outcome}</p>
+                    <div className="pipe-arrow" aria-hidden="true">➔</div>
+                    <div className="pipe-node outcome">
+                      <span className="pipe-tag">3. 盘面映射</span>
+                      <p className="pipe-desc">{pillar.transmission.outcome}</p>
                     </div>
                   </div>
 
-                  {/* 研报级叙述阐述 */}
-                  <div className="pillar-narrative">{pillar.narrative}</div>
+                  {/* 4. 机构研报级定调简评 (Analyst Briefing Callout) */}
+                  <div className="pillar-briefing">
+                    <span className="briefing-prefix mono" aria-hidden="true">INSIGHT //</span>
+                    <p className="briefing-text">{pillar.narrative}</p>
+                  </div>
                 </div>
               ))}
             </div>
