@@ -483,14 +483,7 @@ export default function RobotPanel() {
           </>
         )}
 
-        {/* 6. 治理与规范说明 */}
-        <h2 className="sec-title" style={{ marginTop: 28 }}>
-          模块规范与数据说明
-        </h2>
-        <div className="sec-note">
-          本页面为人形机器人整机商业化进展与产业链研判观察盘。指标数据严格基于经核实的公司公开公告、正式招股说明书、财报期次及权威第三方行业调研（如 Counterpoint 等），严禁采纳自媒体传闻与未经审计的投融资推算。未获得持续连续披露之项均保留客观事实边界，不下主观投资建议。
-        </div>
-
+        {/* 6. 底部来源与说明 */}
         <footer className="src">
           {footer}
         </footer>
