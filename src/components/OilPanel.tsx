@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
@@ -28,6 +29,12 @@ export default function OilPanel() {
   const displayChg = liveOil?.chg || metrics.main.chg;
   const displayChgClass = liveOil?.chgClass || metrics.main.chgClass;
   const displayQuotes = liveOil?.quotes ? { ...metrics.main.quotes, ...liveOil.quotes } : metrics.main.quotes;
+
+  const sortedTimeline = useMemo(() => {
+    return [...(timeline || [])]
+      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+      .slice(0, 10);
+  }, [timeline]);
 
   const mainOpt: EChartsOption = {
     backgroundColor: 'transparent',
@@ -221,7 +228,7 @@ export default function OilPanel() {
         {timelineTitle}
       </h2>
       <div className="tl">
-        {timeline.slice(0, 10).map((n, i) => (
+        {sortedTimeline.map((n, i) => (
           <div className={`node ${i === 0 ? 'latest' : ''} ${n.hot ? 'hot' : ''}`} key={i}>
             <div className="dot" />
             <div className="tags">

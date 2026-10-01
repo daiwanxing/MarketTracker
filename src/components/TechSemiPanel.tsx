@@ -274,6 +274,13 @@ export default function TechSemiPanel() {
   const norm = useMemo(() => charts.normalized as Record<string, number[] | string[]>, [charts.normalized]);
   const dates = useMemo(() => (norm.dates as string[]) || [], [norm]);
 
+  // 新闻动态：统一按日期降序排序，并严格截取前 10 条
+  const sortedTimeline = useMemo(() => {
+    return [...(data.timeline || [])]
+      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+      .slice(0, 10);
+  }, [data.timeline]);
+
   const activeColor = activeTab === 'star50' ? '#F5C542' : (activeTab === 'sox' ? '#38bdf8' : '#f43f5e');
   const activeSeriesMeta = CHART_SERIES.find((s) => s.key === activeTab) ?? CHART_SERIES[2];
 
@@ -497,7 +504,7 @@ export default function TechSemiPanel() {
                 className={`terminal-mode-btn ${isOverlay ? 'active' : ''}`}
                 onClick={() => setIsOverlay(true)}
               >
-                三地全景对比
+                全景对比
               </button>
             </div>
           </div>
@@ -812,14 +819,13 @@ export default function TechSemiPanel() {
           )}
         </div>
 
-        {data.timeline && data.timeline.length > 0 && (
+        {sortedTimeline.length > 0 && (
           <>
             <h2 className="sec-title" style={{ marginTop: 28 }}>
-              半导体与产业链重大事件
-              <span className="hint">过去 30 天内对供给、制程良率、地缘政策及资本开支有实质影响的事实</span>
+              市场动态
             </h2>
             <div className="tl">
-              {data.timeline.map((n, i) => (
+              {sortedTimeline.map((n, i) => (
                 <div className={`node ${i === 0 ? 'latest' : ''} ${n.hot ? 'hot' : ''}`} key={`${n.date}-${n.t}-${i}`}>
                   <div className="dot" />
                   <div className="tags">

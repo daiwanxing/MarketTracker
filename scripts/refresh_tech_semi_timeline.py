@@ -688,9 +688,9 @@ def merge_timeline(existing: list, incoming: list[dict], today: date) -> list[di
             continue
         seen.add(key)
         kept.append(item)
-        if len(kept) >= MAX_TIMELINE:
-            break
-    return kept
+    # 严格按日期降序排序（最新日期在前），并保留最新条目
+    kept.sort(key=lambda x: str(x.get("date", "")), reverse=True)
+    return kept[:MAX_TIMELINE]
 
 
 def mock_payload_for_doc(doc: dict, headlines: list[dict[str, str]] | None = None) -> dict:
