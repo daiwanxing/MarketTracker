@@ -93,7 +93,6 @@ export default function Sidebar() {
             <NavLink to="/robot" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="dot-mini" aria-hidden="true" />
               机器人
-              <span className="nav-badge">预留</span>
             </NavLink>
           </div>
         </nav>
