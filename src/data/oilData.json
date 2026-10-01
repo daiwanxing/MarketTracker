@@ -17,25 +17,25 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "BZ=F 现报96.50美元、日内涨跌-5.94%，WTI 89.66美元；主矛盾是中东外运与红海通道恢复、美国释储与原油累库共同推动的供应正常化，正在压过霍尔木兹通行与对伊制裁的残余不确定性。",
-    "sub": "BZ=F 为布伦特原油连续期货报价，含换月与升贴水影响，不等同于通讯社引用的近月合约或现货评估价，两者不可直接对读；96.50美元/-5.94%的日内变动与中东外运恢复、美国原油库存意外增加、释储最后一批落地的事件序列方向一致，特朗普否认放宽对伊制裁仅提供底部对冲，未改变当日下行方向。",
+    "verdict": "BZ=F 报102.30、涨跌 -1.19%，WTI 93.03，DXY 102.14，主矛盾是霍尔木兹外运正常化压低地缘溢价，而中国成品油出口限制与美国施压欧洲柴油库存又收紧成品油供应路径，油价在100美元上方呈现震荡。",
+    "sub": "口径：BZ=F 不是通讯社近月合约，而是布伦特原油连续期货报价；现价102.30较昨收103.53回落，日内低点96.56后反弹，说明盘面先消化海峡复运，再受中国炼厂出口禁令传闻与美国柴油库存政策扰动。事件与报价对应：供应正常化压制上行，成品油政策限制区域供应，二者共同塑造102美元附近的反复。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
-        "dim": "geo",
-        "k": "霍尔木兹与红海通道可靠性",
-        "v": "通行信心虽修复，但双通道任一环节受扰仍会抬升保险与运费溢价，构成价格下限。"
-      },
-      {
         "dim": "supply",
-        "k": "美国SPR释储最后一批",
-        "v": "4000万桶借出为全球联合释储收尾，后续回补转向买盘，且OPEC+剩余产能缓冲有限。"
+        "k": "中国成品油出口限制",
+        "v": "CNBC与fxstreet报道的10月出口禁令若执行，亚太汽柴油供应收紧，炼厂利润与原油采购受支撑"
       },
       {
         "dim": "stocks",
-        "k": "馏分油持续去库",
-        "v": "美国馏分油库存继续下降、白宫敦促欧盟释放柴油库存，成品油端紧张对原油形成反向牵引。"
+        "k": "欧洲柴油库存博弈",
+        "v": "Reuters独家称美国要求法德释放柴油库存，否则面临出口禁令，跨大西洋柴油紧张预期上升"
+      },
+      {
+        "dim": "geo",
+        "k": "航运瓶颈",
+        "v": "OilPrice引印度表态称航运混乱而非供应驱动高价，到岸成本与运费对油价仍有支撑"
       }
     ],
     "bearTitle": "利空因素",
@@ -43,21 +43,21 @@
     "bear": [
       {
         "dim": "supply",
-        "k": "中东原油外运恢复",
-        "v": "摩根大通称已至战前98%，与高盛2025年口径及沙特红海出口恢复共同指向供应正常化。"
-      },
-      {
-        "dim": "stocks",
-        "k": "美国原油库存意外增加",
-        "v": "周度原油意外累库削弱去库叙事对近月的支撑，与馏分油分化并存。"
+        "k": "霍尔木兹外运恢复",
+        "v": "The Guardian报道海峡原油出口 largely return to pre-war levels，地缘供应中断溢价继续回吐"
       },
       {
         "dim": "macro",
-        "k": "美元指数与风险偏好",
-        "v": "美元指数101.25处相对高位压制美元计价商品，美股走弱进一步抑制整体风险偏好。"
+        "k": "美元指数",
+        "v": "DXY 102.14，美元计价原油承压，宏观需求预期限制上行空间"
+      },
+      {
+        "dim": "stocks",
+        "k": "美国原油累库",
+        "v": "已有时间轴显示周度美国原油库存意外增加，原油端去库不顺压制近月结构"
       }
     ],
-    "watch": "摩根大通与高盛外运口径差异的装船验证 · 霍尔木兹与红海两通道实际通行量 · 美国下一期原油与馏分油库存数据 · 4000万桶SPR借出的交付节奏 · 对伊制裁与谈判进展 · OPEC+剩余产能与减产执行"
+    "watch": "中国10月成品油出口禁令执行范围 · 美国对法德柴油库存要求的后续谈判 · 霍尔木兹外运与航运成本 · EIA周度原油及馏分油库存 · OPEC+产量政策表态 · 美元指数与WTI-Brent价差"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -1328,6 +1328,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-10-01",
+      "tag": "供应",
+      "hot": true,
+      "t": "中国炼厂传禁10月成品油出口 布伦特重回100美元上方",
+      "d": "来源：CNBC、fxstreet。两家报道称中国炼厂据报禁止10月成品油出口，布伦特原油回升至100美元上方；该政策若落地将收紧亚太汽柴油供应，抬升国内保供与炼厂原油加工优先级，并改变区域成品油贸易流。实际执行范围、出口配额调整及持续时间尚未证实，需关注官方口径与船期数据。",
+      "src": "来源：CNBC、fxstreet",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5yODZYTkUzZ09LMVducjBvQ1czQUc2WFdZNmVuUUpDVnpZMEJfMGhpWkkzQlRLUGprcDNielYycW8xYU5peDhhcy1pbzNJUVo1YkV0MjktUVliQ3NTc1ZNOXpDSUtubXZIYnBGOS04NDTSAXZBVV95cUxOQU83cmR3ZHl6YWl1V2RNcFRXbzJqRkFKZktLMkVobTBKMGxibmxDcEQwWjFqdXFQcFozSUVpVUhvZF85SDNCQzZxVk42RjdTWXdWcXd6SkNmWWlLVy1iT0l0NHlRUHNJOG5UZEQ5NlhoMHNmWnVB?oc=5"
+    },
+    {
+      "date": "2026-10-01",
+      "tag": "库存",
+      "hot": true,
+      "t": "路透独家：美国要求法德释放柴油库存 否则面临美国出口禁令",
+      "d": "来源：Reuters。路透独家称美国要求法国和德国释放柴油库存，否则可能面对美国出口禁令。该消息直接指向欧洲柴油库存与跨大西洋成品油贸易流；若政策推进，柴油供应路径将被重塑，并影响炼厂利润、柴油裂解、跨区套利与原油采购节奏。执行细节、豁免条件及时间表仍待官方确认。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNOGxXWEZnTW1hNUtCOXY4NTJTWHQ0ZkZoUEZsYkt3c3lQTVU1NDFVbHJnSkNJbXRTdzZCSlBWY2tsc0stTk5CSGk1Ymhpb0NwaG1WUEg5Ni1pVlFxQnRMc093VGllN0c5ektIdWYyN191ZW5ZX1lrUjhVODk2TUpsRXFQT3hQdGhVUzdjdklkSENrWm8yWmgwVkE1bEd6TTB2RHBsUHpZVExmTUhkbjhINTVrZ3ZpQnNsQW9wc0FBMWk4XzF0WEI1aXZBQQ?oc=5"
+    },
+    {
       "date": "2026-09-30",
       "tag": "海峡",
       "hot": false,
@@ -1469,24 +1487,6 @@
       "d": "Great Bend Post 报道称，美国原油产量将创纪录，延续页岩油供应增长。该信息与库存累积、战略储备借出形成叠加，强化供应宽松预期。在需求端未出现同等增量情况下，产量创新高会限制油价反弹空间。对 BZ=F 和 WTI 而言，该事件偏空，但需注意产量数据通常滞后，且出口与炼厂开工可能改变实际累库节奏。",
       "src": "来源：Great Bend Post",
       "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE01cDAwdHhZUlB3SVl3U3FzLXEtNGFwZC0wekVDNkM1M3Y0cVpUbDNKaXNIQm1Da0o5T2xyWm9JVWp4TTN1QjMySmcxZWtQZzRpYXg5U2k5ei14cDA3QVhDei02alJLak9nOU5TaEMwTmVBbm9yLWxB?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "海峡",
-      "hot": false,
-      "t": "更多原油经霍尔木兹海峡外运 海湾出口回升至年内最佳水平",
-      "d": "中东供应路径继续正常化，更多原油经霍尔木兹海峡外运，海湾地区海运出口回升至2月以来最佳水平。前期因运输受限而积压的装船需求持续释放，红海与波斯湾双通道同步恢复，供应端风险溢价随之压缩。期货市场对此直接定价，布伦特与WTI同步走低，与美方自战略储备借出至多4000万桶原油的释储动作形成方向一致的压制。",
-      "src": "来源：Barchart.com · WSJ · 2026-09-29",
-      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNSG5kMjhKanYtVlJRcVRBTWtmNkVFVVlUM2lMTDZGQmlleGZPX1FLNE5ad1dJOEotSXNoRzJXVHdTTVlROU1GaTRGWmZLb295Y05PQ1BFLXVwc3ZuU3Q0M3RQbno5MVVzc1ZmWk5tYVllMFM0TjZGRTAwXzJ2S2dpUEhtekx6MFEtVUp0c3EyQUFQenRoTi12ZVJR?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "谈判",
-      "hot": true,
-      "t": "伊朗相关谈判推进 市场对供应中断风险的定价进一步降温",
-      "d": "围绕伊朗的谈判进展被市场解读为降温信号。在红海装运恢复、中东出口回升、美方自战略储备借出至多4000万桶原油并寻求欧洲释放柴油储备的背景下，谈判推进使市场对供应中断的定价进一步回落，油价下行压力加大。该事件尚未改变实货流量，短期更多体现为预期层面的调整，需与库存和装运数据交叉验证。",
-      "src": "来源：oilprice.com · 2026-09-29",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQZDJjelloNGlVaXBLTjJkc2pjeXVKRy1qMXlQZzlvby1xZ2Rld0JXX3pSWjYzRkFxWWs0M0I4cW1UNUFQaW1WeGVqeTVmaTR6ZnBWaVRFWThwanhiM2ZJVGZyTWFPVnhjV0t3eXBBWVJIc01YVTF0Tjd4Q1JXY1lqX2hwcUcwUlM1aF9ORl9YSmI0QdIBlwFBVV95cUxQeGV6WmdocmNhWGZWUWdFTVJ2ai14aWd1ZUt2c1lTUUVfQjliaU41a0M2NVVCWHFTa1BfNXpSZkdPZnkzVDIybXoyWGhLTnlNTmR4RkVGMllzS0RoRV9lTDJJWi1LcWJDdnE3eDR0aXhkcklBMF9MMEM3OEJWWFhOaE9fdXkycXdERWZnRmY4THFtRWdXR1Jn?oc=5"
     }
   ],
   "newsTitle": "原油市场热点",
@@ -1531,22 +1531,22 @@
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "霍尔木兹与红海通行量",
-      "level": "r",
-      "desc": "若通行量再度回落或红海装船受扰，外运恢复叙事被推翻，布伦特单边升水可快速重建；若分歧被证实仅为统计基数问题，价格继续向下测试支撑。",
-      "src": "来源：OilPrice.com、Bloomberg"
-    },
-    {
-      "k": "对伊制裁与谈判进展",
+      "k": "中国成品油出口禁令",
       "level": "a",
-      "desc": "若美方释放制裁松动的谈判信号，伊朗增量出口预期回归，放大供应正常化的下行压力；若限制延续，则与释储收尾共同构成底部支撑。",
-      "src": "来源：Reuters、CNBC"
+      "desc": "若CNBC与fxstreet报道的10月出口禁令正式落地且范围扩大，亚太汽柴油供应收紧，炼厂利润与BZ=F近月价格获支撑；若被澄清或豁免，风险溢价回吐。",
+      "src": "CNBC、fxstreet"
     },
     {
-      "k": "美国原油与馏分油库存",
+      "k": "美国柴油出口政策",
+      "level": "r",
+      "desc": "若Reuters独家所述美国迫使法德释放柴油库存并推进出口禁令，跨大西洋柴油贸易流重塑，柴油裂解与布伦特近月波动上升；若谈判缓和，冲击减弱。",
+      "src": "Reuters"
+    },
+    {
+      "k": "霍尔木兹外运恢复",
       "level": "g",
-      "desc": "若原油继续累库而馏分油去库放缓，成品油结构性紧张逻辑松动，WTI与布伦特价差及柴油裂解同步走弱。",
-      "src": "来源：WSJ、OilPrice.com"
+      "desc": "若The Guardian及已有机构口径确认外运稳定在战前水平，供应正常化将压制地缘溢价；若通行再度受扰，BZ=F可能重新站上102美元上方。",
+      "src": "The Guardian、摩根大通、高盛"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
