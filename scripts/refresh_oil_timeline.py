@@ -37,10 +37,23 @@ RSS_QUERIES = (
     "https://news.google.com/rss/search?q=crude+oil+OR+Brent+OR+WTI+when:1d&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=%E5%8E%9F%E6%B2%B9+OR+%E5%B8%83%E4%BC%A6%E7%89%B9+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
 )
-MAX_HEADLINES = 40
+MAX_HEADLINES = 12
+MAX_RAW_HEADLINES = 40
 MAX_TIMELINE = 18
 MAX_AGE_DAYS = 30
 TAGS = ("隔夜", "亚盘", "美盘", "EIA", "OPEC+", "海峡", "谈判", "库存", "供应")
+
+OIL_KEYWORDS = (
+    "opec", "eia", "api", "iea", "inventory", "库存", "pipeline", "管道",
+    "strait", "hormuz", "海峡", "crude", "原油", "brent", "布伦特", "wti",
+    "refinery", "炼厂", "炼油", "saudi", "沙特", "russia", "俄罗斯", "iran", "伊朗",
+    "sanctions", "制裁", "spr", "战略储备", "production", "减产", "增产",
+    "export", "出口", "tanker", "油轮", "石油",
+)
+NOISE_KEYWORDS = (
+    "cooking oil", "vegetable oil", "olive oil", "hair oil", "essential oil",
+    "palm oil", "gas prices at pump", "gas station", "corn oil",
+)
 
 SYSTEM_PROMPT = """你是大宗商品卖方研究编辑，按 Bloomberg / 投行研报口径更新原油看板。
 输入含最新报价、已有时间轴和 24 小时快讯。只依据这些材料，不编造未出现的数字。
@@ -113,9 +126,40 @@ def fetch_headlines(urls: tuple[str, ...] = RSS_QUERIES) -> list[dict[str, str]]
                     "link": link.strip(),
                 }
             )
-            if len(rows) >= MAX_HEADLINES:
+            if len(rows) >= MAX_RAW_HEADLINES:
                 return rows
     return rows
+
+
+def rank_and_filter_headlines(headlines: list[dict[str, str]], max_items: int = MAX_HEADLINES) -> list[dict[str, str]]:
+    if not headlines:
+        return []
+    scored: list[tuple[int, dict[str, str]]] = []
+    for h in headlines:
+        title = (h.get("title") or "").lower()
+        source = (h.get("source") or "").lower()
+        score = 0
+        for kw in OIL_KEYWORDS:
+            if kw in title:
+                score += 3
+        if any(s in source for s in ("reuters", "bloomberg", "wsj", "cnbc", "oilprice", "platts", "argus")):
+            score += 2
+        for noise in NOISE_KEYWORDS:
+            if noise in title:
+                score -= 6
+        scored.append((score, h))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    selected: list[dict[str, str]] = []
+    for _, item in scored[:max_items]:
+        selected.append(
+            {
+                "title": item.get("title", "").strip(),
+                "source": item.get("source", "").strip(),
+                "link": item.get("link", "").strip(),
+            }
+        )
+    return selected
 
 
 def parse_model_json(text: str) -> dict:
@@ -144,7 +188,7 @@ def call_deepseek(
         "asOf": datetime.now(SHANGHAI).strftime("%Y-%m-%d %H:%M 上海"),
         "quote": quote,
         "existing_timeline": prior,
-        "headlines": headlines,
+        "headlines": rank_and_filter_headlines(headlines, MAX_HEADLINES),
     }
     body = {
         "model": "deepseek-flash",

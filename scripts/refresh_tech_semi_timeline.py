@@ -48,12 +48,24 @@ RSS_QUERIES = (
     "https://news.google.com/rss/search?q=(%E5%8D%8A%E5%AF%BC%E4%BD%93+OR+%E8%8A%AF%E7%89%87+OR+%E7%A7%91%E5%88%9B50+OR+%E5%85%88%E8%BF%9B%E5%88%B6%E7%A8%8B+OR+%E5%85%89%E5%88%BB%E6%9C%BA)+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
 )
 
-MAX_HEADLINES = 50
+MAX_HEADLINES = 12
+MAX_RAW_HEADLINES = 50
 MAX_TIMELINE = 18
 MAX_AGE_DAYS = 30
 TAGS = ("算力基础设施", "制程产能", "国产替代", "行业周期", "政策监管")
 BULL_DIMS = ("capex", "foundry", "substitute")
 BEAR_DIMS = ("mature", "geo", "memory")
+
+SEMI_KEYWORDS = (
+    "tsmc", "台积电", "asml", "光刻", "foundry", "代工", "制程", "wafer", "晶圆",
+    "nvidia", "英伟达", "gpu", "hbm", "cowos", "封装", "packaging", "算力", "csp", "capex", "资本开支",
+    "dram", "nand", "nor", "sk hynix", "海力士", "samsung", "三星", "存储", "memory",
+    "中芯", "smic", "科创50", "半导体", "芯片", "eda", "mlcc", "自主化", "国产替代",
+)
+NOISE_KEYWORDS = (
+    "game review", "deal", "discount", "playstation", "xbox", "giveaway", "case for", "best price",
+    "unboxing", "hands-on", "wallpaper", "smartphone case",
+)
 
 SYSTEM_PROMPT = """你是半导体与科技硬件行业卖方研究编辑，按彭博终端（Bloomberg Terminal）与顶级投行研报口径更新科技半导体宏观认知看板。
 输入包含当前盘面基准（费城半导体 SOX、韩国KOSPI、科创50）、TMT 成交额占比与拥挤度分区、全市场融资买入强度、四大 CSP 资本开支跟踪、既有时间轴、跨品种宏观数据（原油/美元指数/美债收益率）及 24 小时中英资讯。
@@ -304,9 +316,43 @@ def fetch_headlines(urls: tuple[str, ...] = RSS_QUERIES) -> list[dict[str, str]]
                     "link": link,
                 }
             )
-            if len(rows) >= MAX_HEADLINES:
+            if len(rows) >= MAX_RAW_HEADLINES:
                 return rows
     return rows
+
+
+def rank_and_filter_headlines(headlines: list[dict[str, str]], max_items: int = MAX_HEADLINES) -> list[dict[str, str]]:
+    if not headlines:
+        return []
+    scored: list[tuple[int, dict[str, str]]] = []
+    for h in headlines:
+        title = (h.get("title") or "").lower()
+        source = (h.get("source") or "").lower()
+        score = 0
+        for kw in SEMI_KEYWORDS:
+            if kw in title:
+                score += 3
+        if "trendforce" in source or "集邦" in source:
+            score += 4
+        elif any(news_source in source for news_source in ("reuters", "bloomberg", "wsj", "cnbc")):
+            score += 2
+        for noise in NOISE_KEYWORDS:
+            if noise in title:
+                score -= 6
+        scored.append((score, h))
+
+    # Highest score first; if tied, keep original order
+    scored.sort(key=lambda x: x[0], reverse=True)
+    selected: list[dict[str, str]] = []
+    for _, item in scored[:max_items]:
+        selected.append(
+            {
+                "title": item.get("title", "").strip(),
+                "source": item.get("source", "").strip(),
+                "link": item.get("link", "").strip(),
+            }
+        )
+    return selected
 
 
 def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) -> dict:
@@ -377,7 +423,7 @@ def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) ->
             }
         },
         "existing_timeline": prior,
-        "headlines": (headlines or [])[:MAX_HEADLINES],
+        "headlines": rank_and_filter_headlines(headlines or [], MAX_HEADLINES),
     }
 
 

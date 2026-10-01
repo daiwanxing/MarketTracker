@@ -39,7 +39,20 @@ RSS_QUERIES = (
     "https://news.google.com/rss/search?q=gold+OR+XAU+OR+bullion+when:1d&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=%E9%BB%84%E9%87%91+OR+%E4%BC%A6%E6%95%A6%E9%87%91+when:1d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
 )
-MAX_HEADLINES = 40
+MAX_HEADLINES = 12
+MAX_RAW_HEADLINES = 40
+
+GOLD_KEYWORDS = (
+    "fed", "美联储", "fomc", "powell", "鲍威尔", "interest rate", "利率",
+    "inflation", "通胀", "treasury", "美债", "yield", "收益率", "dollar", "美元", "dxy",
+    "central bank", "央行", "gold", "黄金", "伦敦金", "comex", "xau",
+    "etf", "spdr", "safe haven", "避险", "geopolitical", "地缘", "cpi", "pce",
+    "nonfarm", "非农", "payroll", "金价",
+)
+NOISE_KEYWORDS = (
+    "gold jewelry", "golden retriever", "gold glove", "gold medal", "golden state",
+    "earrings", "ring", "necklace", "fashion", "gold coast",
+)
 
 SYSTEM_PROMPT = """你是大宗商品与贵金属卖方研究编辑，按彭博终端（Bloomberg Terminal）与顶级投行研报口径更新黄金行情决策看板。
 输入包含当前盘面报价（现货 XAU/USD、COMEX GC、期现基差、美元指数 DXY、10 年期美债收益率）、既有技术位、盈亏比参数、宏观因子及 24 小时全球中英资讯。
@@ -169,9 +182,40 @@ def fetch_headlines(urls: tuple[str, ...] = RSS_QUERIES) -> list[dict[str, str]]
                     "link": link.strip(),
                 }
             )
-            if len(rows) >= MAX_HEADLINES:
+            if len(rows) >= MAX_RAW_HEADLINES:
                 return rows
     return rows
+
+
+def rank_and_filter_headlines(headlines: list[dict[str, str]], max_items: int = MAX_HEADLINES) -> list[dict[str, str]]:
+    if not headlines:
+        return []
+    scored: list[tuple[int, dict[str, str]]] = []
+    for h in headlines:
+        title = (h.get("title") or "").lower()
+        source = (h.get("source") or "").lower()
+        score = 0
+        for kw in GOLD_KEYWORDS:
+            if kw in title:
+                score += 3
+        if any(s in source for s in ("reuters", "bloomberg", "wsj", "cnbc", "kitco", "fxstreet", "fx678")):
+            score += 2
+        for noise in NOISE_KEYWORDS:
+            if noise in title:
+                score -= 6
+        scored.append((score, h))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    selected: list[dict[str, str]] = []
+    for _, item in scored[:max_items]:
+        selected.append(
+            {
+                "title": item.get("title", "").strip(),
+                "source": item.get("source", "").strip(),
+                "link": item.get("link", "").strip(),
+            }
+        )
+    return selected
 
 
 def extract_context(doc: dict, headlines: list[dict[str, str]]) -> dict:
@@ -243,7 +287,7 @@ def extract_context(doc: dict, headlines: list[dict[str, str]]) -> dict:
         "riskReward": rr_ctx,
         "macro": macro_items,
         "action": action_ctx,
-        "headlines": headlines[:MAX_HEADLINES],
+        "headlines": rank_and_filter_headlines(headlines, MAX_HEADLINES),
     }
 
 
@@ -894,6 +938,7 @@ def self_test() -> int:
         orig_candles = json.dumps(live_gold_doc.get("tech", {}).get("candles"), sort_keys=True)
         orig_volume = json.dumps(live_gold_doc.get("tech", {}).get("volume"), sort_keys=True)
         orig_momentum = json.dumps(live_gold_doc.get("tech", {}).get("momentum"), sort_keys=True)
+        orig_support = live_gold_doc.get("tech", {}).get("support")
         orig_tech_note = live_gold_doc.get("tech", {}).get("note")
         orig_positioning = json.dumps(live_gold_doc.get("positioning"), sort_keys=True)
         orig_etf = json.dumps(live_gold_doc.get("etf"), sort_keys=True)
@@ -951,7 +996,7 @@ def self_test() -> int:
         )
         _assert(status_dry == 0, "dry-run exit code 0")
         doc_after_dry = json.loads(test_file.read_text(encoding="utf-8"))
-        _assert(doc_after_dry.get("tech", {}).get("support") == [4120, 4140], "dry-run must not write to file")
+        _assert(doc_after_dry.get("tech", {}).get("support") == orig_support, "dry-run must not write to file")
 
         # Full run test
         status_real = refresh_gold_timeline(
