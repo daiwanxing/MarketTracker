@@ -1,0 +1,43 @@
+/* ============================================================
+   MARKET TRACKER · Application Shell Layout
+   ============================================================ */
+@layer layout {
+  .app {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: 960px) {
+      flex-direction: column;
+    }
+  }
+
+  .main {
+    flex: 1;
+    min-width: 0;
+
+    @media (max-width: 960px) {
+      padding: 0 !important;
+    }
+  }
+
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px 64px;
+
+    @media (max-width: 960px) {
+      padding: 24px 16px calc(48px + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (max-width: 760px) {
+      max-width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      padding: 18px 14px calc(40px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+}

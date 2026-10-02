@@ -1,0 +1,144 @@
+/* ============================================================
+   MARKET TRACKER · Timeline Component System
+   ============================================================ */
+@layer components {
+  .tl {
+    position: relative;
+    padding-left: 24px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--line-strong);
+    }
+
+    @media (max-width: 600px) {
+      padding-left: 18px;
+    }
+  }
+
+  .node {
+    position: relative;
+    margin-bottom: 30px;
+    display: block;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 基础时间轴圆点 */
+    & .dot {
+      position: absolute;
+      left: -24px;
+      top: 7px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #71717A;
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px color-mix(in oklch, var(--text) 35%, transparent);
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      @media (max-width: 600px) {
+        left: -18px;
+      }
+    }
+
+    /* 仅最新一条动态：雷达脉冲红点 */
+    &.latest .dot {
+      background: var(--up);
+      box-shadow:
+        0 0 0 2px color-mix(in oklch, var(--up) 25%, transparent),
+        0 0 10px color-mix(in oklch, var(--up) 60%, transparent);
+    }
+
+    & .tags {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      @media (max-width: 600px) {
+        gap: 6px;
+      }
+    }
+
+    & .date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.4px;
+    }
+
+    & .t {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--text);
+      line-height: 1.45;
+      margin-top: 8px;
+      text-transform: uppercase;
+      word-break: break-word;
+
+      & a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        word-break: break-word;
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: #38bdf8;
+        }
+
+        & svg {
+          flex: none;
+        }
+      }
+
+      & em {
+        font-style: normal;
+        color: var(--up);
+      }
+
+      @media (max-width: 600px) {
+        font-size: 15px;
+      }
+    }
+
+    & .d {
+      font-size: 13.5px;
+      color: color-mix(in oklch, var(--text) 85%, transparent);
+      line-height: 1.75;
+      margin-top: 6px;
+      letter-spacing: 0.15px;
+      word-break: break-word;
+
+      @media (max-width: 600px) {
+        font-size: 13px;
+        line-height: 1.65;
+      }
+    }
+
+    & .src {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: color-mix(in oklch, var(--text) 45%, transparent);
+      margin-top: 6px;
+      word-break: break-word;
+      border: none;
+      padding: 0;
+    }
+  }
+}

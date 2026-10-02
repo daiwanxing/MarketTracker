@@ -1,0 +1,493 @@
+/* ============================================================
+   MARKET TRACKER · Gold Panel Styles (Decision-Oriented System)
+   ============================================================ */
+@layer panels {
+  /* 技术快照网格 */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .t-item {
+    padding: 16px 18px;
+    background: var(--ghost-surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+
+    & b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 8px;
+    }
+
+    & span {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    & .src {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-faint);
+      margin-top: 8px;
+      line-height: 1.65;
+      border: none;
+      padding: 0;
+    }
+
+    @media (max-width: 600px) {
+      padding: 14px 14px;
+    }
+  }
+
+  .t-full {
+    grid-column: 1 / -1;
+  }
+
+  .grow {
+    padding: 6px 22px;
+    margin-top: 14px;
+
+    @media (max-width: 600px) {
+      padding: 4px 14px;
+    }
+  }
+
+  .grow-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 13px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.6;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    & .k {
+      color: var(--text-dim);
+      white-space: nowrap;
+      flex: none;
+    }
+
+    & .dim {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--text-faint);
+      border: 1px solid var(--line-strong);
+      padding: 1px 6px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex: none;
+    }
+
+    & .qnum {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      flex: none;
+    }
+
+    & .v {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    & .g-src {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-faint);
+      margin-left: auto;
+      white-space: nowrap;
+      flex: none;
+    }
+
+    @media (max-width: 760px) {
+      flex-wrap: wrap;
+
+      & .g-src {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .verdict {
+    padding: 20px 24px;
+
+    & .v-main {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.5px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 600px) {
+      padding: 16px;
+    }
+  }
+
+  .sec-note {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    line-height: 1.75;
+    padding: 10px 4px 2px;
+  }
+
+  /* 盈亏比速览条 */
+  .rr-strip {
+    display: flex;
+    align-items: baseline;
+    gap: 14px 22px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+
+    & .rr-lbl {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+    }
+
+    & .rr-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+
+      & b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      & em {
+        font-style: normal;
+        color: var(--amber);
+        margin-left: 4px;
+      }
+
+      &.rr-key b {
+        color: var(--amber);
+        font-size: 13px;
+      }
+
+      &.rr-stop b {
+        color: var(--up);
+      }
+
+      @media (max-width: 600px) {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &.rr-key {
+          border-top: 1px dashed var(--line);
+          padding-top: 6px;
+        }
+      }
+    }
+
+    @media (max-width: 600px) {
+      gap: 10px 14px;
+      padding: 10px 14px;
+    }
+  }
+
+  /* 市场情绪与赔率 */
+  .sent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sent-card {
+    padding: 20px 22px;
+
+    @media (max-width: 600px) {
+      padding: 16px 14px;
+    }
+  }
+
+  .sent-h {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .ssi-main {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+
+    & .ssi-num {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+
+      & span {
+        font-size: 20px;
+        color: var(--text-dim);
+      }
+
+      @media (max-width: 600px) {
+        font-size: 32px;
+      }
+    }
+
+    & .ssi-level {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 2px;
+
+      &.crowded {
+        color: var(--amber);
+        border: 1px solid color-mix(in oklch, var(--amber) 55%, transparent);
+        background: color-mix(in oklch, var(--amber) 10%, transparent);
+      }
+    }
+  }
+
+  .ssi-bar {
+    margin-top: 16px;
+    height: 8px;
+    border-radius: 4px;
+    background: color-mix(in oklch, var(--text) 10%, transparent);
+    overflow: hidden;
+
+    & i {
+      display: block;
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--amber) 85%, transparent),
+        color-mix(in oklch, var(--up) 95%, transparent)
+      );
+    }
+  }
+
+  .ssi-scale {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--text-faint);
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .sent-hint {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+
+  .rr-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .rr-cell {
+    padding: 14px 12px;
+    background: color-mix(in oklch, var(--text) 3%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+    text-align: center;
+
+    & b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    & span {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--text-faint);
+      line-height: 1.6;
+      display: block;
+      margin-top: 6px;
+    }
+
+    &.rr-ratio b {
+      color: var(--amber);
+    }
+  }
+
+  /* 行动准则 */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .plan-card {
+    padding: 20px 22px;
+
+    & .plan-h {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+
+      & span {
+        font-family: var(--font-display);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+
+      & em {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-style: normal;
+        letter-spacing: 1px;
+        padding: 3px 10px;
+        border-radius: 2px;
+
+        &.probe {
+          color: var(--amber);
+          border: 1px solid color-mix(in oklch, var(--amber) 55%, transparent);
+          background: color-mix(in oklch, var(--amber) 10%, transparent);
+        }
+
+        &.wait {
+          color: var(--text-dim);
+          border: 1px solid var(--line-strong);
+          background: var(--ghost-surface);
+        }
+      }
+    }
+
+    & p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.75;
+
+      & b {
+        color: var(--text);
+      }
+    }
+
+    @media (max-width: 600px) {
+      padding: 16px 14px;
+    }
+  }
+
+  .legend .spdr-latest {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    white-space: nowrap;
+
+    @media (max-width: 600px) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  /* K 线图 Tab 切换 */
+  .kline-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 6px 8px;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .kline-tabs {
+    display: inline-flex;
+    gap: 4px;
+    flex-wrap: wrap;
+
+    & button {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: transparent;
+      border: 1px solid var(--ghost-border);
+      border-radius: 2px;
+      padding: 6px 14px;
+      cursor: pointer;
+      min-height: 36px;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+
+      &:hover {
+        color: var(--text);
+        border-color: var(--ghost-border-hover);
+      }
+
+      &.active {
+        color: var(--amber);
+        border-color: color-mix(in oklch, var(--amber) 55%, transparent);
+        background: color-mix(in oklch, var(--amber) 8%, transparent);
+      }
+    }
+  }
+}

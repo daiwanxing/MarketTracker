@@ -1,0 +1,39 @@
+/* ============================================================
+   MARKET TRACKER · SpaceX Design System (2025+ Spec)
+   Modular CSS Architecture
+   ============================================================ */
+
+/* 1. Layer Order */
+@import './base/layers.css';
+
+/* 2. Design Tokens */
+@import './tokens/colors.css';
+@import './tokens/spacex.css';
+
+/* 3. Base & Typography */
+@import './base/typography.css';
+@import './base/reset.css';
+
+/* 4. Layout Shell */
+@import './layout/starfield.css';
+@import './layout/shell.css';
+@import './layout/sidebar.css';
+@import './layout/hero.css';
+
+/* 5. Shared Components */
+@import './components/cards.css';
+@import './components/metrics.css';
+@import './components/badges.css';
+@import './components/timeline.css';
+@import './components/tables.css';
+@import './components/news.css';
+@import './components/risks.css';
+
+/* 6. Domain Panels */
+@import './panels/oil.css';
+@import './panels/gold.css';
+@import './panels/enso.css';
+@import './panels/tech-semi.css';
+@import './panels/equip.css';
+@import './panels/optics.css';
+@import './panels/robot.css';

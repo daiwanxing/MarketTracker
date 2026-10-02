@@ -1,0 +1,20 @@
+/* ============================================================
+   MARKET TRACKER · Typography System
+   ============================================================ */
+@import url('https://miaoda.feishu.cn/fonts/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+    --font-body: 'Barlow Condensed', Arial, Verdana, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  }
+
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+}

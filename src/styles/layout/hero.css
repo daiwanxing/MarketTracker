@@ -1,0 +1,226 @@
+/* ============================================================
+   MARKET TRACKER · Hero Header & Section Title System
+   ============================================================ */
+@layer layout {
+  /* ===== 页头 ===== */
+  .head {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 26px;
+    margin-bottom: 40px;
+
+    & .kicker {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 10px;
+    }
+
+    & h1 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.96px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--text);
+
+      & em {
+        font-style: normal;
+        color: var(--text-dim);
+      }
+
+      @media (max-width: 960px) {
+        font-size: 26px;
+      }
+      @media (max-width: 600px) {
+        font-size: 22px;
+      }
+    }
+
+    & .sub {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 12px;
+      line-height: 1.7;
+      letter-spacing: 0.2px;
+
+      & b {
+        color: var(--text);
+        font-weight: 700;
+      }
+    }
+  }
+
+  /* ===== Hero 页头（全幅背景图 + 渐变遮罩 + 文字叠加） ===== */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(200px, 23vw, 300px);
+    display: flex;
+    align-items: flex-end;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+    overflow: hidden;
+
+    @media (max-width: 760px) {
+      margin-bottom: 24px;
+      min-height: 180px;
+    }
+
+    @media (max-width: 600px) {
+      min-height: 160px;
+    }
+
+    & .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 45%;
+      z-index: 0;
+    }
+
+    & .hero-scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.28) 0%,
+        rgba(0, 0, 0, 0.45) 55%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+    }
+
+    & .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1100px;
+      margin-inline: auto;
+      padding: clamp(28px, 3.4vw, 44px) 40px clamp(24px, 2.6vw, 34px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+
+      @media (max-width: 960px) {
+        padding-left: calc(16px + env(safe-area-inset-left, 0px));
+        padding-right: calc(16px + env(safe-area-inset-right, 0px));
+      }
+    }
+
+    & .hero-main {
+      min-width: 0;
+      max-width: 64ch;
+
+      & .kicker {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: color-mix(in oklch, var(--text) 90%, transparent);
+        margin-bottom: 12px;
+      }
+
+      & h1 {
+        font-family: var(--font-display);
+        font-size: clamp(44px, 5.2vw, 64px);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 1px;
+        color: #fff;
+        margin: 0;
+
+        @media (max-width: 760px) {
+          font-size: 34px;
+        }
+        @media (max-width: 600px) {
+          font-size: 28px;
+        }
+      }
+
+      & .hero-lead {
+        margin: 14px 0 0;
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: color-mix(in oklch, var(--text) 72%, transparent);
+        max-width: 70ch;
+
+        @media (max-width: 600px) {
+          font-size: 12.5px;
+        }
+      }
+    }
+
+    & .hero-aside {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      text-align: right;
+
+      @media (max-width: 760px) {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+    & .hero-meta {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 1px;
+      color: color-mix(in oklch, var(--text) 65%, transparent);
+      line-height: 1.5;
+
+      & b {
+        font-weight: 700;
+        color: color-mix(in oklch, var(--text) 85%, transparent);
+      }
+
+      @media (max-width: 600px) {
+        font-size: 11px;
+      }
+    }
+  }
+
+  /* ===== 区块标题 ===== */
+  .sec-title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 48px 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .content > &:first-child {
+      margin-top: 10px;
+    }
+
+    & .hint {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      text-transform: none;
+      color: var(--text-faint);
+    }
+
+    @media (max-width: 600px) {
+      font-size: 16px;
+      margin: 32px 0 14px;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/* ============================================================
+   MARKET TRACKER · Card Component System
+   ============================================================ */
+@layer components {
+  .card {
+    background: var(--ghost-surface);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sharp);
+    transition: border-color 0.25s, box-shadow 0.25s;
+
+    &:hover {
+      border-color: var(--ghost-border-hover);
+    }
+  }
+}

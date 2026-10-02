@@ -1,0 +1,347 @@
+/* ============================================================
+   MARKET TRACKER · Sidebar & Mobile Drawer Navigation
+   ============================================================ */
+@layer layout {
+  /* —— 侧栏 (Desktop Sticky) —— */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex: none;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--sp-4) var(--sp-3);
+    border-right: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 50;
+
+    @media (min-width: 961px) {
+      position: sticky;
+      transform: none !important;
+    }
+
+    @media (max-width: 960px) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 80;
+      width: 280px;
+      max-width: 82vw;
+      height: 100vh;
+      height: 100dvh;
+      flex-direction: column;
+      align-items: stretch;
+      padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+      border-right: 1px solid var(--line);
+      border-bottom: none;
+      background: #0b0d12;
+      transform: translateX(-100%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+
+      &.drawer-open {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  /* —— 品牌 Logo 标识 —— */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 4px 26px;
+    border-bottom: 1px solid var(--line);
+    cursor: default;
+    user-select: none;
+
+    @media (max-width: 960px) {
+      padding: 4px 0 20px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    &:hover {
+      & .brand-mark {
+        transform: translateY(-1px);
+      }
+      & .brand-logo-frame {
+        stroke: var(--ghost-border-hover);
+      }
+      & .brand-logo-bracket {
+        stroke: #ffffff;
+      }
+      & .brand-logo-line {
+        filter: drop-shadow(0 0 3px color-mix(in oklch, var(--text) 50%, transparent));
+      }
+      & .brand-logo-pulse {
+        animation: logoPulseRotate 6s linear infinite;
+        stroke: rgba(255, 255, 255, 0.75);
+      }
+    }
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+      outline: 1px solid var(--text-dim);
+      border-radius: 6px;
+    }
+
+    @media (max-width: 960px) {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+
+  .brand-logo {
+    display: block;
+    overflow: visible;
+
+    &-frame {
+      transition: stroke 0.2s ease, fill 0.2s ease;
+    }
+    &-bracket {
+      transition: stroke 0.2s ease;
+    }
+    &-line {
+      transition: stroke 0.2s ease, filter 0.2s ease;
+    }
+    &-pulse {
+      transform-origin: 21.5px 8.5px;
+      transition: stroke 0.2s ease, opacity 0.2s ease;
+    }
+  }
+
+  @keyframes logoPulseRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1.17px;
+    text-transform: uppercase;
+    color: var(--text);
+
+    @media (max-width: 960px) {
+      font-size: 15px;
+    }
+  }
+
+  /* —— 导航组与链接 —— */
+  nav {
+    @media (max-width: 960px) {
+      display: block;
+    }
+  }
+
+  .nav-group {
+    margin-top: 24px;
+
+    @media (max-width: 960px) {
+      margin-top: 20px;
+      display: block;
+    }
+  }
+
+  .group-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 0 4px 8px;
+
+    @media (max-width: 960px) {
+      display: block;
+    }
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    margin: 2px 0;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.17px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-left: 2px solid transparent;
+    border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+
+    &:hover {
+      color: var(--text);
+      background: var(--ghost-surface);
+      border-radius: 4px;
+    }
+
+    &.active {
+      color: var(--text);
+      border-left-color: var(--text);
+      background: var(--ghost-surface);
+      border-radius: 4px;
+    }
+
+    & .dot-mini {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    & .nav-badge {
+      margin-left: auto;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text-faint);
+      background: color-mix(in oklch, var(--text) 5%, transparent);
+      border: 1px solid color-mix(in oklch, var(--text) 12%, transparent);
+      border-radius: 2px;
+      padding: 1px 5px;
+    }
+
+    @media (max-width: 960px) {
+      padding: 12px 14px;
+      min-height: 44px;
+      border-left: none;
+      border-bottom: none;
+      white-space: nowrap;
+      font-size: 15px;
+      -webkit-tap-highlight-color: transparent;
+
+      &.active {
+        border-left: 3px solid var(--text);
+        border-bottom: none;
+      }
+    }
+  }
+
+  .sidebar-foot {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text-faint);
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  /* —— 移动端顶栏与交互遮罩 —— */
+  .mobile-topbar {
+    display: none;
+
+    @media (max-width: 960px) {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: calc(52px + env(safe-area-inset-top, 0px));
+      padding: env(safe-area-inset-top, 0px) calc(16px + env(safe-area-inset-right, 0px)) 0 calc(16px + env(safe-area-inset-left, 0px));
+      background: rgba(11, 13, 18, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+  }
+
+  .hamburger {
+    display: none;
+
+    @media (max-width: 960px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+  .mobile-brand {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+
+  .drawer-mask {
+    display: none;
+
+    @media (max-width: 960px) {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      animation: maskFade 0.2s ease;
+    }
+  }
+
+  @keyframes maskFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .drawer-close {
+    display: none;
+
+    @media (max-width: 960px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-faint);
+      -webkit-tap-highlight-color: transparent;
+
+      &:hover {
+        color: var(--text);
+      }
+    }
+  }
+}

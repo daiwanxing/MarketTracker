@@ -1,0 +1,47 @@
+/* ============================================================
+   MARKET TRACKER · Base Reset & Motion Defaults
+   ============================================================ */
+@layer reset {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    font-size: 16px;
+  }
+
+  /* 渐显动效与减弱动效回退 */
+  .node, .rcard, .nrow {
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    &.pre {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    &.in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node, .rcard, .nrow {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useState } from 'react';
 import { clamp } from 'lodash-es';
 import heroOptics from '../assets/hero-optics.jpg';
 import opticsData from '../data/opticsData.json';
@@ -126,53 +126,6 @@ type OpticsPayload = {
     peBand?: { staticDesc: string; forward2026: string; forward2027: string; pegRule: string };
     items: ValuationRow[];
   };
-};
-
-/* —— Shared inline tokens (SpaceX-aligned) —— */
-const S = {
-  pad: { padding: '20px 18px' } as CSSProperties,
-  kMono: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 10,
-    letterSpacing: 1.2,
-    textTransform: 'uppercase' as const,
-    color: 'var(--text-faint)',
-  } as CSSProperties,
-  reading: { fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.65, marginTop: 10 } as CSSProperties,
-  imply: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 11,
-    color: 'var(--text-faint)',
-    lineHeight: 1.6,
-    marginTop: 12,
-    paddingTop: 10,
-    borderTop: '1px solid var(--line)',
-  } as CSSProperties,
-  barTrack: {
-    height: 6,
-    borderRadius: 2,
-    background: 'rgba(240,240,250,0.1)',
-    overflow: 'hidden',
-    marginTop: 10,
-  } as CSSProperties,
-  th: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 10,
-    letterSpacing: 1,
-    textTransform: 'uppercase' as const,
-    color: 'var(--text-faint)',
-    textAlign: 'left' as const,
-    padding: '10px 12px',
-    borderBottom: '1px solid var(--line-strong)',
-  } as CSSProperties,
-  td: {
-    fontSize: 13,
-    color: 'var(--text-dim)',
-    padding: '12px',
-    borderBottom: '1px solid var(--line)',
-    verticalAlign: 'top' as const,
-    lineHeight: 1.55,
-  } as CSSProperties,
 };
 
 function citedRate(rate: Rate) {
@@ -1010,34 +963,34 @@ function TechRoadmap({ matrix }: { matrix?: { trapWarning?: string; routes: Tech
       )}
 
       {!routes.length ? (
-        <div style={S.reading}>{EMPTY}</div>
+        <div className="optics-reading">{EMPTY}</div>
       ) : (
-        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 640 }}>
+        <div className="optics-table-scroll">
+          <table>
             <thead>
               <tr>
-                <th style={S.th}>路线定位</th>
-                <th style={S.th}>速率 / 架构</th>
-                <th style={S.th}>时间窗口</th>
-                <th style={S.th}>成熟度</th>
-                <th style={S.th}>替代威胁</th>
-                <th style={S.th}>产业含义</th>
+                <th>路线定位</th>
+                <th>速率 / 架构</th>
+                <th>时间窗口</th>
+                <th>成熟度</th>
+                <th>替代威胁</th>
+                <th>产业含义</th>
               </tr>
             </thead>
             <tbody>
               {routes.map((r) => (
                 <tr key={r.route}>
-                  <td style={{ ...S.td, color: 'var(--text)' }}>
+                  <td style={{ color: 'var(--text)' }}>
                     <div style={{ fontWeight: 600 }}>{r.route}</div>
                     {r.role && <div style={{ fontSize: 10, color: 'var(--amber)', fontFamily: 'var(--font-mono)' }}>{r.role}</div>}
                   </td>
-                  <td style={{ ...S.td, fontFamily: 'var(--font-mono)', fontSize: 12 }}>{r.rate}</td>
-                  <td style={S.td}>{r.timeline}</td>
-                  <td style={S.td}>{r.maturity}</td>
-                  <td style={S.td}>
+                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{r.rate}</td>
+                  <td>{r.timeline}</td>
+                  <td>{r.maturity}</td>
+                  <td>
                     <span className={`crowd-badge ${threatTone(r.threatLevel)}`}>{r.threatLevel}</span>
                   </td>
-                  <td style={{ ...S.td, fontSize: 12 }}>{r.detail}</td>
+                  <td style={{ fontSize: 12 }}>{r.detail}</td>
                 </tr>
               ))}
             </tbody>
@@ -1055,7 +1008,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
   return (
     <div className="card" style={{ padding: '22px 20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
-        <div style={S.kMono}>COMPETITION LANDSCAPE · 份额集中</div>
+        <div className="optics-kmono">COMPETITION LANDSCAPE · 份额集中</div>
         <span className="crowd-badge neutral">前五市占 61.4%（LightCounting） · 交付约束份额</span>
       </div>
 
@@ -1078,7 +1031,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
                 borderRadius: 'var(--radius-sharp)',
               }}
             >
-              <div style={{ ...S.kMono, color: 'var(--up)', marginBottom: 4 }}>STRUCTURAL RISK 0{i + 1}</div>
+              <div className="optics-kmono" style={{ color: 'var(--up)', marginBottom: 4 }}>STRUCTURAL RISK 0{i + 1}</div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
                 {risk.title}
               </div>
@@ -1091,7 +1044,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
       )}
 
       {/* 玩家卡片 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 12 }}>
+      <div className="optics-comp-grid">
         {competition.players.map((p) => (
           <div
             key={`${p.name}-${p.symbol}`}
@@ -1121,7 +1074,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
                 {p.advantage}
               </div>
             </div>
-            <div style={{ ...S.imply, marginTop: 10, paddingTop: 8, fontSize: 11 }}>
+            <div className="optics-imply" style={{ marginTop: 10, paddingTop: 8, fontSize: 11 }}>
               {p.globalShare}
             </div>
           </div>
@@ -1146,7 +1099,7 @@ function ValuationTable({
   return (
     <div className="card" style={{ padding: '22px 20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
-        <div style={S.kMono}>VALUATION ANCHOR · 前瞻 PE 与 PEG</div>
+        <div className="optics-kmono">VALUATION ANCHOR · 前瞻 PE 与 PEG</div>
         <span className="crowd-badge neutral">静态分位与前瞻中枢</span>
       </div>
 
@@ -1170,44 +1123,44 @@ function ValuationTable({
 
       {/* 估值分阶参考框 */}
       {valuation.peBand && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: 12, marginBottom: 20 }}>
+        <div className="optics-pe-grid">
           <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sharp)' }}>
-            <div style={S.kMono}>静态 PE</div>
+            <div className="optics-kmono">静态 PE</div>
             <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 4 }}>{valuation.peBand.staticDesc}</div>
           </div>
           <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sharp)' }}>
-            <div style={S.kMono}>2026 前瞻中枢</div>
+            <div className="optics-kmono">2026 前瞻中枢</div>
             <div style={{ fontSize: 13, color: 'var(--amber)', fontWeight: 700, marginTop: 4 }}>{valuation.peBand.forward2026}</div>
           </div>
           <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sharp)' }}>
-            <div style={S.kMono}>2027 远期折算</div>
+            <div className="optics-kmono">2027 远期折算</div>
             <div style={{ fontSize: 13, color: 'rgba(240, 240, 250, 0.7)', fontWeight: 700, marginTop: 4 }}>{valuation.peBand.forward2027}</div>
           </div>
           <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sharp)' }}>
-            <div style={S.kMono}>PEG 参照</div>
+            <div className="optics-kmono">PEG 参照</div>
             <div style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 4 }}>{valuation.peBand.pegRule}</div>
           </div>
         </div>
       )}
 
-      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 560 }}>
+      <div className="optics-table-scroll">
+        <table>
           <thead>
             <tr>
-              <th style={S.th}>标的 / 参照线</th>
-              <th style={S.th}>NTM PE 测算</th>
-              <th style={S.th}>动态 PEG</th>
-              <th style={S.th}>估值性质</th>
-              <th style={S.th}>业绩与风险跟踪重点</th>
+              <th>标的 / 参照线</th>
+              <th>NTM PE 测算</th>
+              <th>动态 PEG</th>
+              <th>估值性质</th>
+              <th>业绩与风险跟踪重点</th>
             </tr>
           </thead>
           <tbody>
             {valuation.items.map((row) => (
               <tr key={row.name}>
-                <td style={{ ...S.td, color: 'var(--text)', fontWeight: 600 }}>{row.name}</td>
-                <td style={{ ...S.td, fontFamily: 'var(--font-mono)', color: 'var(--amber)' }}>{row.ntmPe}</td>
-                <td style={{ ...S.td, fontFamily: 'var(--font-mono)' }}>{row.peg}</td>
-                <td style={S.td}>
+                <td style={{ color: 'var(--text)', fontWeight: 600 }}>{row.name}</td>
+                <td style={{ fontFamily: 'var(--font-mono)', color: 'var(--amber)' }}>{row.ntmPe}</td>
+                <td style={{ fontFamily: 'var(--font-mono)' }}>{row.peg}</td>
+                <td>
                   <span
                     className={`crowd-badge ${
                       row.status === 'growth_peg' ? 'neutral' : row.status === 'framework' ? 'warning' : 'cold'
@@ -1216,7 +1169,7 @@ function ValuationTable({
                     {row.status === 'growth_peg' ? '高增' : row.status === 'framework' ? '情景阈值' : row.status}
                   </span>
                 </td>
-                <td style={{ ...S.td, fontSize: 12 }}>{row.growthExp}</td>
+                <td style={{ fontSize: 12 }}>{row.growthExp}</td>
               </tr>
             ))}
           </tbody>

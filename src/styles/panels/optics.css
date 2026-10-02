@@ -1,0 +1,118 @@
+/* ============================================================
+   MARKET TRACKER · Optics Panel Styles
+   ============================================================ */
+@layer panels {
+  .optics-card-pad {
+    padding: 20px 18px;
+  }
+
+  .optics-kmono {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .optics-reading {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin-top: 10px;
+  }
+
+  .optics-imply {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.6;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  .optics-bar-track {
+    height: 6px;
+    border-radius: 2px;
+    background: color-mix(in oklch, var(--text) 10%, transparent);
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .optics-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    & table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+    }
+
+    & th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    & td {
+      font-size: 13px;
+      color: var(--text-dim);
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+  }
+
+  .optics-radar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+
+  .optics-radar-container {
+    padding: 16px 12px;
+    background: color-mix(in oklch, var(--text) 2%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+  }
+
+  .optics-var-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .optics-cycle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 14px;
+  }
+
+  .optics-driver-bom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+  }
+
+  .optics-pe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .optics-comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 12px;
+  }
+}

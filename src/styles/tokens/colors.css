@@ -1,0 +1,32 @@
+/* ============================================================
+   MARKET TRACKER · Color Tokens (OKLCH & color-mix)
+   ============================================================ */
+@layer tokens {
+  :root {
+    /* 核心基准色 (OKLCH 感知均匀空间) */
+    --color-space-black: oklch(0.1 0 0);
+    --color-spectral-white: oklch(0.96 0.015 270);
+    --color-up: oklch(0.68 0.2 25);
+    --color-down: oklch(0.8 0.18 145);
+    --color-amber: oklch(0.82 0.16 85);
+    --color-cyan: oklch(0.76 0.14 220);
+    --color-rose: oklch(0.66 0.22 15);
+
+    /* SpaceX Design Token 标准变量 */
+    --bg: #000000;
+    --text: #f0f0fa;
+    --text-dim: color-mix(in oklch, var(--text) 62%, transparent);
+    --text-faint: color-mix(in oklch, var(--text) 38%, transparent);
+    --ghost-surface: color-mix(in oklch, var(--text) 5%, transparent);
+    --ghost-surface-hover: color-mix(in oklch, var(--text) 8%, transparent);
+    --ghost-border: color-mix(in oklch, var(--text) 14%, transparent);
+    --ghost-border-hover: color-mix(in oklch, var(--text) 35%, transparent);
+    --white-100: #ffffff;
+    --overlay: rgba(0, 0, 0, 0.5);
+    --up: #FF6B6B;
+    --down: #4ADE80;
+    --amber: #F5C542;
+    --line: color-mix(in oklch, var(--text) 10%, transparent);
+    --line-strong: color-mix(in oklch, var(--text) 20%, transparent);
+  }
+}

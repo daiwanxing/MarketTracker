@@ -1,0 +1,194 @@
+/* ============================================================
+   MARKET TRACKER · Robotics Panel Styles
+   ============================================================ */
+@layer panels {
+  .robot-anchor-card {
+    background: color-mix(in oklch, var(--text) 4%, transparent);
+    border: 1px solid color-mix(in oklch, var(--text) 14%, transparent);
+    border-radius: var(--radius-sharp);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+
+    @media (max-width: 600px) {
+      padding: 16px 14px;
+    }
+  }
+
+  .robot-anchor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .robot-anchor-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--text);
+  }
+
+  .robot-anchor-thesis {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .robot-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+    gap: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  .robot-kpi-item {
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid color-mix(in oklch, var(--text) 8%, transparent);
+    border-radius: var(--radius-sharp);
+  }
+
+  .robot-kpi-label {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .robot-kpi-val-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    marginTop: 4px;
+  }
+
+  .robot-kpi-val {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .robot-kpi-chg {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--up);
+  }
+
+  .robot-kpi-sub {
+    fontSize: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .robot-six-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .robot-dim-card {
+    background: var(--ghost-surface);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sharp);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (max-width: 600px) {
+      padding: 16px 14px;
+    }
+  }
+
+  .robot-dim-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .robot-dim-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: var(--text);
+  }
+
+  .robot-analogy-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: color-mix(in oklch, #38bdf8 12%, transparent);
+    border: 1px solid color-mix(in oklch, #38bdf8 28%, transparent);
+    border-radius: 2px;
+    color: #7dd3fc;
+    white-space: nowrap;
+  }
+
+  .robot-dim-metric {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-bottom: 14px;
+  }
+
+  .robot-chart-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid color-mix(in oklch, var(--text) 8%, transparent);
+    border-radius: var(--radius-sharp);
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+
+  .robot-reading-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .robot-source-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+
+  .robot-signal-box {
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .robot-signal-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: color-mix(in oklch, var(--amber) 15%, transparent);
+    color: var(--amber);
+    border: 1px solid color-mix(in oklch, var(--amber) 30%, transparent);
+    white-space: nowrap;
+  }
+
+  .robot-signal-text {
+    font-size: 12px;
+    color: color-mix(in oklch, var(--text) 85%, transparent);
+    line-height: 1.5;
+  }
+}

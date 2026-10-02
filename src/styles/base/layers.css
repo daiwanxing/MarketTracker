@@ -1,0 +1,4 @@
+/* ============================================================
+   MARKET TRACKER · CSS Layers Architecture (2025+ Spec)
+   ============================================================ */
+@layer reset, tokens, base, layout, components, panels;

@@ -1,0 +1,80 @@
+/* ============================================================
+   MARKET TRACKER · News List Component System
+   ============================================================ */
+@layer components {
+  .news {
+    overflow: hidden;
+  }
+
+  .nrow {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: inherit;
+    border-top: 1px solid var(--line);
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:hover {
+      background: var(--ghost-surface-hover);
+
+      & .n-t {
+        color: var(--text);
+      }
+    }
+
+    & .n-src {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border: 1px solid var(--ghost-border);
+      border-radius: 2px;
+      padding: 2px 8px;
+      flex: none;
+    }
+
+    & .n-t {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--text-dim);
+    }
+
+    & .n-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-faint);
+      flex: none;
+    }
+
+    & .n-go {
+      font-size: 13px;
+      color: var(--text-faint);
+      flex: none;
+    }
+
+    @media (max-width: 600px) {
+      padding: 12px 14px;
+      gap: 8px;
+
+      & .n-src {
+        font-size: 9px;
+        padding: 1px 6px;
+      }
+
+      & .n-t {
+        font-size: 13px;
+      }
+    }
+  }
+}
