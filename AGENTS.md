@@ -37,7 +37,7 @@
 | **科技宏观 (Tech Semi)** | `src/components/TechSemiPanel.tsx` | `src/data/techSemiData.json` | `scripts/refresh_tech_semi_data.py`<br>`scripts/refresh_tech_semi_timeline.py`<br>`scripts/refresh_tech_semi_crowding.py` | `refresh-market-data.yml`（每小时；纯数值基准 0 Token）<br>`refresh-tech-semi-timeline.yml`（每日 2 次；DeepSeek 研判）<br>`refresh-tech-semi-crowding.yml` (工作日收盘)<br>*(详见 [`docs/tech-semi/pipeline.md`](docs/tech-semi/pipeline.md))* |
 | **设备材料 (Equip)** | `src/components/EquipPanel.tsx` | `src/data/equipData.json` | *(手动/代理披露跟踪，无高频采集)* | — |
 | **光模块 (Optics)** | `src/components/OpticsPanel.tsx` | `src/data/opticsData.json` | *(引用宏观页 Actions 与披露更新)* | — |
-| **机器人 (Robotics)** | `src/components/RobotPanel.tsx` | `src/data/robotData.json` | *(纯双指数装备基准 562500 vs ROBO、TSLA 独立期权哨兵、微观筹码拥挤度与六维产业落地)* | — |
+| **机器人 (Robotics)** | `src/components/RobotPanel.tsx` | `src/data/robotData.json` | `scripts/refresh_robot_timeline.py` | `refresh-robot-timeline.yml`（每日 2 次；DeepSeek 研判） |
 | **气象气候 (ENSO)** | `src/components/EnsoPanel.tsx` | `src/data/ensoData.json` | `scripts/refresh_enso_data.py` | `refresh-enso-data.yml` (每日 2 次) |
 
 ---

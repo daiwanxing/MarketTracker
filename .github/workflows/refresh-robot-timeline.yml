@@ -1,0 +1,42 @@
+name: Refresh robot timeline and narrative
+
+on:
+  schedule:
+    # 00:35 and 12:35 UTC = 08:35 and 20:35 Asia/Shanghai (错峰 5 分钟).
+    - cron: "35 0,12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-robot-timeline
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Refresh robot timeline and narrative
+        env:
+          DS_API_KEY: ${{ secrets.DS_API_KEY }}
+        run: python3 scripts/refresh_robot_timeline.py
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/robotData.json
+          if git diff --cached --quiet; then
+            echo "No robot timeline changes to commit"
+            exit 0
+          fi
+          git commit -m "Refresh robot industry timeline and forward catalysts"
+          git pull --rebase origin main
+          git push origin HEAD:main

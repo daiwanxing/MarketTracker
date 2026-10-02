@@ -42,6 +42,7 @@ html { scroll-behavior: smooth; }
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -545,7 +546,16 @@ body {
 .rcard .src { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); margin-top: 8px; line-height: 1.65; }
 
 /* ===== 页脚 ===== */
-.src { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 48px; line-height: 1.8; border-top: 1px solid var(--line); padding: 20px 0 0; }
+.src {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 48px;
+  line-height: 1.8;
+  border-top: 1px solid var(--line);
+  padding: 20px 0 calc(20px + env(safe-area-inset-bottom, 0px));
+  word-break: break-word;
+}
 .src b { color: var(--text-dim); font-weight: 500; }
 
 /* ===== 黄金板块 · 技术快照 / 数据行 / 结论条 ===== */
@@ -664,6 +674,7 @@ body {
   .group-label { display: block; }
   .nav-link {
     padding: 12px 14px;
+    min-height: 44px;
     border-left: none; border-bottom: none;
     border-radius: 4px;
     white-space: nowrap;
@@ -704,7 +715,9 @@ body {
 @media (max-width: 600px) {
   .hero { min-height: 160px; }
   .hero-main h1 { font-size: 28px; }
-  .main { padding: 24px 14px calc(40px + env(safe-area-inset-bottom, 0px)); }
+  .hero-lead { font-size: 12.5px; }
+  .main { padding: 0 0 calc(40px + env(safe-area-inset-bottom, 0px)); }
+  .content { padding: 18px 14px calc(40px + env(safe-area-inset-bottom, 0px)); }
   .head h1 { font-size: 22px; }
   .sec-title { font-size: 16px; margin: 32px 0 14px; }
   .rr-strip { gap: 10px 14px; padding: 10px 14px; }
@@ -728,6 +741,16 @@ body {
   .ssi-num { font-size: 32px; }
   .legend { flex-wrap: wrap; gap: 8px 12px; }
   .legend .spdr-latest { margin-left: 0; width: 100%; }
+  .tags { gap: 6px; }
+  .node .t { font-size: 15px; }
+  .node .d { font-size: 13px; line-height: 1.65; }
+  .rcard { padding: 14px 14px; }
+  .t-item { padding: 14px 14px; }
+  .tl { padding-left: 18px; }
+  .dot { left: -18px; }
+  .nrow { padding: 12px 14px; gap: 8px; }
+  .nrow .n-src { font-size: 9px; padding: 1px 6px; }
+  .nrow .n-t { font-size: 13px; }
 }
 
 /* ===== 黄金板块 · 决策导向改造（v2） ===== */
