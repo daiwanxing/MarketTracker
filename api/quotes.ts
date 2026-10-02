@@ -58,13 +58,13 @@ const FALLBACK = {
       chgClass: 'down' as const,
       previousClose: 0.900,
     },
-    botz: {
-      name: '全球机器人与AI ETF',
-      symbol: 'BOTZ',
-      price: 35.43,
-      chg: '+0.57%',
+    robo: {
+      name: 'ROBO 机器人与自动化 ETF',
+      symbol: 'ROBO',
+      price: 82.55,
+      chg: '+1.90%',
       chgClass: 'up' as const,
-      previousClose: 35.23,
+      previousClose: 81.01,
     },
     tsla: {
       name: '特斯拉 (TSLA)',
@@ -161,7 +161,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   // 并发抓取核心标的（美股、亚太、大宗商品、宏观利率、机器人）
-  const [soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, botzRes, tslaRes] =
+  const [soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, roboRes, tslaRes] =
     await Promise.allSettled([
       fetchYahooQuote('^SOX'),
       fetchYahooQuote('^KS11'),
@@ -173,7 +173,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       fetchYahooQuote('^TNX'),
       fetchSpotGold(),
       fetchYahooQuote('562500.SS'),
-      fetchYahooQuote('BOTZ'),
+      fetchYahooQuote('ROBO'),
       fetchYahooQuote('TSLA'),
     ]);
 
@@ -187,7 +187,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const tnx = tnxRes.status === 'fulfilled' ? tnxRes.value : null;
   const spotGold = spotGoldRes.status === 'fulfilled' ? spotGoldRes.value : null;
   const csRobot = csRobotRes.status === 'fulfilled' ? csRobotRes.value : null;
-  const botz = botzRes.status === 'fulfilled' ? botzRes.value : null;
+  const robo = roboRes.status === 'fulfilled' ? roboRes.value : null;
   const tsla = tslaRes.status === 'fulfilled' ? tslaRes.value : null;
 
   // 1. 科技半导体组装
@@ -252,13 +252,13 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: csRobot?.chgClass || fbRobot.csRobot.chgClass,
       previousClose: csRobot?.previousClose ?? fbRobot.csRobot.previousClose,
     },
-    botz: {
-      name: fbRobot.botz.name,
-      symbol: fbRobot.botz.symbol,
-      price: botz?.price ?? fbRobot.botz.price,
-      chg: botz?.chg || fbRobot.botz.chg,
-      chgClass: botz?.chgClass || fbRobot.botz.chgClass,
-      previousClose: botz?.previousClose ?? fbRobot.botz.previousClose,
+    robo: {
+      name: fbRobot.robo.name,
+      symbol: fbRobot.robo.symbol,
+      price: robo?.price ?? fbRobot.robo.price,
+      chg: robo?.chg || fbRobot.robo.chg,
+      chgClass: robo?.chgClass || fbRobot.robo.chgClass,
+      previousClose: robo?.previousClose ?? fbRobot.robo.previousClose,
     },
     tsla: {
       name: fbRobot.tsla.name,

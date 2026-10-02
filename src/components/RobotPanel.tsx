@@ -13,8 +13,7 @@ const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
 
 const BENCH_SERIES = [
   { key: 'csRobot', name: '中证机器人 ETF', symbol: '562500.SH', color: '#38bdf8' },
-  { key: 'botz', name: '全球机器人与AI ETF', symbol: 'BOTZ', color: '#f59e0b' },
-  { key: 'tsla', name: '特斯拉 (TSLA)', symbol: 'TSLA', color: '#ff6b6b' },
+  { key: 'robo', name: 'ROBO 机器人自动化 ETF', symbol: 'ROBO', color: '#f59e0b' },
 ] as const;
 
 type BenchKey = (typeof BENCH_SERIES)[number]['key'];
@@ -198,7 +197,7 @@ export default function RobotPanel() {
     const isDst = isUSDaylightSaving(now);
     return {
       csRobot: getStar50Status(bj),
-      botz: getSoxStatus(bj, isDst),
+      robo: getSoxStatus(bj, isDst),
       tsla: getSoxStatus(bj, isDst),
     };
   }, []);
@@ -207,7 +206,7 @@ export default function RobotPanel() {
   const [isOverlay, setIsOverlay] = useState(true);
 
   const dates = useMemo(() => charts?.normalized?.dates || [], [charts?.normalized?.dates]);
-  const norm = useMemo(() => charts?.normalized || { csRobot: [], botz: [], tsla: [] }, [charts?.normalized]);
+  const norm = useMemo(() => charts?.normalized || { csRobot: [], robo: [] }, [charts?.normalized]);
 
   const activeColor = BENCH_SERIES.find((s) => s.key === activeTab)?.color ?? '#38bdf8';
   const activeSeriesMeta = BENCH_SERIES.find((s) => s.key === activeTab) ?? BENCH_SERIES[0];
@@ -305,8 +304,8 @@ export default function RobotPanel() {
   const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
   const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
   const csLatest = (norm.csRobot as number[])?.[dates.length - 1] ?? 0;
-  const tslaLatest = (norm.tsla as number[])?.[dates.length - 1] ?? 0;
-  const spreadUsChina = tslaLatest - csLatest;
+  const roboLatest = (norm.robo as number[])?.[dates.length - 1] ?? 0;
+  const spreadUsChina = roboLatest - csLatest;
 
   const tabConfigs = [
     {
@@ -322,28 +321,16 @@ export default function RobotPanel() {
       clock: clockInfo.csRobot,
     },
     {
-      key: 'botz' as const,
-      name: benchmarks.botz.name,
-      symbol: benchmarks.botz.symbol,
+      key: 'robo' as const,
+      name: benchmarks.robo.name,
+      symbol: benchmarks.robo.symbol,
       bench: {
-        ...benchmarks.botz,
-        price: robotQuotes?.botz?.price ?? benchmarks.botz.price,
-        chg: robotQuotes?.botz?.chg || benchmarks.botz.chg,
-        chgClass: robotQuotes?.botz?.chgClass || benchmarks.botz.chgClass,
+        ...benchmarks.robo,
+        price: robotQuotes?.robo?.price ?? benchmarks.robo.price,
+        chg: robotQuotes?.robo?.chg || benchmarks.robo.chg,
+        chgClass: robotQuotes?.robo?.chgClass || benchmarks.robo.chgClass,
       },
-      clock: clockInfo.botz,
-    },
-    {
-      key: 'tsla' as const,
-      name: benchmarks.tsla.name,
-      symbol: benchmarks.tsla.symbol,
-      bench: {
-        ...benchmarks.tsla,
-        price: robotQuotes?.tsla?.price ?? benchmarks.tsla.price,
-        chg: robotQuotes?.tsla?.chg || benchmarks.tsla.chg,
-        chgClass: robotQuotes?.tsla?.chgClass || benchmarks.tsla.chgClass,
-      },
-      clock: clockInfo.tsla,
+      clock: clockInfo.robo,
     },
   ];
 
@@ -353,6 +340,11 @@ export default function RobotPanel() {
 
   const crowdZone = crowding.zone || 'neutral';
   const crowdLabel = crowding.label || '温和活跃';
+
+  const tslaPriceVal = robotQuotes?.tsla?.price ?? robotData.optionSentinel?.tsla?.price ?? 354.11;
+  const tslaPriceDisplay = typeof tslaPriceVal === 'number' ? tslaPriceVal.toFixed(2) : String(tslaPriceVal);
+  const tslaChg = robotQuotes?.tsla?.chg || robotData.optionSentinel?.tsla?.chg || '-0.20%';
+  const tslaChgIsUp = tslaChg.startsWith('+');
 
   return (
     <article>
@@ -382,8 +374,8 @@ export default function RobotPanel() {
           {/* A. 定价时钟条与模式切换 */}
           <div className="terminal-clock-bar">
             <div className="terminal-clock-title">
-              <span className="clock-phase-label">中美核心资产定价基准</span>
-              <span className="clock-phase-window mono">跨市协同定价（A 股 / 美股）</span>
+              <span className="clock-phase-label">中美核心装备定价基准</span>
+              <span className="clock-phase-window mono">纯双指数宏观基准（A 股 / 美股）</span>
             </div>
             <div className="terminal-mode-toggles">
               <button
@@ -391,7 +383,7 @@ export default function RobotPanel() {
                 className={`terminal-mode-btn ${!isOverlay ? 'active' : ''}`}
                 onClick={() => setIsOverlay(false)}
               >
-                单标的聚焦
+                单指数聚焦
               </button>
               <button
                 type="button"
@@ -403,8 +395,8 @@ export default function RobotPanel() {
             </div>
           </div>
 
-          {/* B. 三大指数/标的无框 Tab 切换栏 */}
-          <div className="terminal-index-tabs-bar" role="tablist">
+          {/* B. 纯双指数无框 Tab 切换栏 */}
+          <div className="terminal-index-tabs-bar dual-tabs" role="tablist">
             {tabConfigs.map((tc) => {
               const isActive = activeTab === tc.key;
               const priceDisplay = typeof tc.bench.price === 'number'
@@ -445,7 +437,7 @@ export default function RobotPanel() {
               <div className="terminal-chart-title">
                 <span className="terminal-chart-indicator" style={{ background: activeColor }} />
                 <span>
-                  {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '中美三地同轴对比' : '单标的聚焦'})
+                  {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '纯双指数对冲 (ROBO vs 562500)' : '单指数聚焦'})
                 </span>
               </div>
             </div>
@@ -477,7 +469,7 @@ export default function RobotPanel() {
                 </span>
               </div>
               <div className="stat-item">
-                <span className="stat-label">中美裂口 (TSLA vs 562500):</span>
+                <span className="stat-label">中美装备裂口 (ROBO vs 562500):</span>
                 <span className="stat-val" style={{ color: spreadUsChina >= 0 ? 'var(--up)' : 'var(--down)' }}>
                   {spreadUsChina >= 0 ? '+' : ''}{spreadUsChina.toFixed(2)}%
                 </span>
@@ -543,18 +535,32 @@ export default function RobotPanel() {
             </div>
           </div>
 
-          {/* C. 中美跨市定价传导 */}
+          {/* C. 特斯拉前瞻期权与订单发包雷达 */}
           <div className="card real-crowd-card">
             <div className="real-crowd-head">
-              <span className="real-crowd-title">中美跨市定价传导</span>
-              <span className="crowd-badge cold">估值与订单协同</span>
+              <span className="real-crowd-title">前瞻期权与发包雷达 (TSLA)</span>
+              <span className="crowd-badge danger">高噪声期权标的</span>
             </div>
             <div className="real-crowd-num-row">
-              <span className="real-crowd-val num" style={{ fontSize: 22 }}>双轮驱动</span>
-              <span className="real-crowd-unit" style={{ fontSize: 12 }}>海外叙事 ➔ 境内量产</span>
+              <span className="real-crowd-val num">${tslaPriceDisplay}</span>
+              <span
+                className="real-crowd-unit"
+                style={{
+                  fontSize: 13,
+                  color: tslaChgIsUp ? 'var(--up)' : 'var(--down)',
+                }}
+              >
+                {tslaChg}
+              </span>
+              <span className={`index-tab-status ${clockInfo.tsla.status.toLowerCase()}`} style={{ marginLeft: 'auto', fontSize: 10 }}>
+                {clockInfo.tsla.statusLabel}
+              </span>
             </div>
-            <div style={{ margin: '10px 0 6px', fontSize: 12, color: 'var(--text-dim)', lineHeight: 1.5 }}>
-              美股关注算法泛化与模型落地（TSLA / BOTZ）；境内核心标的享供应链确定性与降本放量红利，形成“海外提估值、境内接订单”的比价链条。
+            <div style={{ margin: '8px 0 6px', fontSize: 11, color: 'var(--amber)', lineHeight: 1.45 }}>
+              【投研警示】：85%+ 主营为汽车/储能，短期定价受电车价格战主导，不参与主图纯制造 Beta 计算。
+            </div>
+            <div className="real-crowd-detail" style={{ fontSize: 11, lineHeight: 1.45 }}>
+              <b>长三角定点跟踪：</b>{robotData.optionSentinel?.tsla?.supplyChainAudit?.screwStatus ?? '丝杠与电机送样验证中'}
             </div>
           </div>
         </div>

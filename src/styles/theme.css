@@ -95,17 +95,70 @@ body {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
 }
-.brand { display: flex; align-items: center; gap: 10px; padding: 0 4px 26px; border-bottom: 1px solid var(--line); }
-.brand-mark {
-  width: 30px; height: 30px; flex: none;
-  border: 1px solid var(--ghost-border-hover);
-  border-radius: 50%;
-  position: relative;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 4px 26px;
+  border-bottom: 1px solid var(--line);
+  cursor: default;
+  user-select: none;
 }
-.brand-mark::after {
-  content: ''; position: absolute; inset: 8px;
-  border: 1px solid var(--ghost-border-hover);
-  border-radius: 50%;
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-mark:focus-visible {
+  outline: 1px solid var(--text-dim);
+  border-radius: 6px;
+}
+.brand:hover .brand-mark {
+  transform: translateY(-1px);
+}
+.brand-logo {
+  display: block;
+  overflow: visible;
+}
+.brand-logo-frame {
+  transition: stroke 0.2s ease, fill 0.2s ease;
+}
+.brand-logo-bracket {
+  transition: stroke 0.2s ease;
+}
+.brand-logo-line {
+  transition: stroke 0.2s ease, filter 0.2s ease;
+}
+.brand-logo-pulse {
+  transform-origin: 21.5px 8.5px;
+  transition: stroke 0.2s ease, opacity 0.2s ease;
+}
+.brand:hover .brand-logo-frame {
+  stroke: var(--ghost-border-hover);
+}
+.brand:hover .brand-logo-bracket {
+  stroke: #ffffff;
+}
+.brand:hover .brand-logo-line {
+  filter: drop-shadow(0 0 3px rgba(240, 240, 250, 0.5));
+}
+.brand:hover .brand-logo-pulse {
+  animation: logoPulseRotate 6s linear infinite;
+  stroke: rgba(255, 255, 255, 0.75);
+}
+@keyframes logoPulseRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 .brand-name {
   font-family: var(--font-display);
@@ -991,6 +1044,11 @@ body {
   box-shadow: inset 0 6px 16px -8px rgba(56, 189, 248, 0.3);
 }
 
+.index-tab-button.active.robo {
+  border-top-color: #f59e0b;
+  box-shadow: inset 0 6px 16px -8px rgba(245, 158, 11, 0.3);
+}
+
 .index-tab-button.active.botz {
   border-top-color: #f59e0b;
   box-shadow: inset 0 6px 16px -8px rgba(245, 158, 11, 0.3);
@@ -999,6 +1057,10 @@ body {
 .index-tab-button.active.tsla {
   border-top-color: #ff6b6b;
   box-shadow: inset 0 6px 16px -8px rgba(255, 107, 107, 0.3);
+}
+
+.terminal-index-tabs-bar.dual-tabs {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .index-tab-head-row {

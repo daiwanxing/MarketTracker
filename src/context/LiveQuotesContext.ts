@@ -21,7 +21,7 @@ export interface LiveQuotesData {
   };
   robot?: {
     csRobot: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
-    botz: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    robo: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     tsla: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
   };
 }
