@@ -40,7 +40,7 @@ function macroQuoteText(quote: { value?: number; chg?: string; unit?: string; se
 
 export default function GoldPanel() {
   const { metrics, tech, positioning, macro, etf, sentiment, action, footer, snapshot } = goldData;
-  const { liveQuotes, isLive } = useLiveQuotes();
+  const { liveQuotes } = useLiveQuotes();
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
@@ -342,10 +342,7 @@ export default function GoldPanel() {
             <p className="hero-lead">以伦敦金现货为核心，对照纽约 COMEX：价格、持仓资金与实物需求。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta">
-              <b>最后更新：{snapDate}</b>
-              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
-            </span>
+            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>
       </header>

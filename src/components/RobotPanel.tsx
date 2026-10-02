@@ -183,7 +183,7 @@ const S = {
 export default function RobotPanel() {
   const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, timelineTitle, timelineHint, timeline, footer } = robotData;
   const tlRef = useReveal<HTMLDivElement>();
-  const { liveQuotes, isLive } = useLiveQuotes();
+  const { liveQuotes } = useLiveQuotes();
   const robotQuotes = liveQuotes?.robot;
 
   const clockInfo = useMemo(() => {
@@ -354,10 +354,7 @@ export default function RobotPanel() {
             <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta">
-              <b>数据截至：{head.asOf}</b>
-              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
-            </span>
+            <span className="hero-meta"><b>数据截至：{head.asOf}</b></span>
             <span className="hero-meta" style={{ opacity: 0.8 }}>{head.framework}</span>
           </div>
         </div>

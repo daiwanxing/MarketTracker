@@ -19,7 +19,7 @@ function oilQuoteLine(quotes: { wti?: number; dxy?: number } | undefined): strin
 
 export default function OilPanel() {
   const { metrics, signal, charts, timeline, risks, footer, snapshot, timelineTitle, risksTitle } = oilData;
-  const { liveQuotes, isLive } = useLiveQuotes();
+  const { liveQuotes } = useLiveQuotes();
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
   const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`; // 2026-09-22 15:15 → 2026年09月22日 15:15
@@ -125,10 +125,7 @@ export default function OilPanel() {
             <p className="hero-lead">以 ICE Brent 布伦特原油为核心：供需、库存、宏观金融与地缘事件。</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta">
-              <b>最后更新：{snapDate}</b>
-              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
-            </span>
+            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>
       </header>

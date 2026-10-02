@@ -151,7 +151,7 @@ export default function TechSemiPanel() {
   };
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
   const rawBenchMap = benchmarks as Record<string, Bench | undefined>;
-  const { liveQuotes, isLive } = useLiveQuotes();
+  const { liveQuotes } = useLiveQuotes();
 
   // 融合 Vercel Serverless / Edge API 实时行情
   const benchMap = useMemo(() => {
@@ -430,10 +430,7 @@ export default function TechSemiPanel() {
             <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta">
-              <b>最后更新：{snapDate}</b>
-              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
-            </span>
+            <span className="hero-meta"><b>最后更新：{snapDate}</b></span>
           </div>
         </div>
       </header>
