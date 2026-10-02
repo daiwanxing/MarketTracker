@@ -33,7 +33,7 @@ export interface TradingPhase {
   window: string;
 }
 
-export interface BenchmarkQuote {
+interface BenchmarkQuote {
   name?: string;
   symbol?: string;
   price?: number;
@@ -122,7 +122,7 @@ export function isUSDaylightSaving(now: Date = new Date()): boolean {
 /**
  * 中国 A 股常见法定节假日休市识别 (格式: YYYY-MM-DD)
  */
-function getChinaHoliday(_year: number, month: number, date: number): string | null {
+function getChinaHoliday(month: number, date: number): string | null {
   const mmdd = `${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
   // 元旦
   if (mmdd === '01-01' || mmdd === '01-02' || mmdd === '01-03') return '元旦休市';
@@ -136,7 +136,7 @@ function getChinaHoliday(_year: number, month: number, date: number): string | n
 /**
  * 美股主要法定节假日休市识别
  */
-function getUSHoliday(_year: number, month: number, date: number): string | null {
+function getUSHoliday(month: number, date: number): string | null {
   const mmdd = `${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
   if (mmdd === '01-01') return '元旦休市';
   if (mmdd === '07-04') return '独立日休市';
@@ -149,7 +149,7 @@ function getUSHoliday(_year: number, month: number, date: number): string | null
  */
 export function getStar50Status(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
   // 节假日休市
-  const holiday = getChinaHoliday(bj.year, bj.month, bj.date);
+  const holiday = getChinaHoliday(bj.month, bj.date);
   if (holiday) {
     return { status: 'HOLIDAY', statusLabel: holiday };
   }
@@ -191,7 +191,7 @@ export function getStar50Status(bj: BeijingTimeInfo): { status: MarketStatus; st
 /**
  * 获取韩国KOSPI指数的实时交易状态（首尔 09:00 - 15:30 连续交易，北京时间 08:00 - 14:30）
  */
-export function getKospiStatus(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
+function getKospiStatus(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
   if (bj.day === 0 || bj.day === 6) {
     return { status: 'WEEKEND', statusLabel: '周末休市' };
   }
@@ -228,7 +228,7 @@ export function getSoxStatus(
   const m = bj.totalMinutes;
   const day = bj.day; // 0: Sun, 1: Mon, ..., 5: Fri, 6: Sat
 
-  const usHoliday = getUSHoliday(bj.year, bj.month, bj.date);
+  const usHoliday = getUSHoliday(bj.month, bj.date);
   if (usHoliday) {
     return { status: 'HOLIDAY', statusLabel: usHoliday };
   }
@@ -277,7 +277,7 @@ export function getSoxStatus(
 /**
  * 获取当前全球半导体宏观交易阶段
  */
-export function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
+function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
   const day = bj.day;
   const m = bj.totalMinutes;
   const usOpenMinutes = isDst ? 21 * 60 + 30 : 22 * 60 + 30;

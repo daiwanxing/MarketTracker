@@ -28,12 +28,8 @@ export interface LiveQuotesData {
 
 export interface LiveQuotesContextValue {
   liveQuotes: LiveQuotesData | null;
-  isLive: boolean;
-  lastSyncedAt: Date | null;
 }
 
 export const LiveQuotesContext = createContext<LiveQuotesContextValue>({
   liveQuotes: null,
-  isLive: false,
-  lastSyncedAt: null,
 });

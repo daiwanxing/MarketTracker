@@ -4,7 +4,7 @@ import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
-import { resolveMarketClock } from '../utils/marketClock';
+import { resolveMarketClock, type MarketClockItem } from '../utils/marketClock';
 import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
@@ -38,17 +38,6 @@ type TimelineItem = {
   src: string;
   hot?: boolean;
   url?: string;
-};
-
-type MarketClockItem = {
-  symbol: string;
-  name: string;
-  status: string;
-  statusLabel: string;
-  price: number;
-  chg: string;
-  chgClass: string;
-  role: string;
 };
 
 type AttributionMetric = {
@@ -202,7 +191,7 @@ export default function TechSemiPanel() {
   const dynamicClock = useMemo(() => {
     if (!data.closingReview?.marketClock) return null;
     return resolveMarketClock(
-      data.closingReview.marketClock as unknown as Parameters<typeof resolveMarketClock>[0],
+      data.closingReview.marketClock,
       benchMap,
       currentTime
     );

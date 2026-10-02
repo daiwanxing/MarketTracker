@@ -62,8 +62,6 @@ type IndustryDriver = {
   to: CyclePole;
   marketScale?: string;
   coreTrackers?: string[];
-  gpuRatio?: string;
-  bandwidthCycle?: string;
 };
 
 type BomItem = {
@@ -118,7 +116,7 @@ type OpticsPayload = {
   investorSummary?: InvestorSummary;
   riskRadar?: RiskItem[];
   industryDriver?: IndustryDriver;
-  bomBreakdown?: { coreConflict?: string; note?: string; items: BomItem[] };
+  bomBreakdown?: { coreConflict?: string; items: BomItem[] };
   techMatrix?: { trapWarning?: string; routes: TechRoute[] } | TechRoute[];
   tripleCycle?: { framework?: string; coreInsight?: string; dimensions: CycleDim[]; synthesis: string };
   competition?: { summary?: string; structuralRisks?: { title: string; desc: string }[]; players: Competitor[] };
@@ -139,7 +137,6 @@ const S = {
     textTransform: 'uppercase' as const,
     color: 'var(--text-faint)',
   } as CSSProperties,
-  metric: { fontSize: 12, color: 'var(--text-faint)', lineHeight: 1.55, marginTop: 4 } as CSSProperties,
   reading: { fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.65, marginTop: 10 } as CSSProperties,
   imply: {
     fontFamily: 'var(--font-mono)',

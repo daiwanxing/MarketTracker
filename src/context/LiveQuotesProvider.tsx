@@ -1,10 +1,8 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, useMemo, type ReactNode } from 'react';
 import { LiveQuotesContext, type LiveQuotesData } from './LiveQuotesContext';
 
 export function LiveQuotesProvider({ children }: { children: ReactNode }) {
   const [liveQuotes, setLiveQuotes] = useState<LiveQuotesData | null>(null);
-  const [isLive, setIsLive] = useState(false);
-  const [lastSyncedAt, setLastSyncedAt] = useState<Date | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -17,19 +15,13 @@ export function LiveQuotesProvider({ children }: { children: ReactNode }) {
         const res = await fetch('/api/quotes', {
           headers: { Accept: 'application/json' },
         });
-        if (!res.ok) {
-          if (active) setIsLive(false);
-          return;
-        }
+        if (!res.ok) return;
         const data = (await res.json()) as LiveQuotesData;
         if (active && data && data.techSemi && data.oil && data.gold) {
           setLiveQuotes(data);
-          setIsLive(true);
-          setLastSyncedAt(new Date());
         }
       } catch {
         // 静默降级：静态部署（如 GitHub Pages）或网络离线时不抛出阻断性错误
-        if (active) setIsLive(false);
       }
     }
 
@@ -45,8 +37,10 @@ export function LiveQuotesProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const value = useMemo(() => ({ liveQuotes }), [liveQuotes]);
+
   return (
-    <LiveQuotesContext.Provider value={{ liveQuotes, isLive, lastSyncedAt }}>
+    <LiveQuotesContext.Provider value={value}>
       {children}
     </LiveQuotesContext.Provider>
   );

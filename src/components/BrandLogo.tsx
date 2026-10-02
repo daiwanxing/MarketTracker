@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 
-export interface BrandLogoProps {
+interface BrandLogoProps {
   size?: number;
   className?: string;
   ariaLabel?: string;
@@ -167,5 +167,3 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     </svg>
   );
 };
-
-export default BrandLogo;

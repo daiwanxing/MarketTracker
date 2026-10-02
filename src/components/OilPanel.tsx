@@ -106,10 +106,8 @@ export default function OilPanel() {
   const DIM: Record<string, string> = {
     supply: '供需',
     stocks: '库存',
-    demand: '需求',
     macro: '宏观',
     geo: '地缘',
-    freight: '运费',
   };
   const dimOf = (dim?: string) => (dim && DIM[dim] ? DIM[dim] : '');
 
