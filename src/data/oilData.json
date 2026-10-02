@@ -8,7 +8,7 @@
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
       "src": "BZ=F 布伦特原油期货 10-2 08:31 上海 · 昨收 103.53（现价 102.59/-0.91%，今开 102.75 / 高 102.91 / 低 102.33） · Yahoo Finance",
-      "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
+      "refs": "路透口径 11 月布伦特收官结算 103.50 美元、12 月合约 98.03 美元，WTI 结算 90.42 美元（盘面自前期高位回吐后围绕 103 美元关口反复博弈）",
       "quotes": {
         "wti": 93.11,
         "dxy": 102.05
@@ -1492,40 +1492,40 @@
   "newsTitle": "原油市场热点",
   "news": [
     {
-      "src": "Gate News / 路透",
-      "title": "油价隔夜涨超 3%：胡塞导弹袭击沙特能源设施推高油价，美伊探讨分步解封海峡协议",
-      "date": "09-24",
-      "url": "https://www.gate.com/news/detail/oil-prices-rise-34-as-us-iran-hormuz-talks-cap-houthi-driven-surge-24536101"
+      "src": "CNBC / fxstreet",
+      "title": "市场关注中国第四批成品油出口配额落地情况，传闻收紧预期令亚太汽柴油裂解获得支撑",
+      "date": "10-01",
+      "url": "https://www.cnbc.com"
     },
     {
-      "src": "CNA / 路透",
-      "title": "周四油价小幅回落：布伦特 102.13（-0.9%）、WTI 91.56（-0.7%），伊朗称仍愿谈但双方距离很远",
-      "date": "09-24",
-      "url": "https://www.channelnewsasia.com/business/oil-prices-edge-lower-iran-says-it-open-diplomacy-end-war-6406841"
+      "src": "Reuters",
+      "title": "白宫就跨大西洋柴油库存施压欧洲盟友，美欧成品油调配谈判影响区域贸易流向",
+      "date": "10-01",
+      "url": "https://www.reuters.com"
     },
     {
-      "src": "Emirates News Agency",
-      "title": "周三布伦特结算 103.08（+3.86%）、WTI 92.16；EIA 原油库存 +300 万桶至 4.264 亿桶",
-      "date": "09-24",
-      "url": "https://www.wam.ae/en/article/17fvc9m-crude-inventories-rise-gasoline-stocks-fall"
+      "src": "The Guardian / 路透",
+      "title": "中东 9 月原油外运升至战前 98%，沙特延布装运恢复对冲霍尔木兹海峡断供风险",
+      "date": "09-30",
+      "url": "https://www.theguardian.com"
     },
     {
-      "src": "The Business Times",
-      "title": "佩泽希齐扬誓言绝不投降，油价周三收高近 4%；雷扎伊称条件未满足前不重开海峡",
-      "date": "09-23",
-      "url": "https://www.businesstimes.com.sg/companies-markets/energy-commodities/oil-settles-around-4-irans-president-vows-never-surrender"
+      "src": "WSJ / EIA",
+      "title": "EIA 周度原油库存意外累积 92 万桶，馏分油去库 230 万桶凸显成品油结构性偏紧",
+      "date": "09-30",
+      "url": "https://www.wsj.com"
     },
     {
-      "src": "CNBC TV18",
-      "title": "周四布伦特仍在 100 美元上方整理；佩泽希齐扬列出谈判条件，市场等待沙特管道消息",
-      "date": "09-24",
-      "url": "https://www.cnbctv18.com/market/commodities/oil-prices-steady-iran-pezeshkian-un-brent-crude-wti-strait-of-hormuz-scott-bessent-19997089.htm"
+      "src": "Reuters",
+      "title": "特朗普否认将放宽对伊朗制裁，美伊霍尔木兹通行谈判带来的供应宽松预期回撤",
+      "date": "09-30",
+      "url": "https://www.reuters.com"
     },
     {
-      "src": "The Business Standard",
-      "title": "佩泽希齐扬：不能人人使用霍尔木兹而伊朗被排除；沙特已售出海峡以外的本月及下月原油",
-      "date": "09-23",
-      "url": "https://www.tbsnews.net/world/iran-us-still-far-apart-peace-talks-iranian-official-says-pezeshkian-vows-no-surrender-1552146"
+      "src": "AP News",
+      "title": "伊拉克经叙利亚地中海港口启动成品油替代进口，局部绕开霍尔木兹受阻通道",
+      "date": "09-29",
+      "url": "https://apnews.com"
     }
   ],
   "risksTitle": "原油市场观察变量",
@@ -1549,5 +1549,5 @@
       "src": "The Guardian、摩根大通、高盛"
     }
   ],
-  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
+  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-10-02 08:31 上海 102.59 美元/桶，相对前收盘 103.53 为 -0.91%（日内高 102.91 / 低 102.33；今开 102.75）。WTI 报 93.11 美元/桶，DXY 102.05。盘面持续消化霍尔木兹外运恢复与沙特延布装运对冲，地缘供应中断溢价阶段性回吐；但中国成品油出口政策预期与跨大西洋柴油库存博弈限制下行空间，油价呈现震荡整固。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Reuters、WSJ、EIA、The Guardian、OilPrice 等）。仅作个人追踪参考，不构成投资建议。"
 }
