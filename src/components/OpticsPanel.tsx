@@ -1083,7 +1083,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
 
       {/* 结构性变化与风险警示 */}
       {competition.structuralRisks && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 12, marginBottom: 20 }}>
           {competition.structuralRisks.map((risk, i) => (
             <div
               key={risk.title}
@@ -1107,7 +1107,7 @@ function CompetitionBoard({ competition }: { competition?: { summary?: string; s
       )}
 
       {/* 玩家卡片 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 12 }}>
         {competition.players.map((p) => (
           <div
             key={`${p.name}-${p.symbol}`}
@@ -1186,7 +1186,7 @@ function ValuationTable({
 
       {/* 估值分阶参考框 */}
       {valuation.peBand && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: 12, marginBottom: 20 }}>
           <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sharp)' }}>
             <div style={S.kMono}>静态 PE</div>
             <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 4 }}>{valuation.peBand.staticDesc}</div>
