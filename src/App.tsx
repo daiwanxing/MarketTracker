@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import ScrollToTop from './components/ScrollToTop';
 import OilPanel from './components/OilPanel';
 import EnsoPanel from './components/EnsoPanel';
 import GoldPanel from './components/GoldPanel';
@@ -13,6 +14,7 @@ export default function App() {
   return (
     <LiveQuotesProvider>
       <div className="app">
+        <ScrollToTop />
         <div className="starfield" aria-hidden="true" />
         <Sidebar />
         <main className="main">
