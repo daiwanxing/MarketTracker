@@ -36,8 +36,8 @@ export function LiveQuotesProvider({ children }: { children: ReactNode }) {
     // 初次挂载立即触发同步
     syncQuotes();
 
-    // 盘中准实时轮询：每 20 秒安全同步一次（边缘 CDN 缓存 15 秒）
-    const interval = setInterval(syncQuotes, 20000);
+    // 盘中准实时轮询：每 12 秒安全同步一次（国内 Level-1 极速通道，边缘 CDN 缓存 8 秒）
+    const interval = setInterval(syncQuotes, 12000);
 
     return () => {
       active = false;

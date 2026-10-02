@@ -154,15 +154,81 @@ async function fetchSpotGold(timeoutMs = 3500): Promise<{ price: number } | null
   }
 }
 
+/**
+ * 腾讯财经秒级准实时行情抓取（国内持牌 Level-1 行情源，延迟通常在 3~10 秒以内）
+ */
+async function fetchTencentQuotes(symbols: string[], timeoutMs = 3000): Promise<Record<string, QuoteResult>> {
+  const url = `https://qt.gtimg.cn/q=${symbols.join(',')}`;
+  const out: Record<string, QuoteResult> = {};
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': UA,
+        'Accept': '*/*',
+      },
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    if (!res.ok) return out;
+    const buf = await res.arrayBuffer();
+    const text = new TextDecoder('gbk').decode(buf);
+    const lines = text.split(';').map((l) => l.trim()).filter(Boolean);
+
+    for (const line of lines) {
+      const eqIdx = line.indexOf('=');
+      if (eqIdx === -1) continue;
+      const key = line.slice(0, eqIdx).replace(/^v_/, '').trim();
+      const rawVal = line.slice(eqIdx + 1).replace(/^"|"$/g, '').trim();
+
+      if (key.startsWith('hf_')) {
+        // 期货格式: price, pct, buy, sell, high, low, time, prev, open, ..., name
+        const parts = rawVal.split(',');
+        const price = parseFloat(parts[0]);
+        const pct = parseFloat(parts[1]);
+        const prev = parseFloat(parts[7]);
+        if (!isNaN(price) && price > 0) {
+          out[key] = {
+            symbol: key,
+            price,
+            previousClose: isNaN(prev) ? undefined : prev,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          };
+        }
+      } else {
+        // A股/美股格式: 1~name~code~price~prev~open~volume~...~chgAmt~chgPct
+        const parts = rawVal.split('~');
+        const price = parseFloat(parts[3]);
+        const prev = parseFloat(parts[4]);
+        const pct = parts[32] ? parseFloat(parts[32]) : (prev > 0 ? ((price - prev) / prev) * 100 : 0);
+        if (!isNaN(price) && price > 0) {
+          out[key] = {
+            symbol: parts[2] || key,
+            price,
+            previousClose: isNaN(prev) ? undefined : prev,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          };
+        }
+      }
+    }
+  } catch {
+    // 失败静默回退
+  }
+  return out;
+}
+
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
-  // 设置边缘缓存策略：全球 CDN 缓存 15 秒，45 秒内允许返回过期数据并在后台异步更新
-  res.setHeader('Cache-Control', 'public, s-maxage=15, stale-while-revalidate=45');
+  // 设置边缘缓存策略：全球 CDN 缓存 8 秒，20 秒内允许返回过期数据并在后台异步更新
+  res.setHeader('Cache-Control', 'public, s-maxage=8, stale-while-revalidate=20');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
-  // 并发抓取核心标的（美股、亚太、大宗商品、宏观利率、机器人）
-  const [soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, roboRes, tslaRes] =
+  // 并发抓取：优先腾讯国内 Level-1 极速通道，同时并发拉取全球宏观与 Yahoo 兜底标的
+  const tencentSymbols = ['sh000688', 'sh562500', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC'];
+
+  const [tencentRes, soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, roboRes, tslaRes] =
     await Promise.allSettled([
+      fetchTencentQuotes(tencentSymbols),
       fetchYahooQuote('^SOX'),
       fetchYahooQuote('^KS11'),
       fetchYahooQuote('000688.SS'),
@@ -177,18 +243,19 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       fetchYahooQuote('TSLA'),
     ]);
 
+  const tcMap = tencentRes.status === 'fulfilled' ? tencentRes.value : {};
   const sox = soxRes.status === 'fulfilled' ? soxRes.value : null;
   const ks11 = ks11Res.status === 'fulfilled' ? ks11Res.value : null;
-  const star50 = star50Res.status === 'fulfilled' ? star50Res.value : null;
-  const brent = brentRes.status === 'fulfilled' ? brentRes.value : null;
-  const wti = wtiRes.status === 'fulfilled' ? wtiRes.value : null;
+  const star50 = tcMap['sh000688'] ?? (star50Res.status === 'fulfilled' ? star50Res.value : null);
+  const brent = tcMap['hf_OIL'] ?? (brentRes.status === 'fulfilled' ? brentRes.value : null);
+  const wti = tcMap['hf_CL'] ?? (wtiRes.status === 'fulfilled' ? wtiRes.value : null);
   const dxy = dxyRes.status === 'fulfilled' ? dxyRes.value : null;
-  const gc = gcRes.status === 'fulfilled' ? gcRes.value : null;
+  const gc = tcMap['hf_GC'] ?? (gcRes.status === 'fulfilled' ? gcRes.value : null);
   const tnx = tnxRes.status === 'fulfilled' ? tnxRes.value : null;
   const spotGold = spotGoldRes.status === 'fulfilled' ? spotGoldRes.value : null;
-  const csRobot = csRobotRes.status === 'fulfilled' ? csRobotRes.value : null;
-  const robo = roboRes.status === 'fulfilled' ? roboRes.value : null;
-  const tsla = tslaRes.status === 'fulfilled' ? tslaRes.value : null;
+  const csRobot = tcMap['sh562500'] ?? (csRobotRes.status === 'fulfilled' ? csRobotRes.value : null);
+  const robo = tcMap['usROBO'] ?? (roboRes.status === 'fulfilled' ? roboRes.value : null);
+  const tsla = tcMap['usTSLA'] ?? (tslaRes.status === 'fulfilled' ? tslaRes.value : null);
 
   // 1. 科技半导体组装
   const fbSemi = FALLBACK.techSemi;

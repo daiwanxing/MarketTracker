@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { BrandLogo, type LogoVariant } from './BrandLogo';
+import { BrandLogo } from './BrandLogo';
 
 const PAGES: { to: string; label: string }[] = [
   { to: '/oil', label: '原油' },
@@ -18,35 +18,17 @@ export default function Sidebar() {
   const { pathname } = useLocation();
   const current = PAGES.find((page) => pathname.startsWith(page.to))?.label ?? '市场追踪';
 
-  const [logoVariant, setLogoVariant] = useState<LogoVariant>(() => {
-    try {
-      const saved = localStorage.getItem('mt_logo_variant');
-      if (saved === 'radar' || saved === 'matrix' || saved === 'vector') return saved;
-    } catch {
-      // ignore
-    }
-    return 'vector';
-  });
-
-  const handleCycleVariant = () => {
-    const nextVariant: Record<LogoVariant, LogoVariant> = {
-      vector: 'radar',
-      radar: 'matrix',
-      matrix: 'vector',
-    };
-    const next = nextVariant[logoVariant];
-    setLogoVariant(next);
-    try {
-      localStorage.setItem('mt_logo_variant', next);
-    } catch {
-      // ignore
-    }
-  };
-
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    if (open) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [open]);
 
@@ -63,7 +45,7 @@ export default function Sidebar() {
           <Menu size={16} strokeWidth={1.75} aria-hidden="true" />
         </button>
         <span className="mobile-brand" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <BrandLogo size={20} variant={logoVariant} />
+          <BrandLogo size={22} />
           {current}
         </span>
       </div>
@@ -72,21 +54,9 @@ export default function Sidebar() {
 
       <aside className={`sidebar${open ? ' drawer-open' : ''}`}>
         <div className="brand">
-          <button
-            type="button"
-            className="brand-mark"
-            onClick={handleCycleVariant}
-            title={`当前风格: ${
-              logoVariant === 'vector'
-                ? '地平线动量仪 (Flagship)'
-                : logoVariant === 'radar'
-                ? '全景雷达瞄准仪'
-                : 'M·T 极简矩阵'
-            } · 点击切换设计风格`}
-            aria-label="切换 Logo 设计风格"
-          >
-            <BrandLogo size={30} variant={logoVariant} />
-          </button>
+          <div className="brand-mark" aria-hidden="true">
+            <BrandLogo size={30} />
+          </div>
           <span className="brand-name">市场追踪</span>
           <button
             type="button"

@@ -333,7 +333,7 @@ function CoreVariablesBoard({ summary }: { summary?: InvestorSummary }) {
       </div>
 
       {/* 三个核心变量卡片 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginTop: 18 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14, marginTop: 18 }}>
         {summary.coreVariables.map((v, idx) => (
           <div
             key={v.id}
@@ -416,8 +416,8 @@ function RadarWebChart({
   const dataPolygonPts = dataPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: size, margin: '0 auto' }}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '100%', maxWidth: size, margin: '0 auto' }}>
+      <svg width="100%" height="auto" viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible', maxWidth: size, aspectRatio: '1 / 1' }}>
         <defs>
           <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="color-mix(in srgb, var(--amber) 35%, transparent)" />
@@ -587,14 +587,14 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 16 }}>
-          <div style={{ textAlign: 'right' }}>
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ textAlign: 'left' }}>
             <div style={S.kMono}>主要风险项</div>
             <div style={{ color: leadRisk?.status === 'critical' ? 'var(--up)' : 'var(--amber)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
               {leadRisk?.title || '持仓集中'}
             </div>
           </div>
-          <div style={{ textAlign: 'right', borderLeft: '1px solid var(--line)', paddingLeft: 16 }}>
+          <div style={{ textAlign: 'left', borderLeft: '1px solid var(--line)', paddingLeft: 16 }}>
             <div style={S.kMono}>核心瓶颈项</div>
             <div style={{ color: bottleneck?.status === 'critical' ? 'var(--up)' : 'var(--amber)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
               {bottleneck?.title || '芯片供给'}
@@ -606,7 +606,7 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
           gap: 24,
           alignItems: 'start',
         }}
@@ -761,7 +761,7 @@ function TripleCycleCard({
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
         {dimensions.map((dim) => (
           <div
             key={dim.cycle}
@@ -814,7 +814,7 @@ function DriverBom({
   bom?: { coreConflict?: string; note?: string; items: BomItem[] };
 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
       {/* 驱动力切换 */}
       <div className="card" style={{ padding: '22px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
@@ -1024,7 +1024,7 @@ function TechRoadmap({ matrix }: { matrix?: { trapWarning?: string; routes: Tech
       {!routes.length ? (
         <div style={S.reading}>{EMPTY}</div>
       ) : (
-        <div style={{ overflow: 'auto' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 640 }}>
             <thead>
               <tr>
@@ -1202,7 +1202,7 @@ function ValuationTable({
         </div>
       )}
 
-      <div style={{ overflow: 'auto' }}>
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 560 }}>
           <thead>
             <tr>

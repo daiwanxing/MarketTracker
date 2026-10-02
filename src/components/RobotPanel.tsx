@@ -49,7 +49,7 @@ const S = {
   } as CSSProperties,
   kpiGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))',
     gap: '12px',
     borderTop: '1px solid var(--line)',
     paddingTop: '16px',
@@ -93,7 +93,7 @@ const S = {
   } as CSSProperties,
   sixGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
     gap: '16px',
     marginBottom: '32px',
   } as CSSProperties,
@@ -643,7 +643,7 @@ export default function RobotPanel() {
                 <div style={S.chartBox}>
                   {dim.id === 'volume' && dim.penetration && (
                     <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-dim)', marginBottom: 6 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-dim)', marginBottom: 6, flexWrap: 'wrap', gap: '4px' }}>
                         <span>场景渗透率结构（2026H1）</span>
                         <span>生产场景合计 <b>18.0%</b>（阈值 30%）</span>
                       </div>
@@ -663,7 +663,7 @@ export default function RobotPanel() {
                           }}
                         />
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-faint)', marginTop: 6, fontFamily: 'var(--font-mono)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-faint)', marginTop: 6, fontFamily: 'var(--font-mono)', flexWrap: 'wrap', gap: '4px 8px' }}>
                         <span style={{ color: '#ff6b6b' }}>■ 智能制造 13%</span>
                         <span style={{ color: '#38bdf8' }}>■ 仓储物流 5%</span>
                         <span style={{ color: 'var(--amber)' }}>▲ 爆发观察线 30%</span>
@@ -680,7 +680,7 @@ export default function RobotPanel() {
                       </div>
                       {dim.procurement.map((p) => (
                         <div key={p.name} style={{ marginBottom: 6 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: 2 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: 2, flexWrap: 'wrap', gap: '4px' }}>
                             <span style={{ color: 'var(--text)' }}>{p.name}</span>
                             <span className="mono" style={{ color: 'var(--text-dim)' }}>
                               {p.units} 台 / <b>{p.budget} 亿元</b> ({p.unitPrice})
@@ -718,7 +718,7 @@ export default function RobotPanel() {
                           </div>
                         ))}
                       </div>
-                      <div style={{ marginTop: 8, fontSize: '10.5px', color: 'var(--text-faint)', display: 'flex', justifyContent: 'space-between' }}>
+                      <div style={{ marginTop: 8, fontSize: '10.5px', color: 'var(--text-faint)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
                         <span>入门标杆：R1-Air 标价 2.99 万元</span>
                         <span>特斯拉目标：$20,000–$30,000</span>
                       </div>
@@ -733,9 +733,9 @@ export default function RobotPanel() {
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                         {dim.capacitySteps.map((s) => (
-                          <div key={s.stage} style={{ display: 'flex', alignItems: 'center', fontSize: '11px' }}>
-                            <span style={{ width: 85, color: 'var(--text-dim)', flexShrink: 0 }}>{s.stage}</span>
-                            <div style={{ flex: 1, height: 6, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 2, margin: '0 8px' }}>
+                          <div key={s.stage} style={{ display: 'flex', alignItems: 'center', fontSize: '11px', flexWrap: 'wrap', gap: '4px' }}>
+                            <span style={{ width: 'auto', minWidth: 70, color: 'var(--text-dim)', flexShrink: 0 }}>{s.stage}</span>
+                            <div style={{ flex: 1, minWidth: 80, height: 6, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 2, margin: '0 6px' }}>
                               <div
                                 style={{
                                   height: '100%',
@@ -745,7 +745,7 @@ export default function RobotPanel() {
                                 }}
                               />
                             </div>
-                            <span className="mono" style={{ width: 90, textAlign: 'right', color: 'var(--text)', fontSize: '10.5px' }}>
+                            <span className="mono" style={{ width: 'auto', textAlign: 'right', color: 'var(--text)', fontSize: '10.5px', marginLeft: 'auto' }}>
                               {s.val} {s.unit}
                             </span>
                           </div>
@@ -772,7 +772,7 @@ export default function RobotPanel() {
                           }}
                         />
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--text-faint)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--text-faint)', flexWrap: 'wrap', gap: '4px' }}>
                         <span>累计装载冲压件：&gt;90,000 件</span>
                         <span style={{ color: '#ff6b6b' }}>特斯拉瓶颈：手部 100+ 零件仍手工装配</span>
                       </div>
@@ -789,8 +789,8 @@ export default function RobotPanel() {
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                         {dim.peers.map((p) => (
-                          <div key={p.metric} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', background: 'rgba(240, 240, 250, 0.02)', padding: '3px 6px', borderRadius: 2 }}>
-                            <span style={{ color: 'var(--text-dim)', width: 85 }}>{p.metric}</span>
+                          <div key={p.metric} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', background: 'rgba(240, 240, 250, 0.02)', padding: '3px 6px', borderRadius: 2, flexWrap: 'wrap', gap: '4px' }}>
+                            <span style={{ color: 'var(--text-dim)', minWidth: 70 }}>{p.metric}</span>
                             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                               <span className="mono" style={{ color: p.unitree >= 0 ? '#ff6b6b' : '#4ade80', fontWeight: 600 }}>
                                 宇: {p.unitree > 0 ? `+${p.unitree}` : p.unitree}
