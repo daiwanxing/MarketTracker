@@ -986,6 +986,21 @@ body {
   box-shadow: inset 0 6px 16px -8px rgba(244, 63, 94, 0.3);
 }
 
+.index-tab-button.active.csRobot {
+  border-top-color: #38bdf8;
+  box-shadow: inset 0 6px 16px -8px rgba(56, 189, 248, 0.3);
+}
+
+.index-tab-button.active.botz {
+  border-top-color: #f59e0b;
+  box-shadow: inset 0 6px 16px -8px rgba(245, 158, 11, 0.3);
+}
+
+.index-tab-button.active.tsla {
+  border-top-color: #ff6b6b;
+  box-shadow: inset 0 6px 16px -8px rgba(255, 107, 107, 0.3);
+}
+
 .index-tab-head-row {
   display: flex;
   align-items: center;

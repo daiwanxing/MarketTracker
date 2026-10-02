@@ -1,8 +1,24 @@
-import { useMemo, type CSSProperties } from 'react';
+import { useState, useMemo, type CSSProperties } from 'react';
+import ReactECharts from 'echarts-for-react';
+import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import heroRobot from '../assets/hero-robot.jpg';
 import robotData from '../data/robotData.json';
 import { useReveal } from '../hooks/useReveal';
+
+const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
+const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+
+const BENCH_SERIES = [
+  { key: 'csRobot', name: '中证机器人 ETF', symbol: '562500.SH', color: '#38bdf8' },
+  { key: 'botz', name: '全球机器人与AI ETF', symbol: 'BOTZ', color: '#f59e0b' },
+  { key: 'tsla', name: '特斯拉 (TSLA)', symbol: 'TSLA', color: '#ff6b6b' },
+] as const;
+
+type BenchKey = (typeof BENCH_SERIES)[number]['key'];
+
+const DATES = robotData.charts?.normalized?.dates || [];
+const NORM = robotData.charts?.normalized || { csRobot: [], botz: [], tsla: [] };
 
 const S = {
   anchorCard: {
@@ -172,12 +188,143 @@ const S = {
 };
 
 export default function RobotPanel() {
-  const { head, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
+  const { head, benchmarks, crowding, catalysts, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
   const tlRef = useReveal<HTMLDivElement>();
+
+  const [activeTab, setActiveTab] = useState<BenchKey>('csRobot');
+  const [isOverlay, setIsOverlay] = useState(true);
+
+  const activeColor = BENCH_SERIES.find((s) => s.key === activeTab)?.color ?? '#38bdf8';
+  const activeSeriesMeta = BENCH_SERIES.find((s) => s.key === activeTab) ?? BENCH_SERIES[0];
+
+  const normalizedOpt: EChartsOption = useMemo(() => {
+    let seriesList;
+    if (isOverlay) {
+      seriesList = BENCH_SERIES.map((item) => {
+        const isCurrent = item.key === activeTab;
+        return {
+          name: item.name,
+          type: 'line' as const,
+          data: (NORM[item.key] as number[]) || [],
+          showSymbol: false,
+          z: isCurrent ? 4 : 2,
+          lineStyle: {
+            color: item.color,
+            width: isCurrent ? 2.5 : 1.5,
+            opacity: isCurrent ? 1 : 0.45,
+          },
+          itemStyle: { color: item.color },
+        };
+      });
+    } else {
+      seriesList = [
+        {
+          name: activeSeriesMeta.name,
+          type: 'line' as const,
+          data: (NORM[activeTab] as number[]) || [],
+          showSymbol: false,
+          lineStyle: { color: activeColor, width: 2.2 },
+          itemStyle: { color: activeColor },
+          areaStyle: {
+            color: {
+              type: 'linear' as const,
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: `${activeColor}33` },
+                { offset: 1, color: `${activeColor}00` },
+              ],
+            },
+          },
+        },
+      ];
+    }
+
+    return {
+      backgroundColor: 'transparent',
+      animationDuration: 300,
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'rgba(0,0,0,0.92)',
+        borderColor: 'rgba(240,240,250,0.35)',
+        borderWidth: 1,
+        textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
+        valueFormatter: (v) => (v == null ? '--' : `${(v as number) >= 0 ? '+' : ''}${v}%`),
+      },
+      legend: isOverlay
+        ? {
+            top: 0,
+            right: 16,
+            itemWidth: 14,
+            itemHeight: 3,
+            textStyle: { color: 'rgba(240,240,250,0.85)', fontFamily: DISPLAY, fontSize: 11 },
+          }
+        : { show: false },
+      grid: { left: 46, right: 16, top: isOverlay ? 30 : 16, bottom: 24 },
+      xAxis: {
+        type: 'category',
+        data: DATES,
+        axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
+        axisTick: { show: false },
+        axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
+      },
+      yAxis: {
+        type: 'value',
+        scale: true,
+        splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
+        axisLabel: {
+          color: 'rgba(240,240,250,0.6)',
+          fontFamily: MONO,
+          fontSize: 10,
+          formatter: (v: number) => `${v >= 0 ? '+' : ''}${v}%`,
+        },
+      },
+      series: seriesList,
+    };
+  }, [activeTab, isOverlay, activeColor, activeSeriesMeta]);
+
+  const activeSeriesData = (NORM[activeTab] as number[]) || [];
+  const statMax = activeSeriesData.length ? Math.max(...activeSeriesData) : 0;
+  const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
+  const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
+  const csLatest = (NORM.csRobot as number[])?.[DATES.length - 1] ?? 0;
+  const tslaLatest = (NORM.tsla as number[])?.[DATES.length - 1] ?? 0;
+  const spreadUsChina = tslaLatest - csLatest;
+
+  const tabConfigs: Array<{
+    key: BenchKey;
+    name: string;
+    symbol: string;
+    bench: (typeof benchmarks)[BenchKey];
+  }> = [
+    {
+      key: 'csRobot',
+      name: benchmarks.csRobot.name,
+      symbol: benchmarks.csRobot.symbol,
+      bench: benchmarks.csRobot,
+    },
+    {
+      key: 'botz',
+      name: benchmarks.botz.name,
+      symbol: benchmarks.botz.symbol,
+      bench: benchmarks.botz,
+    },
+    {
+      key: 'tsla',
+      name: benchmarks.tsla.name,
+      symbol: benchmarks.tsla.symbol,
+      bench: benchmarks.tsla,
+    },
+  ];
 
   const sortedTimeline = useMemo(() => {
     return [...(timeline || [])].sort((a, b) => b.date.localeCompare(a.date));
   }, [timeline]);
+
+  const crowdZone = crowding.zone || 'neutral';
+  const crowdLabel = crowding.label || '温和活跃';
 
   return (
     <article>
@@ -199,7 +346,224 @@ export default function RobotPanel() {
       </header>
 
       <div className="content">
-        {/* 2. 顶层判断锚点与核心 KPI */}
+        {/* 2. 终端宏观时钟、Tab切换栏与走势图表一体化系统 */}
+        <section className="terminal-macro-viewport">
+          {/* A. 定价时钟条与模式切换 */}
+          <div className="terminal-clock-bar">
+            <div className="terminal-clock-title">
+              <span className="clock-phase-label">中美核心资产定价基准</span>
+              <span className="clock-phase-window mono">跨市协同定价（A 股 / 美股）</span>
+            </div>
+            <div className="terminal-mode-toggles">
+              <button
+                type="button"
+                className={`terminal-mode-btn ${!isOverlay ? 'active' : ''}`}
+                onClick={() => setIsOverlay(false)}
+              >
+                单标的聚焦
+              </button>
+              <button
+                type="button"
+                className={`terminal-mode-btn ${isOverlay ? 'active' : ''}`}
+                onClick={() => setIsOverlay(true)}
+              >
+                全景对照
+              </button>
+            </div>
+          </div>
+
+          {/* B. 三大指数/标的无框 Tab 切换栏 */}
+          <div className="terminal-index-tabs-bar" role="tablist">
+            {tabConfigs.map((tc) => {
+              const isActive = activeTab === tc.key;
+              const priceDisplay = typeof tc.bench.price === 'number'
+                ? tc.bench.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 3 })
+                : tc.bench.price;
+
+              return (
+                <button
+                  key={tc.key}
+                  type="button"
+                  className={`index-tab-button ${tc.key} ${isActive ? 'active' : ''}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(tc.key)}
+                >
+                  <div className="index-tab-head-row">
+                    <div className="index-tab-name-box">
+                      <span className="index-tab-name">{tc.name}</span>
+                      <span className="index-tab-sym">{tc.symbol}</span>
+                    </div>
+                    <span className="index-tab-status closed">基准收盘</span>
+                  </div>
+                  <div className="index-tab-data-row">
+                    <span className="index-tab-price">{priceDisplay}</span>
+                    <span className={`index-tab-chg ${tc.bench.chgClass || 'up'}`}>{tc.bench.chg}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* C. 紧随其后的走势图表 */}
+          <div className="terminal-chart-viewport">
+            <div className="terminal-chart-caption-bar">
+              <div className="terminal-chart-title">
+                <span className="terminal-chart-indicator" style={{ background: activeColor }} />
+                <span>
+                  {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '中美三地同轴对比' : '单标的聚焦'})
+                </span>
+              </div>
+            </div>
+
+            <ReactECharts option={normalizedOpt} style={{ height: 280, width: '100%' }} notMerge lazyUpdate />
+
+            {/* 底部技术位统计速览条 */}
+            <div className="terminal-chart-stats">
+              <div className="stat-item">
+                <span className="stat-label">阶段起点:</span>
+                <span className="stat-val">{DATES[0] || '04-06'} (0%)</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">期间高位:</span>
+                <span className="stat-val" style={{ color: 'var(--up)' }}>
+                  {statMax >= 0 ? '+' : ''}{statMax.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">期间低位:</span>
+                <span className="stat-val" style={{ color: 'var(--down)' }}>
+                  {statMin >= 0 ? '+' : ''}{statMin.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">当前累计收益:</span>
+                <span className="stat-val" style={{ color: statLatest >= 0 ? 'var(--up)' : 'var(--down)' }}>
+                  {statLatest >= 0 ? '+' : ''}{statLatest.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">中美裂口 (TSLA vs 562500):</span>
+                <span className="stat-val" style={{ color: spreadUsChina >= 0 ? 'var(--up)' : 'var(--down)' }}>
+                  {spreadUsChina >= 0 ? '+' : ''}{spreadUsChina.toFixed(2)}%
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">基准对齐:</span>
+                <span className="stat-val">{DATES.length} 交易日</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. 资金面与微观筹码哨兵 */}
+        <h2 className="sec-title" style={{ marginTop: 28 }}>
+          资金面与微观筹码哨兵
+          <span className="hint">成交额占比衡量板块拥挤度，ETF 份额跟踪主力申赎，前瞻雷达锚定预期差验证</span>
+        </h2>
+        <div className="anomaly-grid">
+          {/* A. 板块成交额占比仪表 */}
+          <div className="card real-crowd-card">
+            <div className="real-crowd-head">
+              <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
+              <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
+            </div>
+            <div className="real-crowd-num-row">
+              <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
+              <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
+            </div>
+            <div className="gauge-track" aria-hidden="true">
+              <div
+                className={`gauge-fill ${crowdZone}`}
+                style={{ width: `${Math.max(4, Math.min(100, (crowding.turnoverShare.value / 4.5) * 100))}%` }}
+              />
+            </div>
+            <div className="gauge-marks">
+              <span>0.8 冰点</span>
+              <span>1.5 活跃</span>
+              <span>2.8 偏热</span>
+              <span>3.8 极端</span>
+            </div>
+            <div className="real-crowd-detail">
+              机器人 {crowding.turnoverShare.robotAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{crowding.methodNote}。
+            </div>
+          </div>
+
+          {/* B. ETF 份额净申赎 */}
+          <div className="card real-crowd-card">
+            <div className="real-crowd-head">
+              <span className="real-crowd-title">代表性 ETF 份额动向</span>
+              <span className="crowd-badge neutral">{crowding.etfFlow.label}</span>
+            </div>
+            <div className="real-crowd-num-row">
+              <span className="real-crowd-val num">{crowding.etfFlow.unitsTotal}</span>
+              <span className="real-crowd-unit" style={{ fontSize: 13, color: 'var(--up)' }}>
+                {crowding.etfFlow.unitsChange}
+              </span>
+            </div>
+            <div style={{ height: 8, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 99, margin: '12px 0 6px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: '72%', background: '#38bdf8', borderRadius: 99 }} />
+            </div>
+            <div className="real-crowd-detail">
+              562500.SH 跟踪：{crowding.etfFlow.signal}（截至 {crowding.etfFlow.asOf}）
+            </div>
+          </div>
+
+          {/* C. 中美跨市定价传导 */}
+          <div className="card real-crowd-card">
+            <div className="real-crowd-head">
+              <span className="real-crowd-title">中美跨市定价传导</span>
+              <span className="crowd-badge cold">估值与订单协同</span>
+            </div>
+            <div className="real-crowd-num-row">
+              <span className="real-crowd-val num" style={{ fontSize: 22 }}>双轮驱动</span>
+              <span className="real-crowd-unit" style={{ fontSize: 12 }}>海外叙事 ➔ 境内量产</span>
+            </div>
+            <div style={{ margin: '10px 0 6px', fontSize: 12, color: 'var(--text-dim)', lineHeight: 1.5 }}>
+              美股关注算法泛化与模型落地（TSLA / BOTZ）；境内核心标的享供应链确定性与降本放量红利，形成“海外提估值、境内接订单”的比价链条。
+            </div>
+          </div>
+        </div>
+
+        {/* 前瞻催化剂与预期差雷达 */}
+        <div className="card chart-panel" style={{ marginTop: 16 }}>
+          <div className="chart-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>前瞻催化剂与预期差雷达 (Forward-looking Catalyst Calendar)</span>
+            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-faint)', textTransform: 'none' }}>
+              锁定关键技术与商业化验证排期
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12, marginTop: 14 }}>
+            {catalysts.map((cat, i) => (
+              <div
+                key={i}
+                style={{
+                  background: 'rgba(240, 240, 250, 0.03)',
+                  border: '1px solid rgba(240, 240, 250, 0.08)',
+                  borderRadius: 4,
+                  padding: '12px 14px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span className="mono" style={{ fontSize: 11, color: 'var(--amber)', fontWeight: 700 }}>
+                    {cat.date}
+                  </span>
+                  <span className="crowd-badge cold" style={{ fontSize: 10, padding: '1px 5px' }}>
+                    {cat.tag}
+                  </span>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>{cat.title}</div>
+                <div style={{ fontSize: 11.5, color: 'var(--text-dim)', lineHeight: 1.5 }}>{cat.watch}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. 顶层判断锚点与核心 KPI */}
+        <h2 className="sec-title" style={{ marginTop: 36 }}>
+          产业落地核心判断锚点
+          <span className="hint">制造场景渗透与单位经济性</span>
+        </h2>
         <div style={S.anchorCard}>
           <div style={S.anchorHeader}>
             <div style={S.anchorTitle}>核心判断锚点 · 工业与商业规模化落地标准</div>
@@ -223,7 +587,7 @@ export default function RobotPanel() {
           </div>
         </div>
 
-        {/* 3. 六维核心观察矩阵 */}
+        {/* 5. 六维核心观察矩阵 */}
         <h2 className="sec-title">
           六维产业验证矩阵
           <span className="hint">半导体周期框架迁移 · 紧扣出货、订单、成本、产能、良率与财务闭环</span>
@@ -248,12 +612,10 @@ export default function RobotPanel() {
                         <span>场景渗透率结构（2026H1）</span>
                         <span>生产场景合计 <b>18.0%</b>（阈值 30%）</span>
                       </div>
-                      {/* 堆叠进度条 */}
                       <div style={{ height: 18, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 2, display: 'flex', position: 'relative', overflow: 'hidden' }}>
                         <div style={{ width: '13%', background: '#ff6b6b' }} title="智能制造 13%" />
                         <div style={{ width: '5%', background: '#38bdf8' }} title="仓储物流 5%" />
                         <div style={{ width: '82%', background: 'rgba(240, 240, 250, 0.15)' }} title="文娱科研及其他 82%" />
-                        {/* 30% 观察阈值刻度线 */}
                         <div
                           style={{
                             position: 'absolute',
@@ -423,7 +785,7 @@ export default function RobotPanel() {
           ))}
         </div>
 
-        {/* 4. 上游关键零部件供应链映射 */}
+        {/* 6. 上游关键零部件供应链映射 */}
         <h2 className="sec-title" style={{ marginTop: 36 }}>
           上游核心硬件环节跟踪
           <span className="hint">丝杠、传感器、减速器与伺服电机披露更新</span>
@@ -449,7 +811,7 @@ export default function RobotPanel() {
           ))}
         </div>
 
-        {/* 5. 具身智能与人形机器人产业大事记 */}
+        {/* 7. 具身智能与人形机器人产业大事记 */}
         {sortedTimeline.length > 0 && (
           <>
             <h2 className="sec-title" style={{ marginTop: 36 }}>
@@ -483,7 +845,7 @@ export default function RobotPanel() {
           </>
         )}
 
-        {/* 6. 底部来源与说明 */}
+        {/* 8. 底部来源与说明 */}
         <footer className="src">
           {footer}
         </footer>
