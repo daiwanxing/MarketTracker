@@ -17,9 +17,6 @@ const BENCH_SERIES = [
 
 type BenchKey = (typeof BENCH_SERIES)[number]['key'];
 
-const DATES = robotData.charts?.normalized?.dates || [];
-const NORM = robotData.charts?.normalized || { csRobot: [], botz: [], tsla: [] };
-
 const S = {
   anchorCard: {
     background: 'rgba(240, 240, 250, 0.04)',
@@ -188,11 +185,14 @@ const S = {
 };
 
 export default function RobotPanel() {
-  const { head, benchmarks, crowding, catalysts, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
+  const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
   const tlRef = useReveal<HTMLDivElement>();
 
   const [activeTab, setActiveTab] = useState<BenchKey>('csRobot');
   const [isOverlay, setIsOverlay] = useState(true);
+
+  const dates = useMemo(() => charts?.normalized?.dates || [], [charts?.normalized?.dates]);
+  const norm = useMemo(() => charts?.normalized || { csRobot: [], botz: [], tsla: [] }, [charts?.normalized]);
 
   const activeColor = BENCH_SERIES.find((s) => s.key === activeTab)?.color ?? '#38bdf8';
   const activeSeriesMeta = BENCH_SERIES.find((s) => s.key === activeTab) ?? BENCH_SERIES[0];
@@ -205,7 +205,7 @@ export default function RobotPanel() {
         return {
           name: item.name,
           type: 'line' as const,
-          data: (NORM[item.key] as number[]) || [],
+          data: (norm[item.key] as number[]) || [],
           showSymbol: false,
           z: isCurrent ? 4 : 2,
           lineStyle: {
@@ -221,7 +221,7 @@ export default function RobotPanel() {
         {
           name: activeSeriesMeta.name,
           type: 'line' as const,
-          data: (NORM[activeTab] as number[]) || [],
+          data: (norm[activeTab] as number[]) || [],
           showSymbol: false,
           lineStyle: { color: activeColor, width: 2.2 },
           itemStyle: { color: activeColor },
@@ -265,7 +265,7 @@ export default function RobotPanel() {
       grid: { left: 46, right: 16, top: isOverlay ? 30 : 16, bottom: 24 },
       xAxis: {
         type: 'category',
-        data: DATES,
+        data: dates,
         axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
         axisTick: { show: false },
         axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
@@ -283,14 +283,14 @@ export default function RobotPanel() {
       },
       series: seriesList,
     };
-  }, [activeTab, isOverlay, activeColor, activeSeriesMeta]);
+  }, [activeTab, isOverlay, norm, dates, activeColor, activeSeriesMeta]);
 
-  const activeSeriesData = (NORM[activeTab] as number[]) || [];
+  const activeSeriesData = (norm[activeTab] as number[]) || [];
   const statMax = activeSeriesData.length ? Math.max(...activeSeriesData) : 0;
   const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
   const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
-  const csLatest = (NORM.csRobot as number[])?.[DATES.length - 1] ?? 0;
-  const tslaLatest = (NORM.tsla as number[])?.[DATES.length - 1] ?? 0;
+  const csLatest = (norm.csRobot as number[])?.[dates.length - 1] ?? 0;
+  const tslaLatest = (norm.tsla as number[])?.[dates.length - 1] ?? 0;
   const spreadUsChina = tslaLatest - csLatest;
 
   const tabConfigs: Array<{
@@ -422,7 +422,7 @@ export default function RobotPanel() {
             <div className="terminal-chart-stats">
               <div className="stat-item">
                 <span className="stat-label">阶段起点:</span>
-                <span className="stat-val">{DATES[0] || '04-06'} (0%)</span>
+                <span className="stat-val">{dates[0] || '04-06'} (0%)</span>
               </div>
               <div className="stat-item">
                 <span className="stat-label">期间高位:</span>
@@ -450,7 +450,7 @@ export default function RobotPanel() {
               </div>
               <div className="stat-item">
                 <span className="stat-label">基准对齐:</span>
-                <span className="stat-val">{DATES.length} 交易日</span>
+                <span className="stat-val">{dates.length} 交易日</span>
               </div>
             </div>
           </div>
