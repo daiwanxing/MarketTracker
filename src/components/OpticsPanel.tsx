@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react';
+import { clamp } from 'lodash-es';
 import heroOptics from '../assets/hero-optics.jpg';
 import opticsData from '../data/opticsData.json';
 import techSemiData from '../data/techSemiData.json';
@@ -214,7 +215,7 @@ function threatTone(level: string): string {
 
 function shareWidth(share: string): number {
   const m = share.match(/(\d+)/);
-  return m ? Math.min(100, Number(m[1]) + 8) : 40;
+  return m ? clamp(Number(m[1]) + 8, 0, 100) : 40;
 }
 
 function enrichRisks(
@@ -305,7 +306,7 @@ function CoreVariablesBoard({ summary }: { summary?: InvestorSummary }) {
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <span style={S.kMono}>INVESTOR BRIEFING · 投资逻辑</span>
+          <span className="optics-kmono">INVESTOR BRIEFING · 投资逻辑</span>
           <div
             style={{
               fontFamily: 'var(--font-display)',
@@ -330,7 +331,7 @@ function CoreVariablesBoard({ summary }: { summary?: InvestorSummary }) {
       </div>
 
       {/* 三个核心变量卡片 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14, marginTop: 18 }}>
+      <div className="optics-var-grid">
         {summary.coreVariables.map((v, idx) => (
           <div
             key={v.id}
@@ -346,7 +347,7 @@ function CoreVariablesBoard({ summary }: { summary?: InvestorSummary }) {
           >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <span style={S.kMono}>VAR 0{idx + 1} · {v.role}</span>
+                <span className="optics-kmono">VAR 0{idx + 1} · {v.role}</span>
                 <span
                   className={`crowd-badge ${
                     v.status.includes('上修') ? 'neutral' : v.status.includes('紧缺') ? 'danger' : 'warning'
@@ -362,7 +363,7 @@ function CoreVariablesBoard({ summary }: { summary?: InvestorSummary }) {
                 {v.reading}
               </div>
             </div>
-            <div style={{ ...S.imply, marginTop: 10, paddingTop: 8, fontSize: 11, color: 'var(--amber)' }}>
+            <div className="optics-imply" style={{ marginTop: 10, paddingTop: 8, fontSize: 11, color: 'var(--amber)' }}>
               <b>含义 · </b>{v.implication}
             </div>
           </div>
@@ -407,7 +408,7 @@ function RadarWebChart({
   });
 
   const dataPoints = items.map((item, i) => {
-    const norm = Math.max(0.15, Math.min(1.0, (item.level || 1) / 5));
+    const norm = clamp((item.level || 1) / 5, 0.15, 1.0);
     return getCoordinates(i, norm);
   });
   const dataPolygonPts = dataPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
@@ -517,7 +518,7 @@ function RadarWebChart({
           );
         })}
       </svg>
-      <div style={{ ...S.kMono, fontSize: 9, marginTop: 4, color: 'var(--text-faint)' }}>
+      <div className="optics-kmono" style={{ fontSize: 9, marginTop: 4 }}>
         点选顶点查看该项
       </div>
     </div>
@@ -541,8 +542,8 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
 
   if (!items.length) {
     return (
-      <div className="card" style={S.pad}>
-        <div style={S.reading}>{EMPTY}</div>
+      <div className="card optics-card-pad">
+        <div className="optics-reading">{EMPTY}</div>
       </div>
     );
   }
@@ -586,13 +587,13 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
 
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ textAlign: 'left' }}>
-            <div style={S.kMono}>主要风险项</div>
+            <div className="optics-kmono">主要风险项</div>
             <div style={{ color: leadRisk?.status === 'critical' ? 'var(--up)' : 'var(--amber)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
               {leadRisk?.title || '持仓集中'}
             </div>
           </div>
           <div style={{ textAlign: 'left', borderLeft: '1px solid var(--line)', paddingLeft: 16 }}>
-            <div style={S.kMono}>核心瓶颈项</div>
+            <div className="optics-kmono">核心瓶颈项</div>
             <div style={{ color: bottleneck?.status === 'critical' ? 'var(--up)' : 'var(--amber)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
               {bottleneck?.title || '芯片供给'}
             </div>
@@ -600,24 +601,10 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
         </div>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          gap: 24,
-          alignItems: 'start',
-        }}
-      >
-        <div
-          style={{
-            padding: '16px 12px',
-            background: 'rgba(240, 240, 250, 0.02)',
-            border: '1px solid var(--line)',
-            borderRadius: 'var(--radius-sharp)',
-          }}
-        >
+      <div className="optics-radar-grid">
+        <div className="optics-radar-container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6, padding: '0 8px' }}>
-            <span style={S.kMono}>5-AXIS RADAR SCOPE</span>
+            <span className="optics-kmono">5-AXIS RADAR SCOPE</span>
             <span className="mono" style={{ fontSize: 10, color: 'var(--amber)' }}>
               LOAD: {scorePct}%
             </span>
@@ -636,7 +623,7 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
           >
             <div className="real-crowd-head" style={{ marginBottom: 10 }}>
               <div>
-                <span style={{ ...S.kMono, display: 'block', marginBottom: 2 }}>
+                <span className="optics-kmono" style={{ display: 'block', marginBottom: 2 }}>
                   TARGET DIAGNOSIS · AXIS 0{items.findIndex((it) => it.id === activeItem.id) + 1}
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--text)' }}>
@@ -654,24 +641,24 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
             </div>
 
             <div style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.4)', borderRadius: 2, marginBottom: 14 }}>
-              <div style={S.kMono}>跟踪指标</div>
+              <div className="optics-kmono">跟踪指标</div>
               <div style={{ color: 'var(--text)', fontSize: 13, marginTop: 2 }}>{activeItem.metric}</div>
             </div>
 
             <div>
-              <div style={S.kMono}>当前读数</div>
+              <div className="optics-kmono">当前读数</div>
               <div style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.65, marginTop: 4 }}>
                 {activeItem.reading || EMPTY}
               </div>
             </div>
 
-            <div style={{ ...S.imply, marginTop: 14, paddingTop: 12 }}>
+            <div className="optics-imply" style={{ marginTop: 14, paddingTop: 12 }}>
               <b>含义 · </b>
               {activeItem.implication}
             </div>
 
             <div style={{ marginTop: 20, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
-              <span style={{ ...S.kMono, display: 'block', marginBottom: 8 }}>
+              <span className="optics-kmono" style={{ display: 'block', marginBottom: 8 }}>
                 QUICK SWITCH AXIS
               </span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -738,7 +725,7 @@ function TripleCycleCard({
   return (
     <div className="card" style={{ padding: '24px 22px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
-        <div style={S.kMono}>{framework || '国盛证券「三重周期」分析框架'}</div>
+        <div className="optics-kmono">{framework || '国盛证券「三重周期」分析框架'}</div>
         <span className="crowd-badge neutral">价格与产业方向可背离</span>
       </div>
 
@@ -760,7 +747,7 @@ function TripleCycleCard({
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
+      <div className="optics-cycle-grid">
         {dimensions.map((dim) => (
           <div
             key={dim.cycle}
@@ -777,7 +764,7 @@ function TripleCycleCard({
             <div>
               <div className="real-crowd-head" style={{ marginBottom: 6 }}>
                 <div>
-                  <span style={{ ...S.kMono, display: 'block', fontSize: 9 }}>{dim.logic || '周期逻辑'}</span>
+                  <span className="optics-kmono" style={{ display: 'block', fontSize: 9 }}>{dim.logic || '周期逻辑'}</span>
                   <span className="real-crowd-title" style={{ fontSize: 16 }}>{dim.cycle}</span>
                 </div>
                 <span className={`crowd-badge ${cycleBadge(dim.status)}`}>{cycleArrow(dim.status)}</span>
@@ -788,7 +775,7 @@ function TripleCycleCard({
               <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 6 }}>
                 核心变量：{dim.keyVars}
               </div>
-              <div style={{ ...S.reading, marginTop: 10, fontSize: 12 }}>{dim.detail}</div>
+              <div className="optics-reading" style={{ marginTop: 10, fontSize: 12 }}>{dim.detail}</div>
             </div>
           </div>
         ))}
@@ -813,17 +800,17 @@ function DriverBom({
   bom?: { coreConflict?: string; note?: string; items: BomItem[] };
 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
+    <div className="optics-driver-bom-grid">
       {/* 驱动力切换 */}
       <div className="card" style={{ padding: '22px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={S.kMono}>DRIVER SHIFT · 需求来源切换</span>
+            <span className="optics-kmono">DRIVER SHIFT · 需求来源切换</span>
             <span className="crowd-badge neutral">电信 ➔ AI 算力</span>
           </div>
 
           {!driver ? (
-            <div style={S.reading}>{EMPTY}</div>
+            <div className="optics-reading">{EMPTY}</div>
           ) : (
             <>
               <div
@@ -896,7 +883,7 @@ function DriverBom({
 
               {driver.marketScale && (
                 <div style={{ marginTop: 14, padding: '10px 12px', background: 'color-mix(in srgb, var(--amber) 6%, transparent)', borderRadius: 'var(--radius-sharp)' }}>
-                  <div style={S.kMono}>全球市场规模（卖方预测）</div>
+                  <div className="optics-kmono">全球市场规模（卖方预测）</div>
                   <div style={{ fontSize: 12, color: 'var(--text)', lineHeight: 1.6, marginTop: 4 }}>
                     {driver.marketScale}
                   </div>
@@ -905,7 +892,7 @@ function DriverBom({
 
               {driver.coreTrackers && (
                 <div style={{ marginTop: 14 }}>
-                  <div style={S.kMono}>核心跟踪指标</div>
+                  <div className="optics-kmono">核心跟踪指标</div>
                   <ul style={{ margin: '6px 0 0', paddingLeft: 16, color: 'var(--text-dim)', fontSize: 12, lineHeight: 1.65 }}>
                     {driver.coreTrackers.map((tr) => (
                       <li key={tr}>{tr}</li>
@@ -922,7 +909,7 @@ function DriverBom({
       <div className="card" style={{ padding: '22px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={S.kMono}>VALUE CHAIN · 成本结构与利润分布</span>
+            <span className="optics-kmono">VALUE CHAIN · 成本结构与利润分布</span>
             <span className="crowd-badge danger">组装门槛下移 · 芯片供给约束</span>
           </div>
 
@@ -945,7 +932,7 @@ function DriverBom({
           )}
 
           {!bom?.items?.length ? (
-            <div style={S.reading}>{EMPTY}</div>
+            <div className="optics-reading">{EMPTY}</div>
           ) : (
             <div style={{ marginTop: 14 }}>
               {bom.items.map((row) => (
@@ -968,7 +955,7 @@ function DriverBom({
                       {row.share} · 毛利 {row.margin}
                     </span>
                   </div>
-                  <div style={S.barTrack}>
+                  <div className="optics-bar-track">
                     <div
                       style={{
                         width: `${shareWidth(row.share)}%`,
@@ -1000,7 +987,7 @@ function TechRoadmap({ matrix }: { matrix?: { trapWarning?: string; routes: Tech
   return (
     <div className="card" style={{ padding: '22px 20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
-        <div style={S.kMono}>TECH ROADMAP MATRIX · 多路径并行</div>
+        <div className="optics-kmono">TECH ROADMAP MATRIX · 多路径并行</div>
         <span className="crowd-badge neutral">可插拔与硅光为近端主要路径</span>
       </div>
 

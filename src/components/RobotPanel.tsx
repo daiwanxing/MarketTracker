@@ -1,7 +1,8 @@
-import { useState, useMemo, type CSSProperties } from 'react';
+import { useState, useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
+import { clamp, max, min, orderBy } from 'lodash-es';
 import heroRobot from '../assets/hero-robot.jpg';
 import robotData from '../data/robotData.json';
 import { useReveal } from '../hooks/useReveal';
@@ -17,168 +18,6 @@ const BENCH_SERIES = [
 ] as const;
 
 type BenchKey = (typeof BENCH_SERIES)[number]['key'];
-
-const S = {
-  anchorCard: {
-    background: 'rgba(240, 240, 250, 0.04)',
-    border: '1px solid rgba(240, 240, 250, 0.14)',
-    borderRadius: '4px',
-    padding: '20px 24px',
-    marginBottom: '24px',
-  } as CSSProperties,
-  anchorHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    flexWrap: 'wrap',
-    gap: '12px',
-    marginBottom: '10px',
-  } as CSSProperties,
-  anchorTitle: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '18px',
-    fontWeight: 700,
-    letterSpacing: '0.8px',
-    color: 'var(--text)',
-  } as CSSProperties,
-  anchorThesis: {
-    fontSize: '14px',
-    color: 'var(--text-dim)',
-    lineHeight: 1.6,
-    marginBottom: '18px',
-  } as CSSProperties,
-  kpiGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))',
-    gap: '12px',
-    borderTop: '1px solid var(--line)',
-    paddingTop: '16px',
-  } as CSSProperties,
-  kpiItem: {
-    padding: '10px 14px',
-    background: 'rgba(0, 0, 0, 0.3)',
-    border: '1px solid rgba(240, 240, 250, 0.08)',
-    borderRadius: '4px',
-  } as CSSProperties,
-  kpiLabel: {
-    fontSize: '11px',
-    fontFamily: 'var(--font-mono)',
-    color: 'var(--text-faint)',
-    letterSpacing: '0.5px',
-    textTransform: 'uppercase',
-  } as CSSProperties,
-  kpiValRow: {
-    display: 'flex',
-    alignItems: 'baseline',
-    gap: '8px',
-    marginTop: '4px',
-  } as CSSProperties,
-  kpiVal: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '24px',
-    fontWeight: 700,
-    color: 'var(--text)',
-  } as CSSProperties,
-  kpiChg: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '13px',
-    fontWeight: 700,
-    color: 'var(--up)',
-  } as CSSProperties,
-  kpiSub: {
-    fontSize: '11px',
-    color: 'var(--text-dim)',
-    marginTop: '4px',
-    lineHeight: 1.4,
-  } as CSSProperties,
-  sixGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
-    gap: '16px',
-    marginBottom: '32px',
-  } as CSSProperties,
-  dimCard: {
-    background: 'var(--ghost-surface)',
-    border: '1px solid var(--ghost-border)',
-    borderRadius: '4px',
-    padding: '20px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  } as CSSProperties,
-  dimHead: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    gap: '12px',
-    marginBottom: '8px',
-  } as CSSProperties,
-  dimNumName: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '17px',
-    fontWeight: 700,
-    letterSpacing: '0.6px',
-    color: 'var(--text)',
-  } as CSSProperties,
-  analogyTag: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '10.5px',
-    padding: '2px 8px',
-    background: 'rgba(56, 189, 248, 0.12)',
-    border: '1px solid rgba(56, 189, 248, 0.28)',
-    borderRadius: '2px',
-    color: '#7dd3fc',
-    whiteSpace: 'nowrap',
-  } as CSSProperties,
-  dimMetric: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-faint)',
-    marginBottom: '14px',
-  } as CSSProperties,
-  chartBox: {
-    background: 'rgba(0, 0, 0, 0.35)',
-    border: '1px solid rgba(240, 240, 250, 0.08)',
-    borderRadius: '4px',
-    padding: '14px',
-    marginBottom: '14px',
-  } as CSSProperties,
-  readingText: {
-    fontSize: '13px',
-    color: 'var(--text)',
-    lineHeight: 1.6,
-    marginBottom: '10px',
-  } as CSSProperties,
-  sourceLabel: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '10.5px',
-    color: 'var(--text-faint)',
-    marginBottom: '12px',
-  } as CSSProperties,
-  signalBox: {
-    borderTop: '1px solid var(--line)',
-    paddingTop: '10px',
-    display: 'flex',
-    gap: '8px',
-    alignItems: 'baseline',
-  } as CSSProperties,
-  signalTag: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '10px',
-    fontWeight: 700,
-    padding: '2px 6px',
-    borderRadius: '2px',
-    background: 'rgba(245, 197, 66, 0.15)',
-    color: 'var(--amber)',
-    border: '1px solid rgba(245, 197, 66, 0.3)',
-    whiteSpace: 'nowrap',
-  } as CSSProperties,
-  signalText: {
-    fontSize: '12px',
-    color: 'rgba(240, 240, 250, 0.85)',
-    lineHeight: 1.5,
-  } as CSSProperties,
-};
 
 export default function RobotPanel() {
   const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, timelineTitle, timelineHint, timeline, footer } = robotData;
@@ -295,8 +134,8 @@ export default function RobotPanel() {
   }, [activeTab, isOverlay, norm, dates, activeColor, activeSeriesMeta]);
 
   const activeSeriesData = (norm[activeTab] as number[]) || [];
-  const statMax = activeSeriesData.length ? Math.max(...activeSeriesData) : 0;
-  const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
+  const statMax = max(activeSeriesData) ?? 0;
+  const statMin = min(activeSeriesData) ?? 0;
   const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
   const csLatest = (norm.csRobot as number[])?.[dates.length - 1] ?? 0;
   const roboLatest = (norm.robo as number[])?.[dates.length - 1] ?? 0;
@@ -330,7 +169,7 @@ export default function RobotPanel() {
   ];
 
   const sortedTimeline = useMemo(() => {
-    return [...(timeline || [])].sort((a, b) => b.date.localeCompare(a.date));
+    return orderBy(timeline || [], ['date'], ['desc']);
   }, [timeline]);
 
   const crowdZone = crowding.zone || 'neutral';
@@ -493,7 +332,7 @@ export default function RobotPanel() {
             <div className="gauge-track" aria-hidden="true">
               <div
                 className={`gauge-fill ${crowdZone}`}
-                style={{ width: `${Math.max(4, Math.min(100, (crowding.turnoverShare.value / 4.5) * 100))}%` }}
+                style={{ width: `${clamp((crowding.turnoverShare.value / 4.5) * 100, 4, 100)}%` }}
               />
             </div>
             <div className="gauge-marks">
@@ -596,24 +435,24 @@ export default function RobotPanel() {
           产业落地核心判断锚点
           <span className="hint">制造场景渗透与单位经济性</span>
         </h2>
-        <div style={S.anchorCard}>
-          <div style={S.anchorHeader}>
-            <div style={S.anchorTitle}>核心判断锚点 · 工业与商业规模化落地标准</div>
+        <div className="card robot-anchor-card">
+          <div className="robot-anchor-header">
+            <div className="robot-anchor-title">核心判断锚点 · 工业与商业规模化落地标准</div>
             <span className="crowd-badge cold" style={{ fontSize: '11px' }}>
               严格遵循机构验证准则
             </span>
           </div>
-          <div style={S.anchorThesis}>{anchor.thesis}</div>
+          <div className="robot-anchor-thesis">{anchor.thesis}</div>
 
-          <div style={S.kpiGrid}>
+          <div className="robot-kpi-grid">
             {anchor.kpis.map((kpi) => (
-              <div style={S.kpiItem} key={kpi.id}>
-                <div style={S.kpiLabel}>{kpi.label}</div>
-                <div style={S.kpiValRow}>
-                  <span style={S.kpiVal} className="num">{kpi.value}</span>
-                  <span style={S.kpiChg} className="num">{kpi.chg}</span>
+              <div className="robot-kpi-item" key={kpi.id}>
+                <div className="robot-kpi-label">{kpi.label}</div>
+                <div className="robot-kpi-val-row">
+                  <span className="robot-kpi-val num">{kpi.value}</span>
+                  <span className="robot-kpi-chg num">{kpi.chg}</span>
                 </div>
-                <div style={S.kpiSub}>{kpi.sub}</div>
+                <div className="robot-kpi-sub">{kpi.sub}</div>
               </div>
             ))}
           </div>
@@ -625,19 +464,19 @@ export default function RobotPanel() {
           <span className="hint">半导体周期框架迁移 · 紧扣出货、订单、成本、产能、良率与财务闭环</span>
         </h2>
 
-        <div style={S.sixGrid}>
+        <div className="robot-six-grid">
           {dimensions.map((dim) => (
-            <div style={S.dimCard} key={dim.id}>
+            <div className="card robot-dim-card" key={dim.id}>
               <div>
                 {/* 维度头部 */}
-                <div style={S.dimHead}>
-                  <span style={S.dimNumName}>{dim.name}</span>
-                  <span style={S.analogyTag}>对照：{dim.analogy}</span>
+                <div className="robot-dim-head">
+                  <span className="robot-dim-name">{dim.name}</span>
+                  <span className="robot-analogy-tag">对照：{dim.analogy}</span>
                 </div>
-                <div style={S.dimMetric}>指标：{dim.metrics}</div>
+                <div className="robot-dim-metric">指标：{dim.metrics}</div>
 
                 {/* 维度专属内联可视化图表 */}
-                <div style={S.chartBox}>
+                <div className="robot-chart-box">
                   {dim.id === 'volume' && dim.penetration && (
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-dim)', marginBottom: 6, flexWrap: 'wrap', gap: '4px' }}>
@@ -736,7 +575,7 @@ export default function RobotPanel() {
                               <div
                                 style={{
                                   height: '100%',
-                                  width: `${Math.min(100, Math.log10(s.val + 1) * 23)}%`,
+                                  width: `${clamp(Math.log10(s.val + 1) * 23, 0, 100)}%`,
                                   background: s.stage.includes('实际') ? '#4ade80' : s.stage.includes('目标') ? '#f5c542' : 'rgba(240, 240, 250, 0.35)',
                                   borderRadius: 2,
                                 }}
@@ -804,14 +643,14 @@ export default function RobotPanel() {
                 </div>
 
                 {/* 披露事实阅读 */}
-                <div style={S.readingText}>{dim.reading}</div>
-                <div style={S.sourceLabel}>数据来源：{dim.source}</div>
+                <div className="robot-reading-text">{dim.reading}</div>
+                <div className="robot-source-label">数据来源：{dim.source}</div>
               </div>
 
               {/* 观察触发条件 */}
-              <div style={S.signalBox}>
-                <span style={S.signalTag}>观察条件</span>
-                <span style={S.signalText}>{dim.signal}</span>
+              <div className="robot-signal-box">
+                <span className="robot-signal-tag">观察条件</span>
+                <span className="robot-signal-text">{dim.signal}</span>
               </div>
             </div>
           ))}

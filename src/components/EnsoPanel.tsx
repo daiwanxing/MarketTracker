@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { orderBy } from 'lodash-es';
 import ensoData from '../data/ensoData.json';
 import heroEnso from '../assets/hero-enso.jpg';
 import { useReveal } from '../hooks/useReveal';
@@ -78,18 +79,15 @@ export default function EnsoPanel() {
   } = ensoData;
 
   const sortedTimeline = useMemo(() => {
-    return [...(timeline || [])]
-      .sort((a, b) => {
-        const normalize = (d: string) => {
-          if (d.includes('/')) {
-            const parts = d.split('/');
-            return `2026-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
-          }
-          return d;
-        };
-        return normalize(b.date || '').localeCompare(normalize(a.date || ''));
-      })
-      .slice(0, 10);
+    const normalizeDate = (item: { date?: string }) => {
+      const d = item.date || '';
+      if (d.includes('/')) {
+        const parts = d.split('/');
+        return `2026-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+      }
+      return d;
+    };
+    return orderBy(timeline || [], [normalizeDate], ['desc']).slice(0, 10);
   }, [timeline]);
 
   return (

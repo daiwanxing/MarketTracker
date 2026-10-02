@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { sortBy } from 'lodash-es';
 
 /**
  * 滚动渐显（SpaceX token 的克制入场动效）
@@ -21,8 +22,8 @@ export function useReveal<T extends HTMLElement>() {
       (entries) => {
         const hit = entries.filter((e) => e.isIntersecting).map((e) => e.target as HTMLElement);
         if (!hit.length) return;
-        hit.sort((a, b) => (Number(a.dataset.i) || 0) - (Number(b.dataset.i) || 0));
-        hit.forEach((t, idx) => {
+        const sortedHit = sortBy(hit, (t) => Number(t.dataset.i) || 0);
+        sortedHit.forEach((t, idx) => {
           t.style.transitionDelay = idx * 0.06 + 's';
           t.classList.add('in');
           io.unobserve(t);

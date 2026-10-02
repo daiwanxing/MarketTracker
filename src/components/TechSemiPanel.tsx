@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
+import { clamp, keyBy, max, min, orderBy } from 'lodash-es';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
 import { resolveMarketClock, type MarketClockItem } from '../utils/marketClock';
@@ -199,17 +200,12 @@ export default function TechSemiPanel() {
 
   const clockMap = useMemo(() => {
     const list = dynamicClock?.marketClock ?? data.closingReview?.marketClock ?? [];
-    const map: Record<'star50' | 'sox' | 'kospi', (typeof list)[0] | undefined> = {
-      star50: undefined,
-      sox: undefined,
-      kospi: undefined,
+    const bySymbol = keyBy(list, 'symbol');
+    return {
+      star50: bySymbol['000688.SS'],
+      sox: bySymbol['^SOX'],
+      kospi: bySymbol['^KS11'],
     };
-    for (const item of list) {
-      if (item.symbol === '000688.SS') map.star50 = item;
-      else if (item.symbol === '^SOX') map.sox = item;
-      else if (item.symbol === '^KS11') map.kospi = item;
-    }
-    return map;
   }, [dynamicClock, data.closingReview]);
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
@@ -226,9 +222,7 @@ export default function TechSemiPanel() {
 
   // 新闻动态：统一按日期降序排序，并严格截取前 10 条
   const sortedTimeline = useMemo(() => {
-    return [...(data.timeline || [])]
-      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-      .slice(0, 10);
+    return orderBy(data.timeline || [], ['date'], ['desc']).slice(0, 10);
   }, [data.timeline]);
 
   const activeColor = activeTab === 'star50' ? '#F5C542' : (activeTab === 'sox' ? '#38bdf8' : '#f43f5e');
@@ -321,8 +315,8 @@ export default function TechSemiPanel() {
   }, [activeTab, isOverlay, norm, dates, activeColor, activeSeriesMeta]);
 
   const activeSeriesData = (norm[activeTab] as number[]) || [];
-  const statMax = activeSeriesData.length ? Math.max(...activeSeriesData) : 0;
-  const statMin = activeSeriesData.length ? Math.min(...activeSeriesData) : 0;
+  const statMax = max(activeSeriesData) ?? 0;
+  const statMin = min(activeSeriesData) ?? 0;
   const statLatest = activeSeriesData.length ? activeSeriesData[activeSeriesData.length - 1] : 0;
 
   const tabConfigs: Array<{
@@ -554,7 +548,7 @@ export default function TechSemiPanel() {
                 <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
               </div>
               <div className="gauge-track" aria-hidden="true">
-                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${Math.max(4, Math.min(100, (share / 50) * 100))}%` }} />
+                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${clamp((share / 50) * 100, 4, 100)}%` }} />
               </div>
               <div className="gauge-marks">
                 <span>20 冰点外</span>

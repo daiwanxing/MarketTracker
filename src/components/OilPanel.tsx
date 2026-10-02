@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
+import { orderBy } from 'lodash-es';
 import oilData from '../data/oilData.json';
 import heroOil from '../assets/hero-oil.jpg';
 import { useLiveQuotes } from '../hooks/useLiveQuotes';
@@ -31,9 +32,7 @@ export default function OilPanel() {
   const displayQuotes = liveOil?.quotes ? { ...metrics.main.quotes, ...liveOil.quotes } : metrics.main.quotes;
 
   const sortedTimeline = useMemo(() => {
-    return [...(timeline || [])]
-      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-      .slice(0, 10);
+    return orderBy(timeline || [], ['date'], ['desc']).slice(0, 10);
   }, [timeline]);
 
   const mainOpt: EChartsOption = {
