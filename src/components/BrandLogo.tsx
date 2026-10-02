@@ -78,36 +78,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         className="brand-logo-frame"
       />
 
-      {/* 四角航天控制台测距卡座 (HUD Telemetry Brackets) */}
-      <path
-        d="M 4 8.5 V 5.5 C 4 4.67 4.67 4 5.5 4 H 8.5"
-        stroke="rgba(240, 240, 250, 0.8)"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        className="brand-logo-bracket"
-      />
-      <path
-        d="M 23.5 4 H 26.5 C 27.33 4 28 4.67 28 5.5 V 8.5"
-        stroke="rgba(240, 240, 250, 0.8)"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        className="brand-logo-bracket"
-      />
-      <path
-        d="M 4 23.5 V 26.5 C 4 27.33 4.67 28 5.5 28 H 8.5"
-        stroke="rgba(240, 240, 250, 0.55)"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        className="brand-logo-bracket"
-      />
-      <path
-        d="M 23.5 28 H 26.5 C 27.33 28 28 27.33 28 26.5 V 23.5"
-        stroke="rgba(240, 240, 250, 0.55)"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        className="brand-logo-bracket"
-      />
-
       {/* 坐标基准刻度网格：「The grid carries weight」 */}
       <line
         x1="5"

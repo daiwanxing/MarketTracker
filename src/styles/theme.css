@@ -486,6 +486,7 @@ body {
   line-height: 1.45;
   margin-top: 8px;
   text-transform: uppercase;
+  word-break: break-word;
 }
 .node .t a {
   display: inline-flex;
@@ -511,12 +512,14 @@ body {
   line-height: 1.75;
   margin-top: 6px;
   letter-spacing: 0.15px;
+  word-break: break-word;
 }
 .node .src {
   font-family: var(--font-mono);
   font-size: 11px;
   color: rgba(240, 240, 250, 0.45);
   margin-top: 6px;
+  word-break: break-word;
 }
 
 /* ===== 最新要闻 ===== */
@@ -699,6 +702,8 @@ body {
   .content { max-width: 100%; }
 }
 @media (max-width: 600px) {
+  .hero { min-height: 160px; }
+  .hero-main h1 { font-size: 28px; }
   .main { padding: 24px 14px calc(40px + env(safe-area-inset-bottom, 0px)); }
   .head h1 { font-size: 22px; }
   .sec-title { font-size: 16px; margin: 32px 0 14px; }
@@ -721,6 +726,8 @@ body {
   .hero-meta { font-size: 11px; }
   .metric-main .num { font-size: 32px; }
   .ssi-num { font-size: 32px; }
+  .legend { flex-wrap: wrap; gap: 8px 12px; }
+  .legend .spdr-latest { margin-left: 0; width: 100%; }
 }
 
 /* ===== 黄金板块 · 决策导向改造（v2） ===== */
@@ -767,6 +774,12 @@ body {
 /* 市场情绪与赔率 */
 .sent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
 .sent-card { padding: 20px 22px; }
+@media (max-width: 600px) {
+  .sent-card { padding: 16px 14px; }
+  .plan-card { padding: 16px 14px; }
+  .cpc-card { padding: 14px 14px; }
+  .view { padding: 18px 16px; }
+}
 .sent-h { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--text); margin-bottom: 14px; }
 .ssi-main { display: flex; align-items: baseline; gap: 12px; }
 .ssi-num { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--text); line-height: 1; }
@@ -918,6 +931,14 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .real-crowd-card { padding: 16px 14px; }
+  .real-crowd-val { font-size: 30px; }
+  .anomaly-grid, .base-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .crowd-badge.unknown {
   color: var(--text-faint);
@@ -1278,6 +1299,7 @@ body {
   .index-tab-button {
     border-right: none;
     border-bottom: 1px solid var(--line);
+    padding: 10px 14px;
   }
   .index-tab-button:last-child {
     border-bottom: none;
@@ -1360,7 +1382,7 @@ body {
   border-radius: var(--radius-sharp);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .cross-market-strip {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1729,7 +1751,7 @@ body {
   user-select: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 680px) {
   .transmission-pipeline {
     grid-template-columns: 1fr;
     gap: 6px;
@@ -1886,7 +1908,8 @@ body {
 .item-threshold-box {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   padding: 6px 10px;
   background: rgba(240, 240, 250, 0.03);
   border: 1px solid rgba(240, 240, 250, 0.06);
