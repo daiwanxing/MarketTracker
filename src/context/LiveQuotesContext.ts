@@ -19,6 +19,11 @@ export interface LiveQuotesData {
     star50: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     kospi: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
   };
+  robot?: {
+    csRobot: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    botz: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    tsla: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+  };
 }
 
 export interface LiveQuotesContextValue {

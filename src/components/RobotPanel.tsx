@@ -5,6 +5,8 @@ import { ArrowUpRight } from 'lucide-react';
 import heroRobot from '../assets/hero-robot.jpg';
 import robotData from '../data/robotData.json';
 import { useReveal } from '../hooks/useReveal';
+import { useLiveQuotes } from '../hooks/useLiveQuotes';
+import { getBeijingTime, isUSDaylightSaving, getStar50Status, getSoxStatus } from '../utils/marketClock';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
@@ -187,6 +189,19 @@ const S = {
 export default function RobotPanel() {
   const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
   const tlRef = useReveal<HTMLDivElement>();
+  const { liveQuotes, isLive } = useLiveQuotes();
+  const robotQuotes = liveQuotes?.robot;
+
+  const clockInfo = useMemo(() => {
+    const now = new Date();
+    const bj = getBeijingTime(now);
+    const isDst = isUSDaylightSaving(now);
+    return {
+      csRobot: getStar50Status(bj),
+      botz: getSoxStatus(bj, isDst),
+      tsla: getSoxStatus(bj, isDst),
+    };
+  }, []);
 
   const [activeTab, setActiveTab] = useState<BenchKey>('csRobot');
   const [isOverlay, setIsOverlay] = useState(true);
@@ -293,29 +308,42 @@ export default function RobotPanel() {
   const tslaLatest = (norm.tsla as number[])?.[dates.length - 1] ?? 0;
   const spreadUsChina = tslaLatest - csLatest;
 
-  const tabConfigs: Array<{
-    key: BenchKey;
-    name: string;
-    symbol: string;
-    bench: (typeof benchmarks)[BenchKey];
-  }> = [
+  const tabConfigs = [
     {
-      key: 'csRobot',
+      key: 'csRobot' as const,
       name: benchmarks.csRobot.name,
       symbol: benchmarks.csRobot.symbol,
-      bench: benchmarks.csRobot,
+      bench: {
+        ...benchmarks.csRobot,
+        price: robotQuotes?.csRobot?.price ?? benchmarks.csRobot.price,
+        chg: robotQuotes?.csRobot?.chg || benchmarks.csRobot.chg,
+        chgClass: robotQuotes?.csRobot?.chgClass || benchmarks.csRobot.chgClass,
+      },
+      clock: clockInfo.csRobot,
     },
     {
-      key: 'botz',
+      key: 'botz' as const,
       name: benchmarks.botz.name,
       symbol: benchmarks.botz.symbol,
-      bench: benchmarks.botz,
+      bench: {
+        ...benchmarks.botz,
+        price: robotQuotes?.botz?.price ?? benchmarks.botz.price,
+        chg: robotQuotes?.botz?.chg || benchmarks.botz.chg,
+        chgClass: robotQuotes?.botz?.chgClass || benchmarks.botz.chgClass,
+      },
+      clock: clockInfo.botz,
     },
     {
-      key: 'tsla',
+      key: 'tsla' as const,
       name: benchmarks.tsla.name,
       symbol: benchmarks.tsla.symbol,
-      bench: benchmarks.tsla,
+      bench: {
+        ...benchmarks.tsla,
+        price: robotQuotes?.tsla?.price ?? benchmarks.tsla.price,
+        chg: robotQuotes?.tsla?.chg || benchmarks.tsla.chg,
+        chgClass: robotQuotes?.tsla?.chgClass || benchmarks.tsla.chgClass,
+      },
+      clock: clockInfo.tsla,
     },
   ];
 
@@ -339,7 +367,10 @@ export default function RobotPanel() {
             <p className="hero-lead">{head.sub}</p>
           </div>
           <div className="hero-aside">
-            <span className="hero-meta"><b>数据截至：{head.asOf}</b></span>
+            <span className="hero-meta">
+              <b>数据截至：{head.asOf}</b>
+              {isLive && <span style={{ marginLeft: 8, color: '#38bdf8', fontSize: '11px' }}>● 边缘实时连线</span>}
+            </span>
             <span className="hero-meta" style={{ opacity: 0.8 }}>{head.framework}</span>
           </div>
         </div>
@@ -379,6 +410,9 @@ export default function RobotPanel() {
               const priceDisplay = typeof tc.bench.price === 'number'
                 ? tc.bench.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 3 })
                 : tc.bench.price;
+              const chgClass = tc.bench.chgClass || (tc.bench.chg?.startsWith('+') ? 'up' : (tc.bench.chg?.startsWith('-') ? 'down' : ''));
+              const statusClass = tc.clock.status.toLowerCase();
+              const statusLabel = tc.clock.statusLabel;
 
               return (
                 <button
@@ -394,11 +428,11 @@ export default function RobotPanel() {
                       <span className="index-tab-name">{tc.name}</span>
                       <span className="index-tab-sym">{tc.symbol}</span>
                     </div>
-                    <span className="index-tab-status closed">基准收盘</span>
+                    <span className={`index-tab-status ${statusClass}`}>{statusLabel}</span>
                   </div>
                   <div className="index-tab-data-row">
                     <span className="index-tab-price">{priceDisplay}</span>
-                    <span className={`index-tab-chg ${tc.bench.chgClass || 'up'}`}>{tc.bench.chg}</span>
+                    <span className={`index-tab-chg ${chgClass}`}>{tc.bench.chg}</span>
                   </div>
                 </button>
               );

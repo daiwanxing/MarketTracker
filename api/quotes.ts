@@ -49,6 +49,32 @@ const FALLBACK = {
       previousClose: 6889.74,
     },
   },
+  robot: {
+    csRobot: {
+      name: '中证机器人 ETF',
+      symbol: '562500.SH',
+      price: 0.897,
+      chg: '-0.33%',
+      chgClass: 'down' as const,
+      previousClose: 0.900,
+    },
+    botz: {
+      name: '全球机器人与AI ETF',
+      symbol: 'BOTZ',
+      price: 35.43,
+      chg: '+0.57%',
+      chgClass: 'up' as const,
+      previousClose: 35.23,
+    },
+    tsla: {
+      name: '特斯拉 (TSLA)',
+      symbol: 'TSLA',
+      price: 354.11,
+      chg: '-0.20%',
+      chgClass: 'down' as const,
+      previousClose: 354.81,
+    },
+  },
 };
 
 /**
@@ -134,8 +160,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
-  // 并发抓取核心标的（美股、亚太、大宗商品、宏观利率）
-  const [soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes] =
+  // 并发抓取核心标的（美股、亚太、大宗商品、宏观利率、机器人）
+  const [soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, botzRes, tslaRes] =
     await Promise.allSettled([
       fetchYahooQuote('^SOX'),
       fetchYahooQuote('^KS11'),
@@ -146,6 +172,9 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       fetchYahooQuote('GC=F'),
       fetchYahooQuote('^TNX'),
       fetchSpotGold(),
+      fetchYahooQuote('562500.SS'),
+      fetchYahooQuote('BOTZ'),
+      fetchYahooQuote('TSLA'),
     ]);
 
   const sox = soxRes.status === 'fulfilled' ? soxRes.value : null;
@@ -157,6 +186,9 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const gc = gcRes.status === 'fulfilled' ? gcRes.value : null;
   const tnx = tnxRes.status === 'fulfilled' ? tnxRes.value : null;
   const spotGold = spotGoldRes.status === 'fulfilled' ? spotGoldRes.value : null;
+  const csRobot = csRobotRes.status === 'fulfilled' ? csRobotRes.value : null;
+  const botz = botzRes.status === 'fulfilled' ? botzRes.value : null;
+  const tsla = tslaRes.status === 'fulfilled' ? tslaRes.value : null;
 
   // 1. 科技半导体组装
   const fbSemi = FALLBACK.techSemi;
@@ -209,6 +241,35 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     us10y: tnx?.price ?? fbGold.quotes.us10y,
   };
 
+  // 4. 机器人组装
+  const fbRobot = FALLBACK.robot;
+  const robotData = {
+    csRobot: {
+      name: fbRobot.csRobot.name,
+      symbol: fbRobot.csRobot.symbol,
+      price: csRobot?.price ?? fbRobot.csRobot.price,
+      chg: csRobot?.chg || fbRobot.csRobot.chg,
+      chgClass: csRobot?.chgClass || fbRobot.csRobot.chgClass,
+      previousClose: csRobot?.previousClose ?? fbRobot.csRobot.previousClose,
+    },
+    botz: {
+      name: fbRobot.botz.name,
+      symbol: fbRobot.botz.symbol,
+      price: botz?.price ?? fbRobot.botz.price,
+      chg: botz?.chg || fbRobot.botz.chg,
+      chgClass: botz?.chgClass || fbRobot.botz.chgClass,
+      previousClose: botz?.previousClose ?? fbRobot.botz.previousClose,
+    },
+    tsla: {
+      name: fbRobot.tsla.name,
+      symbol: fbRobot.tsla.symbol,
+      price: tsla?.price ?? fbRobot.tsla.price,
+      chg: tsla?.chg || fbRobot.tsla.chg,
+      chgClass: tsla?.chgClass || fbRobot.tsla.chgClass,
+      previousClose: tsla?.previousClose ?? fbRobot.tsla.previousClose,
+    },
+  };
+
   return res.status(200).json({
     status: 'ok',
     asOf: new Date().toISOString(),
@@ -225,5 +286,6 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       quotes: goldQuotes,
     },
     techSemi: techSemiData,
+    robot: robotData,
   });
 }
