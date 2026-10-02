@@ -178,15 +178,10 @@ const S = {
     color: 'rgba(240, 240, 250, 0.85)',
     lineHeight: 1.5,
   } as CSSProperties,
-  compGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-    gap: '12px',
-  } as CSSProperties,
 };
 
 export default function RobotPanel() {
-  const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, components, timelineTitle, timelineHint, timeline, footer } = robotData;
+  const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, timelineTitle, timelineHint, timeline, footer } = robotData;
   const tlRef = useReveal<HTMLDivElement>();
   const { liveQuotes, isLive } = useLiveQuotes();
   const robotQuotes = liveQuotes?.robot;
@@ -825,33 +820,7 @@ export default function RobotPanel() {
           ))}
         </div>
 
-        {/* 6. 上游关键零部件供应链映射 */}
-        <h2 className="sec-title" style={{ marginTop: 36 }}>
-          上游核心硬件环节跟踪
-          <span className="hint">丝杠、传感器、减速器与伺服电机披露更新</span>
-        </h2>
-
-        <div style={S.compGrid}>
-          {components.map((c) => (
-            <div className="card real-crowd-card" key={c.k}>
-              <div className="real-crowd-head">
-                <span className="real-crowd-title">{c.k}</span>
-                <span className={`crowd-badge ${c.status === 'watching' ? 'hot' : 'neutral'}`}>{c.badge}</span>
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-faint)', marginBottom: 6 }}>
-                {c.en}
-              </div>
-              <div className="real-crowd-desc" style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: 8 }}>
-                <b>核心指标：</b>{c.metric}
-              </div>
-              <div className="real-crowd-detail" style={{ fontSize: '12px', lineHeight: 1.5, color: 'var(--text)' }}>
-                {c.reading}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* 7. 具身智能与人形机器人产业大事记 */}
+        {/* 6. 具身智能与人形机器人产业大事记 */}
         {sortedTimeline.length > 0 && (
           <>
             <h2 className="sec-title" style={{ marginTop: 36 }}>
