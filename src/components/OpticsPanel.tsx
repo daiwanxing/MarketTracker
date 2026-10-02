@@ -687,7 +687,9 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
                       background: it.id === activeId ? 'rgba(240,240,250,0.18)' : 'rgba(240,240,250,0.05)',
                       border: `1px solid ${it.id === activeId ? 'var(--ghost-border-hover)' : 'var(--line)'}`,
                       color: it.id === activeId ? '#fff' : 'var(--text-dim)',
-                      padding: '4px 10px',
+                      padding: '6px 12px',
+                      minHeight: 32,
+                      WebkitTapHighlightColor: 'transparent',
                       borderRadius: 'var(--radius-sharp)',
                       cursor: 'pointer',
                       fontSize: 11,
@@ -830,7 +832,7 @@ function DriverBom({
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr auto 1fr',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 130px), 1fr))',
                   gap: 12,
                   alignItems: 'start',
                   marginTop: 16,
@@ -862,10 +864,12 @@ function DriverBom({
                 <div
                   style={{
                     alignSelf: 'center',
+                    justifySelf: 'center',
                     fontFamily: 'var(--font-display)',
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: 700,
                     color: 'var(--amber)',
+                    padding: '4px 0',
                   }}
                 >
                   ➔
