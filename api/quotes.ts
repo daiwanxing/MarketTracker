@@ -82,14 +82,18 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     dxy: sinaMap.dxy ?? staticOilMetrics.quotes?.dxy,
   };
 
-  // 3. 黄金组装
+  // 3. 黄金组装（严格现货/期货同源隔离，现货严格取新浪 hf_XAU 原生价格与涨跌幅，杜绝期货冒充现货）
   const tcGc = tcMap['hf_GC'];
-  const staticGoldMetrics = goldData_metrics();
-  const staticUs10y = goldStatic.macro?.items?.find((item) => item.dim === 'rates')?.quote?.value;
-  const goldPriceNum = sinaMap.spotGold ?? tcGc?.price ?? parseFloat(String(staticGoldMetrics.num));
+  const staticGoldMetrics = goldStatic.metrics.main;
+  const staticUs10y = goldStatic.macro?.items?.find((item) => item.dim === 'rates')?.quote?.value ?? (staticGoldMetrics.quotes as { us10y?: number })?.us10y ?? 5.28;
+  const spotQuote = sinaMap.spotGold;
+
+  // 现货金：只取新浪 spotGold，降级严格取静态底包已核实真值，绝不取期货价格冒充现货
+  const goldPriceNum = spotQuote?.price ?? parseFloat(String(staticGoldMetrics.num));
   const goldPrice = goldPriceNum ? goldPriceNum.toFixed(2) : String(staticGoldMetrics.num);
-  const goldChg = tcGc?.chg || staticGoldMetrics.chg;
-  const goldChgClass = tcGc?.chgClass || staticGoldMetrics.chgClass;
+  const goldChg = spotQuote?.chg || staticGoldMetrics.chg;
+  const goldChgClass = spotQuote?.chgClass || staticGoldMetrics.chgClass;
+
   const goldQuotes = {
     gc: tcGc?.price ?? staticGoldMetrics.quotes?.gc,
     dxy: sinaMap.dxy ?? staticGoldMetrics.quotes?.dxy,
@@ -155,8 +159,4 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     techSemi: techSemiData,
     robot: robotData,
   });
-}
-
-function goldData_metrics() {
-  return goldStatic.metrics.main;
 }

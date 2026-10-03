@@ -19,7 +19,6 @@ Key: environment variable ``DS_API_KEY``.
 from __future__ import annotations
 
 import argparse
-import copy
 import json
 import os
 import re
@@ -31,7 +30,6 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta
-from email.utils import parsedate_to_datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 

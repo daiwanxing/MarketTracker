@@ -96,11 +96,8 @@ export function fetchEastmoneyCrowding(timeoutMs = 3000): Promise<SectorCrowding
           let robotZone = 'neutral';
           let robotLabel = '温和中位';
           if (robotShare >= 3.8) {
-            r_zone_assignment: {
-              robotZone = 'danger';
-              robotLabel = '极端过热';
-              break r_zone_assignment;
-            }
+            robotZone = 'danger';
+            robotLabel = '极端过热';
           } else if (robotShare >= 2.8) {
             robotZone = 'warning';
             robotLabel = '偏热';

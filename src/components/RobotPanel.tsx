@@ -3,6 +3,7 @@ import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import { clamp, max, min, orderBy } from 'lodash-es';
+import { useInterval } from 'ahooks';
 import heroRobot from '../assets/hero-robot.jpg';
 import robotData from '../data/robotData.json';
 import { useReveal } from '../hooks/useReveal';
@@ -25,16 +26,20 @@ export default function RobotPanel() {
   const { liveQuotes } = useLiveQuotes();
   const robotQuotes = liveQuotes?.robot;
 
+  const [currentTime, setCurrentTime] = useState(() => new Date());
+  useInterval(() => {
+    setCurrentTime(new Date());
+  }, 30000);
+
   const clockInfo = useMemo(() => {
-    const now = new Date();
-    const bj = getBeijingTime(now);
-    const isDst = isUSDaylightSaving(now);
+    const bj = getBeijingTime(currentTime);
+    const isDst = isUSDaylightSaving(currentTime);
     return {
       csRobot: getStar50Status(bj),
       robo: getSoxStatus(bj, isDst),
       tsla: getSoxStatus(bj, isDst),
     };
-  }, []);
+  }, [currentTime]);
 
   const [activeTab, setActiveTab] = useState<BenchKey>('csRobot');
   const [isOverlay, setIsOverlay] = useState(true);
@@ -175,9 +180,9 @@ export default function RobotPanel() {
   const liveRobotCrowd = robotQuotes?.crowding;
   const effectiveCrowding = useMemo(() => {
     if (liveRobotCrowd) {
-      const liveVal = liveRobotCrowd.value ?? (liveRobotCrowd as unknown as { turnoverShare?: { value?: number } }).turnoverShare?.value;
-      const liveRobot = liveRobotCrowd.robotAmountYi ?? (liveRobotCrowd as unknown as { turnoverShare?: { robotAmountYi?: number } }).turnoverShare?.robotAmountYi;
-      const liveMarket = liveRobotCrowd.marketAmountYi ?? (liveRobotCrowd as unknown as { turnoverShare?: { marketAmountYi?: number } }).turnoverShare?.marketAmountYi;
+      const liveVal = liveRobotCrowd.value;
+      const liveRobot = liveRobotCrowd.robotAmountYi;
+      const liveMarket = liveRobotCrowd.marketAmountYi;
       return {
         ...crowding,
         zone: liveRobotCrowd.zone || crowding?.zone,
@@ -498,17 +503,17 @@ export default function RobotPanel() {
                   {dim.id === 'volume' && dim.penetration && (
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-dim)', marginBottom: 6, flexWrap: 'wrap', gap: '4px' }}>
-                        <span>场景渗透率结构（2026H1）</span>
-                        <span>生产场景合计 <b>18.0%</b>（阈值 30%）</span>
+                        <span>场景渗透率结构</span>
+                        <span>生产场景合计 <b>{((dim.penetration.manufacturing || 0) + (dim.penetration.logistics || 0)).toFixed(1)}%</b>（阈值 {dim.penetration.target}%）</span>
                       </div>
                       <div style={{ height: 18, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 2, display: 'flex', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ width: '13%', background: '#ff6b6b' }} title="智能制造 13%" />
-                        <div style={{ width: '5%', background: '#38bdf8' }} title="仓储物流 5%" />
-                        <div style={{ width: '82%', background: 'rgba(240, 240, 250, 0.15)' }} title="文娱科研及其他 82%" />
+                        <div style={{ width: `${dim.penetration.manufacturing}%`, background: '#ff6b6b' }} title={`智能制造 ${dim.penetration.manufacturing}%`} />
+                        <div style={{ width: `${dim.penetration.logistics}%`, background: '#38bdf8' }} title={`仓储物流 ${dim.penetration.logistics}%`} />
+                        <div style={{ width: `${dim.penetration.other}%`, background: 'rgba(240, 240, 250, 0.15)' }} title={`文娱科研及其他 ${dim.penetration.other}%`} />
                         <div
                           style={{
                             position: 'absolute',
-                            left: '30%',
+                            left: `${dim.penetration.target}%`,
                             top: 0,
                             bottom: 0,
                             width: 2,
@@ -518,10 +523,10 @@ export default function RobotPanel() {
                         />
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-faint)', marginTop: 6, fontFamily: 'var(--font-mono)', flexWrap: 'wrap', gap: '4px 8px' }}>
-                        <span style={{ color: '#ff6b6b' }}>■ 智能制造 13%</span>
-                        <span style={{ color: '#38bdf8' }}>■ 仓储物流 5%</span>
-                        <span style={{ color: 'var(--amber)' }}>▲ 爆发观察线 30%</span>
-                        <span>□ 文娱商演等 82%</span>
+                        <span style={{ color: '#ff6b6b' }}>■ 智能制造 {dim.penetration.manufacturing}%</span>
+                        <span style={{ color: '#38bdf8' }}>■ 仓储物流 {dim.penetration.logistics}%</span>
+                        <span style={{ color: 'var(--amber)' }}>▲ 爆发观察线 {dim.penetration.target}%</span>
+                        <span>□ 文娱商演等 {dim.penetration.other}%</span>
                       </div>
                     </div>
                   )}

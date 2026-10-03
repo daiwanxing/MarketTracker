@@ -90,29 +90,6 @@ SYSTEM_PROMPT = """你是半导体与科技硬件行业卖方研究编辑，按�
       "url": "https://..."
     }
   ],
-  "signal": {
-    "verdict": "string（概括当前科技宏观主矛盾，结合价格走势、TMT 成交占比与资本开支）",
-    "sub": "string（阐明指标口径边界与观察维度）",
-    "bull": [
-      { "dim": "capex", "k": "...", "v": "..." },
-      { "dim": "foundry", "k": "...", "v": "..." },
-      { "dim": "substitute", "k": "...", "v": "..." }
-    ],
-    "bear": [
-      { "dim": "mature", "k": "...", "v": "..." },
-      { "dim": "geo", "k": "...", "v": "..." },
-      { "dim": "memory", "k": "...", "v": "..." }
-    ],
-    "watch": "string（以「 · 」连接 3–5 个待观察核心变量）"
-  },
-  "risks": [
-    {
-      "k": "变量名称（4-20 字）",
-      "level": "high | med | low",
-      "desc": "触发条件与产业链影响阐述（20-180 字）",
-      "src": "来源标注"
-    }
-  ],
   "closingReview": {
     "verdict": {
       "headline": "string（收盘定调标题，20-40字，点明核心主矛盾）",
@@ -195,10 +172,7 @@ SYSTEM_PROMPT = """你是半导体与科技硬件行业卖方研究编辑，按�
 1. events：只收录对半导体产业、产能、需求或供应链有实质增量的事实，最多 2 条。无新增事实时 events 为空数组 []。
 2. 每条 event 的 url 必须原样复制输入 headlines 里对应条目的 link，若无对应链接则留空字符串。
 3. event.tag 只能选：算力基础设施、制程产能、国产替代、行业周期、政策监管。
-4. signal.bull 必须包含 3 条，dim 依次为 capex, foundry, substitute。
-5. signal.bear 必须包含 3 条，dim 依次为 mature, geo, memory。
-6. risks 必须恰好 3 条，level 必须为 high, med 或 low。
-7. closingReview.pillars 必须恰好包含 crowding, liquidity, macro, industry 四大支柱，且四个 weight 之和必须精确等于 100。"""
+4. closingReview.pillars 必须恰好包含 crowding, liquidity, macro, industry 四大支柱，且四个 weight 之和必须精确等于 100。"""
 
 
 def log(level: str, message: str) -> None:
@@ -458,8 +432,8 @@ def call_deepseek(
     parsed = parse_model_json(content)
     if not isinstance(parsed.get("events"), list):
         raise ValueError("model JSON has no events array")
-    if not isinstance(parsed.get("signal"), dict) or not isinstance(parsed.get("risks"), list):
-        raise ValueError("model JSON missing signal or risks")
+    if not isinstance(parsed.get("closingReview"), dict) and not isinstance(parsed.get("signal"), dict):
+        raise ValueError("model JSON missing closingReview or signal")
     return parsed
 
 
@@ -851,11 +825,14 @@ def refresh_tech_semi_timeline(
         return 0
 
     events = [item for item in (normalize_event(row, rows) for row in payload.get("events", [])) if item]
-    signal = normalize_signal(payload.get("signal"))
-    risks = normalize_risks(payload.get("risks"))
-    if signal is None or risks is None:
-        log("WARN", "signal or risks failed validation; narrative left unchanged")
-        return 0
+    raw_sig = payload.get("signal")
+    raw_risks = payload.get("risks")
+    signal = normalize_signal(raw_sig) if raw_sig is not None else doc.get("signal")
+    risks = normalize_risks(raw_risks) if raw_risks is not None else doc.get("risks")
+    if signal is None:
+        signal = doc.get("signal")
+    if risks is None:
+        risks = doc.get("risks")
 
     now_shanghai = datetime.now(SHANGHAI)
     norm_cr = normalize_closing_review(payload.get("closingReview"), doc.get("closingReview"), now_shanghai)

@@ -541,9 +541,6 @@ def upsert_cpc(text: str, cpc: dict) -> str:
     return text[:idx] + f'\n  "cpc": {value}' + text[end:]
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
-
 
 def refresh(
     dry_run: bool = False,

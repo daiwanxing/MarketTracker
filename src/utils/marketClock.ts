@@ -285,8 +285,8 @@ function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
   const usOpenLabel = isDst ? '21:30' : '22:30';
   const usCloseLabel = isDst ? '04:00' : '05:00';
 
-  // 周六 15:00 之后到周日全天，到周一 08:00 之前属于周末休市窗口
-  if (day === 0 || (day === 6 && m >= 15 * 60) || (day === 1 && m < 8 * 60)) {
+  // 周六美股收盘后、周日全天、以及周一 08:00 之前属于周末休市窗口
+  if (day === 0 || (day === 6 && m >= usCloseMinutes) || (day === 1 && m < 8 * 60)) {
     return {
       phase: 'GLOBAL_WEEKEND',
       headline: '全球周末休市 · 宏观周报窗口',

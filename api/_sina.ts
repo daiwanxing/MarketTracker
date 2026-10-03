@@ -68,10 +68,20 @@ export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGloba
         if (!isNaN(dxyPrice) && dxyPrice > 0) {
           out.dxy = parseFloat(dxyPrice.toFixed(2));
         }
-      } else if (key === 'hf_XAU' && p.length > 0) {
+      } else if (key === 'hf_XAU' && p.length > 1) {
         const spotPrice = parseFloat(p[0]);
+        const prevClose = parseFloat(p[1] || p[7] || '0');
         if (!isNaN(spotPrice) && spotPrice > 0) {
-          out.spotGold = parseFloat(spotPrice.toFixed(2));
+          const hasPrev = !isNaN(prevClose) && prevClose > 0;
+          const pct = hasPrev ? ((spotPrice - prevClose) / prevClose) * 100 : 0;
+          out.spotGold = {
+            name: p[13] || '伦敦金现货',
+            symbol: 'XAU',
+            price: parseFloat(spotPrice.toFixed(2)),
+            previousClose: hasPrev ? prevClose : undefined,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          };
         }
       }
     }

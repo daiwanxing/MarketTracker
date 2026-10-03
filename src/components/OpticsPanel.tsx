@@ -3,6 +3,7 @@ import { clamp } from 'lodash-es';
 import heroOptics from '../assets/hero-optics.jpg';
 import opticsData from '../data/opticsData.json';
 import techSemiData from '../data/techSemiData.json';
+import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const EMPTY = '未接入';
 
@@ -1262,13 +1263,17 @@ export default function OpticsPanel() {
   const competition = data.competition;
   const valuation = data.valuation;
 
+  const { liveQuotes } = useLiveQuotes();
+  const liveCrowd = liveQuotes?.techSemi?.crowding;
+  const liveSemi = liveQuotes?.techSemi;
+
   const capex = techSemiData.fundamental?.items?.find((item) => item.k === '四大 CSP 资本开支');
   const capexLive = Boolean(capex && capex.status !== 'pending' && capex.v && capex.v !== '未接入');
   const sox = techSemiData.charts.normalized.sox;
   const soxDates = techSemiData.charts.normalized.dates;
-  const soxLast = sox.length ? sox[sox.length - 1] : undefined;
+  const soxLast = liveSemi?.sox?.price ?? (sox.length ? sox[sox.length - 1] : undefined);
   const soxDate = soxDates.length ? soxDates[soxDates.length - 1] : '';
-  const share = techSemiData.crowding?.turnoverShare?.value;
+  const share = liveCrowd?.value ?? techSemiData.crowding?.turnoverShare?.value;
   const margin = techSemiData.leverage?.marginBuyShare?.value;
 
   const liveRisks = enrichRisks(risks, capex, share, margin);

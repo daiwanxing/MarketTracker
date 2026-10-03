@@ -2,8 +2,8 @@ name: Refresh oil timeline
 
 on:
   schedule:
-    # 00:30 and 12:30 UTC = 08:30 and 20:30 Asia/Shanghai.
-    - cron: "30 0,12 * * *"
+    # 00:20 and 12:20 UTC = 08:20 and 20:20 Asia/Shanghai (staggered).
+    - cron: "20 0,12 * * *"
   workflow_dispatch:
 
 permissions:

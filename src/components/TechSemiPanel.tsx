@@ -6,7 +6,7 @@ import { clamp, keyBy, max, min, orderBy } from 'lodash-es';
 import { useInterval } from 'ahooks';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
-import { resolveMarketClock, type MarketClockItem } from '../utils/marketClock';
+import { resolveMarketClock, type MarketClockItem, type TradingPhase } from '../utils/marketClock';
 import { useLiveQuotes } from '../hooks/useLiveQuotes';
 
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
@@ -76,11 +76,7 @@ type NextDayWatch = {
 
 type ClosingReview = {
   asOf: string;
-  tradingPhase: {
-    phase: string;
-    headline: string;
-    window: string;
-  };
+  tradingPhase: TradingPhase;
   verdict: {
     headline: string;
     coreSummary: string;
@@ -99,9 +95,9 @@ type ClosingReview = {
 };
 
 const CHART_SERIES = [
-  { key: 'sox', name: 'SOX 费半', color: '#38bdf8', width: 2.2 },
-  { key: 'kospi', name: '韩国 KOSPI', color: '#f43f5e', width: 2.0 },
-  { key: 'star50', name: '科创50', color: '#F5C542', width: 2.0 },
+  { key: 'sox', name: 'SOX 费半', color: '#38bdf8' },
+  { key: 'kospi', name: '韩国 KOSPI', color: '#f43f5e' },
+  { key: 'star50', name: '科创50', color: '#F5C542' },
 ] as const;
 
 function crowdTone(share: number, priceDown: boolean) {
@@ -216,9 +212,9 @@ export default function TechSemiPanel() {
   const liveCrowd = liveQuotes?.techSemi?.crowding;
   const effectiveCrowding = useMemo(() => {
     if (liveCrowd) {
-      const liveVal = liveCrowd.value ?? (liveCrowd as unknown as { turnoverShare?: { value?: number } }).turnoverShare?.value;
-      const liveTmt = liveCrowd.tmtAmountYi ?? (liveCrowd as unknown as { turnoverShare?: { tmtAmountYi?: number } }).turnoverShare?.tmtAmountYi;
-      const liveMarket = liveCrowd.marketAmountYi ?? (liveCrowd as unknown as { turnoverShare?: { marketAmountYi?: number } }).turnoverShare?.marketAmountYi;
+      const liveVal = liveCrowd.value;
+      const liveTmt = liveCrowd.tmtAmountYi;
+      const liveMarket = liveCrowd.marketAmountYi;
       return {
         ...crowding,
         zone: liveCrowd.zone || crowding?.zone,

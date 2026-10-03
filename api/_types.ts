@@ -7,13 +7,6 @@ export interface QuoteItem {
   chgClass: 'up' | 'down' | '';
 }
 
-export interface CrowdingItem {
-  value: number;
-  amountYi: number;
-  marketAmountYi: number;
-  zone: string;
-  label: string;
-}
 
 export interface SectorCrowdingResult {
   market: {
@@ -41,7 +34,7 @@ export interface SinaGlobalQuotes {
   sox?: QuoteItem | null;
   kospi?: QuoteItem | null;
   dxy?: number | null;
-  spotGold?: number | null;
+  spotGold?: QuoteItem | null;
 }
 
 export interface EastmoneyYieldResult {

@@ -43,7 +43,9 @@ export default function GoldPanel() {
   const { liveQuotes } = useLiveQuotes();
 
   const [yy, mm, dd] = snapshot.slice(0, 10).split('-');
-  const snapDate = `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
+  const snapDate = liveQuotes?.asOf
+    ? new Date(liveQuotes.asOf).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false })
+    : `${yy}年${mm}月${dd}日 ${snapshot.slice(11, 16)}`;
 
   const liveGold = liveQuotes?.gold;
   const displayNum = liveGold?.price || metrics.main.num;
@@ -324,10 +326,11 @@ export default function GoldPanel() {
     ],
   };
 
-  /* ============ 4) 盈亏比现算 ============ */
+  /* ============ 4) 盈亏比现算（与实时金价 displayNum 动态联动） ============ */
   const rr = sentiment.riskReward;
-  const downPx = Math.max(0, rr.price - rr.support);
-  const upPx = Math.max(0, rr.resistance - rr.price);
+  const currentGoldPrice = parseFloat(String(displayNum).replace(/[^0-9.]/g, '')) || rr.price;
+  const downPx = Math.max(0, currentGoldPrice - rr.support);
+  const upPx = Math.max(0, rr.resistance - currentGoldPrice);
   const rrRatio = downPx > 0 ? (upPx / downPx).toFixed(1) : '待重估';
 
   return (
@@ -508,11 +511,11 @@ export default function GoldPanel() {
             <div className="rr-metrics">
               <div className="rr-cell">
                 <b>{downPx.toFixed(0)}</b>
-                <span>下行风险<br />现价 {rr.price.toFixed(2)} → 支撑 {rr.support}</span>
+                <span>下行风险<br />现价 {currentGoldPrice.toFixed(2)} → 支撑 {rr.support}</span>
               </div>
               <div className="rr-cell">
                 <b>{upPx.toFixed(0)}</b>
-                <span>上行空间<br />阻力 {rr.resistance} ← 现价 {rr.price.toFixed(2)}</span>
+                <span>上行空间<br />阻力 {rr.resistance} ← 现价 {currentGoldPrice.toFixed(2)}</span>
               </div>
               <div className="rr-cell rr-ratio">
                 <b>{downPx > 0 ? `1:${rrRatio}` : '待重估'}</b>
