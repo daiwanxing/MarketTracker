@@ -787,6 +787,47 @@ def update_gold(
     elif put_number(quotes, "dxy", dxy.price, 2, "gold DXY"):
         updated.append("metrics.main.quotes.dxy")
 
+    # 同步维护 benchmarks 与内外盘实时溢价
+    if "benchmarks" in data and isinstance(data["benchmarks"], dict):
+        bm = data["benchmarks"]
+        if "londonSpot" in bm and isinstance(bm["londonSpot"], dict):
+            bm["londonSpot"]["price"] = spot_n
+            if chg is not None:
+                bm["londonSpot"]["chg"] = chg[0]
+                bm["londonSpot"]["chgClass"] = chg[1]
+        if comex is not None and "comexGold" in bm and isinstance(bm["comexGold"], dict):
+            gc_price = verified_number(comex.price, 2)
+            if gc_price is not None:
+                bm["comexGold"]["price"] = gc_price
+                if comex.previous_close:
+                    gc_chg = change_parts(gc_price, comex.previous_close)
+                    if gc_chg:
+                        bm["comexGold"]["chg"] = gc_chg[0]
+                        bm["comexGold"]["chgClass"] = gc_chg[1]
+    if "premium" in data and "benchmarks" in data and "shau" in data.get("benchmarks", {}):
+        shau_p = data["benchmarks"]["shau"].get("price")
+        if isinstance(shau_p, (int, float)) and shau_p > 0:
+            usd_equiv = (shau_p * 31.1034768) / 7.12
+            spread_u = round(usd_equiv - spot_n, 2)
+            data["premium"]["spreadUsd"] = spread_u
+            data["premium"]["spreadRmb"] = round((spread_u * 7.12) / 31.1034768, 2)
+            prem_pct = round((spread_u / spot_n) * 100, 2)
+            data["premium"]["premiumRate"] = f"{'+' if prem_pct >= 0 else ''}{prem_pct:.2f}%"
+            if spread_u > 35:
+                data["premium"]["zone"] = "SQUEEZE"
+                data["premium"]["zoneLabel"] = "极端挤仓溢价"
+            elif spread_u > 15:
+                data["premium"]["zone"] = "HOT"
+                data["premium"]["zoneLabel"] = "境内买盘偏强"
+            elif spread_u < 0:
+                data["premium"]["zone"] = "DISCOUNT"
+                data["premium"]["zoneLabel"] = "境内需求贴水"
+            else:
+                data["premium"]["zone"] = "NORMAL"
+                data["premium"]["zoneLabel"] = "正常中性死区"
+            updated.append("premium")
+
+
     try:
         action = update_gold_candles(
             data["tech"],

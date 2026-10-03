@@ -100,7 +100,9 @@ graph TD
   5. **期现基差差分方向判定 (`update_basis_row`)**：以当前基差相较前次快照的增量差分（\(\Delta \text{Basis} = \text{Basis}_t - \text{Basis}_{t-1}\)）判定方向。差分大于 \(+0.05\) 标为走阔（`up`），小于 \(-0.05\) 标为收窄（`down`），微幅变动标为持平（`flat`），精准还原套利结构演变。
   6. **多周期动量时序闭环 (`update_momentum`)**：基于当前 94 根日 K 线精确计算近 20 交易日、近 5 交易日以及今日现货的涨跌幅。
 - **写入字段**：
-  - `src/data/goldData.json` 中的 `snapshot`、`metrics.main.*`、`tech.candles`、`tech.volume`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（基差行）以及 `macro.items` 中的高频数值 `quote`。
+  - `src/data/goldData.json` 中的 `snapshot`、`metrics.main.*`、`benchmarks`、`premium`、`tech.candles`、`tech.volume`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（基差行）以及 `macro.items` 中的高频数值 `quote`。
+  - **内外盘溢价与 Jev 死区防御**：在 `premium` 中实时测算 \(\text{Spread} = \frac{\text{Au99.99} \times 31.1035}{\text{USD/CNY}} - \text{XAU/USD}\)，基于 Jev 准则设立 \([-5, 8]\) 美元中性死区与偏强（HOT）、极端挤仓（SQUEEZE）和贴水（DISCOUNT）状态机。
+  - **东西方需求侧分层**：日度追踪西方 SPDR 与国内华安黄金 ETF（518880）持仓，月度追踪中国央行（PBOC）官方储备与 SGE 出库量。
   - **严守边界**：绝不篡改认知流水线负责的 `tech.trend`、支撑阻力区间、宏观叙事 `v` 及 `action`。
 
 ---

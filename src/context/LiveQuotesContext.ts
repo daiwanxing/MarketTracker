@@ -13,6 +13,22 @@ export interface LiveQuotesData {
     chg: string;
     chgClass: string;
     quotes: { gc?: number; dxy?: number; us10y?: number };
+    benchmarks?: {
+      londonSpot?: { name: string; symbol: string; price: number; chg: string; chgClass: string; unit?: string; previousClose?: number };
+      comexGold?: { name: string; symbol: string; price: number; chg: string; chgClass: string; unit?: string; previousClose?: number };
+      shau?: { name: string; symbol: string; price: number; chg: string; chgClass: string; unit?: string; previousClose?: number };
+      shfeGold?: { name: string; symbol: string; price: number; chg: string; chgClass: string; unit?: string; previousClose?: number };
+    };
+    premium?: {
+      spreadUsd: number;
+      spreadRmb: number;
+      premiumRate: string;
+      zone: 'NORMAL' | 'HOT' | 'SQUEEZE' | 'DISCOUNT';
+      zoneLabel: string;
+      deadband: [number, number];
+      percentile: number;
+      hint: string;
+    };
   };
   techSemi: {
     sox: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };

@@ -10,7 +10,7 @@ const UA = 'Mozilla/5.0 (compatible; MarketTracker/1.0; +https://github.com/daiw
  * - 伦敦金现货 (XAU/USD): hf_XAU
  */
 export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGlobalQuotes> {
-  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU'];
+  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU', 'USDCNY'];
   const url = `https://hq.sinajs.cn/list=${symbols.join(',')}`;
   const out: SinaGlobalQuotes = {};
 
@@ -67,6 +67,11 @@ export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGloba
         const dxyPrice = parseFloat(p[1]);
         if (!isNaN(dxyPrice) && dxyPrice > 0) {
           out.dxy = parseFloat(dxyPrice.toFixed(2));
+        }
+      } else if (key === 'USDCNY' && p.length > 1) {
+        const cnyRate = parseFloat(p[1]);
+        if (!isNaN(cnyRate) && cnyRate > 0) {
+          out.usdcny = parseFloat(cnyRate.toFixed(4));
         }
       } else if (key === 'hf_XAU' && p.length > 1) {
         const spotPrice = parseFloat(p[0]);

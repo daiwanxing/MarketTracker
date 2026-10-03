@@ -35,6 +35,7 @@ export interface SinaGlobalQuotes {
   kospi?: QuoteItem | null;
   dxy?: number | null;
   spotGold?: QuoteItem | null;
+  usdcny?: number | null;
 }
 
 export interface EastmoneyYieldResult {
@@ -42,3 +43,26 @@ export interface EastmoneyYieldResult {
   us2y?: number | null;
   asOf?: string | null;
 }
+
+export interface GoldBenchmarkItem {
+  name: string;
+  symbol: string;
+  price: number;
+  chg: string;
+  chgClass: 'up' | 'down' | '';
+  unit?: string;
+  previousClose?: number;
+  src?: string;
+}
+
+export interface GoldPremiumResult {
+  spreadUsd: number;
+  spreadRmb: number;
+  premiumRate: string;
+  zone: 'NORMAL' | 'HOT' | 'SQUEEZE' | 'DISCOUNT';
+  zoneLabel: string;
+  deadband: [number, number];
+  percentile: number;
+  hint: string;
+}
+

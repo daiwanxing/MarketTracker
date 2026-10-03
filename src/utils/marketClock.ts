@@ -433,3 +433,173 @@ export function resolveMarketClock(
     marketClock,
   };
 }
+
+/**
+ * ============================================================
+ * 全球黄金市场（上海金SGE/沪金SHFE、伦敦金LBMA、纽约COMEX）时钟状态机
+ * ============================================================
+ */
+
+export function getSgeStatus(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
+  const holiday = getChinaHoliday(bj.month, bj.date);
+  if (holiday) return { status: 'HOLIDAY', statusLabel: holiday };
+
+  const day = bj.day;
+  const m = bj.totalMinutes;
+  const t0230 = 2 * 60 + 30;
+  const t0900 = 9 * 60;
+  const t1130 = 11 * 60 + 30;
+  const t1330 = 13 * 60 + 30;
+  const t1530 = 15 * 60 + 30;
+  const t2000 = 20 * 60;
+  const t2100 = 21 * 60;
+
+  // 周六凌晨 00:00 - 02:30 为周五夜盘尾盘交易
+  if (day === 6) {
+    if (m < t0230) return { status: 'TRADING', statusLabel: '夜盘交易 ~02:30' };
+    return { status: 'WEEKEND', statusLabel: '周末休市' };
+  }
+  // 周日全天周末休市
+  if (day === 0) return { status: 'WEEKEND', statusLabel: '周末休市' };
+
+  // 周一早盘前无夜盘
+  if (day === 1 && m < t0900) {
+    return { status: 'PENDING_OPEN', statusLabel: '待开盘 09:00' };
+  }
+
+  // 周二至周五凌晨夜盘
+  if (m < t0230) {
+    return { status: 'TRADING', statusLabel: '夜盘交易 ~02:30' };
+  }
+  if (m >= t0230 && m < t0900) {
+    return { status: 'CLOSED', statusLabel: '早间休盘 09:00 开' };
+  }
+  if (m >= t0900 && m < t1130) {
+    return { status: 'TRADING', statusLabel: '白盘早盘 09:00-11:30' };
+  }
+  if (m >= t1130 && m < t1330) {
+    return { status: 'INTERMISSION', statusLabel: '午间休市' };
+  }
+  if (m >= t1330 && m < t1530) {
+    return { status: 'TRADING', statusLabel: '白盘午后 13:30-15:30' };
+  }
+  if (m >= t1530 && m < t2000) {
+    return { status: 'CLOSED', statusLabel: '日盘收盘 21:00 夜盘' };
+  }
+  if (m >= t2000 && m < t2100) {
+    return { status: 'PRE_MARKET', statusLabel: '夜盘待开 21:00' };
+  }
+  // 21:00 ~ 24:00 夜盘主力时段（周五晚上同样开市）
+  return { status: 'TRADING', statusLabel: '夜盘主力 21:00~' };
+}
+
+export function getLbmaStatus(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
+  if (bj.day === 0 || bj.day === 6) return { status: 'WEEKEND', statusLabel: '周末休市' };
+  const m = bj.totalMinutes;
+  const t1530 = 15 * 60 + 30;
+  const t2330 = 23 * 60 + 30;
+
+  if (m < t1530) return { status: 'PENDING_OPEN', statusLabel: '欧盘待开 15:30' };
+  if (m >= t1530 && m < t2330) return { status: 'TRADING', statusLabel: '伦敦做市交易' };
+  return { status: 'CLOSED', statusLabel: '欧盘结算已收' };
+}
+
+export function getComexStatus(bj: BeijingTimeInfo, isDst: boolean): { status: MarketStatus; statusLabel: string } {
+  const usHoliday = getUSHoliday(bj.month, bj.date);
+  if (usHoliday) return { status: 'HOLIDAY', statusLabel: usHoliday };
+
+  const day = bj.day;
+  const m = bj.totalMinutes;
+  const openTime = isDst ? 20 * 60 + 20 : 21 * 60 + 20;
+  const openLabel = isDst ? '20:20' : '21:20';
+  const closeTime = isDst ? 4 * 60 : 5 * 60;
+  const closeLabel = isDst ? '04:00' : '05:00';
+
+  if (day === 6) {
+    if (m < closeTime) return { status: 'TRADING', statusLabel: `盘中交易 ~${closeLabel}` };
+    return { status: 'WEEKEND', statusLabel: '周末休市' };
+  }
+  if (day === 0) return { status: 'WEEKEND', statusLabel: '周末休市' };
+
+  if (m < closeTime) return { status: 'TRADING', statusLabel: `纽约主力交易` };
+  if (m >= closeTime && m < openTime) return { status: 'PRE_MARKET', statusLabel: `电子盘/待主力 ${openLabel}` };
+  return { status: 'TRADING', statusLabel: `纽约常规交易` };
+}
+
+export function getGoldTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
+  const day = bj.day;
+  const m = bj.totalMinutes;
+  const usOpenMinutes = isDst ? 20 * 60 + 20 : 21 * 60 + 20;
+  const usCloseMinutes = isDst ? 4 * 60 : 5 * 60;
+
+  if (day === 0 || (day === 6 && m >= usCloseMinutes) || (day === 1 && m < 8 * 60)) {
+    return {
+      phase: 'GLOBAL_WEEKEND',
+      headline: '全球周末休市 · 宏观金价周报与持仓推演窗口',
+      window: 'WEEKEND CST',
+    };
+  }
+
+  // 08:00 - 09:00
+  if (m >= 8 * 60 && m < 9 * 60) {
+    return {
+      phase: 'APAC_PRE_MARKET',
+      headline: '亚太开盘先导 · SGE 集合竞价与离岸现货盘前',
+      window: '08:00 ~ 09:00 CST',
+    };
+  }
+  // 09:00 - 15:30
+  if (m >= 9 * 60 && m < 15 * 60 + 30) {
+    return {
+      phase: 'APAC_PHYSICAL_SESSION',
+      headline: '亚盘实物主导 · 上海金交所/上期所溢价定价窗口',
+      window: '09:00 ~ 15:30 CST',
+    };
+  }
+  // 15:30 - 20:20
+  if (m >= 15 * 60 + 30 && m < usOpenMinutes) {
+    return {
+      phase: 'EUROPE_LIQUIDITY_SESSION',
+      headline: '欧盘做市清算 · 伦敦 LBMA 下午定盘与流动性交接',
+      window: `15:30 ~ ${isDst ? '20:20' : '21:20'} CST`,
+    };
+  }
+  // 20:20 - 02:30 (跨夜盘)
+  if (m >= usOpenMinutes || m < 2 * 60 + 30) {
+    return {
+      phase: 'US_DERIVATIVES_SESSION',
+      headline: '美盘宏观决胜 · COMEX 期货主力博弈与夜盘共振',
+      window: `${isDst ? '20:20' : '21:20'} ~ 02:30 CST`,
+    };
+  }
+  // 02:30 - 08:00
+  return {
+    phase: 'GLOBAL_OVERNIGHT',
+    headline: '全球隔夜过渡 · 离岸低流动性盘整窗口',
+    window: '02:30 ~ 08:00 CST',
+  };
+}
+
+export function resolveGoldMarketClock(
+  currentDate: Date = new Date()
+): {
+  tradingPhase: TradingPhase;
+  sessions: {
+    sge: { status: MarketStatus; statusLabel: string; name: string };
+    lbma: { status: MarketStatus; statusLabel: string; name: string };
+    comex: { status: MarketStatus; statusLabel: string; name: string };
+  };
+} {
+  const bj = getBeijingTime(currentDate);
+  const isDst = isUSDaylightSaving(currentDate);
+
+  return {
+    tradingPhase: getGoldTradingPhase(bj, isDst),
+    sessions: {
+      sge: { ...getSgeStatus(bj), name: '上海金 (SGE/SHFE)' },
+      lbma: { ...getLbmaStatus(bj), name: '伦敦金 (LBMA)' },
+      comex: { ...getComexStatus(bj, isDst), name: '纽约期金 (COMEX)' },
+    },
+  };
+}
+

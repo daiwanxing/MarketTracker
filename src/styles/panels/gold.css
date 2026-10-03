@@ -153,6 +153,114 @@
     padding: 10px 4px 2px;
   }
 
+  /* 趋势生命线与跟踪防守体系条 */
+  .trend-lifeline-strip {
+    display: flex;
+    align-items: center;
+    gap: 16px 24px;
+    padding: 12px 18px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    background: var(--ghost-surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+
+    & .trend-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 14px;
+      border-right: 1px solid var(--line);
+
+      @media (max-width: 760px) {
+        border-right: none;
+        width: 100%;
+        margin-bottom: 4px;
+      }
+    }
+
+    & .trend-badge-lbl {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    & .trend-status-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 0.5px;
+
+      &.correction {
+        background: color-mix(in oklch, var(--amber) 15%, transparent);
+        color: var(--amber);
+        border: 1px solid color-mix(in oklch, var(--amber) 40%, transparent);
+      }
+      &.bull {
+        background: color-mix(in oklch, var(--up) 15%, transparent);
+        color: var(--up);
+        border: 1px solid color-mix(in oklch, var(--up) 40%, transparent);
+      }
+    }
+
+    & .trend-points {
+      display: flex;
+      align-items: baseline;
+      gap: 16px 24px;
+      flex-wrap: wrap;
+      flex: 1;
+
+      @media (max-width: 760px) {
+        width: 100%;
+        gap: 8px 14px;
+      }
+    }
+
+    & .tp-item {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-dim);
+
+      & b {
+        color: var(--text);
+        font-weight: 700;
+        margin-left: 4px;
+      }
+
+      & small {
+        font-size: 10px;
+        color: var(--text-faint);
+        margin-left: 5px;
+      }
+
+      &.tp-stop b {
+        color: var(--up);
+      }
+
+      &.tp-stop em {
+        font-style: normal;
+        font-size: 10.5px;
+        color: var(--up);
+        margin-left: 5px;
+      }
+
+      &.tp-entry b {
+        color: var(--amber);
+      }
+
+      @media (max-width: 600px) {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
   /* 盈亏比速览条 */
   .rr-strip {
     display: flex;
@@ -490,4 +598,236 @@
       }
     }
   }
+
+  /* ===== 四柱核心报价栏 (Dual-Anchor Quad Tabs) ===== */
+  .quad-tabs {
+    grid-template-columns: repeat(4, 1fr) !important;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    @media (max-width: 520px) {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  .index-tab-button {
+    &.londonSpot.active {
+      border-top-color: #FFD700 !important;
+      box-shadow: inset 0 6px 16px -8px rgba(255, 215, 0, 0.3) !important;
+    }
+    &.comexGold.active {
+      border-top-color: #F5C542 !important;
+      box-shadow: inset 0 6px 16px -8px rgba(245, 197, 66, 0.3) !important;
+    }
+    &.shau.active {
+      border-top-color: #38bdf8 !important;
+      box-shadow: inset 0 6px 16px -8px rgba(56, 189, 248, 0.3) !important;
+    }
+    &.premium.active {
+      border-top-color: #fb923c !important;
+      box-shadow: inset 0 6px 16px -8px rgba(251, 146, 60, 0.3) !important;
+    }
+  }
+
+  .premium-zone-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+
+    &.hot {
+      background: rgba(245, 197, 66, 0.18);
+      color: #F5C542;
+      border: 1px solid rgba(245, 197, 66, 0.45);
+    }
+    &.squeeze {
+      background: rgba(255, 107, 107, 0.2);
+      color: #FF6B6B;
+      border: 1px solid rgba(255, 107, 107, 0.5);
+    }
+    &.discount {
+      background: rgba(74, 222, 128, 0.18);
+      color: #4ADE80;
+      border: 1px solid rgba(74, 222, 128, 0.45);
+    }
+    &.normal {
+      background: rgba(240, 240, 250, 0.08);
+      color: var(--text-dim);
+      border: 1px solid var(--line);
+    }
+  }
+
+  /* 东西方需求侧双轨矩阵 */
+  .demand-matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .demand-card {
+    padding: 18px 20px;
+    background: var(--ghost-surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    & .demand-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+
+      & .d-title {
+        font-family: var(--font-display);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-dim);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      & .d-role {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-faint);
+      }
+    }
+
+    & .demand-main-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 4px 0;
+
+      & .stat-num {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1;
+      }
+
+      & .stat-unit {
+        font-size: 13px;
+        color: var(--text-dim);
+      }
+
+      & .stat-chg {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        margin-left: auto;
+
+        &.up { color: var(--up); }
+        &.down { color: var(--down); }
+      }
+    }
+
+    & .demand-desc {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    & .demand-src {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-faint);
+      margin-top: auto;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  /* 次日推演警戒点位网格 */
+  .gold-watch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .gold-watch-card {
+    padding: 14px 16px;
+    background: var(--ghost-surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sharp);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &.critical {
+      border-left: 3px solid #FF6B6B;
+    }
+    &.high {
+      border-left: 3px solid #F5C542;
+    }
+    &.medium {
+      border-left: 3px solid #38bdf8;
+    }
+
+    & .watch-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+
+      & .target {
+        font-family: var(--font-display);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.5px;
+      }
+
+      & .priority-tag {
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 2px;
+        text-transform: uppercase;
+
+        &.critical {
+          background: rgba(255, 107, 107, 0.2);
+          color: #FF6B6B;
+        }
+        &.high {
+          background: rgba(245, 197, 66, 0.2);
+          color: #F5C542;
+        }
+        &.medium {
+          background: rgba(56, 189, 248, 0.2);
+          color: #38bdf8;
+        }
+      }
+    }
+
+    & .watch-threshold {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    & .watch-logic {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+  }
 }
+

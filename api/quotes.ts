@@ -17,9 +17,9 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
 
   // 并发抓取国内三大原生行情源通道：
   // 1. 腾讯：A股、美股单票/ETF、原油黄金主力连续合约
-  // 2. 新浪：全球费半SOX、韩国KOSPI、美元指数DXY、伦敦金现货XAU
+  // 2. 新浪：全球费半SOX、韩国KOSPI、美元指数DXY、伦敦金现货XAU、在岸/离岸人民币汇率USDCNY
   // 3. 东方财富：全市场拥挤度聚合 (TMT / 机器人)、美债10年期基准收益率
-  const tencentSymbols = ['sh000688', 'sh562500', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC'];
+  const tencentSymbols = ['sh000688', 'sh562500', 'sh518880', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC', 'hf_AU'];
 
   const [tencentRes, sinaRes, crowdingRes, yieldsRes] = await Promise.allSettled([
     fetchTencentQuotes(tencentSymbols, 3500),
@@ -82,13 +82,16 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     dxy: sinaMap.dxy ?? staticOilMetrics.quotes?.dxy,
   };
 
-  // 3. 黄金组装（严格现货/期货同源隔离，现货严格取新浪 hf_XAU 原生价格与涨跌幅，杜绝期货冒充现货）
+  // 3. 黄金组装（内外盘双轨 + 实时内外盘溢价计算）
   const tcGc = tcMap['hf_GC'];
+  const tcAu = tcMap['hf_AU'];
   const staticGoldMetrics = goldStatic.metrics.main;
+  const staticGoldBm = goldStatic.benchmarks;
+  const staticGoldPrem = goldStatic.premium;
   const staticUs10y = goldStatic.macro?.items?.find((item) => item.dim === 'rates')?.quote?.value ?? (staticGoldMetrics.quotes as { us10y?: number })?.us10y ?? 5.28;
   const spotQuote = sinaMap.spotGold;
 
-  // 现货金：只取新浪 spotGold，降级严格取静态底包已核实真值，绝不取期货价格冒充现货
+  // 现货金：优先取新浪 spotGold，降级严格取静态底包已核实真值
   const goldPriceNum = spotQuote?.price ?? parseFloat(String(staticGoldMetrics.num));
   const goldPrice = goldPriceNum ? goldPriceNum.toFixed(2) : String(staticGoldMetrics.num);
   const goldChg = spotQuote?.chg || staticGoldMetrics.chg;
@@ -99,6 +102,87 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     dxy: sinaMap.dxy ?? staticGoldMetrics.quotes?.dxy,
     us10y: yields.us10y ?? staticUs10y,
   };
+
+  // 国内黄金（上海金 Au99.99 / 沪金主力期货）
+  const cnyRate = sinaMap.usdcny ?? 7.12;
+  const shfeAuPrice = tcAu?.price ?? staticGoldBm.shfeGold.price;
+  const shfeAuChg = tcAu?.chg || staticGoldBm.shfeGold.chg;
+  const shfeAuChgClass = (tcAu?.chgClass || staticGoldBm.shfeGold.chgClass) as 'up' | 'down' | '';
+
+  const shauPrice = staticGoldBm.shau.price;
+  const shauChg = staticGoldBm.shau.chg;
+  const shauChgClass = staticGoldBm.shau.chgClass as 'up' | 'down' | '';
+
+  // 实时内外盘溢价推导: Spread ($/oz) = (Au99.99 * 31.1034768 / USDCNY) - XAU
+  const domesticUsdEquiv = (shauPrice * 31.1034768) / cnyRate;
+  const spreadUsd = parseFloat((domesticUsdEquiv - goldPriceNum).toFixed(2));
+  const spreadRmb = parseFloat(((spreadUsd * cnyRate) / 31.1034768).toFixed(2));
+  const premPctNum = (spreadUsd / goldPriceNum) * 100;
+  const premiumRate = `${premPctNum >= 0 ? '+' : ''}${premPctNum.toFixed(2)}%`;
+
+  let premZone: 'NORMAL' | 'HOT' | 'SQUEEZE' | 'DISCOUNT' = 'NORMAL';
+  let premZoneLabel = '正常中性死区';
+  if (spreadUsd > 35) {
+    premZone = 'SQUEEZE';
+    premZoneLabel = '极端挤仓溢价';
+  } else if (spreadUsd > 15) {
+    premZone = 'HOT';
+    premZoneLabel = '境内买盘偏强';
+  } else if (spreadUsd < 0) {
+    premZone = 'DISCOUNT';
+    premZoneLabel = '境内需求贴水';
+  }
+
+  const livePremium = {
+    spreadUsd,
+    spreadRmb,
+    premiumRate,
+    zone: premZone,
+    zoneLabel: premZoneLabel,
+    deadband: staticGoldPrem.deadband as [number, number],
+    percentile: staticGoldPrem.percentile,
+    hint: `内外盘溢价 ${spreadUsd >= 0 ? '+' : ''}$${spreadUsd.toFixed(2)}/oz (${premZoneLabel})，汇率参照 ${cnyRate.toFixed(4)}。`,
+  };
+
+  const goldBenchmarks = {
+    londonSpot: {
+      name: staticGoldBm.londonSpot.name,
+      symbol: staticGoldBm.londonSpot.symbol,
+      price: goldPriceNum,
+      chg: goldChg,
+      chgClass: (goldChgClass === 'up' || goldChgClass === 'down' ? goldChgClass : '') as 'up' | 'down' | '',
+      unit: staticGoldBm.londonSpot.unit,
+      previousClose: spotQuote?.previousClose ?? staticGoldBm.londonSpot.previousClose,
+    },
+    comexGold: {
+      name: staticGoldBm.comexGold.name,
+      symbol: staticGoldBm.comexGold.symbol,
+      price: tcGc?.price ?? staticGoldBm.comexGold.price,
+      chg: tcGc?.chg || staticGoldBm.comexGold.chg,
+      chgClass: (tcGc?.chgClass || staticGoldBm.comexGold.chgClass) as 'up' | 'down' | '',
+      unit: staticGoldBm.comexGold.unit,
+      previousClose: tcGc?.previousClose ?? staticGoldBm.comexGold.previousClose,
+    },
+    shau: {
+      name: staticGoldBm.shau.name,
+      symbol: staticGoldBm.shau.symbol,
+      price: shauPrice,
+      chg: shauChg,
+      chgClass: shauChgClass,
+      unit: staticGoldBm.shau.unit,
+      previousClose: staticGoldBm.shau.previousClose,
+    },
+    shfeGold: {
+      name: staticGoldBm.shfeGold.name,
+      symbol: staticGoldBm.shfeGold.symbol,
+      price: shfeAuPrice,
+      chg: shfeAuChg,
+      chgClass: shfeAuChgClass,
+      unit: staticGoldBm.shfeGold.unit,
+      previousClose: tcAu?.previousClose ?? staticGoldBm.shfeGold.previousClose,
+    },
+  };
+
 
   // 4. 机器人组装
   const staticRobotBm = robotStatic.benchmarks;
@@ -155,6 +239,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chg: goldChg,
       chgClass: goldChgClass,
       quotes: goldQuotes,
+      benchmarks: goldBenchmarks,
+      premium: livePremium,
     },
     techSemi: techSemiData,
     robot: robotData,
