@@ -176,7 +176,9 @@
         "bmwHours": 1250,
         "bmwParts": 90000,
         "targetMtbf": 2000,
-        "handPartsCount": 100
+        "handPartsCount": 100,
+        "stampedPartsText": "累计装载冲压件：>90,000 件",
+        "assemblyBottleneckText": "特斯拉瓶颈：手部 100+ 零件仍手工装配"
       },
       "signal": "在真实工业流水线实现连续 2000 小时无宕机 + 零人工接管的独立第三方公开认证"
     },

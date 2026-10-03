@@ -752,9 +752,13 @@ def update_crowding(
             return []
         tmt_amt = tmt_res
 
+    if market_amt <= 0:
+        log("WARN", "market turnover is non-positive; preserving existing crowding")
+        return []
+
     market_amt_yi = round(market_amt / 1e8, 2)
     tmt_amt_yi = round(tmt_amt / 1e8, 2)
-    tmt_share = round((tmt_amt / market_amt) * 100.0, 2) if market_amt > 0 else 38.79
+    tmt_share = round((tmt_amt / market_amt) * 100.0, 2)
 
     if tmt_share >= 38.0:
         zone, label = "danger", "极端过热"
@@ -786,24 +790,26 @@ def update_crowding(
     if robot_doc is not None and "crowding" in robot_doc:
         rb_crowd = robot_doc.setdefault("crowding", {})
         rb_turnover = rb_crowd.setdefault("turnoverShare", {})
-        rb_turnover["marketAmountYi"] = market_amt_yi
-        rb_amt_yi = float(rb_turnover.get("robotAmountYi") or 202.01)
-        rb_share = round((rb_amt_yi / market_amt_yi) * 100.0, 2) if market_amt_yi > 0 else 1.40
-        rb_turnover["value"] = rb_share
-        if rb_share >= 3.8:
-            r_zone, r_label = "danger", "极端过热"
-        elif rb_share >= 2.8:
-            r_zone, r_label = "warning", "偏热"
-        elif rb_share >= 1.5:
-            r_zone, r_label = "neutral", "活跃"
-        elif rb_share >= 0.8:
-            r_zone, r_label = "neutral", "温和中位"
-        else:
-            r_zone, r_label = "cold", "低位冰点"
-        rb_crowd["zone"] = r_zone
-        rb_crowd["label"] = r_label
-        rb_crowd["asOf"] = as_of_date
-        updated.append("robot.crowding")
+        raw_rb_amt = rb_turnover.get("robotAmountYi")
+        if raw_rb_amt is not None and market_amt_yi > 0:
+            rb_amt_yi = float(raw_rb_amt)
+            rb_turnover["marketAmountYi"] = market_amt_yi
+            rb_share = round((rb_amt_yi / market_amt_yi) * 100.0, 2)
+            rb_turnover["value"] = rb_share
+            if rb_share >= 3.8:
+                r_zone, r_label = "danger", "极端过热"
+            elif rb_share >= 2.8:
+                r_zone, r_label = "warning", "偏热"
+            elif rb_share >= 1.5:
+                r_zone, r_label = "neutral", "活跃"
+            elif rb_share >= 0.8:
+                r_zone, r_label = "neutral", "温和中位"
+            else:
+                r_zone, r_label = "cold", "低位冰点"
+            rb_crowd["zone"] = r_zone
+            rb_crowd["label"] = r_label
+            rb_crowd["asOf"] = as_of_date
+            updated.append("robot.crowding")
 
     return updated
 

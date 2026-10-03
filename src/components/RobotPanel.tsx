@@ -193,9 +193,9 @@ export default function RobotPanel() {
   const crowdZone = effectiveCrowding.zone || 'neutral';
   const crowdLabel = effectiveCrowding.label || '温和活跃';
 
-  const tslaPriceVal = robotQuotes?.tsla?.price ?? robotData.optionSentinel?.tsla?.price ?? 354.11;
-  const tslaPriceDisplay = typeof tslaPriceVal === 'number' ? tslaPriceVal.toFixed(2) : String(tslaPriceVal);
-  const tslaChg = robotQuotes?.tsla?.chg || robotData.optionSentinel?.tsla?.chg || '-0.20%';
+  const tslaPriceVal = robotQuotes?.tsla?.price ?? robotData.optionSentinel?.tsla?.price ?? null;
+  const tslaPriceDisplay = typeof tslaPriceVal === 'number' ? tslaPriceVal.toFixed(2) : '--';
+  const tslaChg = robotQuotes?.tsla?.chg || robotData.optionSentinel?.tsla?.chg || '--';
   const tslaChgIsUp = tslaChg.startsWith('+');
 
   return (
@@ -297,7 +297,7 @@ export default function RobotPanel() {
             <div className="terminal-chart-stats">
               <div className="stat-item">
                 <span className="stat-label">阶段起点:</span>
-                <span className="stat-val">{dates[0] || '04-06'} (0%)</span>
+                <span className="stat-val">{dates.length > 0 ? `${dates[0]} (0%)` : '--'}</span>
               </div>
               <div className="stat-item">
                 <span className="stat-label">期间高位:</span>
@@ -376,10 +376,7 @@ export default function RobotPanel() {
                 {crowding.etfFlow.unitsChange}
               </span>
             </div>
-            <div style={{ height: 8, background: 'rgba(240, 240, 250, 0.08)', borderRadius: 99, margin: '12px 0 6px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '72%', background: '#38bdf8', borderRadius: 99 }} />
-            </div>
-            <div className="real-crowd-detail">
+            <div className="real-crowd-detail" style={{ marginTop: 12 }}>
               562500.SH 跟踪：{crowding.etfFlow.signal}（截至 {crowding.etfFlow.asOf}）
             </div>
           </div>
@@ -409,7 +406,7 @@ export default function RobotPanel() {
               【投研警示】：85%+ 主营为汽车/储能，短期定价受电车价格战主导，不参与主图纯制造 Beta 计算。
             </div>
             <div className="real-crowd-detail" style={{ fontSize: 11, lineHeight: 1.45 }}>
-              <b>长三角定点跟踪：</b>{robotData.optionSentinel?.tsla?.supplyChainAudit?.screwStatus ?? '丝杠与电机送样验证中'}
+              <b>长三角定点跟踪：</b>{robotData.optionSentinel?.tsla?.supplyChainAudit?.screwStatus || '暂无供应链审计披露'}
             </div>
           </div>
         </div>
@@ -627,8 +624,8 @@ export default function RobotPanel() {
                         />
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--text-faint)', flexWrap: 'wrap', gap: '4px' }}>
-                        <span>累计装载冲压件：&gt;90,000 件</span>
-                        <span style={{ color: '#ff6b6b' }}>特斯拉瓶颈：手部 100+ 零件仍手工装配</span>
+                        <span>{(dim.reliabilityStats as { stampedPartsText?: string }).stampedPartsText || '工位装载测试中'}</span>
+                        <span style={{ color: '#ff6b6b' }}>{(dim.reliabilityStats as { assemblyBottleneckText?: string }).assemblyBottleneckText || '产线装配良率攻关中'}</span>
                       </div>
                     </div>
                   )}

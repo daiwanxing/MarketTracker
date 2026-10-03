@@ -603,7 +603,9 @@ def _extract_spot_price(doc: dict) -> float | None:
 
 
 def mock_payload_for_doc(doc: dict) -> dict:
-    price = _extract_spot_price(doc) or 4160.0
+    price = _extract_spot_price(doc)
+    if price is None:
+        price = 4000.0
     s_low = int(price - 40)
     s_high = int(price - 20)
     r_low = int(price + 30)

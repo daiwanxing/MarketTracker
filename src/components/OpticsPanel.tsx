@@ -914,7 +914,7 @@ function DriverBom({
                         width: `${shareWidth(row.share)}%`,
                         height: '100%',
                         background:
-                          row.share.includes('30') || row.share.includes('25')
+                          shareWidth(row.share) >= 25
                             ? 'linear-gradient(90deg, var(--up), var(--amber))'
                             : 'rgba(240,240,250,0.4)',
                       }}

@@ -79,11 +79,12 @@ export default function EnsoPanel() {
   } = ensoData;
 
   const sortedTimeline = useMemo(() => {
+    const currentYear = new Date().getFullYear();
     const normalizeDate = (item: { date?: string }) => {
       const d = item.date || '';
       if (d.includes('/')) {
         const parts = d.split('/');
-        return `2026-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+        return `${currentYear}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
       }
       return d;
     };

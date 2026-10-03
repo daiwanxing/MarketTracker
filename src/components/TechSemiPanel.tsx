@@ -521,7 +521,7 @@ export default function TechSemiPanel() {
             <div className="terminal-chart-stats">
               <div className="stat-item">
                 <span className="stat-label">阶段起点:</span>
-                <span className="stat-val">{dates[0] || '04-02'} (0%)</span>
+                <span className="stat-val">{dates.length > 0 ? `${dates[0]} (0%)` : '--'}</span>
               </div>
               <div className="stat-item">
                 <span className="stat-label">期间高位:</span>
