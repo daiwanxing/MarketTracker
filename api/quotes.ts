@@ -8,6 +8,7 @@ import techSemiStatic from '../src/data/techSemiData.json' with { type: 'json' }
 import robotStatic from '../src/data/robotData.json' with { type: 'json' };
 import oilStatic from '../src/data/oilData.json' with { type: 'json' };
 import goldStatic from '../src/data/goldData.json' with { type: 'json' };
+import equipStatic from '../src/data/equipData.json' with { type: 'json' };
 
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   // 设置边缘缓存策略：全球 CDN 缓存 8 秒，20 秒内允许返回过期数据并在后台异步更新
@@ -19,7 +20,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   // 1. 腾讯：A股、美股单票/ETF、原油黄金主力连续合约
   // 2. 新浪：全球费半SOX、韩国KOSPI、美元指数DXY、伦敦金现货XAU、在岸/离岸人民币汇率USDCNY
   // 3. 东方财富：全市场拥挤度聚合 (TMT / 机器人)、美债10年期基准收益率、上海金SHAU集中定价
-  const tencentSymbols = ['sh000688', 'sh562500', 'sh518880', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC', 'hf_AU'];
+  const tencentSymbols = ['sh000688', 'sh562500', 'sh518880', 'sh588170', 'sz002371', 'sh688012', 'sh688072', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC', 'hf_AU'];
 
   const [tencentRes, sinaRes, crowdingRes, yieldsRes, eastmoneyShauRes] = await Promise.allSettled([
     fetchTencentQuotes(tencentSymbols, 3500),
@@ -240,6 +241,40 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     },
   };
 
+  // 5. 半导体设备材料组装
+  const staticEquipBm = equipStatic.benchmark;
+  const tcEquip = tcMap['sh588170'];
+  const equipLeaders = equipStatic.leaders.map((leader) => {
+    const tencentKey = leader.symbol.startsWith('002') ? `sz${leader.symbol.slice(0, 6)}` : `sh${leader.symbol.slice(0, 6)}`;
+    const live = tcMap[tencentKey];
+    return {
+      symbol: leader.symbol,
+      price: live?.price ?? leader.price,
+      chg: live?.chg || leader.chg,
+      chgClass: live?.chgClass || leader.chgClass,
+      previousClose: live?.previousClose ?? leader.previousClose,
+    };
+  });
+
+  const equipData = {
+    benchmark: {
+      name: staticEquipBm.name,
+      symbol: staticEquipBm.symbol,
+      price: tcEquip?.price ?? staticEquipBm.price,
+      chg: tcEquip?.chg || staticEquipBm.chg,
+      chgClass: tcEquip?.chgClass || staticEquipBm.chgClass,
+      previousClose: tcEquip?.previousClose ?? staticEquipBm.previousClose,
+    },
+    crowding: {
+      value: equipStatic.crowding.turnoverShare.value,
+      equipAmountYi: equipStatic.crowding.turnoverShare.equipAmountYi,
+      marketAmountYi: equipStatic.crowding.turnoverShare.marketAmountYi,
+      zone: equipStatic.crowding.zone,
+      label: equipStatic.crowding.label,
+    },
+    leaders: equipLeaders,
+  };
+
   return res.status(200).json({
     status: 'ok',
     asOf: new Date().toISOString(),
@@ -259,5 +294,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     },
     techSemi: techSemiData,
     robot: robotData,
+    equip: equipData,
   });
 }
+

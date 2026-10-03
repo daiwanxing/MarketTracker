@@ -1,10 +1,421 @@
 /* ============================================================
-   MARKET TRACKER · Equipment & Materials Panel Styles
+   MARKET TRACKER · Equipment & Materials Panel Styles (SpaceX Token Spec)
    ============================================================ */
 @layer panels {
-  .equip-disclosure-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  .equip-single-tab-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ghost-surface);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sharp);
+    padding: 14px 20px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .equip-tab-head-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .equip-tab-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .equip-tab-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--text);
+  }
+
+  .equip-tab-sym {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  .equip-tab-role {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .equip-tab-price-col {
+    display: flex;
+    align-items: baseline;
     gap: 14px;
+  }
+
+  .equip-tab-price {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .equip-tab-chg {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  /* 相对强度 (RS vs 科创50) 胶囊 */
+  .equip-rs-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 0 16px;
+    border-left: 1px solid var(--ghost-border);
+    border-right: 1px solid var(--ghost-border);
+
+    @media (max-width: 900px) {
+      border: none;
+      padding: 0;
+      width: 100%;
+      margin-top: 6px;
+    }
+  }
+
+  .equip-rs-title {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .equip-rs-lbl {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-faint);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  .equip-rs-val {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 700;
+
+    &.up {
+      color: var(--up);
+    }
+    &.down {
+      color: var(--down);
+    }
+  }
+
+  .equip-rs-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #38bdf8;
+  }
+
+  .equip-kline-caption-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--ghost-border);
+  }
+
+  .equip-kline-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .equip-range-tabs {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  .equip-range-btn {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: transparent;
+    border: 1px solid var(--ghost-border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: var(--text);
+      border-color: var(--ghost-border-hover);
+    }
+
+    &.active {
+      color: var(--amber);
+      border-color: color-mix(in oklch, var(--amber) 50%, transparent);
+      background: color-mix(in oklch, var(--amber) 10%, transparent);
+    }
+  }
+
+  .equip-kline-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 10px 16px 4px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+
+    & span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    & i {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 1px;
+    }
+  }
+
+  /* 量能状态提示微徽章 */
+  .equip-vol-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    &.shrink {
+      color: var(--amber);
+      background: color-mix(in oklch, var(--amber) 12%, transparent);
+      border: 1px solid color-mix(in oklch, var(--amber) 30%, transparent);
+    }
+
+    &.expand {
+      color: #38bdf8;
+      background: color-mix(in oklch, #38bdf8 12%, transparent);
+      border: 1px solid color-mix(in oklch, #38bdf8 30%, transparent);
+    }
+
+    &.normal {
+      color: var(--text-dim);
+      background: color-mix(in oklch, var(--text) 8%, transparent);
+      border: 1px solid var(--ghost-border);
+    }
+  }
+
+  /* 前道核心三剑客微型脉搏网格 */
+  .equip-leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .equip-leader-card {
+    background: var(--ghost-surface);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sharp);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--ghost-border-hover);
+    }
+  }
+
+  .equip-leader-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .equip-leader-name {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .equip-leader-sym {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  .equip-leader-role {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+
+  .equip-leader-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+  }
+
+  .equip-leader-price {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .equip-leader-chg {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+
+    &.up {
+      color: var(--up);
+    }
+    &.down {
+      color: var(--down);
+    }
+    &.neutral {
+      color: var(--text-dim);
+    }
+  }
+
+  .equip-leader-ma-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .equip-leader-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-weight: 600;
+
+    &.above {
+      background: color-mix(in oklch, var(--up) 12%, transparent);
+      color: var(--up);
+      border: 1px solid color-mix(in oklch, var(--up) 30%, transparent);
+    }
+
+    &.below {
+      background: color-mix(in oklch, var(--amber) 10%, transparent);
+      color: var(--amber);
+      border: 1px solid color-mix(in oklch, var(--amber) 25%, transparent);
+    }
+  }
+
+  /* 国内自主可控四维产业前瞻雷达 */
+  .equip-radar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .equip-radar-card {
+    background: var(--ghost-surface);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sharp);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (max-width: 600px) {
+      padding: 16px 14px;
+    }
+  }
+
+  .equip-radar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .equip-radar-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: var(--text);
+  }
+
+  .equip-radar-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: color-mix(in oklch, #38bdf8 12%, transparent);
+    border: 1px solid color-mix(in oklch, #38bdf8 28%, transparent);
+    border-radius: 2px;
+    color: #7dd3fc;
+    white-space: nowrap;
+  }
+
+  .equip-radar-reading {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .equip-radar-source {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    margin-bottom: 14px;
+  }
+
+  .equip-signal-box {
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .equip-signal-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: color-mix(in oklch, var(--amber) 15%, transparent);
+    color: var(--amber);
+    border: 1px solid color-mix(in oklch, var(--amber) 30%, transparent);
+    white-space: nowrap;
+  }
+
+  .equip-signal-text {
+    font-size: 12px;
+    color: color-mix(in oklch, var(--text) 85%, transparent);
+    line-height: 1.5;
   }
 }

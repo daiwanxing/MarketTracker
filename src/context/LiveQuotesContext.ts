@@ -54,6 +54,30 @@ export interface LiveQuotesData {
       label: string;
     };
   };
+  equip?: {
+    benchmark: {
+      name: string;
+      symbol: string;
+      price: number;
+      chg: string;
+      chgClass: string;
+      previousClose?: number;
+    };
+    crowding?: {
+      value: number;
+      equipAmountYi: number;
+      marketAmountYi: number;
+      zone: string;
+      label: string;
+    };
+    leaders?: Array<{
+      symbol: string;
+      price: number;
+      chg: string;
+      chgClass: string;
+      previousClose?: number;
+    }>;
+  };
 }
 
 export interface LiveQuotesContextValue {
