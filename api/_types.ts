@@ -35,6 +35,8 @@ export interface SinaGlobalQuotes {
   kospi?: QuoteItem | null;
   dxy?: number | null;
   spotGold?: QuoteItem | null;
+  comexGold?: QuoteItem | null;
+  shau?: QuoteItem | null;
   usdcny?: number | null;
 }
 

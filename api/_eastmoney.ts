@@ -1,7 +1,62 @@
 import http from 'http';
-import type { SectorCrowdingResult, EastmoneyYieldResult } from './_types.ts';
+import type { SectorCrowdingResult, EastmoneyYieldResult, QuoteItem } from './_types.ts';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
+
+/**
+ * 东方财富行情中心：上海金集中定价基准合约 (118.SHAU)
+ * 对应页面: https://quote.eastmoney.com/globalfuture/SHAU.html
+ */
+export function fetchEastmoneyShau(timeoutMs = 3000): Promise<QuoteItem | null> {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'push2.eastmoney.com',
+      port: 80,
+      path: '/api/qt/stock/get?secid=118.SHAU&fields=f43,f44,f45,f46,f58,f59,f60,f169,f170',
+      family: 4,
+      headers: {
+        'User-Agent': UA,
+        'Referer': 'http://quote.eastmoney.com/',
+      },
+      timeout: timeoutMs,
+    };
+
+    const req = http.get(options, (res) => {
+      let raw = '';
+      res.on('data', (chunk) => {
+        raw += chunk;
+      });
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(raw);
+          const d = json?.data;
+          if (!d || typeof d.f43 !== 'number') return resolve(null);
+          const factor = Math.pow(10, d.f59 || 2);
+          const price = parseFloat((d.f43 / factor).toFixed(2));
+          const pct = typeof d.f170 === 'number' ? d.f170 / 100 : 0;
+          const chgAmt = typeof d.f169 === 'number' ? d.f169 / factor : 0;
+          const prev = parseFloat((price - chgAmt).toFixed(2));
+          resolve({
+            name: d.f58 || '上海金',
+            symbol: 'SHAU',
+            price,
+            previousClose: prev > 0 ? prev : undefined,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          });
+        } catch {
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', () => resolve(null));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(null);
+    });
+  });
+}
 
 /**
  * 东方财富官方数据中心：中美国债基准收益率 (含 US10Y / US2Y)

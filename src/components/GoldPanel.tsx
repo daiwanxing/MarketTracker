@@ -121,8 +121,8 @@ export default function GoldPanel() {
 
   // 日K窗口设置
   const [range, setRange] = useState<'5d' | '30d' | '90d'>('30d');
-  const rangeLen = range === '5d' ? 5 : range === '30d' ? 30 : 91;
-  const rangeLabel = range === '5d' ? '近 5 交易日' : range === '30d' ? '近 30 交易日' : '近 90 交易日 + 今日';
+  const rangeLen = range === '5d' ? 5 : range === '30d' ? 30 : 90;
+  const rangeLabel = range === '5d' ? '近 5 交易日' : range === '30d' ? '近 30 交易日' : '近 90 交易日';
   // 当前选中标的专属技术时序与量价
   const currentInst = useMemo(() => {
     const insts = (tech as unknown as { instruments?: Record<string, {
@@ -535,130 +535,7 @@ export default function GoldPanel() {
     };
   }, [normData]);
 
-  // 3. CFTC 投机净多头历史分位
-  let lastPctIdx = -1;
-  for (let i = positioning.pctValues.length - 1; i >= 0; i--) {
-    if (positioning.pctValues[i] != null) { lastPctIdx = i; break; }
-  }
-  const pctOpt: EChartsOption = {
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: 'rgba(0,0,0,0.88)',
-      borderColor: 'rgba(240,240,250,0.35)',
-      borderWidth: 1,
-      padding: [8, 12],
-      textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
-      valueFormatter: (v) => (v == null ? '—' : `${v}%`),
-    },
-    grid: { left: 42, right: 22, top: 34, bottom: 30 },
-    xAxis: {
-      type: 'category',
-      data: positioning.pctDates,
-      axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
-      axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
-    },
-    yAxis: {
-      type: 'value',
-      min: 0,
-      max: 100,
-      interval: 25,
-      splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10, formatter: '{value}%' },
-    },
-    series: [
-      {
-        name: '投机净多头分位',
-        type: 'line',
-        data: positioning.pctValues,
-        connectNulls: true,
-        showSymbol: true,
-        symbolSize: 5,
-        lineStyle: { color: GOLD, width: 2 },
-        itemStyle: { color: GOLD },
-        areaStyle: {
-          color: {
-            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-            colorStops: [
-              { offset: 0, color: 'rgba(255,215,0,0.18)' },
-              { offset: 1, color: 'rgba(255,215,0,0)' },
-            ],
-          },
-        },
-        markLine: {
-          silent: true,
-          symbol: 'none',
-          data: [
-            {
-              yAxis: 50,
-              lineStyle: { color: 'rgba(240,240,250,0.35)', type: 'dashed' },
-              label: { formatter: '中位 50%', color: 'rgba(240,240,250,0.55)', fontFamily: MONO, fontSize: 10 },
-            },
-            {
-              yAxis: 80,
-              lineStyle: { color: 'rgba(255,107,107,0.8)', type: 'dashed' },
-              label: { formatter: '拥挤警戒 80%', color: 'rgba(255,107,107,0.95)', fontFamily: MONO, fontSize: 10 },
-            },
-          ],
-        },
-        markPoint:
-          lastPctIdx >= 0
-            ? {
-                symbol: 'circle',
-                symbolSize: 8,
-                itemStyle: { color: '#fff', borderColor: AMBER, borderWidth: 2 },
-                label: {
-                  show: true,
-                  formatter: `当前 ${positioning.pctValues[lastPctIdx]}%`,
-                  position: 'top',
-                  color: AMBER,
-                  fontFamily: MONO,
-                  fontSize: 10,
-                },
-                data: [{ name: '当前', coord: [lastPctIdx, Number(positioning.pctValues[lastPctIdx] ?? 0)] }],
-              }
-            : undefined,
-      },
-    ],
-  };
-
-  // 4. SPDR 近 15 交易日净增减柱状图
-  const spdrOpt: EChartsOption = {
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: 'rgba(0,0,0,0.88)',
-      borderColor: 'rgba(240,240,250,0.35)',
-      borderWidth: 1,
-      padding: [8, 12],
-      textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
-      valueFormatter: (v) => `${v} 吨`,
-    },
-    grid: { left: 42, right: 14, top: 20, bottom: 30 },
-    xAxis: {
-      type: 'category',
-      data: etf.spdrDates,
-      axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
-      axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10, interval: 1 },
-    },
-    yAxis: {
-      type: 'value',
-      splitLine: { lineStyle: { color: 'rgba(240,240,250,0.1)' } },
-      axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10, formatter: '{value} 吨' },
-    },
-    series: [
-      {
-        name: '净增减',
-        type: 'bar',
-        data: etf.spdrChg.map((v) => ({ value: v, itemStyle: { color: v >= 0 ? UP : DOWN, opacity: 0.85 } })),
-        barWidth: '55%',
-      },
-    ],
-  };
-
-  // 5. 宏观现货基准价
+  // 3. 宏观现货基准价
   const currentGoldPrice = parseFloat(String(displayNum).replace(/[^0-9.]/g, '')) || 4140.52;
 
   // 溢价区域样式 class
@@ -814,7 +691,7 @@ export default function GoldPanel() {
                     <span>跨市场比价叠加走势（伦敦金 vs 汇率折算沪金 vs 美债实际利率 vs 美元指数 · 基准点 100）</span>
                   </div>
                 </div>
-                <ReactECharts option={overlayOpt} style={{ height: 380, width: '100%' }} notMerge lazyUpdate />
+                <ReactECharts key="overlay-chart" option={overlayOpt} style={{ height: 380, width: '100%' }} notMerge />
                 <div className="terminal-chart-stats" style={{ marginTop: 8 }}>
                   <div className="stat-item">
                     <span className="stat-label">阶段起点:</span>
@@ -865,7 +742,7 @@ export default function GoldPanel() {
                   <span><i style={{ background: 'rgba(74,222,128,0.85)' }} />境外溢价 (&lt;-$5/oz COLD)</span>
                   <span><i style={{ background: CYAN }} />溢价率 (%)</span>
                 </div>
-                <ReactECharts option={premiumOpt} style={{ height: 380, width: '100%' }} notMerge lazyUpdate />
+                <ReactECharts key={`premium-${range}`} option={premiumOpt} style={{ height: 380, width: '100%' }} notMerge />
                 <div className="terminal-chart-stats" style={{ marginTop: 8 }}>
                   <div className="stat-item">
                     <span className="stat-label">实时溢价:</span>
@@ -914,7 +791,7 @@ export default function GoldPanel() {
                   <span><i style={{ background: 'rgba(245,197,66,0.5)' }} />支撑带 ({currentInst.support[0]}-{currentInst.support[1]})</span>
                   <span><i style={{ background: 'rgba(255,107,107,0.5)' }} />压力带 ({currentInst.resistance[0]}-{currentInst.resistance[1]})</span>
                 </div>
-                <ReactECharts option={klineOpt} style={{ height: 380, width: '100%' }} notMerge lazyUpdate />
+                <ReactECharts key={`kline-${activeTabKey}-${range}`} option={klineOpt} style={{ height: 380, width: '100%' }} notMerge />
               </>
             )}
           </div>
@@ -962,31 +839,21 @@ export default function GoldPanel() {
         </div>
         <div className="sec-note">{tech.note}</div>
 
-        {/* 期货持仓与资金流向：分位折线 + 库存基差表 */}
+        {/* 期货持仓与资金流向：COMEX 库存与期现基差结构 */}
         <h2 className="sec-title">{positioning.secTitle}</h2>
-        <div className="pos-grid">
-          <div className="card chart-panel">
-            <div className="legend">
-              <span><i style={{ background: GOLD }} />投机净多头历史分位</span>
+        <div className="card pos-table" style={{ width: '100%', marginBottom: 12 }}>
+          <div className="legend"><span>{positioning.tableTitle}</span></div>
+          {positioning.table.map((row, i) => (
+            <div className="pos-row" key={i}>
+              <span className="k">{row.k}</span>
+              <span className="v">{row.v}</span>
+              <span className={`wk ${row.dir}`}>
+                <i className={`arrow ${row.dir}`} aria-hidden="true" />
+                {row.wk}
+              </span>
+              <span className="g-src">{row.src}</span>
             </div>
-            <div className="chart-title">{positioning.pctTitle}</div>
-            <ReactECharts option={pctOpt} style={{ height: 270, width: '100%' }} notMerge lazyUpdate />
-            <div className="pos-note">{positioning.pctNote}</div>
-          </div>
-          <div className="card pos-table">
-            <div className="legend"><span>{positioning.tableTitle}</span></div>
-            {positioning.table.map((row, i) => (
-              <div className="pos-row" key={i}>
-                <span className="k">{row.k}</span>
-                <span className="v">{row.v}</span>
-                <span className={`wk ${row.dir}`}>
-                  <i className={`arrow ${row.dir}`} aria-hidden="true" />
-                  {row.wk}
-                </span>
-                <span className="g-src">{row.src}</span>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
         <div className="pos-note">{positioning.note}</div>
 
@@ -1083,27 +950,7 @@ export default function GoldPanel() {
           </div>
         </div>
 
-        {/* SPDR 15 日净增减柱状图 */}
-        <div className="card chart-panel" style={{ marginTop: 14 }}>
-          <div className="legend">
-            <span><i style={{ background: UP }} />净增持</span>
-            <span><i style={{ background: DOWN }} />净减持</span>
-            <span className="spdr-latest">{etf.spdrLatest.tons} · {etf.spdrLatest.chg}（{etf.spdrLatest.date} · {etf.spdrLatest.src}）</span>
-          </div>
-          <div className="chart-title">{etf.spdrTitle}</div>
-          <ReactECharts option={spdrOpt} style={{ height: 220, width: '100%' }} notMerge lazyUpdate />
-          <div className="pos-note">{etf.spdrNote}</div>
-        </div>
 
-        <div className="card grow">
-          {etf.items.map((it, i) => (
-            <div className="grow-row" key={i}>
-              <span className="k">{it.k}</span>
-              <span className="v">{it.v}</span>
-              <span className="g-src">{it.src}</span>
-            </div>
-          ))}
-        </div>
 
         {/* 宏观非对称赔率与趋势防守纪律 */}
         <h2 className="sec-title">宏观非对称赔率与趋势防守纪律</h2>

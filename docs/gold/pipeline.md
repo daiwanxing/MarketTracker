@@ -88,19 +88,24 @@ graph TD
 
 - **执行周期**：每小时整点运行 (`.github/workflows/refresh-market-data.yml`)。
 - **数据源**：
-  - **伦敦金现货 (XAU/USD)**：主源 `https://api.gold-api.com/price/XAU`，备用源 Swissquote 外汇 BBO 柜台流（`https://forex-data-feed.swissquote.com`）；
-  - **COMEX 黄金期货连续主力**：`GC=F`（Yahoo Finance）；
-  - **美元指数**：`DX-Y.NYB`（Yahoo Finance）；
-  - **美债 10 年期基准收益率**：`^TNX`（CBOE 10-Year Treasury Yield via Yahoo Finance）。
+  - **伦敦金现货 (XAU/USD) 历史日 K 与盘口**：新浪全球期货接口 `GlobalFuturesService.getGlobalFuturesDailyKLine?symbol=XAU`（防盗链 Referer: `https://finance.sina.com.cn/`），备用现货源 `gold-api.com` / Swissquote；
+  - **COMEX 黄金期货连续主力 (GC)**：新浪全球期货接口 `GlobalFuturesService.getGlobalFuturesDailyKLine?symbol=GC`（彻底消除对不稳定 Yahoo Finance 的依赖）；
+  - **国内沪金连续与上海金现货 (AU0 / SGE)**：新浪内盘期货接口 `InnerFuturesNewService.getDailyKLine?symbol=AU0`（真实国内交易量与结算价）；
+  - **美元指数**：`DX-Y.NYB`（Yahoo / 新浪 DINIW 联动）；
+  - **美债 10 年期基准收益率**：`^TNX`（CBOE 10-Year Treasury Yield）。
 - **核心逻辑与防固机制**：
-  1. **现货双源高可用与平滑降级**：优先拉取 `gold-api.com` 撮合成交价；遇到网络抖动或超时时自动故障转移至 Swissquote 中间价，并更新对应来源标签。
+  1. **全自动新浪 API 历史日 K 管道 (`fetch_all_gold_klines` & `sync_sina_gold_series`)**：
+     - 自动化拉取并对齐 XAU、GC、AU0 最近 90 个交易日的真实日 K、OHLC、真实成交量；
+     - 自动同步刷新 `tech.candles`、`tech.instruments.londonSpot`、`tech.instruments.comexGold`、`tech.instruments.shau`，杜绝单标的硬编码与日 K 冻结；
+     - 自动联动推导 `tech.premiumHistory`（90 日内外盘溢价利差时序）与 `charts.normalized`（多资产归一化百分比走势）；
+     - 离线/异常优雅降级：若网络抖动，自动回退到单根日 K 自适应维护模式，自测与离线环境 100% 稳健。
   2. **价格绝对窗口过滤 (`RANGES`)**：设定价格绝对边界防御（`500.0 ~ 20000.0`），排除传输损坏引发的极端脏数据。
-  3. **日内盘中成交量动态累加 (`update_gold_candles`)**：在同一交易日内持续以 COMEX 当日实时成交量刷新 `volumes[-1]`，消除早盘首笔读数被全天冻结的 Bug。
+  3. **日内盘中成交量动态累加 (`update_gold_candles`)**：在同一交易日内持续刷新当日实时成交量，消除早盘首笔读数被全天冻结的 Bug。
   4. **休市日前向填充防伪造**：当遇到交易所假期或成交量缺失时，追加 `0` 手占位符，坚决杜绝用前日数据前向填充造成的虚假放量。
   5. **期现基差差分方向判定 (`update_basis_row`)**：以当前基差相较前次快照的增量差分（\(\Delta \text{Basis} = \text{Basis}_t - \text{Basis}_{t-1}\)）判定方向。差分大于 \(+0.05\) 标为走阔（`up`），小于 \(-0.05\) 标为收窄（`down`），微幅变动标为持平（`flat`），精准还原套利结构演变。
-  6. **多周期动量时序闭环 (`update_momentum`)**：基于当前 94 根日 K 线精确计算近 20 交易日、近 5 交易日以及今日现货的涨跌幅。
+  6. **多周期动量时序闭环 (`update_momentum`)**：基于当前 90 根日 K 线精确计算近 20 交易日、近 5 交易日以及今日现货的涨跌幅。
 - **写入字段**：
-  - `src/data/goldData.json` 中的 `snapshot`、`metrics.main.*`、`benchmarks`、`premium`、`tech.candles`、`tech.volume`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（基差行）以及 `macro.items` 中的高频数值 `quote`。
+  - `src/data/goldData.json` 中的 `snapshot`、`metrics.main.*`、`benchmarks`、`premium`、`tech.candles`、`tech.volume`、`tech.instruments`、`tech.premiumHistory`、`charts.normalized`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（基差行）以及 `macro.items` 中的高频数值 `quote`。
   - **内外盘溢价与 Jev 死区防御**：在 `premium` 中实时测算 \(\text{Spread} = \frac{\text{Au99.99} \times 31.1035}{\text{USD/CNY}} - \text{XAU/USD}\)，基于 Jev 准则设立 \([-5, 8]\) 美元中性死区与偏强（HOT）、极端挤仓（SQUEEZE）和贴水（DISCOUNT）状态机。
   - **东西方需求侧分层**：日度追踪西方 SPDR 与国内华安黄金 ETF（518880）持仓，月度追踪中国央行（PBOC）官方储备与 SGE 出库量。
   - **严守边界**：绝不篡改认知流水线负责的 `tech.trend`、支撑阻力区间、宏观叙事 `v` 及 `action`。

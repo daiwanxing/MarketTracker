@@ -10,7 +10,7 @@ const UA = 'Mozilla/5.0 (compatible; MarketTracker/1.0; +https://github.com/daiw
  * - 伦敦金现货 (XAU/USD): hf_XAU
  */
 export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGlobalQuotes> {
-  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU', 'USDCNY'];
+  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU', 'hf_GC', 'gds_AU9999', 'gds_AUTD', 'USDCNY'];
   const url = `https://hq.sinajs.cn/list=${symbols.join(',')}`;
   const out: SinaGlobalQuotes = {};
 
@@ -87,6 +87,39 @@ export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGloba
             chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
             chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
           };
+        }
+      } else if (key === 'hf_GC' && p.length > 7) {
+        const gcPrice = parseFloat(p[2] || p[0]);
+        const prevClose = parseFloat(p[8] || p[7] || '0');
+        if (!isNaN(gcPrice) && gcPrice > 0) {
+          const hasPrev = !isNaN(prevClose) && prevClose > 0;
+          const pct = hasPrev ? ((gcPrice - prevClose) / prevClose) * 100 : 0;
+          out.comexGold = {
+            name: p[13] || 'COMEX期金主力',
+            symbol: 'GC',
+            price: parseFloat(gcPrice.toFixed(2)),
+            previousClose: hasPrev ? prevClose : undefined,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          };
+        }
+      } else if ((key === 'gds_AU9999' || key === 'gds_AUTD') && p.length > 7) {
+        // 优先使用 Au99.99 现货，其次 Au(T+D)
+        if (key === 'gds_AU9999' || !out.shau) {
+          const shPrice = parseFloat(p[0]);
+          const prevClose = parseFloat(p[7] || '0');
+          if (!isNaN(shPrice) && shPrice > 0) {
+            const hasPrev = !isNaN(prevClose) && prevClose > 0;
+            const pct = hasPrev ? ((shPrice - prevClose) / prevClose) * 100 : 0;
+            out.shau = {
+              name: '上海金现货',
+              symbol: 'Au99.99',
+              price: parseFloat(shPrice.toFixed(2)),
+              previousClose: hasPrev ? prevClose : undefined,
+              chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+              chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+            };
+          }
         }
       }
     }
