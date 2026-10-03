@@ -122,7 +122,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const shfeAuChg = tcAu?.chg || staticGoldBm.shfeGold.chg;
   const shfeAuChgClass = (tcAu?.chgClass || staticGoldBm.shfeGold.chgClass) as 'up' | 'down' | '';
 
-  const shauQuote = emShau ?? sinaMap.shau;
+  // 方案 A: 优先使用上金所连续撮合现货 Au99.99 (Sina Level-1 极速推送)，其次回退东财 SHAU 定价或静态底包真值
+  const shauQuote = sinaMap.shau ?? emShau;
   const shauPrice = shauQuote?.price ?? staticGoldBm.shau.price;
   const shauChg = shauQuote?.chg ?? staticGoldBm.shau.chg;
   const shauChgClass = (shauQuote?.chgClass ?? staticGoldBm.shau.chgClass) as 'up' | 'down' | '';
@@ -178,8 +179,8 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       previousClose: gcQuote?.previousClose ?? staticGoldBm.comexGold.previousClose,
     },
     shau: {
-      name: staticGoldBm.shau.name,
-      symbol: staticGoldBm.shau.symbol,
+      name: shauQuote?.name ?? staticGoldBm.shau.name,
+      symbol: shauQuote?.symbol ?? staticGoldBm.shau.symbol,
       price: shauPrice,
       chg: shauChg,
       chgClass: shauChgClass,

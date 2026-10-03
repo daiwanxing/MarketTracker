@@ -3505,14 +3505,14 @@
       "src": "GC 纽约商品交易所 · 新浪行情"
     },
     "shau": {
-      "name": "上海金",
-      "symbol": "SHAU",
-      "price": 907.5,
-      "chg": "+1.33%",
+      "name": "上海金现货",
+      "symbol": "Au99.99",
+      "price": 907.61,
+      "chg": "+1.12%",
       "chgClass": "up",
       "unit": "元/克",
-      "previousClose": 895.6,
-      "src": "SHAU 上海黄金交易所 · 东方财富网"
+      "previousClose": 897.53,
+      "src": "Au99.99 上海黄金交易所现货 · 新浪行情"
     },
     "shfeGold": {
       "name": "沪金期货连续",
@@ -3526,9 +3526,9 @@
     }
   },
   "premium": {
-    "spreadUsd": 69.23,
-    "spreadRmb": 14.92,
-    "premiumRate": "+1.67%",
+    "spreadUsd": 69.74,
+    "spreadRmb": 15.03,
+    "premiumRate": "+1.68%",
     "zone": "SQUEEZE",
     "zoneLabel": "极端挤仓溢价",
     "deadband": [
@@ -3536,7 +3536,7 @@
       8
     ],
     "percentile": 78.5,
-    "hint": "内外盘溢价 +$69.23/oz (极端挤仓溢价)，汇率参照 6.7050。"
+    "hint": "内外盘溢价 +$69.74/oz (极端挤仓溢价)，汇率参照 6.7050。"
   },
   "demandDynamics": {
     "westernEtf": {

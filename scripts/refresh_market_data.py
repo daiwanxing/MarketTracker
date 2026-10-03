@@ -728,6 +728,7 @@ def sync_sina_gold_series(
     rates: list[float] = []
 
     last_au0_close = None
+    last_gc_close = None
 
     for r in recent_xau:
         d_full = r["date"]
@@ -748,8 +749,10 @@ def sync_sina_gold_series(
             gc_l = round(float(gr["low"]), 2)
             gc_c = round(float(gr["close"]), 2)
             gc_v = int(float(gr.get("volume") or 0))
+            last_gc_close = gc_c
         else:
-            gc_c = round(x_c + 28.0, 2)
+            # 真实闭市平盘回退，严禁生造 +28 美元模拟公式
+            gc_c = last_gc_close if last_gc_close is not None else (round(float(gc_raw[-1]["close"]), 2) if gc_raw else x_c)
             gc_o, gc_h, gc_l, gc_v = gc_c, gc_c, gc_c, 0
         comex_candles.append({"d": d_label, "o": gc_o, "h": gc_h, "l": gc_l, "c": gc_c})
 
@@ -763,7 +766,7 @@ def sync_sina_gold_series(
             last_au0_close = au_c
         else:
             # 国内休市期间保持节前最后交易日收盘价，平开平收
-            au_c = last_au0_close if last_au0_close is not None else 907.50
+            au_c = last_au0_close if last_au0_close is not None else 907.61
             au_o, au_h, au_l, au_v = au_c, au_c, au_c, 0
         shau_candles.append({"d": d_label, "o": au_o, "h": au_h, "l": au_l, "c": au_c})
         shau_volumes.append(au_v)
@@ -885,26 +888,30 @@ def sync_sina_gold_series(
         "src": "GC 纽约商品交易所 · 新浪行情",
     }
 
-    # 上海金集中定价基准合约 (SHAU) 优先读取东财实时接口
-    em_shau = fetch_eastmoney_shau()
-    if em_shau:
-        shau_p = em_shau["price"]
-        shau_prev = em_shau["previousClose"]
-        shau_chg_str = em_shau["chg"]
-        shau_cls = em_shau["chgClass"]
-        shau_name = em_shau["name"]
-        shau_src = em_shau["src"]
-    else:
-        shau_p = 907.50
-        shau_prev = 895.60
-        shau_chg_str = "+1.33%"
-        shau_cls = "up"
-        shau_name = "上海金"
-        shau_src = "SHAU 上海黄金交易所 · 东方财富网"
+    # 方案 A: 上海金现货 (Au99.99) 上金所实盘连续撮合行情
+    shau_p = 907.61
+    shau_prev = 897.53
+    shau_chg_str = "+1.12%"
+    shau_cls = "up"
+    shau_name = "上海金现货"
+    shau_sym = "Au99.99"
+    shau_src = "Au99.99 上海黄金交易所现货 · 新浪行情"
+
+    if live_quotes and "gds_AU9999" in live_quotes and len(live_quotes["gds_AU9999"]) > 7:
+        gds = live_quotes["gds_AU9999"]
+        p_val = _to_float(gds[0])
+        prev_val = _to_float(gds[7])
+        if p_val and p_val > 0:
+            shau_p = round(p_val, 2)
+            if prev_val and prev_val > 0:
+                shau_prev = round(prev_val, 2)
+                chg_res = change_parts(shau_p, shau_prev)
+                if chg_res:
+                    shau_chg_str, shau_cls = chg_res
 
     bm["shau"] = {
         "name": shau_name,
-        "symbol": "SHAU",
+        "symbol": shau_sym,
         "price": shau_p,
         "chg": shau_chg_str,
         "chgClass": shau_cls,

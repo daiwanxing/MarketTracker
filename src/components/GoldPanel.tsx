@@ -177,6 +177,14 @@ export default function GoldPanel() {
     return parseFloat((sum / 60).toFixed(2));
   }).slice(-rangeLen);
 
+  const currentMA20 = fullCloses.length >= 20
+    ? (fullCloses.slice(-20).reduce((a, b) => a + b, 0) / 20).toFixed(1)
+    : (fullCloses[fullCloses.length - 1] ?? 0).toFixed(1);
+
+  const currentMA60 = fullCloses.length >= 60
+    ? (fullCloses.slice(-60).reduce((a, b) => a + b, 0) / 60).toFixed(1)
+    : currentMA20;
+
   const klineOpt: EChartsOption = useMemo(() => ({
     backgroundColor: 'transparent',
     animation: false,
@@ -805,11 +813,11 @@ export default function GoldPanel() {
           </div>
           <div className="trend-points">
             <span className="tp-item">
-              波段强弱线 (MA20) <b>{currentInst.currency === '¥' ? (activeBm.shau.price * 1.006).toFixed(1) : (activeBm.comexGold.price * 1.008).toFixed(1)} {currentInst.unit}</b>
+              波段强弱线 (MA20) <b>{currentMA20} {currentInst.unit}</b>
               <small>反弹强压/收复确立</small>
             </span>
             <span className="tp-item">
-              季线生命线 (MA60) <b>{currentInst.currency === '¥' ? (activeBm.shau.price * 1.021).toFixed(1) : (activeBm.comexGold.price * 1.025).toFixed(1)} {currentInst.unit}</b>
+              季线生命线 (MA60) <b>{currentMA60} {currentInst.unit}</b>
               <small>中长线牛熊分界</small>
             </span>
             <span className="tp-item tp-stop">
