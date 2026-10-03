@@ -85,6 +85,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   // 3. 黄金组装
   const tcGc = tcMap['hf_GC'];
   const staticGoldMetrics = goldData_metrics();
+  const staticUs10y = goldStatic.macro?.items?.find((item) => item.dim === 'rates')?.quote?.value;
   const goldPriceNum = sinaMap.spotGold ?? tcGc?.price ?? parseFloat(String(staticGoldMetrics.num));
   const goldPrice = goldPriceNum ? goldPriceNum.toFixed(2) : String(staticGoldMetrics.num);
   const goldChg = tcGc?.chg || staticGoldMetrics.chg;
@@ -92,7 +93,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const goldQuotes = {
     gc: tcGc?.price ?? staticGoldMetrics.quotes?.gc,
     dxy: sinaMap.dxy ?? staticGoldMetrics.quotes?.dxy,
-    us10y: yields.us10y ?? staticGoldMetrics.quotes?.us10y,
+    us10y: yields.us10y ?? staticUs10y,
   };
 
   // 4. 机器人组装
