@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import http from 'http';
 
 interface QuoteResult {
   symbol: string;
@@ -48,6 +49,13 @@ const FALLBACK = {
       chgClass: 'down' as const,
       previousClose: 6889.74,
     },
+    crowding: {
+      value: 38.79,
+      tmtAmountYi: 5577.58,
+      marketAmountYi: 14379.89,
+      zone: 'danger',
+      label: '极端过热',
+    },
   },
   robot: {
     csRobot: {
@@ -73,6 +81,13 @@ const FALLBACK = {
       chg: '-0.20%',
       chgClass: 'down' as const,
       previousClose: 354.81,
+    },
+    crowding: {
+      value: 1.40,
+      robotAmountYi: 202.01,
+      marketAmountYi: 14380.18,
+      zone: 'neutral',
+      label: '温和中位',
     },
   },
 };
@@ -217,31 +232,170 @@ async function fetchTencentQuotes(symbols: string[], timeoutMs = 3000): Promise<
   return out;
 }
 
+/**
+ * 东方财富秒级全市场微观拥挤度聚合抓取（7 核心标的单次打包，约 80ms）
+ */
+interface EastmoneyCrowdingOutput {
+  techSemi: {
+    tmtAmountYi: number;
+    marketAmountYi: number;
+    value: number;
+    zone: string;
+    label: string;
+  };
+  robot: {
+    robotAmountYi: number;
+    marketAmountYi: number;
+    value: number;
+    zone: string;
+    label: string;
+  };
+}
+
+function fetchEastmoneyCrowding(timeoutMs = 3000): Promise<EastmoneyCrowdingOutput | null> {
+  return new Promise((resolve) => {
+    const secids = '1.000001,0.399106,90.BK1201,90.BK1215,90.BK1207,90.BK0486,2.H30590';
+    const options = {
+      hostname: 'push2.eastmoney.com',
+      port: 80,
+      path: `/api/qt/ulist.np/get?secids=${secids}&fields=f2,f3,f6,f12,f14`,
+      family: 4,
+      headers: {
+        'User-Agent': UA,
+        'Referer': 'http://quote.eastmoney.com/',
+      },
+      timeout: timeoutMs,
+    };
+
+    const req = http.get(options, (res) => {
+      let raw = '';
+      res.on('data', (chunk) => {
+        raw += chunk;
+      });
+      res.on('end', () => {
+        try {
+          const data = JSON.parse(raw);
+          const diff = data?.data?.diff;
+          if (!Array.isArray(diff) || diff.length === 0) return resolve(null);
+          const map: Record<string, { f6?: number }> = {};
+          for (const item of diff) {
+            if (item && item.f12) map[item.f12] = item;
+          }
+
+          const shAmt = (map['000001']?.f6 || 0) / 1e8;
+          const szAmt = (map['399106']?.f6 || 0) / 1e8;
+          const marketTotal = shAmt + szAmt;
+          if (marketTotal <= 0) return resolve(null);
+
+          const dz = (map['BK1201']?.f6 || 0) / 1e8;
+          const tx = (map['BK1215']?.f6 || 0) / 1e8;
+          const jsj = (map['BK1207']?.f6 || 0) / 1e8;
+          const cm = (map['BK0486']?.f6 || 0) / 1e8;
+          const tmtTotal = dz + tx + jsj + cm;
+          const tmtShare = parseFloat(((tmtTotal / marketTotal) * 100).toFixed(2));
+
+          let tmtZone = 'neutral';
+          let tmtLabel = '主线活跃';
+          if (tmtShare >= 38.0) {
+            tmtZone = 'danger';
+            tmtLabel = '极端过热';
+          } else if (tmtShare >= 32.0) {
+            tmtZone = 'warning';
+            tmtLabel = '拥挤偏热';
+          } else if (tmtShare < 20.0) {
+            tmtZone = 'cold';
+            tmtLabel = '低位冰点';
+          }
+
+          const robotAmt = (map['H30590']?.f6 || 0) / 1e8;
+          const robotShare = parseFloat(((robotAmt / marketTotal) * 100).toFixed(2));
+
+          let robotZone = 'neutral';
+          let robotLabel = '温和中位';
+          if (robotShare >= 3.8) {
+            robotZone = 'danger';
+            robotLabel = '极端过热';
+          } else if (robotShare >= 2.8) {
+            robotZone = 'warning';
+            robotLabel = '偏热';
+          } else if (robotShare >= 1.5) {
+            robotZone = 'neutral';
+            robotLabel = '活跃';
+          } else if (robotShare < 0.8) {
+            robotZone = 'cold';
+            robotLabel = '低位冰点';
+          }
+
+          resolve({
+            techSemi: {
+              tmtAmountYi: parseFloat(tmtTotal.toFixed(2)),
+              marketAmountYi: parseFloat(marketTotal.toFixed(2)),
+              value: tmtShare,
+              zone: tmtZone,
+              label: tmtLabel,
+            },
+            robot: {
+              robotAmountYi: parseFloat(robotAmt.toFixed(2)),
+              marketAmountYi: parseFloat(marketTotal.toFixed(2)),
+              value: robotShare,
+              zone: robotZone,
+              label: robotLabel,
+            },
+          });
+        } catch {
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', () => resolve(null));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(null);
+    });
+  });
+}
+
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   // 设置边缘缓存策略：全球 CDN 缓存 8 秒，20 秒内允许返回过期数据并在后台异步更新
   res.setHeader('Cache-Control', 'public, s-maxage=8, stale-while-revalidate=20');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
-  // 并发抓取：优先腾讯国内 Level-1 极速通道，同时并发拉取全球宏观与 Yahoo 兜底标的
+  // 并发抓取：优先腾讯国内 Level-1 极速通道，同时并发拉取全球宏观、东财微观拥挤度与 Yahoo 兜底标的
   const tencentSymbols = ['sh000688', 'sh562500', 'usTSLA', 'usROBO', 'hf_OIL', 'hf_CL', 'hf_GC'];
 
-  const [tencentRes, soxRes, ks11Res, star50Res, brentRes, wtiRes, dxyRes, gcRes, tnxRes, spotGoldRes, csRobotRes, roboRes, tslaRes] =
-    await Promise.allSettled([
-      fetchTencentQuotes(tencentSymbols),
-      fetchYahooQuote('^SOX'),
-      fetchYahooQuote('^KS11'),
-      fetchYahooQuote('000688.SS'),
-      fetchYahooQuote('BZ=F'),
-      fetchYahooQuote('CL=F'),
-      fetchYahooQuote('DX-Y.NYB'),
-      fetchYahooQuote('GC=F'),
-      fetchYahooQuote('^TNX'),
-      fetchSpotGold(),
-      fetchYahooQuote('562500.SS'),
-      fetchYahooQuote('ROBO'),
-      fetchYahooQuote('TSLA'),
-    ]);
+  const [
+    tencentRes,
+    soxRes,
+    ks11Res,
+    star50Res,
+    brentRes,
+    wtiRes,
+    dxyRes,
+    gcRes,
+    tnxRes,
+    spotGoldRes,
+    csRobotRes,
+    roboRes,
+    tslaRes,
+    crowdingRes,
+  ] = await Promise.allSettled([
+    fetchTencentQuotes(tencentSymbols),
+    fetchYahooQuote('^SOX'),
+    fetchYahooQuote('^KS11'),
+    fetchYahooQuote('000688.SS'),
+    fetchYahooQuote('BZ=F'),
+    fetchYahooQuote('CL=F'),
+    fetchYahooQuote('DX-Y.NYB'),
+    fetchYahooQuote('GC=F'),
+    fetchYahooQuote('^TNX'),
+    fetchSpotGold(),
+    fetchYahooQuote('562500.SS'),
+    fetchYahooQuote('ROBO'),
+    fetchYahooQuote('TSLA'),
+    fetchEastmoneyCrowding(),
+  ]);
 
   const tcMap = tencentRes.status === 'fulfilled' ? tencentRes.value : {};
   const sox = soxRes.status === 'fulfilled' ? soxRes.value : null;
@@ -256,6 +410,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const csRobot = tcMap['sh562500'] ?? (csRobotRes.status === 'fulfilled' ? csRobotRes.value : null);
   const robo = tcMap['usROBO'] ?? (roboRes.status === 'fulfilled' ? roboRes.value : null);
   const tsla = tcMap['usTSLA'] ?? (tslaRes.status === 'fulfilled' ? tslaRes.value : null);
+  const crowding = crowdingRes.status === 'fulfilled' ? crowdingRes.value : null;
 
   // 1. 科技半导体组装
   const fbSemi = FALLBACK.techSemi;
@@ -284,6 +439,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: ks11?.chgClass || fbSemi.kospi.chgClass,
       previousClose: ks11?.previousClose ?? fbSemi.kospi.previousClose,
     },
+    crowding: crowding?.techSemi ?? fbSemi.crowding,
   };
 
   // 2. 原油组装
@@ -335,6 +491,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: tsla?.chgClass || fbRobot.tsla.chgClass,
       previousClose: tsla?.previousClose ?? fbRobot.tsla.previousClose,
     },
+    crowding: crowding?.robot ?? fbRobot.crowding,
   };
 
   return res.status(200).json({

@@ -2,8 +2,8 @@
 """Refresh tech semiconductor narrative from headlines and market state via DeepSeek.
 
 Rewrites ``timeline``, ``signal``, and ``risks`` on ``src/data/techSemiData.json``.
-Numeric and structural keys owned by ``scripts/refresh_tech_semi_data.py``,
-``scripts/refresh_tech_semi_crowding.py``, or manual disclosure tracking
+Numeric and structural keys owned by ``scripts/refresh_tech_semi_data.py``
+or manual disclosure tracking
 (snapshot, head, benchmarks, charts, crowding, leverage, anomalies, fundamental,
 news, footer) stay untouched. A failed fetch or model call leaves the file unchanged.
 

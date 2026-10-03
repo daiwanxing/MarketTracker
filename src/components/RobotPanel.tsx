@@ -172,8 +172,26 @@ export default function RobotPanel() {
     return orderBy(timeline || [], ['date'], ['desc']);
   }, [timeline]);
 
-  const crowdZone = crowding.zone || 'neutral';
-  const crowdLabel = crowding.label || '温和活跃';
+  const liveRobotCrowd = robotQuotes?.crowding;
+  const effectiveCrowding = useMemo(() => {
+    if (liveRobotCrowd) {
+      return {
+        ...crowding,
+        zone: liveRobotCrowd.zone,
+        label: liveRobotCrowd.label,
+        turnoverShare: {
+          ...crowding.turnoverShare,
+          value: liveRobotCrowd.value,
+          robotAmountYi: liveRobotCrowd.robotAmountYi,
+          marketAmountYi: liveRobotCrowd.marketAmountYi,
+        },
+      };
+    }
+    return crowding;
+  }, [crowding, liveRobotCrowd]);
+
+  const crowdZone = effectiveCrowding.zone || 'neutral';
+  const crowdLabel = effectiveCrowding.label || '温和活跃';
 
   const tslaPriceVal = robotQuotes?.tsla?.price ?? robotData.optionSentinel?.tsla?.price ?? 354.11;
   const tslaPriceDisplay = typeof tslaPriceVal === 'number' ? tslaPriceVal.toFixed(2) : String(tslaPriceVal);
@@ -322,17 +340,17 @@ export default function RobotPanel() {
           {/* A. 板块成交额占比仪表 */}
           <div className="card real-crowd-card">
             <div className="real-crowd-head">
-              <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
+              <span className="real-crowd-title">{effectiveCrowding.turnoverShare.label}</span>
               <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
             </div>
             <div className="real-crowd-num-row">
-              <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
-              <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
+              <span className="real-crowd-val num">{effectiveCrowding.turnoverShare.value}</span>
+              <span className="real-crowd-unit">{effectiveCrowding.turnoverShare.unit || '%'}</span>
             </div>
             <div className="gauge-track" aria-hidden="true">
               <div
                 className={`gauge-fill ${crowdZone}`}
-                style={{ width: `${clamp((crowding.turnoverShare.value / 4.5) * 100, 4, 100)}%` }}
+                style={{ width: `${clamp((effectiveCrowding.turnoverShare.value / 4.5) * 100, 4, 100)}%` }}
               />
             </div>
             <div className="gauge-marks">
@@ -342,7 +360,7 @@ export default function RobotPanel() {
               <span>3.8 极端</span>
             </div>
             <div className="real-crowd-detail">
-              机器人 {crowding.turnoverShare.robotAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{crowding.methodNote}。
+              机器人 {effectiveCrowding.turnoverShare.robotAmountYi.toLocaleString()} 亿 / 两市 {effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{effectiveCrowding.methodNote}。
             </div>
           </div>
 

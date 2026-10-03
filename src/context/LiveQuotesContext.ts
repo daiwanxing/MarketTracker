@@ -18,11 +18,25 @@ export interface LiveQuotesData {
     sox: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     star50: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     kospi: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    crowding?: {
+      value: number;
+      tmtAmountYi: number;
+      marketAmountYi: number;
+      zone: string;
+      label: string;
+    };
   };
   robot?: {
     csRobot: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     robo: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     tsla: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    crowding?: {
+      value: number;
+      robotAmountYi: number;
+      marketAmountYi: number;
+      zone: string;
+      label: string;
+    };
   };
 }
 

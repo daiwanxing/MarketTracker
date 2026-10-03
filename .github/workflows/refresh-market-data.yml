@@ -33,11 +33,11 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/oilData.json src/data/goldData.json src/data/techSemiData.json
+          git add src/data/oilData.json src/data/goldData.json src/data/techSemiData.json src/data/robotData.json
           if git diff --cached --quiet; then
             echo "No market data changes to commit"
             exit 0
           fi
-          git commit -m "Refresh oil, gold and tech semi market numbers"
+          git commit -m "Refresh oil, gold, tech semi and robot market numbers"
           git pull --rebase origin main
           git push origin HEAD:main

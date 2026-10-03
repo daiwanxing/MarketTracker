@@ -35,7 +35,7 @@
     - `macro.items` 中以 `美元指数` 或 `美债 10 年期收益率` 为 key 的 `quote`（`value`、`bp`、`asOf`）
     *(注：黄金的技术支撑阻力、盈亏比区间、研判叙述由 `scripts/refresh_gold_timeline.py` 维护，见 §2.5)*
 
-### 2.2 科技半导体基准行情 (`scripts/refresh_tech_semi_data.py`)
+### 2.2 科技半导体基准行情与全市场拥挤度 (`scripts/refresh_tech_semi_data.py`)
 - **工作流**：`.github/workflows/refresh-market-data.yml` (每小时 `0 * * * *`)
 - **受保护文件与字段**：
   - `src/data/techSemiData.json`
@@ -43,29 +43,27 @@
     - `benchmarks.sox`、`benchmarks.kospi`、`benchmarks.star50`（各标的的 `price`、`chg`、`chgClass`、`previousClose`、`src`）
     - `charts.normalized`（`dates`、`sox`、`kospi`、`star50` 近半年标准化序列）
     - `leverage.marginBuyShare`（`value`、`asOf`、`buyYi`、`marketAmountYi`、`zone`、`v`、`status`、`src`、`dates`、`shares`，纯沪深两市口径）
-
-### 2.3 A 股 TMT 行业拥挤度 (`scripts/refresh_tech_semi_crowding.py`)
-- **工作流**：`.github/workflows/refresh-tech-semi-crowding.yml` (工作日周一至周五 07:30 UTC / 15:30 上海收盘)
-- **受保护文件与字段**：
-  - `src/data/techSemiData.json`
     - `crowding.asOf`、`crowding.label`、`crowding.zone`、`crowding.methodNote`、`crowding.src`
     - `crowding.turnoverShare`（`value`、`tmtAmountYi`、`marketAmountYi`、`label`、`unit`、`desc`）
+  - `src/data/robotData.json`
+    - `crowding.asOf`、`crowding.label`、`crowding.zone`
+    - `crowding.turnoverShare.value`、`crowding.turnoverShare.marketAmountYi`
 
-### 2.4 原油时间轴与认知分析 (`scripts/refresh_oil_timeline.py`)
+### 2.3 原油时间轴与认知分析 (`scripts/refresh_oil_timeline.py`)
 - **工作流**：`refresh-oil-timeline.yml` 每日 00:30 与 12:30 UTC（08:30 / 20:30 CST）定时调用 DeepSeek 模型生成，亦支持手动触发；高频 `refresh-market-data.yml` 仅更新数字，不触发 LLM 以杜绝 Token 浪费。
 - **架构详解与 Mermaid 流程图**：详见 [`docs/oil/pipeline.md`](oil/pipeline.md)。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：只改 `src/data/oilData.json` 的 `timeline`、`signal`、`risks`、`risksTitle`。抓取失败、模型失败或字段校验失败时不写文件。
 - **不写**：`snapshot`、`metrics`、`charts`、`news`、`footer`。时间轴条目的 `url` 只能来自当次抓取的原文链接。
 
-### 2.5 黄金认知分析与交易研判 (`scripts/refresh_gold_timeline.py`)
+### 2.4 黄金认知分析与交易研判 (`scripts/refresh_gold_timeline.py`)
 - **工作流**：`refresh-gold-timeline.yml` 每日 00:30 与 12:30 UTC（08:30 / 20:30 CST）定时调用 DeepSeek 模型生成，亦支持手动触发；高频 `refresh-market-data.yml` 仅更新数字，不触发 LLM 以杜绝 Token 浪费。
 - **架构详解与 Mermaid 流程图**：详见 [`docs/gold/pipeline.md`](gold/pipeline.md)。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：维护 `src/data/goldData.json` 的 `tech.support`、`tech.resistance`、`tech.trend`、`supportDesc`、`resistanceDesc`、`sentiment.riskReward`（`support`、`resistance`、`stop`、`src`）、`macro.items` 中的研判属性（`v`、`signal`、`signalText`）、`action` 以及 `footer`。抓取失败、模型失败或字段校验失败时不写文件。
 - **不写**：`snapshot`、`metrics`、`tech.candles`、`tech.volume`、`tech.momentum`、`sentiment.riskReward.price`、`positioning.table`（期现基差行）。
 
-### 2.6 ENSO 厄尔尼诺气候数值 (`scripts/refresh_enso_data.py`)
+### 2.5 ENSO 厄尔尼诺气候数值 (`scripts/refresh_enso_data.py`)
 - **工作流**：`.github/workflows/refresh-enso-data.yml` (每日 07:15 与 19:15 UTC)
 - **受保护文件与字段**：
   - `src/data/ensoData.json`
@@ -73,14 +71,14 @@
     - `cpc.traditional.*`（`weekly`、`monthly`、`oni`）
     - `cpc.relative.*`（`weekly`、`monthly`、`rnino34`、`roni`）
 
-### 2.7 科技宏观认知分析与产业链研判 (`scripts/refresh_tech_semi_timeline.py`)
+### 2.6 科技宏观认知分析与产业链研判 (`scripts/refresh_tech_semi_timeline.py`)
 - **工作流**：`refresh-tech-semi-timeline.yml` 每日 00:30 与 12:30 UTC（08:30 / 20:30 CST）定时调用 DeepSeek 模型生成，亦支持手动触发；高频 `refresh-market-data.yml` 仅更新数字，不触发 LLM 以杜绝 Token 浪费。
 - **架构详解与 Mermaid 流程图**：详见 [`docs/tech-semi/pipeline.md`](tech-semi/pipeline.md)。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：维护 `src/data/techSemiData.json` 的 `timeline`、`signal`、`risks`。抓取失败、模型失败或字段校验失败时不写文件。
 - **不写**：`snapshot`、`head`、`benchmarks`、`charts`、`crowding`、`leverage`、`anomalies`、`fundamental`、`news`、`footer`。时间轴条目的 `url` 只能来自当次抓取的原文链接。
 
-### 2.8 机器人大事记与前瞻催化雷达 (`scripts/refresh_robot_timeline.py`)
+### 2.7 机器人大事记与前瞻催化雷达 (`scripts/refresh_robot_timeline.py`)
 - **工作流**：`refresh-robot-timeline.yml` 每日 00:35 与 12:35 UTC（08:35 / 20:35 CST 错峰）定时调用 DeepSeek 模型生成，亦支持手动触发；高频行情由 Serverless 边缘网关驱动，不触发 LLM 以杜绝 Token 浪费。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：维护 `src/data/robotData.json` 的非数值叙事内容，包括：

@@ -212,9 +212,29 @@ export default function TechSemiPanel() {
 
   const share = crowding?.turnoverShare?.value ?? 0;
   const starDown = (benchMap.star50?.chgClass === 'down') || (benchMap.star50?.chg.startsWith('-') ?? false);
-  const tone = crowdTone(share, starDown);
-  const crowdZone = crowding?.zone || tone.zone;
-  const crowdLabel = crowding?.label || tone.label;
+
+  const liveCrowd = liveQuotes?.techSemi?.crowding;
+  const effectiveCrowding = useMemo(() => {
+    if (liveCrowd) {
+      return {
+        ...crowding,
+        zone: liveCrowd.zone,
+        label: liveCrowd.label,
+        turnoverShare: {
+          ...crowding?.turnoverShare,
+          value: liveCrowd.value,
+          tmtAmountYi: liveCrowd.tmtAmountYi,
+          marketAmountYi: liveCrowd.marketAmountYi,
+        },
+      };
+    }
+    return crowding;
+  }, [crowding, liveCrowd]);
+
+  const effectiveShare = effectiveCrowding?.turnoverShare?.value ?? share;
+  const effectiveTone = crowdTone(effectiveShare, starDown);
+  const crowdZone = effectiveCrowding?.zone || effectiveTone.zone;
+  const crowdLabel = effectiveCrowding?.label || effectiveTone.label;
   const norm = useMemo(() => charts.normalized as Record<string, number[] | string[]>, [charts.normalized]);
   const dates = useMemo(() => (norm.dates as string[]) || [], [norm]);
 
@@ -535,18 +555,18 @@ export default function TechSemiPanel() {
           <span className="hint">TMT 成交占比衡量微观拥挤，沪深两市融资买入强度反映场内杠杆攻防</span>
         </h2>
         <div className="anomaly-grid">
-          {crowding?.turnoverShare && (
+          {effectiveCrowding?.turnoverShare && (
             <div className="card real-crowd-card">
               <div className="real-crowd-head">
-                <span className="real-crowd-title">{crowding.turnoverShare.label}</span>
+                <span className="real-crowd-title">{effectiveCrowding.turnoverShare.label}</span>
                 <span className={`crowd-badge ${crowdZone}`}>{crowdLabel}</span>
               </div>
               <div className="real-crowd-num-row">
-                <span className="real-crowd-val num">{crowding.turnoverShare.value}</span>
-                <span className="real-crowd-unit">{crowding.turnoverShare.unit || '%'}</span>
+                <span className="real-crowd-val num">{effectiveCrowding.turnoverShare.value}</span>
+                <span className="real-crowd-unit">{effectiveCrowding.turnoverShare.unit || '%'}</span>
               </div>
               <div className="gauge-track" aria-hidden="true">
-                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${clamp((share / 50) * 100, 4, 100)}%` }} />
+                <div className={`gauge-fill ${crowdZone}`} style={{ width: `${clamp((effectiveShare / 50) * 100, 4, 100)}%` }} />
               </div>
               <div className="gauge-marks">
                 <span>20 冰点外</span>
@@ -554,7 +574,7 @@ export default function TechSemiPanel() {
                 <span>38 极端</span>
               </div>
               <div className="real-crowd-detail">
-                TMT {crowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {crowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{tone.note}
+                TMT {effectiveCrowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{effectiveTone.note}
               </div>
             </div>
           )}

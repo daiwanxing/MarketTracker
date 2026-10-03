@@ -107,9 +107,10 @@ graph TD
   - `src/data/techSemiData.json` 中的 `snapshot`、`benchmarks.*`、`charts.normalized`、`leverage.marginBuyShare`。
   - **严守边界**：绝不改写 `signal`、`timeline`、`risks`、`fundamental` 等定性与研判字段。
 
-#### B. A 股 TMT 行业拥挤度 (`scripts/refresh_tech_semi_crowding.py`)
-- **执行周期**：工作日周一至周五 07:30 UTC（北京时间 15:30 盘后，`.github/workflows/refresh-tech-semi-crowding.yml`）。
-- **数据源**：主流财经行情与申万一级行业行情接口。
+#### B. A 股 TMT 行业拥挤度 (`scripts/refresh_tech_semi_data.py` 与 `/api/quotes.ts`)
+- **执行机制**：
+  - **盘中动态**：由 `/api/quotes.ts` 结合主流行情聚合接口实时推导，前端无感更新；
+  - **盘后归档**：合并由 `scripts/refresh_tech_semi_data.py` 在统一市场流水线中执行，废弃独立的单点爬虫。
 - **核心逻辑与防固机制**：
   1. **TMT 四行业成交额汇总**：抓取申万电子、计算机、传媒、通信四行业成交额合计，与沪深两市全市场总成交额计算比值：
      \[

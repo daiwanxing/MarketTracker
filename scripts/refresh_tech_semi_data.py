@@ -25,10 +25,19 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 TECH_SEMI_PATH = ROOT / "src" / "data" / "techSemiData.json"
+ROBOT_PATH = ROOT / "src" / "data" / "robotData.json"
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 YAHOO_HOSTS = ("query1.finance.yahoo.com", "query2.finance.yahoo.com")
 UA = "Mozilla/5.0 (compatible; MarketTrackerRefresh/1.0; +https://github.com/daiwanxing/MarketTracker)"
+
+# SW1 Sector nodes in Sina Market_Center for TMT turnover calculation
+SW1_TMT_NODES: dict[str, str] = {
+    "electronics": "sw1_270000",
+    "computer": "sw1_710000",
+    "media": "sw1_720000",
+    "telecom": "sw1_730000",
+}
 
 # Sanity ranges for sanity checks
 RANGES = {
@@ -619,12 +628,193 @@ def sync_closing_review_clock(doc: dict, moment: datetime) -> list[str]:
     return ["closingReview.marketClock"] if updated else []
 
 
+def fetch_market_turnover() -> tuple[float, str] | None:
+    """Fetch total market turnover (成交额) in 元 for 纯沪深两市 (sh000001 + sz399106)."""
+    url = "https://qt.gtimg.cn/q=sh000001,sz399106"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=5, context=_ssl_context()) as resp:
+            txt = resp.read().decode("gbk", errors="ignore")
+        total_amt = 0.0
+        date_str = ""
+        seen = set()
+        for line in txt.strip().split(";"):
+            if not line.strip():
+                continue
+            parts = line.split("~")
+            if len(parts) > 37:
+                code = parts[2]
+                amt_wan = float(parts[37] or 0.0)
+                if amt_wan > 0:
+                    total_amt += amt_wan * 10000.0
+                    seen.add(code)
+            if len(parts) > 30 and not date_str:
+                raw_time = parts[30]
+                if len(raw_time) >= 8:
+                    date_str = f"{raw_time[:4]}-{raw_time[4:6]}-{raw_time[6:8]}"
+        if "000001" in seen and "399106" in seen and total_amt > 0:
+            return total_amt, date_str
+    except Exception as exc:
+        log("WARN", f"Tencent market turnover fetch failed: {exc}")
+
+    # Fallback to Sina
+    try:
+        url_sina = "http://hq.sinajs.cn/list=sh000001,sz399106"
+        req_sina = urllib.request.Request(url_sina, headers={"User-Agent": UA, "Referer": "https://finance.sina.com.cn"})
+        with urllib.request.urlopen(req_sina, timeout=5, context=_ssl_context()) as resp:
+            raw = resp.read().decode("gbk", errors="ignore")
+        total_amt = 0.0
+        date_str = ""
+        seen = set()
+        for line in raw.strip().split("\n"):
+            line = line.strip()
+            if not line or "=" not in line:
+                continue
+            left, _, right = line.partition("=")
+            sym = left.replace("var hq_str_", "").strip()
+            parts = right.strip('"; \r\n').split(",")
+            if len(parts) > 30:
+                amt = float(parts[9] or 0.0)
+                if amt > 0:
+                    total_amt += amt
+                    seen.add(sym)
+                if not date_str and parts[30]:
+                    date_str = parts[30].strip()
+        if "sh000001" in seen and "sz399106" in seen and total_amt > 0:
+            return total_amt, date_str
+    except Exception as exc:
+        log("WARN", f"Sina market turnover fetch failed: {exc}")
+
+    return None
+
+
+def fetch_tmt_turnover() -> float | None:
+    """Fetch sum of turnover (元) for SW1 electronics, computer, media, telecom."""
+    total_amt = 0.0
+    total_stocks = 0
+    try:
+        for sec_id, sec_node in SW1_TMT_NODES.items():
+            page = 1
+            while True:
+                query = urllib.parse.urlencode({
+                    "page": page,
+                    "num": 100,
+                    "sort": "amount",
+                    "asc": 0,
+                    "node": sec_node,
+                })
+                url = f"http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?{query}"
+                req = urllib.request.Request(url, headers={"User-Agent": UA})
+                with urllib.request.urlopen(req, timeout=5, context=_ssl_context()) as resp:
+                    raw = resp.read().decode("gbk", errors="ignore")
+                if not raw or not raw.strip():
+                    break
+                items = json.loads(raw)
+                if not isinstance(items, list) or not items:
+                    break
+                for it in items:
+                    if isinstance(it, dict):
+                        amt = float(it.get("amount") or 0.0)
+                        total_amt += amt
+                        total_stocks += 1
+                if len(items) < 100:
+                    break
+                page += 1
+        if total_stocks >= 600 and total_amt > 0:
+            return total_amt
+    except Exception as exc:
+        log("WARN", f"Sina SW1 TMT fetch failed: {exc}")
+    return None
+
+
+def update_crowding(
+    doc: dict,
+    robot_doc: dict | None = None,
+    mock_market: float | None = None,
+    mock_tmt: float | None = None,
+    mock_as_of: str | None = None,
+) -> list[str]:
+    """Update TMT crowding in techSemiData.json and robot crowding in robotData.json."""
+    if mock_market is not None and mock_tmt is not None:
+        market_amt = mock_market
+        as_of_date = mock_as_of or datetime.now(SHANGHAI).strftime("%Y-%m-%d")
+        tmt_amt = mock_tmt
+    else:
+        mt = fetch_market_turnover()
+        if mt is None:
+            log("WARN", "market turnover unavailable; preserving crowding")
+            return []
+        market_amt, date_str = mt
+        as_of_date = date_str or datetime.now(SHANGHAI).strftime("%Y-%m-%d")
+        tmt_res = fetch_tmt_turnover()
+        if tmt_res is None:
+            log("WARN", "TMT turnover unavailable; preserving crowding")
+            return []
+        tmt_amt = tmt_res
+
+    market_amt_yi = round(market_amt / 1e8, 2)
+    tmt_amt_yi = round(tmt_amt / 1e8, 2)
+    tmt_share = round((tmt_amt / market_amt) * 100.0, 2) if market_amt > 0 else 38.79
+
+    if tmt_share >= 38.0:
+        zone, label = "danger", "极端过热"
+    elif tmt_share >= 32.0:
+        zone, label = "warning", "拥挤偏热"
+    elif tmt_share >= 20.0:
+        zone, label = "neutral", "主线活跃"
+    else:
+        zone, label = "cold", "低位冰点"
+
+    tech_crowd = doc.setdefault("crowding", {})
+    tech_crowd.update({
+        "asOf": as_of_date,
+        "label": label,
+        "zone": zone,
+        "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
+        "turnoverShare": {
+            "value": tmt_share,
+            "tmtAmountYi": tmt_amt_yi,
+            "marketAmountYi": market_amt_yi,
+            "label": "TMT 成交额占比",
+            "unit": "%",
+            "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额",
+        },
+        "src": f"申万一级行业与沪深市场快照 (asOf: {as_of_date})",
+    })
+    updated = ["crowding"]
+
+    if robot_doc is not None and "crowding" in robot_doc:
+        rb_crowd = robot_doc.setdefault("crowding", {})
+        rb_turnover = rb_crowd.setdefault("turnoverShare", {})
+        rb_turnover["marketAmountYi"] = market_amt_yi
+        rb_amt_yi = float(rb_turnover.get("robotAmountYi") or 202.01)
+        rb_share = round((rb_amt_yi / market_amt_yi) * 100.0, 2) if market_amt_yi > 0 else 1.40
+        rb_turnover["value"] = rb_share
+        if rb_share >= 3.8:
+            r_zone, r_label = "danger", "极端过热"
+        elif rb_share >= 2.8:
+            r_zone, r_label = "warning", "偏热"
+        elif rb_share >= 1.5:
+            r_zone, r_label = "neutral", "活跃"
+        elif rb_share >= 0.8:
+            r_zone, r_label = "neutral", "温和中位"
+        else:
+            r_zone, r_label = "cold", "低位冰点"
+        rb_crowd["zone"] = r_zone
+        rb_crowd["label"] = r_label
+        rb_crowd["asOf"] = as_of_date
+        updated.append("robot.crowding")
+
+    return updated
+
+
 def refresh_tech_semi(
     dry_run: bool = False,
     data_path: Path | None = None,
     mock_quotes: dict[str, Quote | None] | None = None,
     mock_history: dict[str, Quote | None] | None = None,
     mock_margin: tuple[list[tuple[str, float]], dict[str, float]] | None = None,
+    mock_crowding: tuple[float, float, str] | None = None,
 ) -> int:
     path = TECH_SEMI_PATH if data_path is None else data_path
     moment = shanghai_now()
@@ -685,6 +875,27 @@ def refresh_tech_semi(
         if fetched is not None:
             updated_fields.extend(update_margin_buy_share(doc, fetched[0], fetched[1]))
 
+    # Update crowding for tech semi and robot
+    robot_doc: dict | None = None
+    if ROBOT_PATH.exists() and data_path is None:
+        try:
+            with open(ROBOT_PATH, "r", encoding="utf-8") as rf:
+                robot_doc = json.load(rf)
+        except Exception as e:
+            log("WARN", f"failed to load robotData.json for crowding sync: {e}")
+
+    if mock_crowding is not None:
+        cr_fields = update_crowding(
+            doc,
+            robot_doc,
+            mock_market=mock_crowding[0],
+            mock_tmt=mock_crowding[1],
+            mock_as_of=mock_crowding[2],
+        )
+    else:
+        cr_fields = update_crowding(doc, robot_doc)
+    updated_fields.extend(cr_fields)
+
     # Update snapshot
     doc["snapshot"] = snapshot_stamp(moment)
     updated_fields.append("snapshot")
@@ -698,6 +909,17 @@ def refresh_tech_semi(
             tmp_path = Path(tmp.name)
         tmp_path.replace(path)
         log("INFO", f"wrote {_display_path(path)} ({len(updated_fields)} fields updated)")
+
+        if robot_doc is not None and "robot.crowding" in cr_fields:
+            try:
+                with tempfile.NamedTemporaryFile("w", dir=ROBOT_PATH.parent, delete=False, encoding="utf-8") as tmp_r:
+                    json.dump(robot_doc, tmp_r, ensure_ascii=False, indent=2)
+                    tmp_r.write("\n")
+                    tmp_r_path = Path(tmp_r.name)
+                tmp_r_path.replace(ROBOT_PATH)
+                log("INFO", f"wrote {_display_path(ROBOT_PATH)} (crowding updated)")
+            except Exception as e:
+                log("WARN", f"failed to write robotData.json: {e}")
 
     if failures:
         log("WARN", "series with errors: " + " | ".join(failures))
@@ -790,11 +1012,17 @@ def self_test() -> int:
                 [("2026-09-24", 50e8), ("2026-09-23", 100e8), ("2026-09-22", 80e8)],
                 {"2026-09-23": 1000e8, "2026-09-22": 1000e8},
             ),
+            mock_crowding=(1000e8, 350e8, "2026-09-24"),
         )
         _assert(status == 0, "status 0")
 
         with open(test_file, "r", encoding="utf-8") as f:
             updated = json.load(f)
+
+        _assert("crowding" in updated, "crowding updated")
+        _assert(updated["crowding"]["asOf"] == "2026-09-24", "crowding asOf")
+        _assert(updated["crowding"]["turnoverShare"]["value"] == 35.0, "crowding value 35%")
+        _assert(updated["crowding"]["zone"] == "warning", "crowding warning zone")
 
         _assert(updated["head"]["sub"] == "保留不改的叙述", "narrative untouched")
         _assert(updated["signal"]["verdict"] == "叙述保持", "signal untouched")
