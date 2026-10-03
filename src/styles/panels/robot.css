@@ -191,4 +191,79 @@
     color: color-mix(in oklch, var(--text) 85%, transparent);
     line-height: 1.5;
   }
+
+  /* 趋势交易视窗专用样式 */
+  .robot-kline-caption-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--ghost-border);
+  }
+
+  .robot-kline-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .robot-range-tabs {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  .robot-range-btn {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: transparent;
+    border: 1px solid var(--ghost-border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: var(--text);
+      border-color: var(--ghost-border-hover);
+    }
+
+    &.active {
+      color: var(--amber);
+      border-color: color-mix(in oklch, var(--amber) 50%, transparent);
+      background: color-mix(in oklch, var(--amber) 10%, transparent);
+    }
+  }
+
+  .robot-kline-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 10px 16px 4px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+
+    & span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    & i {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 1px;
+    }
+  }
 }

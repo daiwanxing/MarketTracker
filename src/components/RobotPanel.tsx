@@ -13,6 +13,11 @@ import { getBeijingTime, isUSDaylightSaving, getStar50Status, getSoxStatus } fro
 const MONO = "ui-monospace, 'SF Mono', Consolas, monospace";
 const DISPLAY = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
 
+const UP = '#FF6B6B';
+const DOWN = '#4ADE80';
+const AMBER = '#F5C542';
+const CYAN = '#38bdf8';
+
 const BENCH_SERIES = [
   { key: 'csRobot', name: '中证机器人 ETF', symbol: '562500.SH', color: '#38bdf8' },
   { key: 'robo', name: 'ROBO 机器人自动化 ETF', symbol: 'ROBO', color: '#f59e0b' },
@@ -20,8 +25,28 @@ const BENCH_SERIES = [
 
 type BenchKey = (typeof BENCH_SERIES)[number]['key'];
 
+interface TechInstrument {
+  name: string;
+  symbol: string;
+  currency: string;
+  unit: string;
+  support: [number, number];
+  resistance: [number, number];
+  trend: string;
+  trendStatus: string;
+  trendStatusLabel: string;
+  supportDesc: string;
+  resistanceDesc: string;
+  stopLoss: string;
+  breakoutTarget: string;
+  discipline: string;
+  candles: Array<{ d: string; o: number; c: number; h: number; l: number }>;
+  volume: number[];
+}
+
 export default function RobotPanel() {
   const { head, benchmarks, charts, crowding, catalysts, anchor, dimensions, timelineTitle, timelineHint, timeline, footer } = robotData;
+  const tech = (robotData as unknown as { tech?: Record<string, TechInstrument> })?.tech;
   const tlRef = useReveal<HTMLDivElement>();
   const { liveQuotes } = useLiveQuotes();
   const robotQuotes = liveQuotes?.robot;
@@ -42,7 +67,248 @@ export default function RobotPanel() {
   }, [currentTime]);
 
   const [activeTab, setActiveTab] = useState<BenchKey>('csRobot');
-  const [isOverlay, setIsOverlay] = useState(true);
+  const [viewMode, setViewMode] = useState<'trend' | 'spread'>('trend');
+  const [range, setRange] = useState<'30d' | '60d' | '125d'>('60d');
+  const isOverlay = true;
+
+  const rangeLen = range === '30d' ? 30 : range === '60d' ? 60 : 125;
+  const rangeLabel = range === '30d' ? '近 30 交易日' : range === '60d' ? '近 60 交易日' : '近 125 交易日（半年）';
+
+  const currentInst: TechInstrument = useMemo(() => {
+    if (tech && tech[activeTab]) {
+      return tech[activeTab];
+    }
+    return tech?.csRobot || {
+      name: benchmarks.csRobot.name,
+      symbol: benchmarks.csRobot.symbol,
+      currency: '¥',
+      unit: '元',
+      support: [0.885, 0.895],
+      resistance: [0.930, 0.945],
+      trend: '趋势筑底蓄势',
+      trendStatus: 'correction',
+      trendStatusLabel: '弱势筑底 · 考验防守',
+      supportDesc: '0.885-0.895 历史平台支撑',
+      resistanceDesc: '0.930-0.945 均线密集压力',
+      stopLoss: '0.885',
+      breakoutTarget: '0.930',
+      discipline: '量化技术面观察：关注关键支撑防守与右侧放量突破确认',
+      candles: [],
+      volume: [],
+    };
+  }, [tech, activeTab, benchmarks.csRobot]);
+
+  const sliceCandles = useMemo(() => (currentInst.candles || []).slice(-rangeLen), [currentInst.candles, rangeLen]);
+  const candleDates = useMemo(() => sliceCandles.map((c) => c.d), [sliceCandles]);
+  const candleData = useMemo(() => sliceCandles.map((c) => [c.o, c.c, c.l, c.h] as number[]), [sliceCandles]);
+  const volData = useMemo(() => {
+    const vols = (currentInst.volume || []).slice(-rangeLen);
+    return vols.map((v, i) => {
+      const c = sliceCandles[i];
+      if (!c) return { value: v, itemStyle: { color: UP, opacity: 0.75 } };
+      return {
+        value: v,
+        itemStyle: { color: c.c >= c.o ? UP : DOWN, opacity: 0.75 },
+      };
+    });
+  }, [currentInst.volume, sliceCandles, rangeLen]);
+
+  const fullCloses = useMemo(() => (currentInst.candles || []).map((c) => c.c), [currentInst.candles]);
+
+  const sliceMA20 = useMemo(() => {
+    return fullCloses.map((_, i) => {
+      if (i < 19) return null;
+      let sum = 0;
+      for (let j = 0; j < 20; j++) sum += fullCloses[i - j];
+      return parseFloat((sum / 20).toFixed(3));
+    }).slice(-rangeLen);
+  }, [fullCloses, rangeLen]);
+
+  const sliceMA60 = useMemo(() => {
+    return fullCloses.map((_, i) => {
+      if (i < 59) return null;
+      let sum = 0;
+      for (let j = 0; j < 60; j++) sum += fullCloses[i - j];
+      return parseFloat((sum / 60).toFixed(3));
+    }).slice(-rangeLen);
+  }, [fullCloses, rangeLen]);
+
+  const currentMA20 = useMemo(() => {
+    if (fullCloses.length >= 20) {
+      return (fullCloses.slice(-20).reduce((a, b) => a + b, 0) / 20).toFixed(3);
+    }
+    return (fullCloses[fullCloses.length - 1] ?? 0).toFixed(3);
+  }, [fullCloses]);
+
+  const currentMA60 = useMemo(() => {
+    if (fullCloses.length >= 60) {
+      return (fullCloses.slice(-60).reduce((a, b) => a + b, 0) / 60).toFixed(3);
+    }
+    return currentMA20;
+  }, [fullCloses, currentMA20]);
+
+  const latestPrice = fullCloses.length ? fullCloses[fullCloses.length - 1] : 0;
+  const pMA20 = parseFloat(currentMA20) || latestPrice || 1;
+  const pMA60 = parseFloat(currentMA60) || latestPrice || 1;
+  const biasMA20 = ((latestPrice / pMA20) - 1) * 100;
+  const biasMA60 = ((latestPrice / pMA60) - 1) * 100;
+
+  const klineOpt: EChartsOption = useMemo(() => {
+    if (!currentInst || candleDates.length === 0) return {};
+    const currSym = currentInst.currency || '¥';
+    return {
+      backgroundColor: 'transparent',
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'cross', crossStyle: { color: 'rgba(240,240,250,0.3)' } },
+        backgroundColor: 'rgba(0,0,0,0.92)',
+        borderColor: 'rgba(240,240,250,0.35)',
+        borderWidth: 1,
+        padding: [8, 12],
+        textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 12 },
+        formatter: (params: unknown) => {
+          const list = params as { seriesName?: string; axisValue?: string; value?: unknown }[];
+          if (!Array.isArray(list) || list.length === 0) return '';
+          const date = list[0].axisValue ?? '';
+          const k = list.find((p) => p.seriesName === currentInst.name);
+          const v = k?.value;
+          let kline = '';
+          if (Array.isArray(v) && v.length >= 4) {
+            const [o, c, l, h] = v as number[];
+            const pctNum = ((c - o) / o) * 100;
+            const pct = `${pctNum >= 0 ? '+' : ''}${pctNum.toFixed(2)}%`;
+            const color = c >= o ? UP : DOWN;
+            kline = `<span style="font-family:${MONO};font-size:11px;color:#f0f0fa">${date} · ${currentInst.name}</span><br/>`
+              + `<b style="color:${color}">收 ${currSym}${c.toFixed(3)}（${pct}）</b>`
+              + `<span style="color:rgba(240,240,250,0.65)">　开 ${currSym}${o.toFixed(3)}　高 ${currSym}${h.toFixed(3)}　低 ${currSym}${l.toFixed(3)}</span>`;
+          }
+          const ma20 = list.find((p) => p.seriesName === 'MA20')?.value;
+          const ma60 = list.find((p) => p.seriesName === 'MA60')?.value;
+          const maTxt = [
+            typeof ma20 === 'number' ? `<span style="color:${AMBER}">MA20: ${currSym}${ma20.toFixed(3)}</span>` : '',
+            typeof ma60 === 'number' ? `<span style="color:${CYAN}">MA60: ${currSym}${ma60.toFixed(3)}</span>` : '',
+          ].filter(Boolean).join('　');
+          const vol = list.find((p) => p.seriesName === '成交量');
+          const volTxt = vol && typeof vol.value === 'number' ? `<span style="color:rgba(240,240,250,0.55)">量 ${Number(vol.value).toLocaleString()} 手/份</span>` : '';
+          return `${kline}${maTxt ? `<br/>${maTxt}` : ''}<br/>${volTxt}`;
+        },
+      },
+      axisPointer: { link: [{ xAxisIndex: 'all' }] },
+      grid: [
+        { left: 54, right: 18, top: 26, height: '56%' },
+        { left: 54, right: 18, top: '72%', height: '16%' },
+      ],
+      xAxis: [
+        {
+          type: 'category',
+          data: candleDates,
+          gridIndex: 0,
+          axisLine: { lineStyle: { color: 'rgba(240,240,250,0.25)' } },
+          axisTick: { show: false },
+          axisLabel: { color: 'rgba(240,240,250,0.6)', fontFamily: MONO, fontSize: 10 },
+        },
+        {
+          type: 'category',
+          data: candleDates,
+          gridIndex: 1,
+          axisLine: { show: false },
+          axisTick: { show: false },
+          axisLabel: { show: false },
+        },
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          gridIndex: 0,
+          scale: true,
+          splitLine: { lineStyle: { color: 'rgba(240,240,250,0.12)' } },
+          axisLabel: {
+            color: 'rgba(240,240,250,0.6)',
+            fontFamily: MONO,
+            fontSize: 10,
+            formatter: (v: number) => `${currSym}${v.toFixed(3)}`,
+          },
+        },
+        {
+          type: 'value',
+          gridIndex: 1,
+          scale: true,
+          splitLine: { show: false },
+          axisLabel: { show: false },
+        },
+      ],
+      series: [
+        {
+          name: currentInst.name,
+          type: 'candlestick',
+          data: candleData,
+          itemStyle: { color: UP, color0: DOWN, borderColor: UP, borderColor0: DOWN },
+          markArea: {
+            silent: true,
+            data: [
+              [
+                {
+                  name: `支撑防守 ${currentInst.support[0]}-${currentInst.support[1]}`,
+                  yAxis: currentInst.support[0],
+                  itemStyle: { color: 'rgba(245,197,66,0.10)' },
+                  label: {
+                    show: true,
+                    position: 'insideTop',
+                    color: AMBER,
+                    fontFamily: MONO,
+                    fontSize: 9,
+                    formatter: `支撑带 ${currentInst.support[0]}-${currentInst.support[1]} ${currSym}`,
+                  },
+                },
+                { yAxis: currentInst.support[1] },
+              ],
+              [
+                {
+                  name: `压力颈线 ${currentInst.resistance[0]}-${currentInst.resistance[1]}`,
+                  yAxis: currentInst.resistance[0],
+                  itemStyle: { color: 'rgba(255,107,107,0.07)' },
+                  label: {
+                    show: true,
+                    position: 'insideTop',
+                    color: 'rgba(255,107,107,0.95)',
+                    fontFamily: MONO,
+                    fontSize: 9,
+                    formatter: `压力区 ${currentInst.resistance[0]}-${currentInst.resistance[1]} ${currSym}`,
+                  },
+                },
+                { yAxis: currentInst.resistance[1] },
+              ],
+            ],
+          },
+        },
+        {
+          name: '成交量',
+          type: 'bar',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: volData,
+          barWidth: '55%',
+        },
+        {
+          name: 'MA20',
+          type: 'line',
+          data: sliceMA20,
+          showSymbol: false,
+          lineStyle: { color: AMBER, width: 1.6, opacity: 0.95 },
+          itemStyle: { color: AMBER },
+        },
+        {
+          name: 'MA60',
+          type: 'line',
+          data: sliceMA60,
+          showSymbol: false,
+          lineStyle: { color: CYAN, width: 1.6, opacity: 0.95 },
+          itemStyle: { color: CYAN },
+        },
+      ],
+    };
+  }, [candleDates, candleData, volData, sliceMA20, sliceMA60, currentInst]);
 
   const dates = useMemo(() => charts?.normalized?.dates || [], [charts?.normalized?.dates]);
   const norm = useMemo(() => charts?.normalized || { csRobot: [], robo: [] }, [charts?.normalized]);
@@ -231,23 +497,29 @@ export default function RobotPanel() {
           {/* A. 定价时钟条与模式切换 */}
           <div className="terminal-clock-bar">
             <div className="terminal-clock-title">
-              <span className="clock-phase-label">中美核心装备定价基准</span>
-              <span className="clock-phase-window mono">纯双指数宏观基准（A 股 / 美股）</span>
+              <span className="clock-phase-label">
+                {viewMode === 'trend' ? '量价趋势与均线生命线' : '中美核心装备定价基准'}
+              </span>
+              <span className="clock-phase-window mono">
+                {viewMode === 'trend'
+                  ? '量价技术位 · 均线系统与波段支撑阻力'
+                  : '纯双指数宏观基准（A 股 / 美股）'}
+              </span>
             </div>
             <div className="terminal-mode-toggles">
               <button
                 type="button"
-                className={`terminal-mode-btn ${!isOverlay ? 'active' : ''}`}
-                onClick={() => setIsOverlay(false)}
+                className={`terminal-mode-btn ${viewMode === 'trend' ? 'active' : ''}`}
+                onClick={() => setViewMode('trend')}
               >
-                单指数聚焦
+                量价趋势与均线 (K线/MA)
               </button>
               <button
                 type="button"
-                className={`terminal-mode-btn ${isOverlay ? 'active' : ''}`}
-                onClick={() => setIsOverlay(true)}
+                className={`terminal-mode-btn ${viewMode === 'spread' ? 'active' : ''}`}
+                onClick={() => setViewMode('spread')}
               >
-                全景对照
+                中美全景收益率 (%)
               </button>
             </div>
           </div>
@@ -290,52 +562,143 @@ export default function RobotPanel() {
 
           {/* C. 紧随其后的走势图表 */}
           <div className="terminal-chart-viewport">
-            <div className="terminal-chart-caption-bar">
-              <div className="terminal-chart-title">
-                <span className="terminal-chart-indicator" style={{ background: activeColor }} />
-                <span>
-                  {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '纯双指数对冲 (ROBO vs 562500)' : '单指数聚焦'})
-                </span>
-              </div>
-            </div>
+            {viewMode === 'trend' ? (
+              <>
+                <div className="robot-kline-caption-bar">
+                  <div className="robot-kline-title">
+                    <span className="terminal-chart-indicator" style={{ background: activeColor }} />
+                    <span>
+                      {rangeLabel} · {currentInst.name}（{currentInst.symbol}）日K与成交量
+                    </span>
+                  </div>
+                  <div className="robot-range-tabs">
+                    {([['30d', '30日K'], ['60d', '60日K (季线)'], ['125d', '半年K (125日)']] as const).map(([k, lbl]) => (
+                      <button
+                        key={k}
+                        type="button"
+                        className={`robot-range-btn ${range === k ? 'active' : ''}`}
+                        onClick={() => setRange(k)}
+                      >
+                        {lbl}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            <ReactECharts option={normalizedOpt} style={{ height: 280, width: '100%' }} notMerge lazyUpdate />
+                <div className="robot-kline-legend">
+                  <span><i style={{ background: UP }} />阳线（涨）</span>
+                  <span><i style={{ background: DOWN }} />阴线（跌）</span>
+                  <span><i style={{ background: AMBER }} />MA20（月线/波段）</span>
+                  <span><i style={{ background: CYAN }} />MA60（季线/生命线）</span>
+                  <span><i style={{ background: 'rgba(245,197,66,0.6)' }} />支撑带 ({currentInst.support[0]}-{currentInst.support[1]})</span>
+                  <span><i style={{ background: 'rgba(255,107,107,0.6)' }} />压力带 ({currentInst.resistance[0]}-{currentInst.resistance[1]})</span>
+                </div>
 
-            {/* 底部技术位统计速览条 */}
-            <div className="terminal-chart-stats">
-              <div className="stat-item">
-                <span className="stat-label">阶段起点:</span>
-                <span className="stat-val">{dates.length > 0 ? `${dates[0]} (0%)` : '--'}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">期间高位:</span>
-                <span className="stat-val" style={{ color: 'var(--up)' }}>
-                  {statMax >= 0 ? '+' : ''}{statMax.toFixed(2)}%
-                </span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">期间低位:</span>
-                <span className="stat-val" style={{ color: 'var(--down)' }}>
-                  {statMin >= 0 ? '+' : ''}{statMin.toFixed(2)}%
-                </span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">当前累计收益:</span>
-                <span className="stat-val" style={{ color: statLatest >= 0 ? 'var(--up)' : 'var(--down)' }}>
-                  {statLatest >= 0 ? '+' : ''}{statLatest.toFixed(2)}%
-                </span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">中美装备裂口 (ROBO vs 562500):</span>
-                <span className="stat-val" style={{ color: spreadUsChina >= 0 ? 'var(--up)' : 'var(--down)' }}>
-                  {spreadUsChina >= 0 ? '+' : ''}{spreadUsChina.toFixed(2)}%
-                </span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">基准对齐:</span>
-                <span className="stat-val">{dates.length} 交易日</span>
-              </div>
-            </div>
+                <ReactECharts key={`kline-${activeTab}-${range}`} option={klineOpt} style={{ height: 350, width: '100%' }} notMerge />
+
+                {/* 趋势生命线与跟踪防守体系条 */}
+                <div className="card trend-lifeline-strip" style={{ margin: '10px 14px 14px' }}>
+                  <div className="trend-badge-group">
+                    <span className="trend-badge-lbl">趋势定性</span>
+                    <span className={`trend-status-tag ${currentInst.trendStatus || 'correction'}`}>
+                      {currentInst.trendStatusLabel || '弱势筑底 · 考验防守'}
+                    </span>
+                  </div>
+                  <div className="trend-points">
+                    <span className="tp-item">
+                      波段强弱线 (MA20) <b>{currentInst.currency}{currentMA20} {currentInst.unit}</b>
+                      <small>偏离 {biasMA20 >= 0 ? '+' : ''}{biasMA20.toFixed(2)}% · 站稳确立右侧</small>
+                    </span>
+                    <span className="tp-item">
+                      季线生命线 (MA60) <b>{currentInst.currency}{currentMA60} {currentInst.unit}</b>
+                      <small>偏离 {biasMA60 >= 0 ? '+' : ''}{biasMA60.toFixed(2)}% · 中长线趋势强弱分水岭</small>
+                    </span>
+                    <span className="tp-item tp-stop">
+                      结构破位底线 <b>{currentInst.currency}{currentInst.stopLoss} {currentInst.unit}</b>
+                      <em>跌破确认结构破位 · 下行风险敞口扩大</em>
+                    </span>
+                    <span className="tp-item tp-entry">
+                      右侧突破确认 <b>{currentInst.currency}{currentInst.breakoutTarget} {currentInst.unit}</b>
+                      <small>放量突破颈线 · 形态确立右侧走强</small>
+                    </span>
+                  </div>
+                </div>
+
+                {/* 实战研判与交易纪律卡片 */}
+                <div className="tech-grid" style={{ margin: '0 14px 14px' }}>
+                  <div className="t-item t-full">
+                    <b>走势判定</b>
+                    <span>{currentInst.trend}</span>
+                  </div>
+                  <div className="t-item">
+                    <b>支撑带依据</b>
+                    <span>{currentInst.supportDesc}</span>
+                  </div>
+                  <div className="t-item">
+                    <b>压力带依据</b>
+                    <span>{currentInst.resistanceDesc}</span>
+                  </div>
+                  <div className="t-item t-full" style={{ borderLeft: '3px solid var(--amber)' }}>
+                    <b style={{ color: 'var(--amber)' }}>中期趋势技术面特征与量化风控参考</b>
+                    <span>{currentInst.discipline}</span>
+                  </div>
+                </div>
+
+                {/* 模块级就地免责声明 */}
+                <div style={{ margin: '0 16px 14px', fontSize: 11, color: 'var(--text-faint)', lineHeight: 1.5 }}>
+                  * 免责声明：上述均线偏离度、静态支撑带与阻力位基于历史量价指标测算，仅供客观技术形态与风险敞口跟踪参考，不构成任何投资咨询或买卖操作建议。
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="terminal-chart-caption-bar">
+                  <div className="terminal-chart-title">
+                    <span className="terminal-chart-indicator" style={{ background: activeColor }} />
+                    <span>
+                      {activeSeriesMeta.name} · 近 125 交易日基准累计收益 ({isOverlay ? '纯双指数对冲 (ROBO vs 562500)' : '单指数聚焦'})
+                    </span>
+                  </div>
+                </div>
+
+                <ReactECharts option={normalizedOpt} style={{ height: 280, width: '100%' }} notMerge lazyUpdate />
+
+                {/* 底部技术位统计速览条 */}
+                <div className="terminal-chart-stats">
+                  <div className="stat-item">
+                    <span className="stat-label">阶段起点:</span>
+                    <span className="stat-val">{dates.length > 0 ? `${dates[0]} (0%)` : '--'}</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">期间高位:</span>
+                    <span className="stat-val" style={{ color: 'var(--up)' }}>
+                      {statMax >= 0 ? '+' : ''}{statMax.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">期间低位:</span>
+                    <span className="stat-val" style={{ color: 'var(--down)' }}>
+                      {statMin >= 0 ? '+' : ''}{statMin.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">当前累计收益:</span>
+                    <span className="stat-val" style={{ color: statLatest >= 0 ? 'var(--up)' : 'var(--down)' }}>
+                      {statLatest >= 0 ? '+' : ''}{statLatest.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">中美装备裂口 (ROBO vs 562500):</span>
+                    <span className="stat-val" style={{ color: spreadUsChina >= 0 ? 'var(--up)' : 'var(--down)' }}>
+                      {spreadUsChina >= 0 ? '+' : ''}{spreadUsChina.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">基准对齐:</span>
+                    <span className="stat-val">{dates.length} 交易日</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </section>
 
