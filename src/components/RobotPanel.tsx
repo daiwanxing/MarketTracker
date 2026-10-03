@@ -175,15 +175,18 @@ export default function RobotPanel() {
   const liveRobotCrowd = robotQuotes?.crowding;
   const effectiveCrowding = useMemo(() => {
     if (liveRobotCrowd) {
+      const liveVal = liveRobotCrowd.value ?? (liveRobotCrowd as unknown as { turnoverShare?: { value?: number } }).turnoverShare?.value;
+      const liveRobot = liveRobotCrowd.robotAmountYi ?? (liveRobotCrowd as unknown as { turnoverShare?: { robotAmountYi?: number } }).turnoverShare?.robotAmountYi;
+      const liveMarket = liveRobotCrowd.marketAmountYi ?? (liveRobotCrowd as unknown as { turnoverShare?: { marketAmountYi?: number } }).turnoverShare?.marketAmountYi;
       return {
         ...crowding,
-        zone: liveRobotCrowd.zone,
-        label: liveRobotCrowd.label,
+        zone: liveRobotCrowd.zone || crowding?.zone,
+        label: liveRobotCrowd.label || crowding?.label,
         turnoverShare: {
           ...crowding.turnoverShare,
-          value: liveRobotCrowd.value,
-          robotAmountYi: liveRobotCrowd.robotAmountYi,
-          marketAmountYi: liveRobotCrowd.marketAmountYi,
+          value: typeof liveVal === 'number' ? liveVal : crowding.turnoverShare?.value ?? 0,
+          robotAmountYi: typeof liveRobot === 'number' ? liveRobot : crowding.turnoverShare?.robotAmountYi ?? 0,
+          marketAmountYi: typeof liveMarket === 'number' ? liveMarket : crowding.turnoverShare?.marketAmountYi ?? 0,
         },
       };
     }
@@ -360,7 +363,7 @@ export default function RobotPanel() {
               <span>3.8 极端</span>
             </div>
             <div className="real-crowd-detail">
-              机器人 {effectiveCrowding.turnoverShare.robotAmountYi.toLocaleString()} 亿 / 两市 {effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{effectiveCrowding.methodNote}。
+              机器人 {typeof effectiveCrowding.turnoverShare.robotAmountYi === 'number' ? effectiveCrowding.turnoverShare.robotAmountYi.toLocaleString() : '--'} 亿 / 两市 {typeof effectiveCrowding.turnoverShare.marketAmountYi === 'number' ? effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString() : '--'} 亿。{effectiveCrowding.methodNote}。
             </div>
           </div>
 

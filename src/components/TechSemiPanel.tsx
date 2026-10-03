@@ -216,15 +216,18 @@ export default function TechSemiPanel() {
   const liveCrowd = liveQuotes?.techSemi?.crowding;
   const effectiveCrowding = useMemo(() => {
     if (liveCrowd) {
+      const liveVal = liveCrowd.value ?? (liveCrowd as unknown as { turnoverShare?: { value?: number } }).turnoverShare?.value;
+      const liveTmt = liveCrowd.tmtAmountYi ?? (liveCrowd as unknown as { turnoverShare?: { tmtAmountYi?: number } }).turnoverShare?.tmtAmountYi;
+      const liveMarket = liveCrowd.marketAmountYi ?? (liveCrowd as unknown as { turnoverShare?: { marketAmountYi?: number } }).turnoverShare?.marketAmountYi;
       return {
         ...crowding,
-        zone: liveCrowd.zone,
-        label: liveCrowd.label,
+        zone: liveCrowd.zone || crowding?.zone,
+        label: liveCrowd.label || crowding?.label,
         turnoverShare: {
           ...crowding?.turnoverShare,
-          value: liveCrowd.value,
-          tmtAmountYi: liveCrowd.tmtAmountYi,
-          marketAmountYi: liveCrowd.marketAmountYi,
+          value: typeof liveVal === 'number' ? liveVal : crowding?.turnoverShare?.value ?? 0,
+          tmtAmountYi: typeof liveTmt === 'number' ? liveTmt : crowding?.turnoverShare?.tmtAmountYi ?? 0,
+          marketAmountYi: typeof liveMarket === 'number' ? liveMarket : crowding?.turnoverShare?.marketAmountYi ?? 0,
         },
       };
     }
@@ -574,7 +577,7 @@ export default function TechSemiPanel() {
                 <span>38 极端</span>
               </div>
               <div className="real-crowd-detail">
-                TMT {effectiveCrowding.turnoverShare.tmtAmountYi.toLocaleString()} 亿 / 两市 {effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString()} 亿。{effectiveTone.note}
+                TMT {typeof effectiveCrowding.turnoverShare.tmtAmountYi === 'number' ? effectiveCrowding.turnoverShare.tmtAmountYi.toLocaleString() : '--'} 亿 / 两市 {typeof effectiveCrowding.turnoverShare.marketAmountYi === 'number' ? effectiveCrowding.turnoverShare.marketAmountYi.toLocaleString() : '--'} 亿。{effectiveTone.note}
               </div>
             </div>
           )}

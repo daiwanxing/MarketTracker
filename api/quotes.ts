@@ -61,7 +61,13 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: sinaMap.kospi?.chgClass || staticSemiBm.kospi.chgClass,
       previousClose: sinaMap.kospi?.previousClose ?? staticSemiBm.kospi.previousClose,
     },
-    crowding: crowding?.techSemi ?? techSemiStatic.crowding,
+    crowding: crowding?.techSemi ?? {
+      value: techSemiStatic.crowding.turnoverShare.value,
+      tmtAmountYi: techSemiStatic.crowding.turnoverShare.tmtAmountYi,
+      marketAmountYi: techSemiStatic.crowding.turnoverShare.marketAmountYi,
+      zone: techSemiStatic.crowding.zone,
+      label: techSemiStatic.crowding.label,
+    },
   };
 
   // 2. 原油组装
@@ -121,7 +127,13 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: tcTsla?.chgClass || staticRobotOption?.chgClass,
       previousClose: tcTsla?.previousClose ?? staticRobotOption?.previousClose,
     },
-    crowding: crowding?.robot ?? robotStatic.crowding,
+    crowding: crowding?.robot ?? {
+      value: robotStatic.crowding.turnoverShare.value,
+      robotAmountYi: robotStatic.crowding.turnoverShare.robotAmountYi,
+      marketAmountYi: robotStatic.crowding.turnoverShare.marketAmountYi,
+      zone: robotStatic.crowding.zone,
+      label: robotStatic.crowding.label,
+    },
   };
 
   return res.status(200).json({
