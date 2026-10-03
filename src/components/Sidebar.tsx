@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useKeyPress } from 'ahooks';
 import { BrandLogo } from './BrandLogo';
 
 const PAGES: { to: string; label: string }[] = [
@@ -18,19 +19,18 @@ export default function Sidebar() {
   const { pathname } = useLocation();
   const current = PAGES.find((page) => pathname.startsWith(page.to))?.label ?? '市场追踪';
 
+  // 抽屉展开时锁定背景滚动条
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    if (open) {
-      window.addEventListener('keydown', handleKeyDown);
-    }
     return () => {
       document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [open]);
+
+  // 按 ESC 键快速关闭移动端抽屉导航
+  useKeyPress('Escape', () => {
+    if (open) setOpen(false);
+  });
 
   return (
     <>

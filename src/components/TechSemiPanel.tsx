@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { ArrowUpRight } from 'lucide-react';
 import { clamp, keyBy, max, min, orderBy } from 'lodash-es';
+import { useInterval } from 'ahooks';
 import heroSemi from '../assets/hero-semi.jpg';
 import techSemiData from '../data/techSemiData.json';
 import { resolveMarketClock, type MarketClockItem } from '../utils/marketClock';
@@ -181,12 +182,9 @@ export default function TechSemiPanel() {
   const [activeTab, setActiveTab] = useState<'star50' | 'sox' | 'kospi'>('star50');
   const [isOverlay, setIsOverlay] = useState<boolean>(false);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 30000);
-    return () => clearInterval(timer);
-  }, []);
+  useInterval(() => {
+    setCurrentTime(new Date());
+  }, 30000);
 
   // 动态解析三大核心市场与全球宏观阶段实时状态机
   const dynamicClock = useMemo(() => {
