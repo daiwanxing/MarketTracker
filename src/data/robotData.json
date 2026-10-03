@@ -252,6 +252,60 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-03",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "特斯拉下调自研 AI 芯片内存规格 为 Optimus 量产让路",
+      "d": "报道称特斯拉调整自研 AI 芯片内存配置，以缓解供应约束并为 Optimus 机器人产线爬坡腾挪资源。该动作反映算力硬件与机器人量产之间存在物料竞争，需跟踪调整后推理性能是否满足端侧实时控制，以及是否影响 Optimus 量产节点与整机 BOM 下探节奏。",
+      "src": "来源：finance.biggo.com",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE80NzVBdDFkRk5EUlZ5bF9ZMldLMmZzLWRaM0lkS1dOSmtoVnhYemZkcWlmVUxwa0dJeDZfVHgyclFCMVJDc0xvMnBqcGZ1S1RRRThSZktPZjY4SDZBZGZ3ZEhLTF9oX201MHF0T1ZfM0cyeUo4dmc?oc=5"
+    },
+    {
+      "date": "2026-10-03",
+      "tag": "供应链",
+      "hot": false,
+      "t": "FMC³、Vector 与 PEM Motion 拟组建具身智能合资公司",
+      "d": "三方计划组建具身智能合资实体，整合机器人系统集成、运动控制与工程服务能力，指向工业与移动场景的具身智能方案落地。该安排处于计划阶段，尚需跟踪股权结构、技术分工与首期项目定点，短期对量产供应链无直接拉动。",
+      "src": "来源：roboticsandautomationnews.com",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPMWJiMHJVS0RmakJ2SENjczZtVWhaQ2tkN1pLQTA1RG1iQW9ibzJrcko0djRzbHFxYlZfYnFRUVFqS3pGb1pFXzBJOXc4Y29hc0I1VFpKdExhSlUtLVpqVDd1REZZMnhCdmpzdTMzYlZIc2g0Vy13N0pmUFR0eVRYVjdjRnBkbXRhaWtKU19OMVZiN3U2NTNhTm5pby1RcTZBVzRaWElQZVRYWUIwelppVGZuQ25pd0k3bjEtWXhUeGJQVmh2VHZ3?oc=5"
+    },
+    {
+      "date": "2026-10-03",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "RoboParty 在 IROS 发布 RP1 全栈开源人形机器人",
+      "d": "该机型定位高性能全栈开源平台，覆盖硬件本体、运动控制与软件栈，面向科研与开发者生态。开源路径降低二次开发门槛，但需验证关节模组寿命、整机稳定性与真实场景任务泛化，商业化仍待工位部署与供应链定点确认。",
+      "src": "来源：PA Media",
+      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQdFdncEpOYTZkeGdBNFl6YUU5YWhZVWwtM29mM3FEOWp1N2xyOXZLeFhZM2xqaUY5MDVyZDhzeWdwZGNOc2VlMnNhM19BYzBJVDFtSlA3SUUyaHJkNHpuZXRvWGR4R3VzdmI2R2Z2UEhtY0d6OFF4OVhpT2phajRTbzZwX2VfdEw1Z1B6NUlkRk5BY210SFE2eVVZal96cGd0U0NGY05kZlZFV0RkLUZxYlpuMTNfRUc1TjBsRE5rTk5melJCSmRmZXFrcmNkOW9YeEQ5LQ?oc=5"
+    },
+    {
+      "date": "2026-10-03",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "人形机器人走出安全围栏 实际安全验证成商用前提",
+      "d": "行业讨论从受控围栏转向开放工位，安全认证、人机协同风险与故障容错成为商用部署关键。若缺乏可审计的安全标准与现场运行数据，工厂、物流场景的复购意愿与保险成本将受制约，量产节奏或受安全验证周期约束。",
+      "src": "来源：forbes.com",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNaXIxdTJOQUV0VHNjdGdWeFBuZEU1VnlfR3h0UEo1Z2dHUmlWR2lBbVhIQVBkR2Z0WWU2SEU4RnFyM0RBd0xwQXdfOWhYOHJ5b0hwek9Hek0xVnVnQlh5N25yMHgtcjhYVHdraFo1bVAzTFpWeUN4MENpY2IzMXdyN0hLOVNaNWJqMUo4ZEdyWmdEVVYxTk40aGFXcW11d3ZRcnVvSV9LdXRuc3RWWWI2Z1BGdV9DMms3OWtlTWM2TVBZM09o?oc=5"
+    },
+    {
+      "date": "2026-10-03",
+      "tag": "出货统计",
+      "hot": false,
+      "t": "中国制造占全球人形机器人 95% 供应链集聚效应强化",
+      "d": "报道称中国生产全球约 95% 人形机器人，反映本体制造与零部件配套高度集中。该结构利于整机厂快速迭代与成本下探，同时使丝杠、电机、减速器等关键环节的产能弹性与良率爬坡成为全球量产节奏的约束变量。",
+      "src": "来源：Growth Dragons",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5aTXNDMW95Ty16dHJaNkJIcXJaWFJ6UEwxeXhyNWJqQ05uNVVRVzdpSUNCX3NYWndla0JVUmJxNFF6SjVIOFpCUkVTM29mMlhKVmFRdGVBa0NETldBSVY3X25TSmY4WEdXQlM4ek9UOG9WakNhQ1ZzTmdB?oc=5"
+    },
+    {
+      "date": "2026-10-03",
+      "tag": "资本上市",
+      "hot": false,
+      "t": "宇树上市引发关注 中国人形机器人厂商加速证券化",
+      "d": "报道梳理宇树科技科创板挂牌及中国人形机器人厂商上市进程，一级资本与二级市场融资通道同步打开。证券化有助于产能扩张与研发投入，但需跟踪解禁节奏、盈利兑现与订单可见度对估值消化的影响。",
+      "src": "来源：Awani International",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNVFI3UWhPWU9PajRmWXRMVUVoSXBHS0Zta1FLeGloU2JqbHZXMmVhVHdHc25XV2ZFanNvNTFrTFdOMU84SUNFWlB5dnlyaG9wX3duVVdLVnVCc3ZGWnFUTzlicHpNWHl2bGVweV95LTE4WkRqdjk1VFZVdU1HNVQ4dUtkbFJyaHFRenh2WDJLcHJjSDE1cC00VjEta1c5OEMtaDNkNXJZazRIbkZSUjNKQ21hNmlvaTNfQlE?oc=5"
+    },
+    {
       "date": "2026-09-28",
       "tag": "制造瓶颈",
       "hot": true,
