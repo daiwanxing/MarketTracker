@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-03 13:07",
+  "snapshot": "2026-10-03 14:07",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
@@ -7,7 +7,7 @@
       "chg": "-1.00%",
       "chgClass": "down",
       "label": "伦敦金 XAU/USD · 美元/盎司",
-      "src": "XAU/USD 伦敦金现货 10-3 13:07 上海 · 昨收 4183.50（现价 4141.80/-1.00%） · gold-api.com",
+      "src": "XAU/USD 伦敦金现货 10-3 14:07 上海 · 昨收 4183.50（现价 4141.80/-1.00%） · gold-api.com",
       "refs": "",
       "quotes": {
         "gc": 4162.3,
@@ -299,8 +299,8 @@
         "k": "期现基差 GC−现货",
         "v": "+20.5 美元（10/3）",
         "wk": "4162.3 − 4141.80",
-        "dir": "down",
-        "src": "Yahoo GC=F − gold-api.com · 2026-10-03 13:07 上海",
+        "dir": "flat",
+        "src": "Yahoo GC=F − gold-api.com · 2026-10-03 14:07 上海",
         "gc": 4162.3,
         "spot": 4141.8,
         "basis": 20.5
