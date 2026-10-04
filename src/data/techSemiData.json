@@ -593,6 +593,15 @@
   },
   "timeline": [
     {
+      "date": "2026-10-03",
+      "tag": "行业周期",
+      "hot": true,
+      "t": "摩根大通与贝恩警示AI资本开支回报缺口，下游生产力转化滞后或触发估值重构",
+      "d": "路透报道，摩根大通与贝恩咨询测算指出，AI基建投资规模呈指数级扩张，但广泛的宏观生产力提升与应用端变现尚未显现。贝恩预计头部云厂商未来五年需创造超4.2万亿美元新收入方能支撑基建投入；摩根大通提示支撑当前芯片龙头估值需年化3%-5%的生产力跃升，若下游ROI持续不及预期，算力资本开支或面临周期性回撤，产业链定价权将向具备真实造血能力环节倾斜。",
+      "src": "来源：路透 / 联合早报",
+      "url": "https://www.zaobao.com.sg/news/world/story20261003-9778652"
+    },
+    {
       "date": "2026-10-02",
       "tag": "制程产能",
       "hot": false,
@@ -672,15 +681,6 @@
       "d": "该诉求若进入美国国际贸易委员会实质程序，将扰动AI服务器HBM与高端DRAM的供应连续性，涉及谷歌自研加速器与英伟达平台的存储配套。短期看诉讼不改变存储供需缺口，HBM与Enterprise SSD价格上行趋势延续；中期看专利许可与合规成本可能抬升存储厂运营费用，并强化供应链多元化与国产存储验证窗口。",
       "src": "来源：Reuters",
       "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSmxnMEM4VmZvZUtSUTFlQWI0bWIyRFJmMEh4RTh5ck5obV85T2RMeTJoU1VLN3BwRkE4d3F4ZjNiaDN1RzNtVDczTGNPQnF0ZzIyUnNzSk40TnhaZXZNRmVyUUZ5cjZXUGtWR0puZHZSejFnQkthMHJfQkhxMEZVTWgxVTBQeUJxM3RlaXBKcXB4RDZIOFU3SExnR3lHcUN3dUdlUHhPZ25SN0xPMEJGcnc4d0d5VkwwUmxaMlQ0blZqcU0?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "政策监管",
-      "hot": true,
-      "t": "美国议员拟立法收紧对华 AI 芯片出口，英伟达与 AMD 寻求行政层面介入",
-      "d": "美国国会层面推进进一步切断中国获取 AI 芯片渠道的立法设想，英伟达与 AMD 正就管制口径寻求行政介入。若限制范围由高端加速器延伸至配套互连、整机与存储环节，将压制北美厂商中国区收入预期，同时加速国内算力芯片与先进封装的替代验证。边际变化在于管制由单一产品清单转向体系化约束，合规成本与供应链锁定同步抬升，出货节奏与型号规划的不确定性上升。",
-      "src": "来源：Politico",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTXdheVlVR0FPX2tsOThwNUNleXVHTUNza3F0bnpBLWE5OVdEOE9sVmpIM3Vac1IxTUVoMXdRUmxXQU1zaXZyX2pQTUc2YWsyYlQ2UGIxX0tMSmFQSkFhakU2a0RkVmNnZkg2cGFUX2FtUUhoMEh6VDZ3ZkVBYUZabEpad3pYcHNk?oc=5"
     }
   ],
   "news": [
@@ -717,16 +717,16 @@
       "src": "市场成交数据测算"
     },
     {
+      "k": "AI 资本开支回报缺口与估值重构",
+      "level": "high",
+      "desc": "触发条件：北美四大 CSP 资本开支飙升至天价，但广泛宏观生产力提升至今未现，下游软件与应用 ARR 增速无法弥补数千亿折旧与债务成本。产业链影响：下游 ROI 不足倒逼云厂商下修后续算力采购指引，先进制程与先进封装稼动率面临松动，半导体板块面临估值折现与周期双重承压。",
+      "src": "摩根大通 / 贝恩咨询 / 路透社"
+    },
+    {
       "k": "存储涨价向下游传导",
       "level": "med",
       "desc": "触发条件：HBM 与服务器 DRAM 持续挤占常规产能，4Q26 合约价续涨而消费端需求未修复。产业链影响：模组厂与终端厂商成本抬升，毛利承压可能反向压制中游出货节奏，形成价格上行与需求下行的双向挤压。",
       "src": "TrendForce 集邦咨询"
-    },
-    {
-      "k": "知识产权与出口管制",
-      "level": "med",
-      "desc": "触发条件：Netlist 针对美光 AI 存储芯片的美国进口禁令申请获裁支持。产业链影响：谷歌与英伟达相关算力交付节奏存在扰动，存储采购需启动替代料号验证，客户切换成本与合规成本同步上行。",
-      "src": "公开资讯整理"
     }
   ],
   "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
@@ -892,9 +892,9 @@
             "sub": "AI满产/消费疲软"
           },
           {
-            "label": "2Q26 DRAM产业营收",
-            "value": "季增 59.5%",
-            "sub": "供给扩张不及需求"
+            "label": "AI基建回报与变现比",
+            "value": "ROI 时滞承压",
+            "sub": "生产力提升未显"
           },
           {
             "label": "2027 HBM混合ASP",
@@ -903,11 +903,11 @@
           }
         ],
         "transmission": {
-          "trigger": "2Q26代工营收534.9亿美元，先进制程与AI需求持续强劲",
-          "mechanism": "算力链条产能与存储价格上行支撑头部厂商业绩，非AI需求复苏斜率偏缓，景气K型分化",
-          "outcome": "基本面提供估值下限，但不足以对冲短期筹码抛压"
+          "trigger": "天价资本开支推进，但广泛宏观生产力跃升与下游应用变现尚未显现",
+          "mechanism": "算力硬件端强劲出货锁定近端营收，但买方造血不足引发对2027年资本开支持续性的审视",
+          "outcome": "基本面提供短期业绩支撑，但远期估值容忍度收紧，资金对ROI兑现敏感度上升"
         },
-        "narrative": "2Q26全球晶圆代工营收534.9亿美元，先进制程与AI需求持续强劲；2Q26 DRAM营收季增59.5%，2027年HBM混合ASP预估年增121%，存储与先进封装维持供给吃紧。产业景气下限由AI资本开支锁定，消费侧复苏斜率不足，业绩兑现节奏与股价隐含预期之间的收敛构成主要预期差。"
+        "narrative": "2Q26全球晶圆代工营收534.9亿美元且先进制程满产，存储与HBM维持价格弹性。然而，摩根大通与贝恩等机构警示，天价基建投入背后广泛生产力提升至今未现，头部云厂商需数万亿美元新增变现方能覆盖支出。上游硬件景气与终端真实ROI之间的时滞，构成当前板块估值中枢能否维持的核心预期差。"
       }
     ],
     "crossMarket": {
@@ -939,6 +939,12 @@
         "target": "融资买入占比",
         "threshold": "回升至 9% 以上",
         "logic": "杠杆资金回流强度决定反弹的持续性",
+        "priority": "watch"
+      },
+      {
+        "target": "AI 资本开支与 ROI 兑现",
+        "threshold": "CSP 自由现金流与指引验证",
+        "logic": "基建天价投入若缺乏下游生产力与造血支撑，易引发估值重构与算力采购下修",
         "priority": "watch"
       }
     ]
@@ -1109,6 +1115,14 @@
         "zone": "unknown",
         "v": "未接入",
         "watch": "EPS 还在上修时，跌的是倍数；EPS 被下修，才是基本面转弱。"
+      },
+      {
+        "k": "AI 资本回报率与生产力转化 (ROI)",
+        "metric": "基建资本开支与下游创收匹配度",
+        "status": "live",
+        "zone": "warning",
+        "v": "时滞承压",
+        "watch": "摩根大通测算支撑当前硬件估值需生产力年增 3%–5%（基准仅 1.75%），贝恩预计五年需 4.2 万亿美元增量收入。目前基建支出远超实际商业化变现速度，密切跟踪 3Q26 业绩会云厂商自由现金流与折旧年限口径。"
       }
     ]
   }
