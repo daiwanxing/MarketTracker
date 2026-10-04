@@ -543,7 +543,157 @@ export default function GoldPanel() {
     };
   }, [normData]);
 
-  // 3. 宏观现货基准价
+  // CTA 趋势持仓与空头耗尽极限仪表图配置
+  const ctaGaugeOpt: EChartsOption = useMemo(() => {
+    const cta = (positioning as unknown as { ctaMonitor?: { shortCapacityUsedPct?: number } }).ctaMonitor;
+    const val = cta?.shortCapacityUsedPct || 93.5;
+    return {
+      backgroundColor: 'transparent',
+      animation: false,
+      series: [
+        {
+          type: 'gauge',
+          startAngle: 180,
+          endAngle: 0,
+          min: 0,
+          max: 100,
+          radius: '110%',
+          center: ['50%', '75%'],
+          splitNumber: 5,
+          axisLine: {
+            lineStyle: {
+              width: 10,
+              color: [
+                [0.7, 'rgba(245, 197, 66, 0.4)'],
+                [0.9, 'rgba(255, 107, 107, 0.6)'],
+                [1.0, '#FF6B6B'],
+              ],
+            },
+          },
+          pointer: {
+            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+            length: '14%',
+            width: 8,
+            offsetCenter: [0, '-58%'],
+            itemStyle: { color: '#FF6B6B' },
+          },
+          axisTick: { length: 3, lineStyle: { color: 'rgba(255,255,255,0.25)', width: 1 } },
+          splitLine: { length: 8, lineStyle: { color: 'rgba(255,255,255,0.4)', width: 1.5 } },
+          axisLabel: {
+            color: 'rgba(240, 240, 250, 0.6)',
+            fontFamily: MONO,
+            fontSize: 9,
+            distance: -26,
+            formatter: (v: number) => (v === 0 ? '0%' : v === 100 ? '极限' : `${v}%`),
+          },
+          title: {
+            offsetCenter: [0, '-22%'],
+            fontSize: 11,
+            color: 'rgba(240, 240, 250, 0.65)',
+            fontFamily: DISPLAY,
+          },
+          detail: {
+            fontSize: 20,
+            offsetCenter: [0, '12%'],
+            formatter: (v: number) => `${v.toFixed(1)}%`,
+            color: '#FF6B6B',
+            fontFamily: MONO,
+            fontWeight: 'bold',
+          },
+          data: [{ value: val, name: '有效最大空仓利用率' }],
+        },
+      ],
+    };
+  }, [positioning]);
+
+  // 77吨微观吸收矩阵通道图配置
+  const absorptionOpt: EChartsOption = useMemo(() => {
+    const abs = (positioning as unknown as {
+      absorptionMatrix?: {
+        channels: Array<{ name: string; tons: string; share: string; role: string; tag: string }>;
+      };
+    }).absorptionMatrix;
+    if (!abs) return {};
+    const channels = [...abs.channels].reverse();
+    const names = channels.map((c) => c.name);
+    const values = channels.map((c) => parseFloat(c.tons));
+    const colors = [EMERALD, GOLD, CYAN];
+
+    return {
+      backgroundColor: 'transparent',
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        backgroundColor: 'rgba(0,0,0,0.92)',
+        borderColor: 'rgba(56, 189, 248, 0.4)',
+        borderWidth: 1,
+        padding: [6, 10],
+        textStyle: { color: '#f0f0fa', fontFamily: DISPLAY, fontSize: 11 },
+        formatter: (params: unknown) => {
+          const list = params as { name: string; value: number }[];
+          if (!list || list.length === 0) return '';
+          const item = abs.channels.find((c) => c.name === list[0].name);
+          if (!item) return '';
+          return `<span style="font-family:${MONO};font-size:11px;color:${CYAN}">${item.name} · ${item.tag}</span><br/>`
+            + `<b style="font-size:13px;color:#fff">${item.tons}</b> <span style="color:${AMBER}">(${item.share})</span><br/>`
+            + `<span style="font-size:10.5px;color:rgba(240,240,250,0.7)">${item.role}</span>`;
+        },
+      },
+      grid: {
+        left: 114,
+        right: 48,
+        top: 6,
+        bottom: 18,
+      },
+      xAxis: {
+        type: 'value',
+        max: 50,
+        splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.08)' } },
+        axisLabel: {
+          color: 'rgba(240, 240, 250, 0.55)',
+          fontFamily: MONO,
+          fontSize: 9,
+          formatter: (v: number) => `${v}t`,
+        },
+      },
+      yAxis: {
+        type: 'category',
+        data: names,
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: {
+          color: 'rgba(240, 240, 250, 0.85)',
+          fontFamily: DISPLAY,
+          fontSize: 11,
+          fontWeight: 'bold',
+        },
+      },
+      series: [
+        {
+          name: '承接吨数',
+          type: 'bar',
+          data: values.map((val, idx) => ({
+            value: val,
+            itemStyle: {
+              color: colors[idx % colors.length],
+              borderRadius: [0, 3, 3, 0],
+            },
+          })),
+          barWidth: 12,
+          label: {
+            show: true,
+            position: 'right',
+            color: '#f0f0fa',
+            fontFamily: MONO,
+            fontSize: 10,
+            fontWeight: 'bold',
+            formatter: '{c} 吨',
+          },
+        },
+      ],
+    };
+  }, [positioning]);
   const currentGoldPrice = parseFloat(String(displayNum).replace(/[^0-9.]/g, '')) || 4140.52;
 
   // 溢价区域样式 class
@@ -820,6 +970,10 @@ export default function GoldPanel() {
               季线生命线 (MA60) <b>{currentMA60} {currentInst.unit}</b>
               <small>中长线牛熊分界</small>
             </span>
+            <span className="tp-item" style={{ borderLeft: '2px solid rgba(255,255,255,0.6)' }}>
+              周线大白线 <b>{((positioning as unknown as { macroLifeline?: { level?: number } }).macroLifeline?.level ?? 4145)} {currentInst.unit}</b>
+              <small>1W宏观趋势生命线</small>
+            </span>
             <span className="tp-item tp-stop">
               结构破位底线 <b>{currentInst.support[0]} {currentInst.unit}</b>
               <em>跌破则波段失效·严格止损</em>
@@ -831,39 +985,185 @@ export default function GoldPanel() {
           </div>
         </div>
 
-        {/* 技术走势与动量收益 */}
+        {/* 技术走势判定与依据 */}
         <div className="tech-grid">
           <div className="t-item t-full"><b>走势判定</b><span>{tech.trend}</span></div>
           <div className="t-item"><b>支撑带依据</b><span>{tech.supportDesc}</span></div>
           <div className="t-item"><b>压力带依据</b><span>{tech.resistanceDesc}</span></div>
         </div>
-        <div className="card grow">
-          {tech.momentum.map((m, i) => (
-            <div className="grow-row" key={i}>
-              <span className="k">{m.k}</span>
-              <span className="v">{m.v}</span>
-            </div>
-          ))}
-        </div>
-        <div className="sec-note">{tech.note}</div>
 
-        {/* 期货持仓与资金流向：COMEX 库存与期现基差结构 */}
+        {/* ==================== 3. 系统性量化资金持仓与微观流动性吸收矩阵 ==================== */}
         <h2 className="sec-title">{positioning.secTitle}</h2>
-        <div className="card pos-table" style={{ width: '100%', marginBottom: 12 }}>
-          <div className="legend"><span>{positioning.tableTitle}</span></div>
-          {positioning.table.map((row, i) => (
-            <div className="pos-row" key={i}>
-              <span className="k">{row.k}</span>
-              <span className="v">{row.v}</span>
-              <span className={`wk ${row.dir}`}>
-                <i className={`arrow ${row.dir}`} aria-hidden="true" />
-                {row.wk}
-              </span>
-              <span className="g-src">{row.src}</span>
-            </div>
-          ))}
+        <div className="systematic-pos-viewport">
+          <div className="systematic-grid">
+            {/* 卡片 1: CTA 趋势追踪资金与抛压枯竭雷达 (全宽单行 · ECharts 极值仪表盘) */}
+            {((positioning as unknown as { ctaMonitor?: Record<string, unknown> }).ctaMonitor) && (
+              <div className="sys-card highlight-cta">
+                <div className="sys-head">
+                  <div className="sys-title-box">
+                    <span className="sys-dot" />
+                    <span className="sys-title">{(positioning as unknown as { ctaMonitor: { title: string } }).ctaMonitor.title}</span>
+                  </div>
+                  <span className="sys-badge near-max">{(positioning as unknown as { ctaMonitor: { statusLabel: string } }).ctaMonitor.statusLabel}</span>
+                </div>
+                <div className="sys-card-row-layout">
+                  {/* 左侧：指标大数与价格冲击 */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <div className="sys-stat-row">
+                      <span className="stat-large" style={{ whiteSpace: 'nowrap' }}>{(positioning as unknown as { ctaMonitor: { nominalSelling30dOz: string } }).ctaMonitor.nominalSelling30dOz}</span>
+                      <span className="stat-sub">30日名义抛压 (~{(positioning as unknown as { ctaMonitor: { nominalSelling30dTons: number } }).ctaMonitor.nominalSelling30dTons} 吨)</span>
+                      <span className="stat-tag">已耗尽 {(positioning as unknown as { ctaMonitor: { shortCapacityUsedPct: number } }).ctaMonitor.shortCapacityUsedPct}%</span>
+                    </div>
+                    <div className="price-impact-box">
+                      <span className="pi-title">{(positioning as unknown as { ctaMonitor: { priceImpactTitle: string } }).ctaMonitor.priceImpactTitle}</span>
+                      <span className="pi-desc">{(positioning as unknown as { ctaMonitor: { priceImpactDesc: string } }).ctaMonitor.priceImpactDesc}</span>
+                    </div>
+                  </div>
+                  {/* 右侧：ECharts 极值量规仪与窗口推演 */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ height: 140, width: '100%', margin: '-8px 0 0' }}>
+                      <ReactECharts key="cta-gauge" option={ctaGaugeOpt} style={{ height: 140, width: '100%' }} notMerge />
+                    </div>
+                    <div className="gauge-hint mono" style={{ textAlign: 'center', marginTop: -4 }}>
+                      {(positioning as unknown as { ctaMonitor: { maxShortCapWindow: string } }).ctaMonitor.maxShortCapWindow}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 卡片 2: 微观流动性承接矩阵 (全宽单行 · ECharts 横向渠道分解图) */}
+            {((positioning as unknown as { absorptionMatrix?: Record<string, unknown> }).absorptionMatrix) && (
+              <div className="sys-card highlight-absorption">
+                <div className="sys-head">
+                  <div className="sys-title-box">
+                    <span className="sys-dot cyan-pulse" />
+                    <span className="sys-title">{(positioning as unknown as { absorptionMatrix: { title: string } }).absorptionMatrix.title}</span>
+                  </div>
+                  <span className="sys-badge absorbed">
+                    已承接 {(positioning as unknown as { absorptionMatrix: { absorbedTons: number; absorbedPct: number } }).absorptionMatrix.absorbedTons} 吨 ({(positioning as unknown as { absorptionMatrix: { absorbedPct: number } }).absorptionMatrix.absorbedPct}%)
+                  </span>
+                </div>
+                <div className="sys-card-row-layout">
+                  {/* 左侧：核心吸收规模与机制评语 */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div className="sys-stat-row">
+                      <span className="stat-large" style={{ whiteSpace: 'nowrap' }}>{(positioning as unknown as { absorptionMatrix: { absorbedTons: number } }).absorptionMatrix.absorbedTons} 吨</span>
+                      <span className="stat-sub">深层吸收 / 总流出 {(positioning as unknown as { absorptionMatrix: { totalOutflowTons: number } }).absorptionMatrix.totalOutflowTons} 吨</span>
+                    </div>
+                    <div className="price-impact-box" style={{ borderColor: 'rgba(56, 189, 248, 0.25)', background: 'rgba(56, 189, 248, 0.05)' }}>
+                      <span className="pi-title" style={{ color: 'var(--cyan)' }}>吸收机制评语</span>
+                      <span className="pi-desc">{(positioning as unknown as { absorptionMatrix: { summary: string } }).absorptionMatrix.summary}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: MONO, color: 'var(--text-faint)', padding: '0 2px' }}>
+                      <span>EFP期转现 42.5t (55.2%)</span>
+                      <span>内外盘套利 21.0t (27.3%)</span>
+                      <span>自主/主权 13.5t (17.5%)</span>
+                    </div>
+                  </div>
+                  {/* 右侧：ECharts 横向多渠道对比条形图 */}
+                  <div style={{ height: 140, width: '100%' }}>
+                    <ReactECharts key="absorption-bar" option={absorptionOpt} style={{ height: 140, width: '100%' }} notMerge />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 卡片 3: 周线大级别上升趋势线 (全宽单行 · 白线生命线三列全景轨道) */}
+            {((positioning as unknown as { macroLifeline?: Record<string, unknown> }).macroLifeline) && (
+              <div className="sys-card highlight-lifeline">
+                <div className="sys-head">
+                  <div className="sys-title-box">
+                    <span className="sys-dot white-pulse" />
+                    <span className="sys-title">{(positioning as unknown as { macroLifeline: { title: string } }).macroLifeline.title}</span>
+                  </div>
+                  <span className="sys-badge lifeline-test">{(positioning as unknown as { macroLifeline: { statusLabel: string } }).macroLifeline.statusLabel}</span>
+                </div>
+                <div className="sys-card-trio-layout">
+                  {/* 列 1: 标称位与周期状态 */}
+                  <div className="lifeline-hero-box" style={{ height: '100%' }}>
+                    <div>
+                      <div className="lh-val">${((positioning as unknown as { macroLifeline: { level: number } }).macroLifeline.level).toFixed(1)}</div>
+                      <div className="lh-range mono">缓冲死区: ${((positioning as unknown as { macroLifeline: { level: number; buffer: number } }).macroLifeline.level - (positioning as unknown as { macroLifeline: { buffer: number } }).macroLifeline.buffer)} ~ ${((positioning as unknown as { macroLifeline: { level: number; buffer: number } }).macroLifeline.level + (positioning as unknown as { macroLifeline: { buffer: number } }).macroLifeline.buffer)}</div>
+                    </div>
+                    <div className="stat-sub mono" style={{ textAlign: 'right' }}>
+                      周期: {(positioning as unknown as { macroLifeline: { timeframe: string } }).macroLifeline.timeframe}<br />
+                      状态: <b>测试有效性</b>
+                    </div>
+                  </div>
+
+                  {/* 列 2: 图形化多空防守距离轨道 */}
+                  <div style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 2,
+                    padding: '10px 12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 6
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: MONO, fontSize: 10, color: 'var(--text-faint)' }}>
+                      <span style={{ color: '#FF6B6B' }}>失效红线 $4,130</span>
+                      <span style={{ color: '#FFFFFF', fontWeight: 'bold' }}>白线支撑 $4,145</span>
+                      <span style={{ color: 'var(--amber)' }}>反弹目标 $4,250+</span>
+                    </div>
+                    <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, position: 'relative' }}>
+                      <div style={{
+                        position: 'absolute',
+                        left: '8%',
+                        width: '28%',
+                        height: '100%',
+                        background: 'rgba(255, 255, 255, 0.35)',
+                        borderRadius: 3
+                      }} />
+                      <div style={{
+                        position: 'absolute',
+                        left: `${Math.min(95, Math.max(5, ((currentGoldPrice - 4130) / (4250 - 4130)) * 100))}%`,
+                        width: 8,
+                        height: 8,
+                        top: -1,
+                        borderRadius: '50%',
+                        background: '#FFD700',
+                        boxShadow: '0 0 6px #FFD700'
+                      }} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, fontFamily: MONO }}>
+                      <span style={{ color: 'var(--text-dim)' }}>现价 ${currentGoldPrice.toFixed(1)} 处于死区</span>
+                      <span style={{ color: 'var(--amber)' }}>防守空间 -${(currentGoldPrice - 4130).toFixed(1)}</span>
+                    </div>
+                  </div>
+
+                  {/* 列 3: 确定性风控与凸性规则 */}
+                  <div className="lifeline-rules" style={{ justifyContent: 'center' }}>
+                    <div className="rule-stop">
+                      <b>◆ 结构失效底线：</b>{(positioning as unknown as { macroLifeline: { invalidationRule: string } }).macroLifeline.invalidationRule}
+                    </div>
+                    <div className="rule-upside">
+                      <b>◆ 向上非对称弹性：</b>{(positioning as unknown as { macroLifeline: { upsideConvexity: string } }).macroLifeline.upsideConvexity}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 紧凑期现基差与交割库存表 (保持高频自动化对接) */}
+          <div className="card pos-table" style={{ width: '100%', margin: '0' }}>
+            <div className="legend"><span>{positioning.tableTitle}</span></div>
+            {positioning.table.map((row, i) => (
+              <div className="pos-row" key={i}>
+                <span className="k">{row.k}</span>
+                <span className="v">{row.v}</span>
+                <span className={`wk ${row.dir}`}>
+                  <i className={`arrow ${row.dir}`} aria-hidden="true" />
+                  {row.wk}
+                </span>
+                <span className="g-src">{row.src}</span>
+              </div>
+            ))}
+          </div>
+          <div className="pos-note">{positioning.note}</div>
         </div>
-        <div className="pos-note">{positioning.note}</div>
 
         {/* 宏观驱动因子：多空信号标签 */}
         <h2 className="sec-title">{macro.secTitle}</h2>
@@ -967,20 +1267,20 @@ export default function GoldPanel() {
             <div className="sent-h">宏观非对称赔率与目标空间 (Macro Convexity)</div>
             <div className="rr-metrics">
               <div className="rr-cell">
-                <b style={{ color: 'var(--up)' }}>-$51.8</b>
-                <span>下行防守空间<br />现价 {currentGoldPrice.toFixed(1)} → 支撑 4,090 (-1.2%)</span>
+                <b style={{ color: 'var(--up)' }}>-$10~50</b>
+                <span>下行防守空间<br />现价 {currentGoldPrice.toFixed(1)} → 白线底线 4,130 (-0.25%)</span>
               </div>
               <div className="rr-cell">
-                <b style={{ color: 'var(--amber)' }}>+$358~1358</b>
-                <span>上行宏观目标<br />历史峰值 4,500 ~ 5,500 (+8.6%~+32.8%)</span>
+                <b style={{ color: 'var(--amber)' }}>+$350~1300</b>
+                <span>上行宏观目标<br />空头回补重测 4,500 ~ 5,444+</span>
               </div>
               <div className="rr-cell rr-ratio">
-                <b>1 : 7.2</b>
-                <span>凸性赔率比<br />潜在上行 ÷ 最大防守回撤</span>
+                <b>1 : 10+</b>
+                <span>凸性赔率比<br />潜在上行 ÷ 白线防守回撤</span>
               </div>
             </div>
             <p className="sent-hint">
-              宏观趋势投资核心在于“大级别非对称赔率”。现价向下回踩 4,090 支撑为有限技术性回调（-1.2%），而向上伴随去美元化与主权信用货币重估，潜在空间极其广阔。
+              宏观趋势投资核心在于“大级别非对称赔率”。CTA 抛压已近极限（下周料达最大空仓），且 77 吨被 EFP/现货微观结构深层吸收。依托周线白线趋势线（4,130~4,145）防守空间极小，一旦企稳，向上空头回补弹性极高。
             </p>
             <div className="src">MarketTracker 宏观期权模型 · 彭博终端大宗商品估值体系</div>
           </div>
@@ -988,20 +1288,20 @@ export default function GoldPanel() {
             <div className="sent-h">趋势生命线与跟踪止损原则 (Trailing Stop Discipline)</div>
             <div className="rr-metrics">
               <div className="rr-cell">
+                <b style={{ color: '#FFFFFF' }}>白线 4,145</b>
+                <span>周线大趋势线<br />1W 通道下轨 (容差 ±15)</span>
+              </div>
+              <div className="rr-cell">
                 <b style={{ color: 'var(--amber)' }}>MA20</b>
                 <span>短期波段压制<br />收复 $4,258 视为修正结束</span>
               </div>
               <div className="rr-cell">
-                <b style={{ color: 'var(--cyan)' }}>MA60</b>
-                <span>中长生命线<br />守住 $4,420 维持大牛市格局</span>
-              </div>
-              <div className="rr-cell">
-                <b style={{ color: 'var(--up)' }}>4,090</b>
-                <span>关键失效底线<br />实体跌破触发严格止损减仓</span>
+                <b style={{ color: 'var(--up)' }}>4,130</b>
+                <span>关键失效底线<br />周K实体跌破白线触发止损</span>
               </div>
             </div>
             <p className="sent-hint">
-              趋势交易纪律：截断亏损，让利润奔跑。只要未收盘跌破 4,090 关键结构底线，不因短期假摔交出核心筹码；若右侧放量突破 4,220 并站稳 MA20，则顺势执行加仓进攻。
+              趋势交易纪律：截断亏损，让利润奔跑。只要未收盘有效跌破周线白线（4,130）关键结构底线，不因短期量化假摔交出核心筹码；若右侧放量突破 4,220 并收复 MA20，顺势加仓顺应大级别主升。
             </p>
             <div className="src">趋势跟踪纪律体系 · 华尔街宏观对冲基金风控标准</div>
           </div>

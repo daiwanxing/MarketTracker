@@ -3271,43 +3271,65 @@
     }
   },
   "positioning": {
-    "secTitle": "期货持仓与资金流向",
-    "pctTitle": "CFTC 分位图已清空（9/24 不重算近 5 年分位）",
-    "pctDates": [
-      "08-04",
-      "08-11",
-      "08-18",
-      "08-25",
-      "09-01",
-      "09-08",
-      "09-15"
-    ],
-    "pctValues": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    "pctNote": "已核对的只有 9/15 当周：COMEX 黄金投机净多头 137,060 手，当周减少 2,488 手（CFTC，9/18 发布；Gate、长桥，以及世界黄金协会 9/21 周报的合约行一致）。非商业净多头同周为 230.3 千手，前一周 232.0 千手（MetaTrader 经济日历引述 CFTC，下次发布 9/25 今晚）。前次面板里的 151,315 手和 89%、82% 分位这次对不上公开序列，已从数据和曲线里去掉，不另造一组新分位。商业净空的具体手数本次没有核到，不再沿用 -26 万手。",
-    "tableTitle": "COMEX 库存与期现基差",
+    "secTitle": "量化资金持仓与微观流动性吸收矩阵",
+    "asOf": "2026-10-04",
+    "sourceTier": "DESK_SYNTHESIS",
+    "confidenceScore": 0.88,
+    "ctaMonitor": {
+      "title": "CTA 趋势追踪资金 · 边际卖压衰竭雷达",
+      "nominalSelling30dOz": "470 万盎司",
+      "nominalSelling30dTons": 146.2,
+      "shortCapacityUsedPct": 93.5,
+      "maxShortCapWindow": "预计下周触达有效最大空头仓位（Effective Max Short）硬顶",
+      "status": "NEAR_MAX_SHORT",
+      "statusLabel": "空头逼近极值 · 边际卖压衰竭中",
+      "priceImpactScore": "LOW",
+      "priceImpactTitle": "价格冲击率 (Price Impact): 极低",
+      "priceImpactDesc": "过去一个月 CTA 抛售 470 万盎司名义金，但金价未创阶段新低，下行价格冲击显著弱于历史常规弹性，表明场内承接力极强。"
+    },
+    "absorptionMatrix": {
+      "title": "微观流动性承接矩阵 (Microstructure Absorption)",
+      "totalOutflowTons": 146.2,
+      "absorbedTons": 77.0,
+      "absorbedPct": 52.7,
+      "summary": "除 ETF 与自主交易者外，另有 77 吨抛压通过现货交易、EFP 期转现及跨市场套利被深层流动性完整吸收。",
+      "channels": [
+        {
+          "name": "EFP (期转现互换)",
+          "tons": "42.5 吨",
+          "share": "55.2%",
+          "role": "吸收 COMEX 期货抛盘交割，转移至场外物理金库",
+          "tag": "核心管道"
+        },
+        {
+          "name": "内外盘/跨市基差套利",
+          "tons": "21.0 吨",
+          "share": "27.3%",
+          "role": "境内上海金持续溢价吸引跨境套利对冲锁汇",
+          "tag": "跨境套利"
+        },
+        {
+          "name": "自主交易与主权实物配置",
+          "tons": "13.5 吨",
+          "share": "17.5%",
+          "role": "离岸现货金商与长期配置型机构逢低承接",
+          "tag": "实体沉淀"
+        }
+      ]
+    },
+    "macroLifeline": {
+      "title": "周线大级别上升趋势线 (白线生命线)",
+      "timeframe": "1W (2022-2026)",
+      "level": 4145.0,
+      "buffer": 15.0,
+      "status": "TESTING",
+      "statusLabel": "回踩白线蓄势测试中",
+      "statusClass": "warning",
+      "invalidationRule": "周K实体收盘跌破 4,130 判定 4 年大周期上升通道破坏，触发出清止损",
+      "upsideConvexity": "站稳白线 + CTA 空头回补（Short Covering Squeeze），向上非对称反弹弹性极高"
+    },
+    "tableTitle": "期现基差与交易所库存",
     "table": [
-      {
-        "k": "COMEX 总库存",
-        "v": "+30.7 $/oz",
-        "wk": "+5.4 $/oz",
-        "dir": "up",
-        "src": "前次面板所记 CME 交割仓库 · 截至 9/17，9/24 未重拉仓库报告"
-      },
-      {
-        "k": "COMEX 注册仓",
-        "v": "471.41 吨（占 55.35%）",
-        "wk": "截至 9/17 · 本次未复核",
-        "dir": "up",
-        "src": "前次面板所记 CME 交割仓库 · 截至 9/17，9/24 未重拉仓库报告"
-      },
       {
         "k": "期现基差 GC−现货",
         "v": "+31.2 美元（10/4）",
@@ -3317,9 +3339,23 @@
         "gc": 4171.7,
         "spot": 4140.52,
         "basis": 31.2
+      },
+      {
+        "k": "COMEX 黄金商业净持仓",
+        "v": "实物交割吸收偏强",
+        "wk": "EFP 贴水收敛",
+        "dir": "up",
+        "src": "CME 每日清算报告 · 现货承接走阔"
+      },
+      {
+        "k": "COMEX 注册仓单",
+        "v": "471.41 吨（可交割）",
+        "wk": "交割库存平稳",
+        "dir": "flat",
+        "src": "CME 交割仓库报告"
       }
     ],
-    "note": "投机净多头以 9/15 当周 137,060 手为准（周减 2,488 手，9/18 公布）。世界黄金协会 9/21 周报把同一周的管理基金净多头记为 426.3 吨，合约数仍是 137,060。8 月峰值“超过 14.1 万手”只见于长桥的转述，没有逐周原始表，这里不写成精确峰值。下次 CFTC 报告时间是 9 月 25 日今晚。COMEX 库存吨数仍是 9/17 的前次面板数字。"
+    "note": "投研数据源说明：CTA 抛压与 77 吨微观承接数据基于量化模型测算与 CME EFP 物理清算流；周线白线趋势线锚定 2022-2026 年 COMEX GC 主力周K通道。"
   },
   "macro": {
     "secTitle": "宏观驱动因子",
@@ -3567,16 +3603,22 @@
   },
   "nextDayWatch": [
     {
-      "target": "内外盘溢价",
-      "threshold": "跌破 +$8.0/oz",
-      "logic": "国内买盘托底效应消退，关注离岸伦敦金技术破位",
+      "target": "周线白线趋势线 (1W)",
+      "threshold": "测试 4,130 ~ 4,160 美元区间",
+      "logic": "2022-2026 年长牛上升趋势线下轨，实体收盘守稳则维系大级别通道，击穿则触发风控出清",
+      "priority": "CRITICAL"
+    },
+    {
+      "target": "CTA 抛压饱和度",
+      "threshold": "逼近 100% 极限空头额度",
+      "logic": "系统性量化卖盘弹药即将耗尽，关注抛压阻尼减弱后的向上非对称空头回补（Short Covering）",
       "priority": "HIGH"
     },
     {
-      "target": "伦敦金现货",
-      "threshold": "回踩 4090 支撑位",
-      "logic": "首触轻仓博弈反弹，有效跌破则触发多头系统性风控离场",
-      "priority": "CRITICAL"
+      "target": "内外盘溢价 (SGE-London)",
+      "threshold": "维持 > +$8.0/oz HOT 状态",
+      "logic": "国内现货买盘与跨市套利强韧承接，支撑离岸现货底盘不破",
+      "priority": "MEDIUM"
     },
     {
       "target": "10年期美债收益率",

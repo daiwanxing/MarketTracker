@@ -127,4 +127,284 @@
       padding: 18px 16px;
     }
   }
+
+  /* ------------------------------------------------------------
+     ENSO Professional Terminal Modern Extensions
+     ------------------------------------------------------------ */
+  .enso-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+
+    & .enso-m-item {
+      padding: 18px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+
+      & .m-lbl {
+        font-family: var(--font-display);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+
+      & .m-val {
+        font-family: var(--font-display);
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--text);
+        margin-bottom: 6px;
+
+        &.r { color: var(--red); }
+        &.y { color: var(--amber); }
+        &.g { color: var(--green); }
+      }
+
+      & .m-meta {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--text-faint);
+        line-height: 1.4;
+      }
+    }
+  }
+
+  .chart-split-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .telemetry-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    & .telemetry-item {
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+
+      & .t-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 4px;
+
+        & .name {
+          font-family: var(--font-display);
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        & .val {
+          font-family: var(--font-mono);
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--amber);
+        }
+      }
+
+      & .desc {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.55;
+        margin: 0;
+      }
+    }
+  }
+
+  .chokepoint-container {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 24px;
+    margin-bottom: 28px;
+
+    & .gauge-bar-wrapper {
+      margin: 16px 0 20px;
+
+      & .gauge-labels {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-faint);
+        margin-bottom: 6px;
+      }
+
+      & .gauge-track {
+        height: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+
+        & .gauge-fill {
+          height: 100%;
+          background: linear-gradient(90deg, var(--red) 0%, var(--amber) 60%, var(--green) 100%);
+          border-radius: 2px;
+        }
+      }
+    }
+
+    & .chokepoint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+
+      & .cp-col {
+        padding: 12px 14px;
+        background: color-mix(in oklch, var(--text) 2%, transparent);
+        border: 1px solid var(--line);
+
+        & .k {
+          font-size: 11.5px;
+          color: var(--text-dim);
+          margin-bottom: 4px;
+        }
+
+        & .v {
+          font-family: var(--font-display);
+          font-size: 18px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 4px;
+        }
+
+        & .s {
+          font-size: 11px;
+          color: var(--text-faint);
+          line-height: 1.45;
+        }
+      }
+    }
+  }
+
+  .soft-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+
+    & .soft-card {
+      padding: 22px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      & .sc-top {
+        margin-bottom: 12px;
+
+        & .sc-title-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          margin-bottom: 8px;
+
+          & h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+            letter-spacing: 0.3px;
+          }
+
+          & .sc-bias {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            background: color-mix(in oklch, var(--red) 15%, transparent);
+            color: var(--red);
+            border: 1px solid color-mix(in oklch, var(--red) 30%, transparent);
+          }
+        }
+
+        & .sc-concentration {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--amber);
+          margin-bottom: 10px;
+        }
+
+        & .sc-dynamics {
+          font-size: 13.5px;
+          color: var(--text-dim);
+          line-height: 1.65;
+          margin: 0;
+        }
+      }
+
+      & .sc-catalyst {
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-faint);
+      }
+    }
+  }
+
+  .lag-timeline-stepper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+
+    & .lag-step {
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      position: relative;
+
+      & .step-badge {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--amber);
+        margin-bottom: 6px;
+      }
+
+      & .step-name {
+        font-family: var(--font-display);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+      }
+
+      & .step-desc {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.55;
+        margin: 0;
+      }
+    }
+  }
 }

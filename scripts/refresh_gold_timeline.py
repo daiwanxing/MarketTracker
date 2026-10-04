@@ -101,7 +101,8 @@ SYSTEM_PROMPT = """你是大宗商品与贵金属卖方研究编辑，按彭博�
 2. tech.resistance: 必须是 [min, max] 升序数组，且两个数值必须严格大于当前现货价 price。
 3. riskReward: 必须严格满足 stop < support < price < resistance。
 4. macro_updates: k 为已有宏观驱动因子名称（如「美债 10 年期收益率」、「美元指数」、「美联储利率路径」、「全球央行购金」、「地缘避险」），v 为客观分析（50-180 字），signal 只能是 bull/bear/flat，signalText 为简要研判标签。
-5. action.plans: 角色为「短线交易者」与「中长线 / 波段交易者」，立足客观交易纪律，不给绝对投资建议。"""
+5. action.plans: 角色为「短线交易者」与「中长线 / 波段交易者」，立足客观交易纪律，不给绝对投资建议。
+6. 微观与量化结构：结合量化仓位（CTA 抛压枯竭度与 EFP 吸收）及周线大级别上升趋势线（白线）微观事实，研判需体现防守边界与向上非对称弹性（Convexity）。"""
 
 
 def log(level: str, message: str) -> None:
@@ -286,6 +287,11 @@ def extract_context(doc: dict, headlines: list[dict[str, str]]) -> dict:
         "riskReward": rr_ctx,
         "macro": macro_items,
         "action": action_ctx,
+        "positioning": {
+            "ctaMonitor": doc.get("positioning", {}).get("ctaMonitor"),
+            "macroLifeline": doc.get("positioning", {}).get("macroLifeline"),
+            "absorptionMatrix": doc.get("positioning", {}).get("absorptionMatrix"),
+        },
         "headlines": rank_and_filter_headlines(headlines, MAX_HEADLINES),
     }
 
