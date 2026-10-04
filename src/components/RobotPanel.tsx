@@ -440,7 +440,7 @@ export default function RobotPanel() {
   ];
 
   const sortedTimeline = useMemo(() => {
-    return orderBy(timeline || [], ['date'], ['desc']);
+    return orderBy(timeline || [], ['date'], ['desc']).slice(0, 10);
   }, [timeline]);
 
   const liveRobotCrowd = robotQuotes?.crowding;

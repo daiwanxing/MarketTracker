@@ -29,7 +29,7 @@ graph TD
         readContext["装配输入上下文<br/>(最新盘面报价 + 已有时间轴近8条)"]
         callDeepSeek["调用 DeepSeek API<br/>(deepseek-flash / 机构研报 Prompt)"]
         validateModelJson["数据契约校验与清洗<br/>(JSON 格式 / 原文外链匹配 / 严禁自媒体词)"]
-        mergeTimeline["时间轴增量更新<br/>(最新事件置顶 / 保持≤18条 / 修剪>30天)"]
+        mergeTimeline["时间轴增量更新<br/>(最新事件置顶 / 保持≤10条 / 修剪>30天)"]
         updateSignalRisks["重写市场信号与观察变量<br/>(verdict / sub / bull & bear / risks)"]
         writeNarrativeJson["写入叙事字段<br/>(oilData.json: timeline / signal / risks)"]
     end
@@ -115,7 +115,7 @@ graph TD
     1. **时间轴 (`timeline`)**：
        - 对比已有时间轴，仅收录对供需、库存、航运或政策有实质增量的事实（最多 2 条）；
        - 强制要求条目附带来源报道的原始外链 `url`，前端渲染点击跳转图标；
-       - 数组保持最多 18 条，自动修剪超过 30 天的历史事件。
+       - 数组保持最多 10 条，自动修剪超过 30 天的历史事件。
     2. **市场信号 (`signal`)**：
        - `verdict`：一句定调当前主要矛盾（结合最新 `BZ=F`、`WTI` 涨跌幅与核心驱动因素）；
        - `sub`：阐明盘面与报道口径差异（如 BZ=F 金融期货与通讯社现货月基差）；

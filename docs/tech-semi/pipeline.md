@@ -30,7 +30,7 @@ graph TD
         assembleContext["装配研判上下文<br/>(基准盘面 + TMT拥挤度 + 融资买入 + CSP资本开支 + 既有事件)"]
         callDeepSeek["调用 DeepSeek API<br/>(deepseek-flash / 卖方研报 Prompt)"]
         validateContract["数据契约校验与边界防御<br/>(JSON 格式 / 原文外链匹配 / 严禁自媒体词 / 维度完整性)"]
-        mergeTimeline["时间轴增量更新<br/>(增量事件置顶 / 保持≤18条 / 修剪>30天)"]
+        mergeTimeline["时间轴增量更新<br/>(增量事件置顶 / 保持≤10条 / 修剪>30天)"]
         updateSignalRisks["重写市场信号与风险雷达<br/>(verdict / sub / bull & bear 维度 / watch / risks)"]
         writeNarrativeJson["写入叙事字段<br/>(techSemiData.json: timeline / signal / risks)"]
     end
@@ -143,7 +143,7 @@ graph TD
        - 对比已有时间轴，仅收录对供给、制程良率、地缘政策及资本开支有实质增量的事实（最多 2 条）；
        - 强制要求附带来源报道的原始外链 `url`，前端渲染点击跳转图标；
        - 标签限定为：`算力基础设施`、`制程产能`、`国产替代`、`行业周期`、`政策监管`；
-       - 数组保持最多 18 条，自动修剪超过 30 天的历史事件。
+       - 数组保持最多 10 条，自动修剪超过 30 天的历史事件。
     2. **产业与市场信号 (`signal`)**：
        - `verdict`：一句定调当前主要矛盾（结合三大基准走势、TMT 成交额占比与 CSP 资本开支趋势）；
        - `sub`：阐明指标口径与边界（区分交易日行情与滞后披露的定期报告）；

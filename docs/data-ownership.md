@@ -82,7 +82,7 @@
 - **工作流**：`refresh-robot-timeline.yml` 每日 00:35 与 12:35 UTC（08:35 / 20:35 CST 错峰）定时调用 DeepSeek 模型生成，亦支持手动触发；高频行情由 Serverless 边缘网关驱动，不触发 LLM 以杜绝 Token 浪费。
 - **密钥**：仓库 Secret `DS_API_KEY`（DeepSeek）
 - **写入范围**：维护 `src/data/robotData.json` 的非数值叙事内容，包括：
-  - `timeline`（具身智能与人形机器人产业大事记新事件合并，最多保留 18 条，时间倒序）
+  - `timeline`（具身智能与人形机器人产业大事记新事件合并，最多保留 10 条，时间倒序）
   - `catalysts`（前瞻催化剂与预期差雷达 4 项滚动排期）
   - `optionSentinel.tsla.supplyChainAudit`（长三角核心零部件送样与定点动态说明）
 - **严格受保护不写**：`head`、`anchor`、`dimensions`（六维图表与出货读数）、`benchmarks`（562500/ROBO基准）、`charts.normalized`（125交易日真实时序）、`crowding`（成交额占比与ETF份额）、`optionSentinel.tsla.price/chg/symbol/noiseAlert`、`footer`。抓取失败、模型失败或字段校验失败时不写文件。时间轴条目的 `url` 只能来自当次抓取的原文链接。

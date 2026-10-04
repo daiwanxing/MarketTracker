@@ -50,7 +50,7 @@ RSS_QUERIES = (
 
 MAX_HEADLINES = 12
 MAX_RAW_HEADLINES = 50
-MAX_TIMELINE = 18
+MAX_TIMELINE = 10
 MAX_AGE_DAYS = 30
 TAGS = ("算力基础设施", "制程产能", "国产替代", "行业周期", "政策监管")
 BULL_DIMS = ("capex", "foundry", "substitute")

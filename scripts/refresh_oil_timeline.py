@@ -39,7 +39,7 @@ RSS_QUERIES = (
 )
 MAX_HEADLINES = 12
 MAX_RAW_HEADLINES = 40
-MAX_TIMELINE = 18
+MAX_TIMELINE = 10
 MAX_AGE_DAYS = 30
 TAGS = ("隔夜", "亚盘", "美盘", "EIA", "OPEC+", "海峡", "谈判", "库存", "供应")
 

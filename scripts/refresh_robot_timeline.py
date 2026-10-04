@@ -2,7 +2,7 @@
 """Refresh robotics and embodied AI narrative fields via DeepSeek.
 
 Rewrites non-numerical / qualitative sections in ``src/data/robotData.json``:
-- ``timeline``: 具身智能与人形机器人产业大事记 (appends new validated facts, max 18)
+- ``timeline``: 具身智能与人形机器人产业大事记 (appends new validated facts, max 10)
 - ``catalysts``: 前瞻催化剂与预期差雷达 (rolling 4 key forward-looking events)
 - ``optionSentinel.tsla.supplyChainAudit``: 核心零部件送样与定点动态说明
 
@@ -49,7 +49,7 @@ RSS_QUERIES = (
 
 MAX_HEADLINES = 12
 MAX_RAW_HEADLINES = 40
-MAX_TIMELINE = 18
+MAX_TIMELINE = 10
 MAX_AGE_DAYS = 30
 TAGS = (
     "制造瓶颈",

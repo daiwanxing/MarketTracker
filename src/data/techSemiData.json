@@ -12,7 +12,7 @@
       "price": 13136.67,
       "chg": "+2.40%",
       "chgClass": "up",
-      "previousClose": 12829.0,
+      "previousClose": 12829,
       "src": "^SOX 10-04 10:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
@@ -209,7 +209,7 @@
         "10-02"
       ],
       "sox": [
-        0.0,
+        0,
         6.34,
         8.57,
         11.07,
@@ -267,7 +267,7 @@
         74.18,
         64.96,
         71.29,
-        78.0,
+        78,
         66.84,
         57.75,
         61.17,
@@ -336,7 +336,7 @@
         64.13
       ],
       "kospi": [
-        0.0,
+        0,
         6.87,
         5.15,
         6.63,
@@ -425,7 +425,7 @@
         14.65,
         15.48,
         19.73,
-        24.0,
+        24,
         26.99,
         26.99,
         25.02,
@@ -463,7 +463,7 @@
         27.46
       ],
       "star50": [
-        0.0,
+        0,
         6.18,
         5.44,
         7.08,
@@ -579,7 +579,7 @@
         26.38,
         29.96,
         30.33,
-        31.0,
+        31,
         30.77,
         27.65,
         27.65,
@@ -681,78 +681,6 @@
       "d": "美国国会层面推进进一步切断中国获取 AI 芯片渠道的立法设想，英伟达与 AMD 正就管制口径寻求行政介入。若限制范围由高端加速器延伸至配套互连、整机与存储环节，将压制北美厂商中国区收入预期，同时加速国内算力芯片与先进封装的替代验证。边际变化在于管制由单一产品清单转向体系化约束，合规成本与供应链锁定同步抬升，出货节奏与型号规划的不确定性上升。",
       "src": "来源：Politico",
       "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTXdheVlVR0FPX2tsOThwNUNleXVHTUNza3F0bnpBLWE5OVdEOE9sVmpIM3Vac1IxTUVoMXdRUmxXQU1zaXZyX2pQTUc2YWsyYlQ2UGIxX0tMSmFQSkFhakU2a0RkVmNnZkg2cGFUX2FtUUhoMEh6VDZ3ZkVBYUZabEpad3pYcHNk?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "算力基础设施",
-      "hot": false,
-      "t": "英伟达B200算力租赁价格上行约30%，加速器需求紧张向价格端传导",
-      "d": "第三方算力租赁市场报价显示，B200租赁价格上行约30%，反映训练与推理需求对高端加速器的占用持续紧张。租赁价格作为算力供需的即时价格信号，其上行印证CSP资本开支正由指引向实际部署转化，同时抬升算力资产在折旧与融资模型下的回报预期，对加速器、HBM及先进封装的排产形成正向牵引，并强化数据中心电力与散热配套的刚性需求。",
-      "src": "来源：Yahoo Finance",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQVHc3X1dyakhkcE1kZTJyQTVWR3JUNDlMd2NhUVNkTTh2ZDJhNkhkNXRzN0xYbHJlS29fRFBGSzhoc1FpeUc4cEFTcGJYSlVGZzZ6OU9mVnY1TTJrMWZQRi1YM3RjOUJubUlwLUU3czV4Nm11RG9ncE1qN0pBTW90amZhWmJvY0F4ZHRVdTE2OHVuejZkLWZFazhhTQ?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "政策监管",
-      "hot": true,
-      "t": "Netlist 申请对美光 AI 计算用存储芯片进口禁令，涉及谷歌与英伟达供应",
-      "d": "Netlist 就美光供应谷歌、英伟达 AI 计算平台的存储芯片向美方提出进口禁令申请，属专利争议的行政救济路径。若进入立案与实质审查程序，北美 AI 服务器存储料号或被迫启动替代验证，短期抬升 DRAM 与模组环节的供应不确定性，并对美光在高端 AI 存储的份额形成扰动。禁令范围与落地周期仍待程序确认，当前处于预期定价阶段，尚未构成实际供给中断。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSmxnMEM4VmZvZUtSUTFlQWI0bWIyRFJmMEh4RTh5ck5obV85T2RMeTJoU1VLN3BwRkE4d3F4ZjNiaDN1RzNtVDczTGNPQnF0ZzIyUnNzSk40TnhaZXZNRmVyUUZ5cjZXUGtWR0puZHZSejFnQkthMHJfQkhxMEZVTWgxVTBQeUJxM3RlaXBKcXB4RDZIOFU3SExnR3lHcUN3dUdlUHhPZ25SN0xPMEJGcnc4d0d5VkwwUmxaMlQ0blZqcU0?oc=5"
-    },
-    {
-      "date": "2026-09-24",
-      "tag": "国产替代",
-      "hot": false,
-      "t": "TrendForce：日韩MLCC厂紧缩消费供给转向AI，中国大陆厂商启动一线品牌验证",
-      "d": "TrendForce 指出，日、韩被动元件厂压缩消费类 MLCC 供给，产能向 AI 服务器与高容值车规、工规应用迁移，中国大陆厂商同步开启一线品牌验证流程。边际变化在于，高端 MLCC 供给结构由消费主导转向算力主导，AI 主板与电源模块所需高容值产品议价权上移；大陆厂商若通过验证，有望在中高端料号实现份额切入，但验证周期与良率爬坡仍构成节奏约束，短期难以改变高端供给格局。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260924-13252.html"
-    },
-    {
-      "date": "2026-09-24",
-      "tag": "国产替代",
-      "hot": false,
-      "t": "日韩MLCC厂削减消费供给转向AI，中国大陆厂商进入一线品牌验证",
-      "d": "TrendForce指出，日韩MLCC厂商正削减消费类料号供给，将产能转向AI服务器与高容车规应用，消费规格的供给与价格同步收缩。同期中国大陆厂商进入国际一线品牌验证流程，若验证落地将打开高容、高可靠料号的替代空间。边际变化在于被动元件供给结构由消费驱动转向算力驱动，AI服务器单机用量提升，本土厂商有望承接转移订单，但消费类需求疲弱仍构成整体稼动率的约束条件。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260924-13252.html"
-    },
-    {
-      "date": "2026-09-24",
-      "tag": "国产替代",
-      "hot": false,
-      "t": "日韩 MLCC 厂紧缩消费供给转向 AI，中国大陆厂商开启一线品牌验证",
-      "d": "TrendForce 指出日、韩被动元件厂削减消费类 MLCC 供给，产能向 AI 服务器与车用高容产品倾斜；中国大陆厂商同步进入全球一线品牌验证阶段。供给结构迁移意味着消费类被动元件价格底部确认，而高容、高频 MLCC 的供给壁垒抬升。国产厂商若通过验证，将在服务器主板与通信环节形成替代路径，但初期良率与一致性认证周期构成节奏约束。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260924-13252.html"
-    },
-    {
-      "date": "2026-09-21",
-      "tag": "行业周期",
-      "hot": false,
-      "t": "TrendForce：北美需求上修，企业级 SSD 第四季合约价预估延续上行",
-      "d": "TrendForce 指出，受北美数据中心需求持续上调驱动，企业级 SSD 第四季合约价预估延续上行，前五大企业级 SSD 品牌 2Q26 营收翻倍至近 375.9 亿美元。供给端产能向高附加值企业级产品倾斜，消费级 SSD 供给弹性被压缩，价格传导由上游 NAND 原厂向模组与系统集成环节递延。对存储原厂构成收入与毛利双重支撑，对服务器整机与云厂商形成 BOM 成本上行压力，需跟踪涨价向终端预算的挤压幅度。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.cn/presscenter/news/19700101-13245.html"
-    },
-    {
-      "date": "2026-09-21",
-      "tag": "行业周期",
-      "hot": false,
-      "t": "TrendForce 上修 Enterprise SSD 第四季价格预估，北美需求持续上调",
-      "d": "TrendForce 指出北美云端与 AI 服务器需求持续上调，Enterprise SSD 第四季合约价预估延续上行走势，DRAM 供给扩张仍不及需求增长，企业级存储价格中枢继续抬升。成本上行将传导至服务器整机物料清单，云厂商资本开支中的硬件占比被动提高；模组与主控环节议价能力分化，具备高容量产品结构的厂商受益更为直接，消费类存储供给则持续受挤压。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260921-13246.html"
-    },
-    {
-      "date": "2026-09-18",
-      "tag": "制程产能",
-      "hot": true,
-      "t": "TrendForce：AI芯片封装突破光罩极限，CoWoS-L稳居先进封装主流至2028年",
-      "d": "TrendForce 指出，AI 芯片封装尺寸突破光罩限制，CoWoS-L 因兼顾大面积与高良率，预计至 2028 年仍为先进封装主流方案。该趋势强化台积电在 AI 加速器封装环节的议价能力，同时带动 ABF 载板、硅中介层与测试设备需求。国内封测厂在 2.5D/3D 环节仍处验证导入阶段，短期难以切入英伟达与 AMD 高端供应链，先进封装产能锁定成为算力供给关键瓶颈。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260918-13241.html"
     }
   ],
   "news": [
