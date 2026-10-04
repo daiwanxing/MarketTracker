@@ -252,6 +252,41 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-05",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "RoboParty 于 IROS 发布 RP1 全栈开源人形机器人平台",
+      "d": "该平台定位高性能全栈开源架构，覆盖人形机器人本体、运动控制与软件栈，面向开发者社区开放，旨在降低二次开发门槛并加速算法迭代。IROS 现场展示可作为开源路线在真实工位部署前的技术验证，但尚未披露量产时间、出货统计与供应链定点。",
+      "src": "来源：StreetInsider",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOaG9xUzNkYV9PM1FJSWt4TGNBZTZsamQteDFXa1NPS1FvMHIxcVRGWUlHSzBKN2diS3cwMTl5YXp6QTR3ZkpkOWpzbmtYYnRkdGx5Y1VkTW5MQUQwMmx6anVNanYzVG9hcUxMZzZFRGw1c0dlaW1uQVM4RzI1dVR4TUY3Rk1rakhIYzA0dE02MFRMTmpubGtnOFYwSjBaRUstblFnMnlfZVluMUt2a3Y1eGpGeUppM0tXZ2NBWFFHTWE4RzZMVHZwaUxxWEtSNHZmTnBnMXpNZldHd0pn?oc=5"
+    },
+    {
+      "date": "2026-10-05",
+      "tag": "供应链",
+      "hot": false,
+      "t": "FCC 禁令对中国产人形机器人及美本土供应链形成反噬",
+      "d": "据 Startup Fortune 报道，FCC 对中国产人形机器人的禁令可能使美国本土企业面临关键零部件与整机供应受限，形成供应链反噬。政策若执行，将影响中美跨境零部件流动，美方企业或面临采购成本上升与交付周期拉长；需跟踪豁免范围、执行细则及替代供应链锁定进度。",
+      "src": "来源：Startup Fortune",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQMkpNek5obzhzNHJMU2VPV0tuMW9UVEhpWDFDYXY3YUlFTV9jMkp6OEZJa2ZLS2ZwWDROLUxNdV82WVZHSUJKd1JsT3AydnR5WHlBdm42eEZxX0s0QUlTalJuQUJSWVlKRl92SDN1bzRUNjZpOWtSbW9hVmpTTmsxWXpybl9UazU4QUNwMFozRVRRY05yOEIxLWxZUjJFZzNCVWEzZ2ZB?oc=5"
+    },
+    {
+      "date": "2026-10-05",
+      "tag": "集采规划",
+      "hot": false,
+      "t": "全球财富第二大国计划 2028 年前部署人形机器人用于警务监狱",
+      "d": "据 VnExpress International，全球财富第二大国计划在 2028 年前将人形机器人用于警务与监狱场景，标志政府级集采规划向安防与特种作业延伸。若计划推进，将带来巡检、搬运与监控等工位需求，并推动整机及核心关节、灵巧手供应链定点；当前未披露招标规模、交付节点与预算安排。",
+      "src": "来源：VnExpress International",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPeVRVTWxqT2ZVa3MtN01tei1jUy1EZ240Zld0TXNGanJVZEY5THlzRzlwZDVPZ3JqcWdLcllsR2kyMjFwWEZHekVJejBacUxzX05obWZ5RXJ6NG15WUFCWFlWRDdoNE5lYjhSaHB0WjlMQVNVbmthcFJ3NFhCVzJ2YjdnaHBKLXExbFdEcEtWcDVHbk5KcklZYkpZbEEyc2JHc1FFRnV1UjJ4SDc4VzY0TzJITTU0clk0NU1RdDlyb3l4b3ltbFd3R1hrd1l2YlhfSXlPUmFKd0xfQUU?oc=5"
+    },
+    {
+      "date": "2026-10-05",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Figure 03 亮相白宫峰会 人形机器人公共场景验证推进",
+      "d": "第一夫人梅拉尼娅·特朗普与可行走、可对话的 Figure 03 人形机器人共同出席白宫峰会，展示公共场景下的行走与交互能力。该活动可视为人形机器人从工业工位向政务与公共展示场景延伸的技术验证，但尚未涉及量产交付、供应链定点或正式采购订单。",
+      "src": "来源：ABC7 Los Angeles"
+    },
+    {
       "date": "2026-10-04",
       "tag": "一级融资",
       "hot": true,
@@ -304,42 +339,6 @@
       "d": "搜狐网报道，南方电网与宇树在电力场景展开合作，将电力巡检与作业环境作为具身智能训练验证场。真实电网工位可积累非结构化环境数据，验证机器人续航、抗干扰与安全作业能力，后续关注招标采购与批量交付节奏。",
       "src": "来源：搜狐网",
       "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQa1lOMkowVE12enpTd1BfcXBMVnBvcHhtZXJhZ3pNMGtSUGxHeG5lN0VTVjg1TlctaDVzTmJKWjRqeVJtaTBOMmVYb1BrQlA3clB6VGlmNUxLQTZNRDlSaDMxT1VfNkVHY2Y5eWJWWFM3cC16N2dGTHNrbEo1czN1UkFEYmFsSE81UUIxcA?oc=5"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "特斯拉展示搭载 Grok 的 Optimus 机器人视频",
-      "d": "Mashable 报道，特斯拉展示 Optimus 机器人集成 Grok 的交互视频。演示呈现语音理解与任务规划潜力，但市场更关注其在 Fremont 产线的实际工位表现、灵巧手装配良率与自主作业连续性。软件迭代与硬件量产仍需同步验证。",
-      "src": "来源：Mashable",
-      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1RdWU4NWRzM2lQd0YtNzQyUVlUczBMeDdzdnUzaG1pNzZaNm9sZXZTWGdsbk9DV1dXa1BEWkR2Y091UERxX3F0c2J5VDlMQVNWS0lhRzFvdkxoZ05HU2NHX203NEhENk9hQmtN?oc=5"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "川崎重工计划 2030 年推出全自主人形 AI 机器人",
-      "d": "Nikkei Asia 报道，川崎重工设定 2030 年实现全自主人形 AI 机器人目标，重点在 AI 决策、运动控制与工业场景融合。日本重工企业入局将加剧全球具身智能竞争，后续关注其研发投入、试点工位及商业化时间表兑现情况。",
-      "src": "来源：Nikkei Asia",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPWkNNTnZKM2NhQVI4SjA3UFBaU3Zxc0RaaDhzdi1VeHBaQjVVY2puZzhSb2ZMVkJaQ3FhejBTanZQaXFvXzlscEVxMHJDb1A1VVVQTzRTYkNZd2lwQUh3QnpDdmx6TGRXMFRrN1l5VWxXZGx5NTI3bUVhMTlwNGx6WU12MHJUU19EeEhRMlhtcTFPUnVUVFh1RlJzcTFzVHIySzFwd1dzekNZcnBZRS0w?oc=5"
-    },
-    {
-      "date": "2026-10-03",
-      "tag": "量产进展",
-      "hot": true,
-      "t": "特斯拉下调自研 AI 芯片内存规格 为 Optimus 量产让路",
-      "d": "报道称特斯拉调整自研 AI 芯片内存配置，以缓解供应约束并为 Optimus 机器人产线爬坡腾挪资源。该动作反映算力硬件与机器人量产之间存在物料竞争，需跟踪调整后推理性能是否满足端侧实时控制，以及是否影响 Optimus 量产节点与整机 BOM 下探节奏。",
-      "src": "来源：finance.biggo.com",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE80NzVBdDFkRk5EUlZ5bF9ZMldLMmZzLWRaM0lkS1dOSmtoVnhYemZkcWlmVUxwa0dJeDZfVHgyclFCMVJDc0xvMnBqcGZ1S1RRRThSZktPZjY4SDZBZGZ3ZEhLTF9oX201MHF0T1ZfM0cyeUo4dmc?oc=5"
-    },
-    {
-      "date": "2026-10-03",
-      "tag": "供应链",
-      "hot": false,
-      "t": "FMC³、Vector 与 PEM Motion 拟组建具身智能合资公司",
-      "d": "三方计划组建具身智能合资实体，整合机器人系统集成、运动控制与工程服务能力，指向工业与移动场景的具身智能方案落地。该安排处于计划阶段，尚需跟踪股权结构、技术分工与首期项目定点，短期对量产供应链无直接拉动。",
-      "src": "来源：roboticsandautomationnews.com",
-      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPMWJiMHJVS0RmakJ2SENjczZtVWhaQ2tkN1pLQTA1RG1iQW9ibzJrcko0djRzbHFxYlZfYnFRUVFqS3pGb1pFXzBJOXc4Y29hc0I1VFpKdExhSlUtLVpqVDd1REZZMnhCdmpzdTMzYlZIc2g0Vy13N0pmUFR0eVRYVjdjRnBkbXRhaWtKU19OMVZiN3U2NTNhTm5pby1RcTZBVzRaWElQZVRYWUIwelppVGZuQ25pd0k3bjEtWXhUeGJQVmh2VHZ3?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
