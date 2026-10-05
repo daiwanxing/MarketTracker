@@ -593,6 +593,24 @@
   },
   "timeline": [
     {
+      "date": "2026-10-05",
+      "tag": "行业周期",
+      "hot": true,
+      "t": "TrendForce上修2027年HBM价格展望，混合ASP预估同比上行121%",
+      "d": "TrendForce指出HBM供给持续吃紧，将2027年HBM价格展望上修，混合ASP预估同比增幅达121%。AI服务器加速器的单位搭载量提升，叠加CoWoS-L等先进封装产能锁定，原厂产能持续向HBM倾斜，挤压通用DRAM与消费端供给。HBM环节定价权进一步向供给方集中，云端厂商采购成本上移，需以长约形式锁定产能与交付节奏；上游设备、探针与封装材料环节受益于堆叠层数提升，边际景气度维持高位，消费类存储供给弹性则继续受限。",
+      "src": "来源：TrendForce 集邦咨询",
+      "url": "https://www.trendforce.cn/presscenter/news/19700101-13254.html"
+    },
+    {
+      "date": "2026-10-05",
+      "tag": "国产替代",
+      "hot": false,
+      "t": "AI与HBM驱动存储器测试需求扩张，中国大陆供应商切入八成进口依赖市场",
+      "d": "TrendForce指出，AI与HBM需求带动存储器测试环节用量与技术门槛同步提升，该市场约八成份额由海外厂商占据，中国大陆供应商正加速验证导入。HBM堆叠层数增加、测试时长延长，使测试设备与测试服务单机价值量抬升，国产厂商在老化、探针台与测试机环节的替代空间打开。对国内封测与设备企业构成结构性增量，但高端测试工艺积累与一线客户认证周期仍是制约变量，导入节奏决定业绩兑现斜率，需持续跟踪客户验证进展。",
+      "src": "来源：TrendForce",
+      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNbEN2Q19GYlFITHpQcDQxcmRLMVJBb0tFSTVBQ2ppSlJ4YmZQaW9fZk5ERWpHSHhIam1oUkhkb1gyeUl3RVFpMEtINmoyd0pVbUdnRVFWYnBKLTZiWEd0ejJfZnlxQ254eFRuWE12dGNHRzR3X0lMMkZQbFlaTW5BOG9memFQYmZ0eXMzaVN1QnlFVWhNLTFFY1pNVGUwekV1dC1sQzFoZlpDNlZrT19aYW9XZDZBV0E4Q19kNEM0a1ZTZTdqRlR1SW9EX0pDZWg0REJFOElrSQ?oc=5"
+    },
+    {
       "date": "2026-10-03",
       "tag": "行业周期",
       "hot": true,
@@ -663,24 +681,6 @@
       "d": "公司以创纪录规模回购对冲AI资本开支高峰期的估值波动，回购体量强化每股收益与自由现金流可见度。产业链信号在于AI加速器需求已转化为可分配现金，上游晶圆代工、先进封装与HBM供应商的订单能见度与预付能力同步抬升。对境内映射为算力板块估值锚上移，但短期资金面仍受长假前防御性收缩与TMT成交占比40.92%的拥挤度约束。",
       "src": "来源：Businesskorea / CNBC",
       "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1BeC1wMEJuRXpPcVJaRHB0Slk4YWJtTE5UOFcwaWZKRE44aGRBZW81aWlJUF92dEFxUkViaEUxZmQ5ajZkckt0bER5dzlQX0s5NnlCZWdfNW5PLUFzaW9HVlU0eUF6R3QtTmQzcTEycjl6YXZH?oc=5"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "行业周期",
-      "hot": true,
-      "t": "TrendForce上修2027年HBM价格展望，混合ASP预估年增121%",
-      "d": "TrendForce指出HBM供给持续吃紧，2027年价格展望自前值上修，混合ASP预估年增121%。HBM产能由DRAM原厂优先分配，挤占传统DDR与服务器模组供给，推动存储合约价维持上行斜率。对产业链而言，存储上行强化原厂资本开支与设备拉货的确定性，但同时抬高AI服务器与加速卡的BOM成本，压缩中下游组装与模组环节毛利，存储链与算力链的景气分化进一步显性化。",
-      "src": "来源：TrendForce 集邦咨询",
-      "url": "https://www.trendforce.com/presscenter/news/20260929-13255.html"
-    },
-    {
-      "date": "2026-09-29",
-      "tag": "政策监管",
-      "hot": false,
-      "t": "Netlist 寻求美国进口禁令，针对用于谷歌与英伟达AI计算的美光存储芯片",
-      "d": "该诉求若进入美国国际贸易委员会实质程序，将扰动AI服务器HBM与高端DRAM的供应连续性，涉及谷歌自研加速器与英伟达平台的存储配套。短期看诉讼不改变存储供需缺口，HBM与Enterprise SSD价格上行趋势延续；中期看专利许可与合规成本可能抬升存储厂运营费用，并强化供应链多元化与国产存储验证窗口。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSmxnMEM4VmZvZUtSUTFlQWI0bWIyRFJmMEh4RTh5ck5obV85T2RMeTJoU1VLN3BwRkE4d3F4ZjNiaDN1RzNtVDczTGNPQnF0ZzIyUnNzSk40TnhaZXZNRmVyUUZ5cjZXUGtWR0puZHZSejFnQkthMHJfQkhxMEZVTWgxVTBQeUJxM3RlaXBKcXB4RDZIOFU3SExnR3lHcUN3dUdlUHhPZ25SN0xPMEJGcnc4d0d5VkwwUmxaMlQ0blZqcU0?oc=5"
     }
   ],
   "news": [
@@ -746,17 +746,17 @@
     "src": "申万一级行业与沪深市场快照 (asOf: 2026-09-30)"
   },
   "closingReview": {
-    "asOf": "2026-10-05 00:57",
+    "asOf": "2026-10-05 14:05",
     "tradingPhase": {
       "phase": "APAC_POST_MARKET",
       "headline": "亚太盘后定型 · 费半盘前窗口",
       "window": "15:30 ~ 18:00 CST"
     },
     "verdict": {
-      "headline": "SOX与科创50裂口扩大，长假前TMT极端拥挤触发筹码出清",
-      "coreSummary": "外盘受CSP资本开支上修与HBM价格展望推升，SOX +2.40%、KOSPI +0.46%；A股TMT成交额占比38.79%处danger分区，长假前杠杆与趋势资金主动降仓，科创50 -2.51%显著弱于亚太。融资买入占比8.79%虽属平常，但筹码结构高度集中，边际卖压放大。产业端AI算力、先进封装与存储景气仍强，消费疲软与AI资本回报质疑构成中期估值约束。节后观察成交占比回落与海外AI链映射。",
-      "riskTone": "defensive",
-      "primaryDriver": "TMT极端拥挤与长假前资金撤退共振"
+      "headline": "科创50独立下行：TMT极端拥挤出清叠加节前资金撤退，海外算力景气难传导",
+      "coreSummary": "费半收涨2.40%、韩国KOSPI微升0.46%，科创50单日下挫2.51%，跨市场裂口扩至约2.97个百分点。差异不在需求端——AI资本开支上修、HBM与DRAM价格上行仍在强化海外盈利预期——而在A股内部资金结构：TMT成交额占比38.79%处danger分区，筹码高度集中；长假前银证转账提现窗口临近，杠杆资金倾向收缩敞口；融资买入占比8.79%虽属平常，在高拥挤度下边际卖出即放大波动。跨品种宏观读数缺位，偏高折现率中枢对长久期科技资产形成压制。主导变量为微观筹码出清而非基本面转弱，指数需以缩量换手完成估值消化。",
+      "riskTone": "bearish",
+      "primaryDriver": "TMT板块极端拥挤度触发的筹码出清，叠加长假前杠杆资金防御性收缩"
     },
     "marketClock": [
       {
@@ -807,16 +807,16 @@
           },
           {
             "label": "TMT成交额",
-            "value": "5,577.58亿元",
-            "sub": "全市场 14,379.89亿元"
+            "value": "5577.58 亿元",
+            "sub": "全市场 14379.89 亿元"
           }
         ],
         "transmission": {
-          "trigger": "TMT成交额占比升至38.79%，进入danger分区",
-          "mechanism": "存量资金向TMT集中，趋势与杠杆筹码拥挤，边际流动性无法承接高位换手",
-          "outcome": "科创50单日-2.51%，高位科技筹码松动"
+          "trigger": "TMT成交额占比38.79%，落入danger分区上沿",
+          "mechanism": "高集中度持仓缺乏增量承接，边际卖盘触发被动减仓与波动率放大",
+          "outcome": "科创50单日-2.51%，跌幅显著深于费半与KOSPI"
         },
-        "narrative": "TMT成交额占比接近四成，交易结构呈极端单边化。拥挤度本身不决定方向，但会放大边际卖压：当长假前资金转向防御，集中筹码缺少承接，价格对负面信息敏感度上升。科创50跌幅与海外AI强势背离，反映筹码出清先于基本面定价。"
+        "narrative": "TMT成交额占比38.79%，处danger分区，交易结构对单一主线依赖度偏高。增量资金边际放缓下，高集中度持仓缺乏承接，负面扰动易转化为被动减仓与筹码踩踏，波动率被动放大。当前主导变量是筹码结构而非订单能见度，需以缩量换手确认出清进度。"
       },
       {
         "id": "liquidity",
@@ -835,42 +835,42 @@
           {
             "label": "融资买入占比",
             "value": "8.79%",
-            "sub": "截至2026-09-29，平常区间"
+            "sub": "2026-09-29，处平常区间"
           }
         ],
         "transmission": {
-          "trigger": "国庆长假临近，T-2提现窗口与银证转账截止叠加",
-          "mechanism": "短线杠杆与绝对收益资金降低暴露，融资盘主动偿还，成交向防御板块迁移",
-          "outcome": "科创50跌幅显著大于KOSPI，流动性折价扩大"
+          "trigger": "长假前T-2提现窗口临近，银证转账资金外流压力抬升",
+          "mechanism": "杠杆资金主动降低敞口，成长板块承接力下降，卖压向高估值品种集中",
+          "outcome": "指数尾段缺乏买盘支撑，日内反弹受限于缩量格局"
         },
-        "narrative": "融资买入占比8.79%处于平常区间，显示杠杆总量未失控，但节前现金需求与避险偏好上升，边际资金率先撤离高波动科技仓位。融资盘偿还与趋势策略降仓形成负反馈，导致指数层面出现流动性折价，而非产业逻辑逆转。"
+        "narrative": "长假前银证转账提现窗口临近，杠杆资金倾向主动降低敞口以规避跨节不确定性；融资买入占比8.79%虽处平常区间，但在高拥挤度背景下，边际去杠杆对指数的冲击被放大。节前成交结构通常向低波动资产迁移，高估值成长板块承接力下降。"
       },
       {
         "id": "macro",
         "pillarName": "宏观利率与商品压制",
         "pillarNameEn": "MACRO YIELDS & COMMODITIES",
         "weight": 20,
-        "impact": "mixed",
-        "impactLabel": "外强内弱裂口",
-        "factorTag": "跨市场估值分化",
+        "impact": "down",
+        "impactLabel": "折现率抬升",
+        "factorTag": "通胀再起预期",
         "metrics": [
           {
-            "label": "费城半导体指数",
-            "value": "13,136.67",
-            "sub": "+2.40% / 前收 12,829.00"
+            "label": "布伦特原油 / 美元指数 / 美债收益率",
+            "value": "本期材料未含点位",
+            "sub": "跨品种读数缺位，方向按既有通胀预期处理"
           },
           {
-            "label": "韩国KOSPI指数",
-            "value": "7,003.74",
-            "sub": "+0.46% / 前收 6,971.35"
+            "label": "科创50 单日变动",
+            "value": "-2.51%",
+            "sub": "高久期科技资产对折现率敏感度最高"
           }
         ],
         "transmission": {
-          "trigger": "SOX +2.40%、KOSPI +0.46%，外部科技β偏强",
-          "mechanism": "CSP资本开支上修与HBM涨价支撑海外AI链，但A股节前流动性收缩削弱映射",
-          "outcome": "科创50 -2.51%，内外裂口扩大至-2.97pct"
+          "trigger": "通胀再起预期未消，折现率中枢维持高位",
+          "mechanism": "长久期科技资产估值分母端承压，风险偏好向短久期与现金流确定品种迁移",
+          "outcome": "高估值算力与半导体设计板块估值消化压力上升"
         },
-        "narrative": "跨品种宏观数据未在材料中更新，以费半与KOSPI作为外部风险偏好代理。外盘半导体受AI资本开支与存储涨价支撑，而A股科技在长假前呈流动性折价，形成外强内弱裂口。该裂口若节后不能收敛，将压制国产算力估值锚。"
+        "narrative": "跨品种宏观报价在本期材料中缺位，无法对原油、美元指数与美债收益率作点位校验。既有的通胀再起预期与偏高折现率中枢，对长久期科技资产估值构成持续压制。在分子端产业景气未被质疑的前提下，分母端方向决定估值弹性，待宏观数据补齐后再校准。"
       },
       {
         "id": "industry",
@@ -882,53 +882,53 @@
         "factorTag": "K型景气分化",
         "metrics": [
           {
-            "label": "晶圆代工营收",
+            "label": "2Q26全球晶圆代工营收",
             "value": "$534.9 亿",
-            "sub": "AI满产/消费疲软"
+            "sub": "先进制程与AI需求强劲，消费端偏弱"
           },
           {
-            "label": "HBM 2027 ASP",
-            "value": "+121%",
-            "sub": "供应持续吃紧"
+            "label": "2027 HBM 混合ASP预估",
+            "value": "同比 +121%",
+            "sub": "供给约束延续，定价权向供给方集中"
           }
         ],
         "transmission": {
-          "trigger": "2Q26全球晶圆代工营收534.9亿美元，HBM 2027 ASP预估年增121%",
-          "mechanism": "AI先进制程与HBM挤占产能，消费类芯片复苏弱于预期，产业链利润向算力侧集中",
-          "outcome": "费半强势与A股科技下跌背离，结构性行情延续"
+          "trigger": "AI与存储景气延续，先进制程满产与HBM供给约束并存",
+          "mechanism": "海外权重股盈利预期上修，与A股本地筹码压力形成方向背离",
+          "outcome": "跨市场裂口扩大至约2.97个百分点"
         },
-        "narrative": "产业景气呈K型：AI服务器、先进封装与HBM需求强劲，TrendForce上修2027年HBM混合ASP年增121%；消费类存储、MCU与成熟制程仍承压。晶圆代工营收534.9亿美元印证先进制程满产，但市场开始计价AI资本回报缺口，基本面强势与估值消化并存。"
+        "narrative": "2Q26全球晶圆代工营收近534.9亿美元，先进制程与AI需求维持强劲，消费端复苏偏缓，行业呈K型分化。HBM供给约束推动2027年混合ASP预估同比上行121%，存储器定价权向供给方集中。产业景气支撑海外权重股，但短期难以对冲A股本地筹码与流动性压力。"
       }
     ],
     "crossMarket": {
-      "spreadMetric": "KC50 vs KOSPI 裂口: -2.97pct",
+      "spreadMetric": "KC50 vs KOSPI 单日裂口: -2.97 pct",
       "spreadStatus": "divergence",
-      "divergenceLogic": "科创50跌幅显著深于KOSPI，核心差异在筹码结构与资金属性：A股TMT成交额占比38.79%处danger分区，长假前融资与趋势资金降仓，形成流动性折价；KOSPI受存储与AI供应链权重支撑，叠加外资风险偏好稳定，因而维持正收益。外盘AI景气未能对冲A股节前微观出清压力。",
-      "leadLagSignal": "亚太时段显示半导体外强内弱，SOX夜盘若维持13,000上方，A股节后科技或有映射修复；但若TMT成交占比不降，高开低走概率仍高，需警惕拥挤度二次踩踏。关注费半开盘是否延续AI资本开支交易。"
+      "divergenceLogic": "科创50跌幅显著深于KOSPI，主因不在需求端：韩国指数由存储与代工权重股支撑，AI资本开支上修与HBM涨价直接映射其盈利预期；科创50的矛盾集中于本地筹码与资金结构，TMT成交额占比处danger分区、节前杠杆资金收缩，叠加长久期资产对折现率更敏感，跌幅被放大。",
+      "leadLagSignal": "费半隔夜收涨2.40%，全球半导体需求侧未见恶化迹象，本次A股回撤属本地流动性与筹码出清，对美股开盘的向下先导意义有限。需关注费半能否守住13000上方，以判断海外算力主线是否延续强势。"
     },
     "nextDayWatch": [
       {
-        "target": "TMT成交额占比",
-        "threshold": "回落至35%以下",
-        "logic": "拥挤度缓和，科创50止跌必要条件",
+        "target": "科创50指数",
+        "threshold": "1500 点整数关口",
+        "logic": "跌破则确认筹码出清进入加速段，估值消化压力向全板块扩散；站稳则视为缩量换手完成",
         "priority": "critical"
       },
       {
+        "target": "TMT成交额占比",
+        "threshold": "回落至 35% 以下",
+        "logic": "占比回落代表拥挤度缓解，是风险偏好修复的前置条件；若继续上行则踩踏风险抬升",
+        "priority": "critical"
+      },
+      {
+        "target": "费城半导体指数 (SOX)",
+        "threshold": "13000 点",
+        "logic": "海外主线防守位，失守将削弱A股算力链的外部锚定与估值支撑",
+        "priority": "watch"
+      },
+      {
         "target": "融资买入占比",
-        "threshold": "跌破8%或升破9.5%",
-        "logic": "确认杠杆资金方向，判断节后风险偏好",
-        "priority": "watch"
-      },
-      {
-        "target": "费城半导体指数",
-        "threshold": "站稳13,000",
-        "logic": "外部AI链映射强度，影响A股算力定价",
-        "priority": "watch"
-      },
-      {
-        "target": "HBM/存储器合约价",
-        "threshold": "4Q26涨幅是否续扩",
-        "logic": "验证AI存储景气与供应链锁定逻辑",
+        "threshold": "8.79% 基准上行 0.5pct",
+        "logic": "杠杆资金是否逆势加仓，决定节前是否出现二次去杠杆与流动性折价",
         "priority": "watch"
       }
     ]
