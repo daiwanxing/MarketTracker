@@ -8,7 +8,7 @@
       "chgClass": "down",
       "label": "Yahoo BZ=F 布伦特最后交易日金融期货 · 美元/桶",
       "src": "BZ=F 布伦特原油期货 10-6 08:07 上海 · 昨收 102.25（现价 100.24/-1.97%，今开 100.26 / 高 100.40 / 低 100.21） · Yahoo Finance",
-      "refs": "路透口径 11 月布伦特结算约 106.60（盘中高见 108.23）",
+      "refs": "路透口径 12 月布伦特结算下探至 98 美元下方，NYMEX WTI 隔夜结算报 89.43 美元/桶（-1.84%），连续盘面回落至 100.24 美元/桶（-1.97%），考验 100 美元关口支撑",
       "quotes": {
         "wti": 89.22,
         "dxy": 102.16
@@ -17,25 +17,25 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "当前主矛盾为中东出口恢复与G7释储带来的供应改善，对霍尔木兹航运及伊朗制裁供应风险的拉锯：BZ=F 101.85、-0.39%，WTI 90.35。",
-    "sub": "本看板以BZ=F布伦特原油期货为基准，并非通讯社近月合约报价；13:07上海报价101.85/-0.39%、WTI 90.35，与G7释储及中东出口回升的利空对应，同时伊拉克绕行霍尔木兹采购油轮、伊朗9月装载归零等事件强化供应路径不确定性，限制跌幅。",
+    "verdict": "BZ=F 报 100.24、日内 -1.97%，WTI 89.22，主导矛盾为中东原油出口超战前水平与 G7/IEA 释储共振压低风险溢价，对冲霍尔木兹油轮通行与保险溢价的不确定性。",
+    "sub": "BZ=F 为布伦特原油期货连续报价，并非通讯社近月合约报价；10-6 08:07 上海报 100.24/-1.97%，WTI 89.22、DXY 102.16。中东原油海运出口恢复至战前水平叠加 G7 释储落地，推动油价向下考验 100 美元整数关口；但霍尔木兹航运通行不确定性与油轮运费高企，仍限制远月单边下行斜率。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
         "k": "霍尔木兹航运风险",
-        "v": "已有时间轴显示油轮遇袭与伊朗重开条件，航运保险及绕行成本仍支撑风险溢价。"
+        "v": "油轮遇袭与伊拉克拟购油轮绕行海峡凸显物流脆弱性，高额战争险与改道成本维系底线风险溢价。"
       },
       {
         "dim": "supply",
         "k": "伊朗装载归零",
-        "v": "美方称伊朗9月未向油轮装载原油，若制裁执行延续，将压缩可观测边际供应。"
+        "v": "美方称伊朗 9 月未向油轮装载原油，若后续制裁执行收紧，可观测有效浮舱与出口将受压缩。"
       },
       {
         "dim": "supply",
         "k": "OPEC+配额不变",
-        "v": "已有时间轴显示OPEC+维持11月产量配额不变，未释放额外增产信号。"
+        "v": "OPEC+维持 11 月产量目标不变，未释放额外增产信号，为中远端基本面提供政策托底。"
       }
     ],
     "bearTitle": "利空因素",
@@ -43,21 +43,21 @@
     "bear": [
       {
         "dim": "supply",
-        "k": "中东出口恢复",
-        "v": "Reuters等称中东原油出口已超战前水平，供应改善削弱地缘溢价。"
+        "k": "中东出口超战前水平",
+        "v": "遥测数据显示中东原油海运外运量已回升至战前水平以上，沙特供应充裕，实货偏紧预期降温。"
       },
       {
         "dim": "stocks",
-        "k": "G7/IEA释储",
-        "v": "G7同意释放最多1亿桶、IEA成员释放3.25亿桶，政策供应增量扩大。"
+        "k": "G7/IEA释储推进",
+        "v": "G7释放至多1亿桶原油及柴油储备细化落地，IEA成员协同响应，政策端现货增量持续缓解供需矛盾。"
       },
       {
         "dim": "macro",
-        "k": "美元指数",
-        "v": "DXY 102.41，强美元对美元计价原油形成估值压制。"
+        "k": "美元指数与利率压制",
+        "v": "DXY 运行于 102.16 高位，美债收益率偏高与强美元共振，系统性压制以美元计价的大宗商品估值。"
       }
     ],
-    "watch": "霍尔木兹通行与油轮保险 · 伊拉克油轮采购进展 · 伊朗原油装载与制裁执行 · G7/IEA释储节奏 · 中东出口恢复持续性 · OPEC+11月配额执行"
+    "watch": "霍尔木兹通行与油轮运价 · 沙特原油官方售价（OSP）调整 · 中东原油出口持续性 · G7/IEA释储到岸节奏 · 伊朗制裁执行度 · OPEC+11月配额落地"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -1404,6 +1404,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-10-06",
+      "tag": "供应",
+      "hot": true,
+      "t": "中东原油出口超战前水平缓解偏紧担忧 油价承压考验关口",
+      "d": "据Al Jazeera与航运遥测数据，尽管地缘局势持续紧张，9月末中东原油海运出口总量已回升并超过战前水平，沙特与阿联酋原油外运保持通畅。实货供给显著改善削弱了地缘断供溢价，直接对冲了此前海峡袭击带来的看涨情绪；叠合G7释储推进，油价回吐前期涨幅，盘面下行考验100美元整数关口支撑。",
+      "src": "来源：Al Jazeera",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPOEhhbUlVX0RoZF9XN2JHcEZNdmhHeWpFM3dyVE13YlNlbm9MX2UzY2ttMlkxM3RHMFF0eXp5V25rUlhHWDBqYWdxbnozU01rUlRjTTh2czc0ZzRVVWkzbmNxUlktbnd5MDdnVEJTQTZqSnRIWnNhUW1DU2RqbGE3dUlEWVVObFZ3dVRsTGF3WmdIX0JuU1RwcHAxMEIwRUNTOEk2MHZRTnlMMi1ZZHg1TnBCQlR4UdIBuwFBVV95cUxPbFdJZGZrWjJoX29LaEZQNVVhRHoyZVpSaUZBWWpYNVlCT2dEX0lzaTdHNFZnenpkWFFTeG5qWmUzb0F4ZWNhN2t0NXk2N1hoOHJHbGMtN24xcUl3dEw1bFpTeUtteV9maGhQZTQ4cXJFRjcxcXlJdExZWk9FNHQzZVZsdEc1aml1X0hua28yQVRGMlhPZ2pmLXZaYkhaRU02VlpNb3NsYnl2ZkJZUGVQRGRyXzdhVzgzR28w?oc=5"
+    },
+    {
+      "date": "2026-10-06",
+      "tag": "隔夜",
+      "hot": true,
+      "t": "G7推进原油与柴油储备释放 隔夜国际油价下跌近2%",
+      "d": "据WSJ与外媒报道，G7与IEA成员国正在细化推进至多1亿桶原油及柴油应急储备释放计划，政策端供应增量预期压制近月买盘，WTI原油隔夜结算价跌1.84%至89.43美元，布伦特跌1.89%。尽管霍尔木兹海峡油轮保险费率仍处高位，但实货放量与美债收益率攀升引发流动性紧缩预期，对盘面形成共振压制。",
+      "src": "来源：WSJ",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPOFA5UUZFdndtdnBodnFleklOcmpCZmdBUzlROTlFSkFiWkZsNG5sMHU4M0VoR2ZLNFVNYlhKbmpjYlc4Q0NObmdDdFNLenRmU0VQdVZfWXU1YU44NWFUcnlWeUNtQkhBMlAyZGpDemdPY3VkY3NzdDRpNWlOcTlabURzNE1udEdkOVVYeW5qcmhndjM3VHVHYVFSZy0yQzYyR1VnSnJGWVdZdEZTUV9IeF84OXpEaFcyNUxzNFIwaFAybGplVHN3cTM1THc?oc=5"
+    },
+    {
       "date": "2026-10-05",
       "tag": "海峡",
       "hot": true,
@@ -1474,24 +1492,6 @@
       "d": "来源：کوردستان 24。美国财长贝森特表示，随着压力升级，伊朗将没有石油在海上，指向对伊朗原油出口与运输环节的更严格限制。若执行落地，将削减伊朗原油可观测出口量并抬升航运与保险成本，对中东供应路径形成收缩预期。但具体措施、执行时间及对第三国买家的影响仍待明确，价格反应取决于实际装船下降幅度。",
       "src": "来源：کوردستان 24",
       "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPVVVKcVBPZU5Ea3NaRjl6bW9sY280d2lRYVU0cmgwcUJ5RF9zZW8zTkowajlwazQ4RWRoMk8tVGNaV05paUFpamlaMHVGMDdfR0pSdlJXZDZ1eUg0UGxtUFhrTzhlMDV2MHVwaWt0V2p4QjNEaWJPV1hiOTJXYzhoV0NnX09BdldKSGpyZzRqVWhiY3NpNzRwUzBuUGcyWVUtc21wOU9weGIyTTFLQUJscGdXY3ZLY0E?oc=5"
-    },
-    {
-      "date": "2026-10-03",
-      "tag": "库存",
-      "hot": true,
-      "t": "G7同意释放最多1亿桶原油与柴油储备 政策端供应增量落地",
-      "d": "据WSJ与NBC News报道，G7已同意释放最多1亿桶原油与柴油储备，投放品种同时覆盖原油与馏分油；IEA署长比罗尔表示储备释放决定后油价已开始回落。该决定直接对冲此前美国要求法德释放柴油库存的紧张局面，柴油近端供应与裂解价差压力有望缓解。布伦特现价102.45美元、涨0.14%，WTI 91.5美元，盘面尚未完全计入储备释放带来的远期供应增量。",
-      "src": "来源：WSJ、NBC News、Reuters",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNNmctbDFWcjNwNy1XUGFrNU5GM1FJS3pKR0Ztb2JGQTBtQWJEMkRpbHk1b2ZkOEJkZUJub3FjV1hLVS1CYl9iUFNkMTI2RHN1MUZVS3FVa29zUjVzeUN5U0NtMEpLVGlCT3ZZLXpCTUFWQ0VDelBsV2lHaGdZMmpNTzhNMEs4OHBaRm94WVJDMUx6WmhRb2YyWGpDMklYYThSbU9LeDJrUE9tQXVCSFhqdVZqZGZFSWs?oc=5"
-    },
-    {
-      "date": "2026-10-03",
-      "tag": "供应",
-      "hot": false,
-      "t": "塔吉克斯坦开始接收伊朗原油 新供应路径测试美国制裁边界",
-      "d": "据自由欧洲电台报道，塔吉克斯坦已开始接收伊朗原油，形成新的陆路供应路径，同时测试美国制裁的执行边界与覆盖范围。若该路径常态化，伊朗出口的合规折价与运输流向将出现边际变化，但短期装船量有限，对全球平衡表影响可忽略。当前布伦特102.45美元、涨0.14%，WTI 91.5美元，该消息定价权重低于G7储备释放。",
-      "src": "来源：Radio Free Europe / Radio Liberty",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxONHJSRmRyZ2IxSHlHLWFKdV9OX09UZnI3MFQtNVRyTFktR2Rla3RYYmc3WlU3YTE5YnRKUmlDbWVEakhyc2tzXzBOdjdsLWlkdGJLdGNBNHhJdkZQOWhDaERhM3NMbVF1bTlEaE1zcjFIaWU3YU9EV1NWdHA5LWYxdXc2ejQ3SlZ2WXRyS1IyRU5wT3BwWkNnMC1WbkQ1UdIBngFBVV95cUxONHJSRmRyZ2IxSHlHLWFKdV9OX09UZnI3MFQtNVRyTFktR2Rla3RYYmc3WlU3YTE5YnRKUmlDbWVEakhyc2tzXzBOdjdsLWlkdGJLdGNBNHhJdkZQOWhDaERhM3NMbVF1bTlEaE1zcjFIaWU3YU9EV1NWdHA5LWYxdXc2ejQ3SlZ2WXRyS1IyRU5wT3BwWkNnMC1WbkQ1UQ?oc=5"
     }
   ],
   "risksTitle": "原油市场观察变量",
@@ -1499,21 +1499,21 @@
     {
       "k": "霍尔木兹航运中断",
       "level": "r",
-      "desc": "若油轮遇袭进一步升级或海峡通行受限，BZ=F可能上破103.55并扩大风险溢价；若袭击未波及实际装运，溢价将回吐。",
-      "src": "来源：Reuters"
+      "desc": "若海峡油轮遇袭升级或战争险保费失控，地缘溢价或推动 BZ=F 重新反弹测试 102—103 美元阻力；若通行保持顺畅，溢价进一步收敛。",
+      "src": "来源：WSJ / CNBC"
     },
     {
       "k": "伊朗制裁执行",
       "level": "a",
-      "desc": "若美方证实伊朗装载持续归零，边际供应收紧或推动BZ=F反弹；若替代出口路径增加，制裁效果被削弱，价格承压。",
+      "desc": "美方称伊朗 9 月装载归零，若 10 月持续断供，边际供给收紧或缓解下行压力；若灰色船队绕行路径增加，制裁溢价将被稀释。",
       "src": "来源：Shipping Telegraph"
     },
     {
       "k": "释储与出口恢复",
       "level": "g",
-      "desc": "若G7/IEA释储加速且中东出口维持战前以上，BZ=F可能下探101.17甚至更低；若释储放缓或出口回落，价格获支撑。",
-      "src": "来源：CNBC/Reuters"
+      "desc": "中东原油外运量已超战前水平，叠合 G7 释储推进，若现货去库放缓，BZ=F 面临下破 100 美元整数关口测试 98 美元支撑；若释储被实货强劲吸收，100 美元关口显现承接。",
+      "src": "来源：Al Jazeera / Reuters"
     }
   ],
-  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
+  "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-10-06 08:07 上海 100.24 美元/桶，相对前收盘 102.25 为 -1.97%（日内高 100.40 / 低 100.21；今开 100.26）。WTI 报 89.22 美元/桶，DXY 102.16。盘面主导矛盾转为中东原油海运出口超战前水平及 G7/IEA 释储落地带来的现货供应缓和，对冲霍尔木兹海峡航运风险溢价，油价下探考验 100 美元整数关口。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Reuters、WSJ、Al Jazeera、CNBC、EIA 等）。仅作个人追踪参考，不构成投资建议。"
 }
