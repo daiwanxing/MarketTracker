@@ -252,6 +252,42 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-07",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "川崎重工以物理 AI 推进 Kaleido 人形机器人全自主化",
+      "d": "川崎重工将物理 AI 作为 Kaleido 人形机器人全自主化的核心路径，目标在于提升非结构化环境中的感知、决策与运动控制闭环。该路线若在工业工位部署中通过连续作业验证，将影响人形平台的技术选型与供应链定点节奏。",
+      "src": "来源：Interesting Engineering",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPMjRHQUVvWWIyaUFjNW4zQlpYV2t0ektWMTFtNFkxZ21mRnkwMEVnRnRJZkd2dDVLanVjYzlRMXFRSlBKd3V4UmpHQURpQnpVN2JpY3JyTm5wSUNUUWdyY2txeGhSQUJqblFDWnBjX3VlaE03anRJWndOaUhLWV9vZVJyOWo0X244QXNB?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "一级融资",
+      "hot": true,
+      "t": "Minerva 结束隐身模式并获 1000 万美元融资开发危险作业人形机器人",
+      "d": "Minerva Humanoids 完成 1000 万美元融资并结束隐身模式，资金将用于开发面向危险作业环境的人形机器人平台。该方向聚焦高风险场景替代与远程操作，后续需验证作业工位部署、安全冗余、单机成本结构以及供应链定点进展。",
+      "src": "来源：AI Insider",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWGNOVWdvXzZqWnoyMXVtajZ1VFhDX3RsZmZqYk83SWFLVHh1Z2lrR3lHaWYxakxVQ0ZISXdUcy1DWDNKRHo0UkxBWjVZa1RRQVdYaTlSTUVQNjBZbXhWOFhVMkdKdmtqMVptTkkxNWJBWmRkMGVvdXdOSm5waVNQZ2RPZEVoMjctajI0QVZNUEV3MV9BOHdxTjhVYi1faXUtVFMycTNlMV84V1M0WTItNVRqX095X1JPM0xfZHlyUk84Sy1LN3BDV2RpWEcwdw?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "首尔 Smart Life Week 开幕 人形机器人集中展示公共场景应用",
+      "d": "首尔 Smart Life Week 将人形机器人置于核心展区，集中展示公共与生活服务场景的交互、导览与作业能力。展会层面的演示仍属早期验证，后续需观察实际工位部署时长、任务成功率与复购意向，以判断商用成熟度与供应链订单转化。",
+      "src": "来源：The Korea Times",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQN1MtWFI1M2F3NVpqS1V3REdWemxwcklOVjJoQ0pTQVdzdXE2MDVKNUtLY1h6V1VHOW9BdjI4czRVdVlKcVg1WXQ4VDNhMWt3NlIwOWg2YTRtMjJ6LXJxbUpDUVB1ZFlRaUFxZ3dkZHB6UmlQdVVvbmMwVXZ6Sk4yYmIwaHRQbmluY3FDampUcEVGQ3dEMnY5MlBRSHBkeU1IY2h5UHRXXzJuSnJlZGM5Q2xETUhuWElFOVNIem50Z1doLXPSAcMBQVVfeXFMUDdTLVhSNTNhdzVaaktVd0RHVnpscHJJTlYyaENKU0FXc3VxNjA1SjVLS2NYeldVRzlvQXYyOHM0VXVZSnFYNVl0OFQzYTFrdzZSMDloNmE0bTIyei1ycW1KQ1FQdWRZUWlBcWd3ZGRwelJpUHVVb25jMFV2ekpOMmJiMGh0UG5pbmNxQ2pqVHBFRkN3RDJ2OTJQUUhwZHlNSGNoeVB0V18ybkpyZWRjOUNsRE1IblhJRTlTSHpudGdXaC1z?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "人形机器人 Corey 在滑铁卢维修门店上岗 承担实际辅助任务",
+      "d": "人形机器人 Corey 在加拿大滑铁卢一家维修门店投入实际工作，展示在零售与维修场景中的物料搬运、工具递送与基础交互能力。此类小规模工位部署可用于验证工时节省与安全边界，但距离标准化量产与供应链定点仍需观察。",
+      "src": "来源：Yahoo News Canada",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EaTVRVkFybEE2QkdTY2ltWWMzd0pwdGZLRjBGN0tHQ2NKM3RFS3ZRUnJCUzRNcmFDcGxlTUZYamRyS3Jzc3BOZFd1c1NsZGtQS3hmUDlKMUMyY2t5dWl4WXRBSWdCWWMwVVZtVnhmNTNkYmZRSGw4SHlWaTZYbEU?oc=5"
+    },
+    {
       "date": "2026-10-06",
       "tag": "量产进展",
       "hot": false,
@@ -304,41 +340,6 @@
       "d": "据 Startup Fortune 报道，FCC 对中国产人形机器人的禁令可能使美国本土企业面临关键零部件与整机供应受限，形成供应链反噬。政策若执行，将影响中美跨境零部件流动，美方企业或面临采购成本上升与交付周期拉长；需跟踪豁免范围、执行细则及替代供应链锁定进度。",
       "src": "来源：Startup Fortune",
       "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQMkpNek5obzhzNHJMU2VPV0tuMW9UVEhpWDFDYXY3YUlFTV9jMkp6OEZJa2ZLS2ZwWDROLUxNdV82WVZHSUJKd1JsT3AydnR5WHlBdm42eEZxX0s0QUlTalJuQUJSWVlKRl92SDN1bzRUNjZpOWtSbW9hVmpTTmsxWXpybl9UazU4QUNwMFozRVRRY05yOEIxLWxZUjJFZzNCVWEzZ2ZB?oc=5"
-    },
-    {
-      "date": "2026-10-05",
-      "tag": "集采规划",
-      "hot": false,
-      "t": "全球财富第二大国计划 2028 年前部署人形机器人用于警务监狱",
-      "d": "据 VnExpress International，全球财富第二大国计划在 2028 年前将人形机器人用于警务与监狱场景，标志政府级集采规划向安防与特种作业延伸。若计划推进，将带来巡检、搬运与监控等工位需求，并推动整机及核心关节、灵巧手供应链定点；当前未披露招标规模、交付节点与预算安排。",
-      "src": "来源：VnExpress International",
-      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPeVRVTWxqT2ZVa3MtN01tei1jUy1EZ240Zld0TXNGanJVZEY5THlzRzlwZDVPZ3JqcWdLcllsR2kyMjFwWEZHekVJejBacUxzX05obWZ5RXJ6NG15WUFCWFlWRDdoNE5lYjhSaHB0WjlMQVNVbmthcFJ3NFhCVzJ2YjdnaHBKLXExbFdEcEtWcDVHbk5KcklZYkpZbEEyc2JHc1FFRnV1UjJ4SDc4VzY0TzJITTU0clk0NU1RdDlyb3l4b3ltbFd3R1hrd1l2YlhfSXlPUmFKd0xfQUU?oc=5"
-    },
-    {
-      "date": "2026-10-05",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Figure 03 亮相白宫峰会 人形机器人公共场景验证推进",
-      "d": "第一夫人梅拉尼娅·特朗普与可行走、可对话的 Figure 03 人形机器人共同出席白宫峰会，展示公共场景下的行走与交互能力。该活动可视为人形机器人从工业工位向政务与公共展示场景延伸的技术验证，但尚未涉及量产交付、供应链定点或正式采购订单。",
-      "src": "来源：ABC7 Los Angeles"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "一级融资",
-      "hot": true,
-      "t": "Meta 收购机器人 AI 公司 加速推进人形机器人研发",
-      "d": "据外媒报道，Meta 已收购一家机器人 AI 公司，以加速人形机器人研发进程。报道未列明交易金额与具体条款，市场关注其能否补足具身智能软件、感知决策与运动控制能力。该动作反映全球科技公司正通过并购整合关键环节，后续需观察团队并入、技术路线及供应链协同进展。",
-      "src": "来源：Stocktwits",
-      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPMElKaEJDandITTJfMDdTa3FVVlVybFItSVAzaHVuaFRpV3lVbE1vNHZYYzNFTVY5eXFacUt1cm14M1YzbGhIYVVBOHh6U3U3RDVsYkRRWUl2cmlXU0Y4blp3RUJJek05Qldrc3BCUWs5ZW93QXI4VUFOWW1pYWVHMm9MWERaZEN0emxpNkY2OHBjRkRDZ092S3owUXVodFFiQjgyYVZTcTlSNm5WbjROMmUwNktXaUV1MUozUm5UMUFSbkVjNDBtNERwT0NXOUR6RU4tRmMzdkFpTlZpcnc?oc=5"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "量产进展",
-      "hot": false,
-      "t": "Figure 将 F.02 人形机器人退役 转向 T2 平台迭代",
-      "d": "Electrek 报道称，Figure 已将 F.02 人形机器人退役，并按 T2 风格推进后续平台迭代。该动作反映人形机器人厂商在硬件版本快速更迭中，需平衡既有产线资产、软件迁移与工位验证连续性，市场关注其量产节奏与客户交付影响。",
-      "src": "来源：Electrek",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQeGRVTEUxWVhMLWlwMmZCdkU5Sjh2Rnl4V1ZTajVNRVZSZ2JaZHEzWWVRS1pzREFhV19WR0lwZ3M1dHMwbkI0V2x3Qjk3ZU0xaGVpSXVLSHI1TE9YSzlVb24yaTZUTHNsZ1dOb3JPbHV0VWJnTzVXWkpBUEpFU1JhYkNzVGxxdzJDbm9MX2t5a2hXbUVlTEh4Ul8weEs0d3A0Q2taSkJ3?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
