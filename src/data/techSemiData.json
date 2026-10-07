@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-07 22:07",
+  "snapshot": "2026-10-08 00:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -9,26 +9,24 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 12930.77,
-      "chg": "-2.17%",
+      "price": 12998.58,
+      "chg": "-1.66%",
       "chgClass": "down",
       "previousClose": 13217.82,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-07",
-      "src": "^SOX 10-07 22:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-08 00:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
       "price": 1530.01,
-      "chg": "--",
-      "chgClass": "",
+      "chg": "-2.51%",
+      "chgClass": "down",
       "previousClose": 1569.34,
-      "tradingStatus": "HOLIDAY_FROZEN",
+      "tradingStatus": "LIVE",
       "sessionDate": "2026-09-30",
-      "lastCloseChg": "-2.51%",
-      "lastCloseChgClass": "down",
-      "src": "000688.SS 09-30 15:00 上海 · Yahoo Finance (000688.SS) (国庆长假休市封存)"
+      "src": "000688.SS 10-08 00:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -39,27 +37,7 @@
       "previousClose": 6941.39,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-07",
-      "src": "^KS11 10-07 22:07 上海 · Yahoo Finance (^KS11)"
-    },
-    "holidayDrift": {
-      "active": true,
-      "holidayName": "国庆长假休市",
-      "baseDate": "2026-09-30",
-      "reopeningDate": "2026-10-08",
-      "sox": {
-        "name": "费城半导体指数",
-        "basePrice": 12628.62,
-        "currentPrice": 12930.77,
-        "driftPct": "+2.39%",
-        "driftClass": "up"
-      },
-      "kospi": {
-        "name": "韩国KOSPI指数",
-        "basePrice": 6838.04,
-        "currentPrice": 6803.9,
-        "driftPct": "-0.50%",
-        "driftClass": "down"
-      }
+      "src": "^KS11 10-08 00:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -361,7 +339,7 @@
         47.77,
         48.18,
         48.68,
-        45.46
+        46.22
       ],
       "kospi": [
         0.0,
@@ -771,8 +749,8 @@
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
     },
-    "src": "申万一级行业与沪深市场快照 (asOf: 2026-09-30 国庆长假休市封存)",
-    "isHolidayFrozen": true
+    "src": "申万一级行业与沪深市场快照 (asOf: 2026-09-30)",
+    "isHolidayFrozen": false
   },
   "closingReview": {
     "asOf": "2026-10-07 18:30",
@@ -813,8 +791,8 @@
         "name": "费城半导体指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 04:00",
-        "price": 12930.77,
-        "chg": "-2.17%",
+        "price": 12998.58,
+        "chg": "-1.66%",
         "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
