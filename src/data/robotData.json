@@ -252,6 +252,33 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-08",
+      "tag": "一级融资",
+      "hot": true,
+      "t": "英伟达拟向 Figure AI 追加投资 10 亿美元 强化人形机器人算力协同",
+      "d": "英伟达拟向 Figure AI 追加投资 10 亿美元，若交易落地，将强化 Figure AI 在人形机器人基础模型训练、推理算力与端侧部署上的资源储备；市场需跟踪该笔资金对 Figure AI 产线扩张、宝马等制造场景工位部署、供应链定点及量产交付节奏的传导效应。",
+      "src": "来源：Latest news from Azerbaijan",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbkMtbzNDYVJvWWI2UFBFUWlXT293TTZ4QlpqaXg0amhjT1hVM2NjVlpLMG5kdE9FM0JsUVBlTXRjNEpYTThUN2U4WkhLQ2JmSnNBQnFvZGplOVB5dzFCWVFiUkFrcDcxUzhxVnBVa1AxN25SYUlzY2l0a09SLWY4Sk5kVGtObXRS?oc=5"
+    },
+    {
+      "date": "2026-10-08",
+      "tag": "一级融资",
+      "hot": false,
+      "t": "前特斯拉 Optimus 负责人启动工业机器人初创公司",
+      "d": "前特斯拉 Optimus 项目负责人宣布启动工业机器人初创公司，拟将人形机器人工程经验迁移至工业机器人场景；后续需跟踪其产品定义、团队组建、首轮融资、客户送样验证、供应链定点及量产节点，判断其是否切入人形机器人执行器与整机赛道。",
+      "src": "来源：The Information",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxONWxZSGZjeGRyNTdZZVVVSWludm4yOUxzOEJtTWV0ZXhmekRnVHpqUk5uU25Ddm55cnBQTTRHN0dGTTJqWmR5dFZsQVM2b2dHZWhhY0JTS1puSzNja3NPTzVPdjdUYmZhbjlmWXFKUEdWZFJvQnpEOVBudTZYTXdHM1VIRnl2VmJtamMyVHY3ZmZ6VEFYLUk0TDJvYWNpeVU1d0drR1ZfTS0tOWw4T1YzSnYyYw?oc=5"
+    },
+    {
+      "date": "2026-10-08",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "全球首个大型机器人主题公园在中国开放 部署数百台人形机器人",
+      "d": "中国开放全球首个大型机器人主题公园，园区部署数百台人形机器人用于导览、互动与演示；该场景提供非工业环境下的多机协同、持续运行时长与人机交互数据，但需区分展示性部署与可复购商用订单，重点跟踪日均运行时间、故障率、维护成本与运营方后续采购计划。",
+      "src": "来源：supercarblondie.com",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1iUkphUXYzd0hXVjBOWEhNRlVJOGRIenA3bkFVQmRqSnRfU19wZTN3dTJrZEdaSlE3akJQeEFWU2RxZkE2VjREWmU5eGZVbExrWnROWFBLc1AydUVqbDRfVHdoRk80VXUxVUZSZWhMYkJjc0dFRUk3bw?oc=5"
+    },
+    {
       "date": "2026-10-07",
       "tag": "一级融资",
       "hot": true,
@@ -313,33 +340,6 @@
       "d": "首尔 Smart Life Week 将人形机器人置于核心展区，集中展示公共与生活服务场景的交互、导览与作业能力。展会层面的演示仍属早期验证，后续需观察实际工位部署时长、任务成功率与复购意向，以判断商用成熟度与供应链订单转化。",
       "src": "来源：The Korea Times",
       "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQN1MtWFI1M2F3NVpqS1V3REdWemxwcklOVjJoQ0pTQVdzdXE2MDVKNUtLY1h6V1VHOW9BdjI4czRVdVlKcVg1WXQ4VDNhMWt3NlIwOWg2YTRtMjJ6LXJxbUpDUVB1ZFlRaUFxZ3dkZHB6UmlQdVVvbmMwVXZ6Sk4yYmIwaHRQbmluY3FDampUcEVGQ3dEMnY5MlBRSHBkeU1IY2h5UHRXXzJuSnJlZGM5Q2xETUhuWElFOVNIem50Z1doLXPSAcMBQVVfeXFMUDdTLVhSNTNhdzVaaktVd0RHVnpscHJJTlYyaENKU0FXc3VxNjA1SjVLS2NYeldVRzlvQXYyOHM0VXVZSnFYNVl0OFQzYTFrdzZSMDloNmE0bTIyei1ycW1KQ1FQdWRZUWlBcWd3ZGRwelJpUHVVb25jMFV2ekpOMmJiMGh0UG5pbmNxQ2pqVHBFRkN3RDJ2OTJQUUhwZHlNSGNoeVB0V18ybkpyZWRjOUNsRE1IblhJRTlTSHpudGdXaC1z?oc=5"
-    },
-    {
-      "date": "2026-10-07",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "人形机器人 Corey 在滑铁卢维修门店上岗 承担实际辅助任务",
-      "d": "人形机器人 Corey 在加拿大滑铁卢一家维修门店投入实际工作，展示在零售与维修场景中的物料搬运、工具递送与基础交互能力。此类小规模工位部署可用于验证工时节省与安全边界，但距离标准化量产与供应链定点仍需观察。",
-      "src": "来源：Yahoo News Canada",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EaTVRVkFybEE2QkdTY2ltWWMzd0pwdGZLRjBGN0tHQ2NKM3RFS3ZRUnJCUzRNcmFDcGxlTUZYamRyS3Jzc3BOZFd1c1NsZGtQS3hmUDlKMUMyY2t5dWl4WXRBSWdCWWMwVVZtVnhmNTNkYmZRSGw4SHlWaTZYbEU?oc=5"
-    },
-    {
-      "date": "2026-10-06",
-      "tag": "量产进展",
-      "hot": false,
-      "t": "Figure AI 将大部分 F.02 熔毁以保护技术并转向 T2 平台",
-      "d": "Figure AI 将大部分 F.02 人形机器人送入芬兰熔炉销毁，官方口径为保护核心技术并终止旧平台维护。该动作发生在 F.02 退役、转向 T2 平台迭代之后，反映人形机器人硬件迭代周期缩短与知识产权控制前置。后续关注 T2 平台送样验证、产线切换节奏及旧机型退役安排。",
-      "src": "来源：mezha.net",
-      "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9pcURtWWYxa0Q2RnN6NHFlSlJoZW9Vc1RUVVA3YmEwQTlGQkZWdDQtMDM3eTVDLS11bkRBU2puaXlLUkNqUi14eFRvQkZROUZoSExJaFFaZkItNUQtbVJKaVUtR2pJM2FrUm4xSA?oc=5"
-    },
-    {
-      "date": "2026-10-06",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Castel 在意大利启动 Kelvin 人形机器人试验部署",
-      "d": "Castel 宣布在意大利启动 Kelvin 人形机器人试验部署，进入真实场景运行验证阶段。该事项用于检验整机任务执行与长期可靠性，但公开信息未披露具体场景、工位数量、运行时长及产能目标。后续需跟踪试点是否由验证转向批量采购，以及末端执行器、安全冗余与运维成本的实际表现。",
-      "src": "来源：Refindustry",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOaFUzNXUwb0ZPQW5nLWxYOXZqLTlzY0JpM05yMEtQaHlKZEdKcW1CdkJ5M3ZZTlNfY0lKbVMtcnNmbkZQVVVnaVhjYW9pM0VIQmpxWWdYSUp2aFNQNUFHdVRlS3EwWDh2Wlp6bWYyN09HdWFhNWtNNkdIMkNrTzNISlViXy1XejlYTndOWmxR?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
@@ -795,7 +795,7 @@
       "date": "2027-Q1",
       "tag": "量产交付",
       "title": "Figure AI 与宝马斯帕坦堡工厂第二阶段小批量扩量",
-      "watch": "F.02 熔毁转向 T2 平台后的产线切换进度、每日 10 小时班次零干预率持续性及服务费模式闭环成立性"
+      "watch": "F.02 熔毁转向 T2 平台后的产线切换进度、每日 10 小时班次零干预率持续性、服务费模式闭环成立性及英伟达追加投资落地节奏"
     }
   ],
   "optionSentinel": {
