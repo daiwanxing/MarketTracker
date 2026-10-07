@@ -253,6 +253,42 @@
   "timeline": [
     {
       "date": "2026-10-07",
+      "tag": "一级融资",
+      "hot": true,
+      "t": "Meta 收购机器人 AI 公司 加速人形机器人软件栈研发",
+      "d": "据媒体报道，Meta 已完成对一家机器人人工智能公司的收购，目的在于以外部团队补足具身智能决策层与仿真数据管线的能力缺口，从而压缩人形机器人整机研发周期。该交易标志北美大型科技平台由模型层向本体层延伸，其自建数据采集与训练基础设施或对既有工业机器人厂商形成替代压力。后续需跟踪团队整合节奏、算力与数据资源配置，以及首台工程样机的内部验证节点。",
+      "src": "来源：Stocktwits",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPMElKaEJDandITTJfMDdTa3FVVlVybFItSVAzaHVuaFRpV3lVbE1vNHZYYzNFTVY5eXFacUt1cm14M1YzbGhIYVVBOHh6U3U3RDVsYkRRWUl2cmlXU0Y4blp3RUJJek05Qldrc3BCUWs5ZW93QXI4VUFOWW1pYWVHMm9MWERaZEN0emxpNkY2OHBjRkRDZ092S3owUXVodFFiQjgyYVZTcTlSNm5WbjROMmUwNktXaUV1MUozUm5UMUFSbkVjNDBtNERwT0NXOUR6RU4tRmMzdkFpTlZpcnc?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "产线投产",
+      "hot": false,
+      "t": "YYForce 启用新加坡机器人中心 推进人形训练与服务机器人部署",
+      "d": "YYForce 宣布在新加坡设立机器人中心，定位为具身智能数据采集、模型训练与服务机器人部署的境外枢纽，将承接人形机器人真实场景数据回传与远程运维调度，并配合当地制造与物流客户开展前置验证。对供应链而言，海外训练基地落成意味着数据闭环与售后体系需同步建设，后续重点跟踪中心内机器人装机规模、训练工位时长配置及客户复购确认。",
+      "src": "来源：The Malaysian Reserve",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQbzRKVGVqX05mR3hFb0h5bTZxRHpvdlR2RGQzZFlVYnRKejgyRW1ENWZPZ1h6aUVtNjlBWjdkRmJRMm1FNE0tdVVYb0ZqT3R1cWNfY0hTOWlxZ1J2SFhDU0IwRVNfU1pMRFR0dlYxaUVOd2JOLVRfYjZMbF9YRVM0Yk4tZmlBUXJ0cFJTcGNRSGFNNUl2anhvV3VnV2J3Z1MyZUlZZHZFblZJblIyVjFIMEZDSFJhTEx2SHgyb2hTeXA0a0V4RUhnTXI0cTlZMFRJamVVRFdFcmo?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "波士顿动力任命前亚马逊 AI 负责人 Rohit Prasad 出任 CEO",
+      "d": "波士顿动力宣布由前亚马逊 AI 业务负责人 Rohit Prasad 出任首席执行官，其背景集中于语音交互与基础模型的产品化落地。该任命发生于公司人形机器人规模化推进阶段，指向软件栈与 AI 决策能力在整机价值量中权重上移。需持续跟踪的验证变量包括新管理层对电动版 Atlas 商用节奏的调整、与母公司产线协同的排产计划，以及外部客户试点交付与验收节点。",
+      "src": "来源：The Economic Times",
+      "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxQdXdfTjZMeG85NXhlemZ5aDJwZHJwRFpXWjVMdHZOMERuUk1HWk9ucm5YRWFHaTA4OXl6VUhsOENPdzdzWkREVTVkcUxkTU5udDIzbHZXczlxc1N0UnlIQjJfMUxlUGNxdUZnV3pXLW9qTzNQamxXTHVDM0lMaUFQcFJwTW1rcTIzVEsxNTRuLS1sQ1ZiMlNpdmx4Ni14YjB6V0doc012aHlvLWV6MllzOGEwSTFuZU1TYTZUa3NhRW05OHNjX2lpVE9HRGJjNVBFM2d4WVU5YVBDWWNHUzQxQnd1UXk2VGI4bl9sS2t3ZllsUHNoYjdaMEtweVbSAYICQVVfeXFMUDNxMmY0dkJXVUVEWEVrSHN0eWhVNzdENVVISDFTaXlZNVIzWG9nUjllcjZCRUc3VHN6XzdmTFZwR2lPS3pqUmZmZG9Cd0tZaFc2MVZaajBGd3ZWSWNES3prdWFIQVN6RE1qdTdHZjYzTkxqenFCcE1hUlZFVGp6RVpYQzBZWU9BNFZKeTMyUkUwS0JiS0RRTlU0SDcwRkpuV1pMVVN5Tk5KcTNfSnNtMWxua05CUm9kQ2VObmZaX203LVQwOXRlUmhPN1phRm9oSHd6N25LRkR0cGtFUUlPUWRMTmR2ZGFtRElWcjJZX3lmbURJT0lUQXQzRnVWMUYxTVdn?oc=5"
+    },
+    {
+      "date": "2026-10-07",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "乐天全球物流试点人形机器人 推进韩国物流枢纽自动化",
+      "d": "乐天全球物流在韩国物流枢纽启动人形机器人试点，用于仓储搬运与分拣工位的自动化替代，项目目前处于真实工况验证阶段。验证重点为连续作业时长、抓取成功率与人工干预频次，商业化的关键变量在于单工位成本与服务费模型能否成立。该试点亦为本土本体厂商提供订单落地的参考样本，后续需跟踪工位扩容数量与运营方复购意向。",
+      "src": "来源：Chosunbiz",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOa0NyaG5KZkl2U0pMUUlqN3FVckJZM3Z5REZZLTl2VURnX3IyWndkeXpsT20td0dsSERvRUFiSFZiTWl6ZWdONWdwRE1fMGVQamMwdzFwM0JnWDB2a0NjQjlpVGQ4QXdwQmx2T3JVeW4yNGtfdGMwVzE5OThUclhQaFNn0gGWAUFVX3lxTE5QQ2YxamxpNjFsYW4yaTNiR3hvYlN4UFNJZmVpRlVKdWlQTWlGeE1lblYyWmZDSUpYQVk3OC04RTRBRFYyZ21hSFJvQm5xcE9yNmwzUWEzRjB4VnFEVnpKYlU5SGpEN1B4WHNRRkxITWJQaE9aeFVSck5CUENnVHpOcVNxS2dhNWZrZ2JQVE91elRVdFNXdw?oc=5"
+    },
+    {
+      "date": "2026-10-07",
       "tag": "技术验证",
       "hot": true,
       "t": "川崎重工以物理 AI 推进 Kaleido 人形机器人全自主化",
@@ -304,42 +340,6 @@
       "d": "Castel 宣布在意大利启动 Kelvin 人形机器人试验部署，进入真实场景运行验证阶段。该事项用于检验整机任务执行与长期可靠性，但公开信息未披露具体场景、工位数量、运行时长及产能目标。后续需跟踪试点是否由验证转向批量采购，以及末端执行器、安全冗余与运维成本的实际表现。",
       "src": "来源：Refindustry",
       "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOaFUzNXUwb0ZPQW5nLWxYOXZqLTlzY0JpM05yMEtQaHlKZEdKcW1CdkJ5M3ZZTlNfY0lKbVMtcnNmbkZQVVVnaVhjYW9pM0VIQmpxWWdYSUp2aFNQNUFHdVRlS3EwWDh2Wlp6bWYyN09HdWFhNWtNNkdIMkNrTzNISlViXy1XejlYTndOWmxR?oc=5"
-    },
-    {
-      "date": "2026-10-06",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "首个人形机器人外科医生完成现场手术，医疗验证落地",
-      "d": "首个人形机器人外科医生完成现场手术，标志人形机器人平台进入医疗高精密操作验证。该场景对末端执行精度、力控反馈与术中安全冗余提出更高要求。当前公开信息未披露术式复杂度、主刀介入程度、患者数量及监管认证路径，后续需跟踪临床数据积累、器械集成方案与医院采购意向。",
-      "src": "来源：Mashable",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9tbEZyall5cUNSUXBqMy1OcXFnTmU1QVJxNVQ1YUFjM3c5YmJkZ1F1Qk9yTEFnaDBaajVVSXNTZnF3NUxGN0kwb2t0eDB1c2gyb3NrM0tnYXZVVkdVOU5NWlJOWDRmejd5WkxjR3VHeVZocWF5bXh2MFBR?oc=5"
-    },
-    {
-      "date": "2026-10-06",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "韩国公共公园引入人形机器人服务，成熟度仍待验证",
-      "d": "《纽约时报》报道韩国一公园引入人形机器人应用，显示公共空间服务场景的概念验证推进，但报道措辞提示其实际能力与宣传预期存在差距。该案例可用于观察人形机器人在非结构化环境中的交互稳定性、运维频率与公众接受度。后续关注运营时长、故障率及可持续运营模式。",
-      "src": "来源：The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQOHAyZnlCaGh6OE9pUUJpYWJaWEZnU01lTXFIUkd2OGFJelJzM3JseHIyVGNoUmR0VFpYQXpPR2JyUnVxdy12Nl9TWmJac044MVQ3ZFEwb1FHUUFzWkJJdnFRVEVjRGJoWWFFSWRLQ3hGS2poMmdtb1R2UjUxODF4eG84ZGlhbU50Y19KSU9B?oc=5"
-    },
-    {
-      "date": "2026-10-05",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "RoboParty 于 IROS 发布 RP1 全栈开源人形机器人平台",
-      "d": "该平台定位高性能全栈开源架构，覆盖人形机器人本体、运动控制与软件栈，面向开发者社区开放，旨在降低二次开发门槛并加速算法迭代。IROS 现场展示可作为开源路线在真实工位部署前的技术验证，但尚未披露量产时间、出货统计与供应链定点。",
-      "src": "来源：StreetInsider",
-      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOaG9xUzNkYV9PM1FJSWt4TGNBZTZsamQteDFXa1NPS1FvMHIxcVRGWUlHSzBKN2diS3cwMTl5YXp6QTR3ZkpkOWpzbmtYYnRkdGx5Y1VkTW5MQUQwMmx6anVNanYzVG9hcUxMZzZFRGw1c0dlaW1uQVM4RzI1dVR4TUY3Rk1rakhIYzA0dE02MFRMTmpubGtnOFYwSjBaRUstblFnMnlfZVluMUt2a3Y1eGpGeUppM0tXZ2NBWFFHTWE4RzZMVHZwaUxxWEtSNHZmTnBnMXpNZldHd0pn?oc=5"
-    },
-    {
-      "date": "2026-10-05",
-      "tag": "供应链",
-      "hot": false,
-      "t": "FCC 禁令对中国产人形机器人及美本土供应链形成反噬",
-      "d": "据 Startup Fortune 报道，FCC 对中国产人形机器人的禁令可能使美国本土企业面临关键零部件与整机供应受限，形成供应链反噬。政策若执行，将影响中美跨境零部件流动，美方企业或面临采购成本上升与交付周期拉长；需跟踪豁免范围、执行细则及替代供应链锁定进度。",
-      "src": "来源：Startup Fortune",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQMkpNek5obzhzNHJMU2VPV0tuMW9UVEhpWDFDYXY3YUlFTV9jMkp6OEZJa2ZLS2ZwWDROLUxNdV82WVZHSUJKd1JsT3AydnR5WHlBdm42eEZxX0s0QUlTalJuQUJSWVlKRl92SDN1bzRUNjZpOWtSbW9hVmpTTmsxWXpybl9UazU4QUNwMFozRVRRY05yOEIxLWxZUjJFZzNCVWEzZ2ZB?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
@@ -777,25 +777,25 @@
       "date": "2026-10",
       "tag": "技术节点",
       "title": "特斯拉 Optimus 产线审计与长三角送样验证",
-      "watch": "重点跟踪行星滚柱丝杠与灵巧手微型电机高公差送样良率测试进展、正式采购订单（PO）及内存下修对端侧算力物料清单的影响"
+      "watch": "重点跟踪行星滚柱丝杠与灵巧手微型电机高公差送样良率测试进展、正式采购订单（PO）落地及端侧算力物料清单调整"
     },
     {
       "date": "2026-11",
       "tag": "展会与商业化",
       "title": "中国国际高新技术成果交易会 · 具身智能专馆",
-      "watch": "多机集群协同搬运与真实工厂工位实测工时，验证智能制造与物流场景商用复购意向"
+      "watch": "多机集群协同搬运与真实工厂工位实测工时，验证智能制造与物流场景商用复购意向与验收标准"
     },
     {
       "date": "2026-12",
       "tag": "集采招投标",
       "title": "国家电网 2026 具身智能第二批次集中采购开标",
-      "watch": "500 台人形带电作业机器人与双臂巡检机器人实际中标份额分配与交付验收节点"
+      "watch": "500 台人形带电作业机器人与双臂巡检机器人中标份额分配、交付验收节点及单价中枢下移幅度"
     },
     {
       "date": "2027-Q1",
       "tag": "量产交付",
       "title": "Figure AI 与宝马斯帕坦堡工厂第二阶段小批量扩量",
-      "watch": "每日 10 小时班次零干预率的跨季度持续性，及 RaaS 服务费商业化闭环成立性"
+      "watch": "F.02 熔毁转向 T2 平台后的产线切换进度、每日 10 小时班次零干预率持续性及服务费模式闭环成立性"
     }
   ],
   "optionSentinel": {
