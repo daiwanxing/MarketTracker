@@ -26,18 +26,20 @@ jobs:
         run: python3 scripts/refresh_market_data.py
 
       - name: Refresh tech semi quotes
-        run: python3 scripts/refresh_tech_semi_data.py
+        run: |
+          python3 scripts/sync_holiday_calendar.py || true
+          python3 scripts/refresh_tech_semi_data.py
 
       - name: Commit and push
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/oilData.json src/data/goldData.json src/data/techSemiData.json src/data/robotData.json
+          git add src/data/oilData.json src/data/goldData.json src/data/techSemiData.json src/data/robotData.json src/data/chinaHolidayCalendar.json
           if git diff --cached --quiet; then
             echo "No market data changes to commit"
             exit 0
           fi
-          git commit -m "Refresh oil, gold, tech semi and robot market numbers"
+          git commit -m "Refresh oil, gold, tech semi, robot numbers and holiday calendar"
           git pull --rebase origin main
           git push origin HEAD:main

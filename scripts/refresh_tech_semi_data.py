@@ -26,6 +26,7 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 TECH_SEMI_PATH = ROOT / "src" / "data" / "techSemiData.json"
 ROBOT_PATH = ROOT / "src" / "data" / "robotData.json"
+CALENDAR_PATH = ROOT / "src" / "data" / "chinaHolidayCalendar.json"
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 YAHOO_HOSTS = ("query1.finance.yahoo.com", "query2.finance.yahoo.com")
@@ -366,7 +367,66 @@ def format_change(price: float, prev_close: float | None) -> tuple[str, str]:
     return pct_str, chg_class
 
 
-def quote_record(q: Quote, name: str, ndigits: int, moment: datetime) -> dict:
+def load_holiday_calendar() -> dict[str, object]:
+    """Load official holiday calendar contract if present."""
+    if not CALENDAR_PATH.exists():
+        return {}
+    try:
+        with CALENDAR_PATH.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as exc:
+        log("WARN", f"Failed to load holiday calendar: {exc}")
+        return {}
+
+
+def get_china_market_calendar_info(today: date) -> dict[str, object]:
+    """判断当前日期是否处于A股法定休市期（从 chinaHolidayCalendar.json 权威契约读取）"""
+    calendar_doc = load_holiday_calendar()
+    days_map = calendar_doc.get("days", {}) if isinstance(calendar_doc, dict) else {}
+    iso_date = today.isoformat()
+    day_record = days_map.get(iso_date) if isinstance(days_map, dict) else None
+    if isinstance(day_record, dict) and day_record.get("isHoliday"):
+        return {
+            "isHoliday": True,
+            "holidayName": day_record.get("holidayName", "法定节假日休市"),
+            "isLastDay": bool(day_record.get("isLastDay")),
+            "reopeningDate": str(day_record.get("reopeningDate", "")),
+            "lastTradingDate": str(day_record.get("lastTradingDate", "")),
+            "dayIndex": day_record.get("dayIndex", 1),
+            "totalDays": day_record.get("totalDays", 1),
+        }
+    return {"isHoliday": False}
+
+
+def quote_record(
+    q: Quote,
+    name: str,
+    ndigits: int,
+    moment: datetime,
+    holiday_info: dict[str, object] | None = None,
+) -> dict:
+    is_star50_holiday = (
+        q.symbol == "000688.SS" and holiday_info and bool(holiday_info.get("isHoliday"))
+    )
+    if is_star50_holiday:
+        last_close_pct, last_close_cls = format_change(q.price, q.previous_close)
+        hname = str(holiday_info.get("holidayName", "长假休市"))
+        last_date = str(holiday_info.get("lastTradingDate", q.session.strftime("%Y-%m-%d")))
+        # 休市期：当日有效涨跌幅归为'--'或'0.00%'，防止被误解为当日跌幅；留存lastCloseChg为节前单日跌幅
+        return {
+            "name": name,
+            "symbol": q.symbol,
+            "price": round(q.price, ndigits),
+            "chg": "--",
+            "chgClass": "",
+            "previousClose": round(q.previous_close, ndigits) if q.previous_close else None,
+            "tradingStatus": "HOLIDAY_FROZEN",
+            "sessionDate": last_date,
+            "lastCloseChg": last_close_pct,
+            "lastCloseChgClass": last_close_cls,
+            "src": f"{q.symbol} {last_date[5:]} 15:00 上海 · {q.source} ({hname}封存)",
+        }
+
     pct_str, chg_cls = format_change(q.price, q.previous_close)
     prev = round(q.previous_close, ndigits) if q.previous_close else None
     return {
@@ -376,6 +436,8 @@ def quote_record(q: Quote, name: str, ndigits: int, moment: datetime) -> dict:
         "chg": pct_str,
         "chgClass": chg_cls,
         "previousClose": prev,
+        "tradingStatus": "LIVE",
+        "sessionDate": q.session.strftime("%Y-%m-%d"),
         "src": f"{q.symbol} {moment.strftime('%m-%d %H:%M')} 上海 · {q.source}",
     }
 
@@ -385,6 +447,7 @@ def update_quotes(
     quotes: dict[str, Quote | None],
     meta: dict[str, tuple[str, str, int]],
     moment: datetime,
+    holiday_info: dict[str, object] | None = None,
 ) -> list[str]:
     updated: list[str] = []
     for key, (sym, name, ndigits) in meta.items():
@@ -396,7 +459,7 @@ def update_quotes(
             existing = bucket.get(key)
             if isinstance(existing, dict) and _num(existing.get("previousClose")) is not None:
                 q.previous_close = _num(existing.get("previousClose"))
-        bucket[key] = quote_record(q, name, ndigits, moment)
+        bucket[key] = quote_record(q, name, ndigits, moment, holiday_info)
         updated.append(key)
     return updated
 
@@ -405,6 +468,7 @@ def update_benchmarks(
     doc: dict,
     quotes: dict[str, Quote | None],
     moment: datetime,
+    holiday_info: dict[str, object] | None = None,
 ) -> list[str]:
     benchmarks = doc.setdefault("benchmarks", {})
     for stale in STALE_BENCHMARKS:
@@ -414,7 +478,7 @@ def update_benchmarks(
     charts = doc.get("charts")
     if isinstance(charts, dict):
         charts.pop("ratios", None)
-    return [f"benchmarks.{key}" for key in update_quotes(benchmarks, quotes, BENCHMARKS, moment)]
+    return [f"benchmarks.{key}" for key in update_quotes(benchmarks, quotes, BENCHMARKS, moment, holiday_info)]
 
 
 def align_closes(q: Quote, anchor_dates: list[date]) -> list[float] | None:
@@ -596,7 +660,84 @@ def fetch_margin_inputs(failures: list[str]) -> tuple[list[tuple[str, float]], d
     return buys, turnover
 
 
-def sync_closing_review_clock(doc: dict, moment: datetime) -> list[str]:
+def update_holiday_overseas_drift(
+    doc: dict,
+    quotes: dict[str, Quote | None],
+    history: dict[str, Quote | None],
+    holiday_info: dict[str, object] | None,
+) -> list[str]:
+    """Calculate cumulative overseas drift percentage during holiday freeze period."""
+    benchmarks = doc.setdefault("benchmarks", {})
+    if not holiday_info or not holiday_info.get("isHoliday"):
+        if "holidayDrift" in benchmarks:
+            benchmarks.pop("holidayDrift", None)
+            return ["benchmarks.holidayDrift"]
+        return []
+
+    last_trading_date_str = str(holiday_info.get("lastTradingDate", ""))
+    try:
+        last_date = date.fromisoformat(last_trading_date_str)
+    except ValueError:
+        return []
+
+    drift_items: dict[str, object] = {
+        "active": True,
+        "holidayName": holiday_info.get("holidayName", "法定长假休市"),
+        "baseDate": last_trading_date_str,
+        "reopeningDate": holiday_info.get("reopeningDate", ""),
+    }
+
+    # SOX Cumulative Drift
+    sox_hist = history.get("sox") or quotes.get("sox")
+    sox_quote = quotes.get("sox")
+    if sox_hist and sox_quote and sox_hist.bars:
+        eligible_days = [d for d in sox_hist.bars.keys() if d <= last_date]
+        if eligible_days:
+            base_day = max(eligible_days)
+            base_bar = sox_hist.bars[base_day]
+            if base_bar.close and base_bar.close > 0:
+                base_p = base_bar.close
+                curr_p = sox_quote.price
+                pct = ((curr_p / base_p) - 1.0) * 100.0
+                sign = "+" if pct > 0 else ""
+                drift_items["sox"] = {
+                    "name": "费城半导体指数",
+                    "basePrice": round(base_p, 2),
+                    "currentPrice": round(curr_p, 2),
+                    "driftPct": f"{sign}{pct:.2f}%",
+                    "driftClass": "up" if pct > 0 else ("down" if pct < 0 else ""),
+                }
+
+    # KOSPI Cumulative Drift
+    kospi_hist = history.get("kospi") or quotes.get("kospi")
+    kospi_quote = quotes.get("kospi")
+    if kospi_hist and kospi_quote and kospi_hist.bars:
+        eligible_days = [d for d in kospi_hist.bars.keys() if d <= last_date]
+        if eligible_days:
+            base_day = max(eligible_days)
+            base_bar = kospi_hist.bars[base_day]
+            if base_bar.close and base_bar.close > 0:
+                base_p = base_bar.close
+                curr_p = kospi_quote.price
+                pct = ((curr_p / base_p) - 1.0) * 100.0
+                sign = "+" if pct > 0 else ""
+                drift_items["kospi"] = {
+                    "name": "韩国KOSPI指数",
+                    "basePrice": round(base_p, 2),
+                    "currentPrice": round(curr_p, 2),
+                    "driftPct": f"{sign}{pct:.2f}%",
+                    "driftClass": "up" if pct > 0 else ("down" if pct < 0 else ""),
+                }
+
+    benchmarks["holidayDrift"] = drift_items
+    return ["benchmarks.holidayDrift"]
+
+
+def sync_closing_review_clock(
+    doc: dict,
+    moment: datetime,
+    holiday_info: dict[str, object] | None = None,
+) -> list[str]:
     """Sync latest numeric quotes from benchmarks to closingReview.marketClock if present."""
     cr = doc.get("closingReview")
     if not isinstance(cr, dict):
@@ -611,20 +752,52 @@ def sync_closing_review_clock(doc: dict, moment: datetime) -> list[str]:
         "^SOX": bms.get("sox"),
     }
     updated = False
+    is_holiday = holiday_info and bool(holiday_info.get("isHoliday"))
     for item in clock_items:
         if not isinstance(item, dict):
             continue
-        bm = mapping.get(item.get("symbol"))
+        sym = item.get("symbol")
+        bm = mapping.get(sym)
         if isinstance(bm, dict):
             if bm.get("price") is not None and item.get("price") != bm["price"]:
                 item["price"] = bm["price"]
                 updated = True
-            if bm.get("chg") is not None and item.get("chg") != bm["chg"]:
-                item["chg"] = bm["chg"]
-                updated = True
-            if bm.get("chgClass") is not None and item.get("chgClass") != bm["chgClass"]:
-                item["chgClass"] = bm["chgClass"]
-                updated = True
+
+            # 若处于休市期且为境内标的
+            if is_holiday and sym == "000688.SS":
+                target_status = "HOLIDAY"
+                raw_reopen = str(holiday_info.get("reopeningDate", ""))
+                reopen_date = raw_reopen[5:] if len(raw_reopen) >= 10 else (raw_reopen or "节后")
+                raw_last = str(holiday_info.get("lastTradingDate") or bm.get("sessionDate") or "")
+                last_date = raw_last[5:] if len(raw_last) >= 10 else raw_last
+                hname = str(holiday_info.get("holidayName", "长假休市"))
+                is_last_day = bool(holiday_info.get("isLastDay"))
+                if is_last_day:
+                    target_label = f"{hname} · 明日复牌 ({last_date}封存)"
+                else:
+                    target_label = f"{hname} ({last_date}封存)"
+                target_role = f"境内科技贝塔（{reopen_date} 复牌待开）"
+                if item.get("status") != target_status:
+                    item["status"] = target_status
+                    updated = True
+                if item.get("statusLabel") != target_label:
+                    item["statusLabel"] = target_label
+                    updated = True
+                if item.get("role") != target_role:
+                    item["role"] = target_role
+                    updated = True
+                chg_val = bm.get("lastCloseChg") or bm.get("chg")
+                if chg_val is not None and item.get("chg") != chg_val:
+                    item["chg"] = chg_val
+                    item["chgClass"] = "down" if str(chg_val).startswith("-") else "up"
+                    updated = True
+            else:
+                if bm.get("chg") is not None and item.get("chg") != bm["chg"]:
+                    item["chg"] = bm["chg"]
+                    updated = True
+                if bm.get("chgClass") is not None and item.get("chgClass") != bm["chgClass"]:
+                    item["chgClass"] = bm["chgClass"]
+                    updated = True
     return ["closingReview.marketClock"] if updated else []
 
 
@@ -733,8 +906,10 @@ def update_crowding(
     mock_market: float | None = None,
     mock_tmt: float | None = None,
     mock_as_of: str | None = None,
+    holiday_info: dict[str, object] | None = None,
 ) -> list[str]:
     """Update TMT crowding in techSemiData.json and robot crowding in robotData.json."""
+    is_holiday = holiday_info and bool(holiday_info.get("isHoliday"))
     if mock_market is not None and mock_tmt is not None:
         market_amt = mock_market
         as_of_date = mock_as_of or datetime.now(SHANGHAI).strftime("%Y-%m-%d")
@@ -745,7 +920,10 @@ def update_crowding(
             log("WARN", "market turnover unavailable; preserving crowding")
             return []
         market_amt, date_str = mt
-        as_of_date = date_str or datetime.now(SHANGHAI).strftime("%Y-%m-%d")
+        if is_holiday:
+            as_of_date = str(holiday_info.get("lastTradingDate") or date_str or datetime.now(SHANGHAI).strftime("%Y-%m-%d"))
+        else:
+            as_of_date = date_str or datetime.now(SHANGHAI).strftime("%Y-%m-%d")
         tmt_res = fetch_tmt_turnover()
         if tmt_res is None:
             log("WARN", "TMT turnover unavailable; preserving crowding")
@@ -769,11 +947,13 @@ def update_crowding(
     else:
         zone, label = "cold", "低位冰点"
 
+    h_tag = f" {holiday_info.get('holidayName', '长假休市')}封存" if is_holiday else ""
     tech_crowd = doc.setdefault("crowding", {})
     tech_crowd.update({
         "asOf": as_of_date,
         "label": label,
         "zone": zone,
+        "isHolidayFrozen": is_holiday,
         "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
         "turnoverShare": {
             "value": tmt_share,
@@ -783,7 +963,7 @@ def update_crowding(
             "unit": "%",
             "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额",
         },
-        "src": f"申万一级行业与沪深市场快照 (asOf: {as_of_date})",
+        "src": f"申万一级行业与沪深市场快照 (asOf: {as_of_date}{h_tag})",
     })
     updated = ["crowding"]
 
@@ -860,18 +1040,24 @@ def refresh_tech_semi(
     with open(path, "r", encoding="utf-8") as f:
         doc = json.load(f)
 
+    holiday_info = get_china_market_calendar_info(moment.date())
+
     updated_fields: list[str] = []
 
     # Update benchmarks
-    bm_fields = update_benchmarks(doc, quotes, moment)
+    bm_fields = update_benchmarks(doc, quotes, moment, holiday_info)
     updated_fields.extend(bm_fields)
 
     # Sync latest quotes to closingReview.marketClock if present
-    clock_fields = sync_closing_review_clock(doc, moment)
+    clock_fields = sync_closing_review_clock(doc, moment, holiday_info)
     updated_fields.extend(clock_fields)
 
     chart_fields = update_normalized(doc, history)
     updated_fields.extend(chart_fields)
+
+    # Calculate holiday overseas cumulative drift
+    drift_fields = update_holiday_overseas_drift(doc, quotes, history, holiday_info)
+    updated_fields.extend(drift_fields)
 
     if mock_quotes is not None:
         if mock_margin is not None:
@@ -897,9 +1083,10 @@ def refresh_tech_semi(
             mock_market=mock_crowding[0],
             mock_tmt=mock_crowding[1],
             mock_as_of=mock_crowding[2],
+            holiday_info=holiday_info,
         )
     else:
-        cr_fields = update_crowding(doc, robot_doc)
+        cr_fields = update_crowding(doc, robot_doc, holiday_info=holiday_info)
     updated_fields.extend(cr_fields)
 
     # Update snapshot

@@ -9,6 +9,7 @@ import robotStatic from '../src/data/robotData.json' with { type: 'json' };
 import oilStatic from '../src/data/oilData.json' with { type: 'json' };
 import goldStatic from '../src/data/goldData.json' with { type: 'json' };
 import equipStatic from '../src/data/equipData.json' with { type: 'json' };
+import chinaHolidayCalendar from '../src/data/chinaHolidayCalendar.json' with { type: 'json' };
 
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   // 设置边缘缓存策略：全球 CDN 缓存 8 秒，20 秒内允许返回过期数据并在后台异步更新
@@ -37,8 +38,55 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const emShau = eastmoneyShauRes.status === 'fulfilled' ? eastmoneyShauRes.value : null;
 
   // 1. 科技半导体组装（绝不硬编码任何假数字，优先接口，降级严格取静态底包已核实真值）
-  const staticSemiBm = techSemiStatic.benchmarks;
+  const staticSemiBm = techSemiStatic.benchmarks as Record<string, any>;
   const tcStar50 = tcMap['sh000688'];
+
+  // 检测境内 A 股法定节假日休市状态（基于权威数据契约 chinaHolidayCalendar.json）
+  const bjNow = new Date();
+  const bjFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  });
+  const bjParts = bjFormatter.formatToParts(bjNow);
+  let bjY = bjNow.getFullYear();
+  let bjM = bjNow.getMonth() + 1;
+  let bjD = bjNow.getDate();
+  for (const p of bjParts) {
+    if (p.type === 'year') bjY = parseInt(p.value, 10);
+    if (p.type === 'month') bjM = parseInt(p.value, 10);
+    if (p.type === 'day') bjD = parseInt(p.value, 10);
+  }
+  const dateStr = `${bjY}-${String(bjM).padStart(2, '0')}-${String(bjD).padStart(2, '0')}`;
+  const holidayRecord = (chinaHolidayCalendar as any)?.days?.[dateStr];
+  const isHoliday = Boolean(holidayRecord?.isHoliday);
+  const holidayName = holidayRecord?.holidayName ?? '法定节假日休市';
+  const lastTradingDate = holidayRecord?.lastTradingDate || staticSemiBm.star50?.sessionDate || '';
+
+  const star50Data = isHoliday
+    ? {
+        name: staticSemiBm.star50?.name ?? '科创50指数',
+        symbol: staticSemiBm.star50?.symbol ?? '000688.SS',
+        price: tcStar50?.price ?? staticSemiBm.star50?.price,
+        chg: '--',
+        chgClass: '',
+        previousClose: tcStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
+        tradingStatus: 'HOLIDAY_FROZEN',
+        sessionDate: lastTradingDate,
+        lastCloseChg: tcStar50?.chg || staticSemiBm.star50?.lastCloseChg || staticSemiBm.star50?.chg || '--',
+        holidayName,
+      }
+    : {
+        name: staticSemiBm.star50?.name ?? '科创50指数',
+        symbol: staticSemiBm.star50?.symbol ?? '000688.SS',
+        price: tcStar50?.price ?? staticSemiBm.star50?.price,
+        chg: tcStar50?.chg || staticSemiBm.star50?.chg,
+        chgClass: tcStar50?.chgClass || staticSemiBm.star50?.chgClass,
+        previousClose: tcStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
+        tradingStatus: 'LIVE',
+      };
+
   const techSemiData = {
     sox: {
       name: staticSemiBm.sox.name,
@@ -48,14 +96,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: sinaMap.sox?.chgClass || staticSemiBm.sox.chgClass,
       previousClose: sinaMap.sox?.previousClose ?? staticSemiBm.sox.previousClose,
     },
-    star50: {
-      name: staticSemiBm.star50.name,
-      symbol: staticSemiBm.star50.symbol,
-      price: tcStar50?.price ?? staticSemiBm.star50.price,
-      chg: tcStar50?.chg || staticSemiBm.star50.chg,
-      chgClass: tcStar50?.chgClass || staticSemiBm.star50.chgClass,
-      previousClose: tcStar50?.previousClose ?? staticSemiBm.star50.previousClose,
-    },
+    star50: star50Data,
     kospi: {
       name: staticSemiBm.kospi.name,
       symbol: staticSemiBm.kospi.symbol,
@@ -64,6 +105,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
       chgClass: sinaMap.kospi?.chgClass || staticSemiBm.kospi.chgClass,
       previousClose: sinaMap.kospi?.previousClose ?? staticSemiBm.kospi.previousClose,
     },
+    holidayDrift: (staticSemiBm as any).holidayDrift ?? null,
     crowding: crowding?.techSemi ?? {
       value: techSemiStatic.crowding.turnoverShare.value,
       tmtAmountYi: techSemiStatic.crowding.turnoverShare.tmtAmountYi,

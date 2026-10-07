@@ -32,6 +32,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 TECH_SEMI_PATH = ROOT / "src" / "data" / "techSemiData.json"
+CALENDAR_PATH = ROOT / "src" / "data" / "chinaHolidayCalendar.json"
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 UA = "Mozilla/5.0 (compatible; MarketTrackerTechSemiTimeline/1.0; +https://github.com/daiwanxing/MarketTracker)"
 DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
@@ -167,6 +168,19 @@ SYSTEM_PROMPT = """你是半导体与科技硬件行业卖方研究编辑，按�
     ]
   }
 }
+
+【长假休市时态与分析范式纪律】
+- 当 context.marketCalendar.isChinaHoliday 为 true 时：
+  1. 严格禁止时空穿越：A 股目前处于休市中，科创 50 点位属于节前封存读数（chg 为“休市封存”，preHolidayCloseChg 为节前最后收盘跌幅）。严禁将科创 50 当作“今日/昨日收盘”做常规次日复盘！严禁在长假期间归因“长假前银证转账提现”等陈旧资金日历事实！
+  2. 分析范式全面切换为【长假海外资产映射与节后开市博弈 (Holiday Overseas Drift & Reopening Game Plan)】：
+     - 定量核心锚点：必须以 context.benchmarks.holidayOverseasDrift（外盘长假累计漂移收益率）为定量依据，重点评估长假期间费城半导体(SOX)与全球算力硬件链的累计走势及重大产业事件。
+     - verdict.headline 与 coreSummary：推演节后首个交易日（如 10月8日）科创50与境内科技板块的开盘定价机制与增量资金回流意愿。
+     - crowding 支柱：重点研判节后复牌是否出现情绪性高开高走/获利兑现冲高回落，TMT成交占比是否向 35% 出清。
+     - liquidity 支柱：重点研判节前避险撤退的杠杆资金（两融买入强度前值）在节后首日的回补动力与银证入场意愿。
+     - macro 支柱：聚焦长假期间海外美债收益率、美元、原油等跨品种宏观读数对成长股折现率的累计影响。
+     - industry 支柱：聚焦长假期间海外重大芯片/算力产业事件及先导指引。
+     - crossMarket：对比长假期间海外科技资产累计动量（如 SOX 累计漂移收益率）与境内封存基准之间的内外盘估值溢价裂口，严禁以节前单日跌幅计算无意义的日内裂口。
+     - nextDayWatch：列出节后首个交易日（如 10月8日复牌）的核心观察哨兵（如节后两融回补强度、复牌TMT成交额占比、开盘高开低走承接等）。
 
 【边界与细节纪律】
 1. events：只收录对半导体产业、产能、需求或供应链有实质增量的事实，最多 2 条。无新增事实时 events 为空数组 []。
@@ -329,7 +343,59 @@ def rank_and_filter_headlines(headlines: list[dict[str, str]], max_items: int = 
     return selected
 
 
+def load_holiday_calendar() -> dict[str, object]:
+    """Load official holiday calendar contract if present."""
+    if not CALENDAR_PATH.exists():
+        return {}
+    try:
+        with CALENDAR_PATH.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as exc:
+        log("WARN", f"Failed to load holiday calendar: {exc}")
+        return {}
+
+
+def get_china_market_calendar(today: date) -> dict[str, object]:
+    """判断当前日期是否处于A股休市期（从 chinaHolidayCalendar.json 权威契约读取）"""
+    calendar_doc = load_holiday_calendar()
+    days_map = calendar_doc.get("days", {}) if isinstance(calendar_doc, dict) else {}
+    iso_date = today.isoformat()
+    day_record = days_map.get(iso_date) if isinstance(days_map, dict) else None
+    if isinstance(day_record, dict) and day_record.get("isHoliday"):
+        hname = str(day_record.get("holidayName", "法定节假日休市"))
+        last_date = str(day_record.get("lastTradingDate", ""))
+        reopen_date = str(day_record.get("reopeningDate", ""))
+        is_last_day = bool(day_record.get("isLastDay"))
+        day_idx = int(day_record.get("dayIndex", 1))
+        tot_days = int(day_record.get("totalDays", 1))
+
+        guidance = (
+            f"A股当前处于【{hname}】休市期（第{day_idx}/{tot_days}天）！科创50读数为节前（{last_date}）封存数据，休市期间无境内交易。"
+            "严禁归因“节前提现/银证转账”等陈旧时态；严禁将科创50节前收盘当作今日行情进行常规次日复盘！"
+            f"分析范式必须全面切换为【长假海外资产映射与节后开市博弈】：重点测算长假期间外盘半导体（SOX、KOSPI）"
+            f"与全球AI算力链的累计走势及重大产业事件，推演节后开市（{reopen_date}）的开盘溢价/折价、"
+            "节前避险撤退的杠杆与增量资金回补承接意愿，以及节后首日需要重点盯防的量能、点位与拥挤度。"
+        )
+
+        return {
+            "isChinaHoliday": True,
+            "holidayName": hname,
+            "holidayDayIndex": day_idx,
+            "totalHolidayDays": tot_days,
+            "isLastHolidayDay": is_last_day,
+            "reopeningDate": reopen_date,
+            "star50FrozenDate": last_date,
+            "guidance": guidance,
+        }
+    return {
+        "isChinaHoliday": False,
+    }
+
+
 def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) -> dict:
+    now_shanghai = datetime.now(SHANGHAI)
+    market_calendar = get_china_market_calendar(now_shanghai.date())
+
     benchmarks = doc.get("benchmarks", {})
     sox = benchmarks.get("sox", {})
     star50 = benchmarks.get("star50", {})
@@ -356,7 +422,8 @@ def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) ->
     ]
 
     return {
-        "asOf": doc.get("snapshot") or datetime.now(SHANGHAI).strftime("%Y-%m-%d %H:%M"),
+        "asOf": doc.get("snapshot") or now_shanghai.strftime("%Y-%m-%d %H:%M"),
+        "marketCalendar": market_calendar,
         "benchmarks": {
             "sox": {
                 "name": sox.get("name", "费城半导体指数"),
@@ -373,9 +440,13 @@ def extract_context(doc: dict, headlines: list[dict[str, str]] | None = None) ->
             "star50": {
                 "name": star50.get("name", "科创50指数"),
                 "price": star50.get("price"),
-                "chg": star50.get("chg"),
+                "chg": "休市封存" if market_calendar.get("isChinaHoliday") else star50.get("chg"),
                 "previousClose": star50.get("previousClose"),
+                "status": "HOLIDAY_FROZEN" if market_calendar.get("isChinaHoliday") else "LIVE",
+                "frozenDate": market_calendar.get("star50FrozenDate") if market_calendar.get("isChinaHoliday") else None,
+                "preHolidayCloseChg": star50.get("lastCloseChg") or star50.get("chg") if market_calendar.get("isChinaHoliday") else None,
             },
+            "holidayOverseasDrift": benchmarks.get("holidayDrift") if market_calendar.get("isChinaHoliday") else None,
         },
         "crowding": {
             "turnoverShare": turnover.get("value"),
@@ -988,7 +1059,11 @@ def self_test() -> int:
     }
     ctx = extract_context(mock_doc, extracted_headlines)
     _assert(ctx["benchmarks"]["sox"]["price"] == 12668.93, "sox price mismatch")
-    _assert(ctx["benchmarks"]["star50"]["chg"] == "-4.06%", "star50 chg mismatch")
+    if ctx.get("marketCalendar", {}).get("isChinaHoliday"):
+        _assert(ctx["benchmarks"]["star50"]["chg"] == "休市封存", "star50 holiday chg mismatch")
+        _assert(ctx["benchmarks"]["star50"]["preHolidayCloseChg"] == "-4.06%", "star50 preHolidayCloseChg mismatch")
+    else:
+        _assert(ctx["benchmarks"]["star50"]["chg"] == "-4.06%", "star50 chg mismatch")
     _assert(ctx["benchmarks"]["kospi"]["previousClose"] == 7080.92, "kospi previousClose mismatch")
     _assert(ctx["crowding"]["turnoverShare"] == 42.52, "turnoverShare mismatch")
     _assert(ctx["crowding"]["zone"] == "danger", "crowding zone mismatch")

@@ -7,6 +7,8 @@
  * 3. 实时联动 benchmarks 最新行情报价，防止与宏观报价割裂
  */
 
+import chinaHolidayCalendar from '../data/chinaHolidayCalendar.json';
+
 export type MarketStatus =
   | 'TRADING'
   | 'CLOSED'
@@ -120,17 +122,61 @@ export function isUSDaylightSaving(now: Date = new Date()): boolean {
 }
 
 /**
- * 中国 A 股常见法定节假日休市识别 (格式: YYYY-MM-DD)
+ * 中国 A 股法定节假日休市识别 (基于权威数据契约 chinaHolidayCalendar.json)
  */
-function getChinaHoliday(month: number, date: number): string | null {
-  const mmdd = `${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-  // 元旦
-  if (mmdd === '01-01' || mmdd === '01-02' || mmdd === '01-03') return '元旦休市';
-  // 劳动节
-  if (mmdd >= '05-01' && mmdd <= '05-05') return '劳动节休市';
-  // 国庆节
-  if (mmdd >= '10-01' && mmdd <= '10-07') return '国庆长假休市';
-  return null;
+function getChinaHoliday(year: number, month: number, date: number): string | null {
+  const detail = getChinaHolidayDetail(year, month, date);
+  return detail ? detail.holidayName : null;
+}
+
+export interface ChinaHolidayDetail {
+  isHoliday: boolean;
+  holidayName: string;
+  isLastDay: boolean;
+  reopeningDate: string;
+  frozenDate: string;
+  lastTradingDate?: string;
+  rawReopeningDate?: string;
+}
+
+export function getChinaHolidayDetail(
+  year: number,
+  month: number,
+  date: number
+): ChinaHolidayDetail | null {
+  const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+  const dayRecord = (chinaHolidayCalendar as any)?.days?.[dateStr];
+  if (!dayRecord || !dayRecord.isHoliday) {
+    return null;
+  }
+
+  // 格式化展示文本 (如 "2026-10-08" -> "10月8日")
+  let reopeningDateText = '';
+  if (dayRecord.reopeningDate) {
+    const parts = String(dayRecord.reopeningDate).split('-');
+    if (parts.length === 3) {
+      reopeningDateText = `${parseInt(parts[1], 10)}月${parseInt(parts[2], 10)}日`;
+    }
+  }
+
+  // 格式化封存文本 (如 "2026-09-30" -> "09-30")
+  let frozenDateText = '';
+  if (dayRecord.lastTradingDate) {
+    const parts = String(dayRecord.lastTradingDate).split('-');
+    if (parts.length === 3) {
+      frozenDateText = `${parts[1]}-${parts[2]}`;
+    }
+  }
+
+  return {
+    isHoliday: true,
+    holidayName: dayRecord.holidayName,
+    isLastDay: Boolean(dayRecord.isLastDay),
+    reopeningDate: reopeningDateText,
+    frozenDate: frozenDateText,
+    lastTradingDate: dayRecord.lastTradingDate,
+    rawReopeningDate: dayRecord.reopeningDate,
+  };
 }
 
 /**
@@ -149,9 +195,14 @@ function getUSHoliday(month: number, date: number): string | null {
  */
 export function getStar50Status(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
   // 节假日休市
-  const holiday = getChinaHoliday(bj.month, bj.date);
+  const holiday = getChinaHolidayDetail(bj.year, bj.month, bj.date);
   if (holiday) {
-    return { status: 'HOLIDAY', statusLabel: holiday };
+    return {
+      status: 'HOLIDAY',
+      statusLabel: holiday.isLastDay
+        ? `${holiday.holidayName} · 明日复牌 (${holiday.frozenDate}封存)`
+        : `${holiday.holidayName} (${holiday.frozenDate}封存)`,
+    };
   }
 
   // 周末休市
@@ -294,6 +345,37 @@ function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
     };
   }
 
+  // 中国 A 股法定节假日休市阶段处理
+  const chinaHoliday = getChinaHolidayDetail(bj.year, bj.month, bj.date);
+  if (chinaHoliday) {
+    if (chinaHoliday.isLastDay) {
+      // 长假最后一天（如 10月7日）：进入复牌先导博弈窗口
+      if (m >= 8 * 60 && m < 18 * 60) {
+        return {
+          phase: 'CHINA_HOLIDAY_PRE_REOPEN',
+          headline: `A股${chinaHoliday.holidayName}收官 · 亚太外盘先导映射窗口`,
+          window: `${chinaHoliday.reopeningDate} 复牌前夕`,
+        };
+      }
+      if (m >= 18 * 60 && m < usOpenMinutes) {
+        return {
+          phase: 'PRE_REOPENING_GAME_PLAN',
+          headline: `节后开市前夕 · 外盘资产累计映射与开盘博弈`,
+          window: `${chinaHoliday.reopeningDate} 开盘博弈窗口`,
+        };
+      }
+    } else {
+      // 长假中途阶段
+      if (m >= 8 * 60 && m < 18 * 60) {
+        return {
+          phase: 'CHINA_HOLIDAY_OVERSEAS_DRIFT',
+          headline: `A股${chinaHoliday.holidayName} · 韩国/亚太外盘先导映射`,
+          window: 'HOLIDAY CST',
+        };
+      }
+    }
+  }
+
   // 08:00 ~ 09:30 CST
   if (m >= 8 * 60 && m < 9 * 60 + 30) {
     return {
@@ -343,7 +425,9 @@ function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
   if (m >= 18 * 60 && m < usOpenMinutes) {
     return {
       phase: 'US_PRE_MARKET',
-      headline: '美股盘前博弈 · 费半期货先导定价',
+      headline: chinaHoliday
+        ? '美股盘前博弈 · 费半期货先导定价（A股休市）'
+        : '美股盘前博弈 · 费半期货先导定价',
       window: `18:00 ~ ${usOpenLabel} CST`,
     };
   }
@@ -352,7 +436,9 @@ function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
   if (m >= usOpenMinutes || m < usCloseMinutes) {
     return {
       phase: 'US_TRADING',
-      headline: '美股主力交易 · 全球AI算力核心定价',
+      headline: chinaHoliday
+        ? '美股主力交易 · 全球AI算力核心定价（A股休市）'
+        : '美股主力交易 · 全球AI算力核心定价',
       window: `${usOpenLabel} ~ ${usCloseLabel} CST`,
     };
   }
@@ -363,6 +449,13 @@ function getTradingPhase(bj: BeijingTimeInfo, isDst: boolean): TradingPhase {
     headline: '美股隔夜结算 · 亚太盘前准备窗口',
     window: `${usCloseLabel} ~ 08:00 CST`,
   };
+}
+
+export interface ResolvedMarketClock {
+  tradingPhase: TradingPhase;
+  marketClock: MarketClockItem[];
+  isChinaHoliday: boolean;
+  holidayDetail: ChinaHolidayDetail | null;
 }
 
 /**
@@ -380,12 +473,11 @@ export function resolveMarketClock(
     sox?: BenchmarkQuote;
   },
   currentDate: Date = new Date()
-): {
-  tradingPhase: TradingPhase;
-  marketClock: MarketClockItem[];
-} {
+): ResolvedMarketClock {
   const bj = getBeijingTime(currentDate);
   const isDst = isUSDaylightSaving(currentDate);
+  const holidayDetail = getChinaHolidayDetail(bj.year, bj.month, bj.date);
+  const isChinaHoliday = Boolean(holidayDetail);
 
   const star50Status = getStar50Status(bj);
   const kospiStatus = getKospiStatus(bj);
@@ -431,6 +523,8 @@ export function resolveMarketClock(
   return {
     tradingPhase,
     marketClock,
+    isChinaHoliday,
+    holidayDetail,
   };
 }
 
@@ -441,7 +535,7 @@ export function resolveMarketClock(
  */
 
 export function getSgeStatus(bj: BeijingTimeInfo): { status: MarketStatus; statusLabel: string } {
-  const holiday = getChinaHoliday(bj.month, bj.date);
+  const holiday = getChinaHoliday(bj.year, bj.month, bj.date);
   if (holiday) return { status: 'HOLIDAY', statusLabel: holiday };
 
   const day = bj.day;

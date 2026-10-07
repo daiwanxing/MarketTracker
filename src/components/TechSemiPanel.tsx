@@ -137,7 +137,7 @@ export default function TechSemiPanel() {
     timeline?: TimelineItem[];
   };
   const { head, benchmarks, crowding, charts, footer, snapshot } = data;
-  const rawBenchMap = benchmarks as Record<string, Bench | undefined>;
+  const rawBenchMap = benchmarks as unknown as Record<string, Bench | undefined>;
   const { liveQuotes } = useLiveQuotes();
 
   // 融合 Vercel Serverless / Edge API 实时行情
@@ -191,6 +191,11 @@ export default function TechSemiPanel() {
       currentTime
     );
   }, [data.closingReview, benchMap, currentTime]);
+
+  const isHolidayPeriod = Boolean(dynamicClock?.isChinaHoliday);
+  const isLastHolidayDay = Boolean(dynamicClock?.holidayDetail?.isLastDay);
+  const holidayName = dynamicClock?.holidayDetail?.holidayName ?? '长假休市';
+  const reopeningDate = dynamicClock?.holidayDetail?.reopeningDate ?? '节后首日';
 
   const clockMap = useMemo(() => {
     const list = dynamicClock?.marketClock ?? data.closingReview?.marketClock ?? [];
@@ -478,6 +483,9 @@ export default function TechSemiPanel() {
               const statusClass = tc.clock?.status.toLowerCase() ?? 'closed';
               const statusLabel = tc.clock?.statusLabel ?? '已收盘';
 
+              const isFrozen = tc.clock?.status === 'HOLIDAY' || (tc.key === 'star50' && isHolidayPeriod);
+              const lastCloseChg = (tc.bench as any)?.lastCloseChg;
+
               return (
                 <button
                   key={tc.key}
@@ -496,7 +504,17 @@ export default function TechSemiPanel() {
                   </div>
                   <div className="index-tab-data-row">
                     <span className="index-tab-price">{priceDisplay}</span>
-                    <span className={`index-tab-chg ${chgCls(chgClass)}`}>{tc.bench?.chg || '--'}</span>
+                    {isFrozen ? (
+                      <span
+                        className="index-tab-chg mono"
+                        style={{ fontSize: 13, color: 'var(--text-muted, rgba(240,240,250,0.6))' }}
+                        title={`节前最后交易日收盘涨跌: ${lastCloseChg || '-2.51%'}`}
+                      >
+                        {lastCloseChg ? `节前 ${lastCloseChg}` : '休市封存'}
+                      </span>
+                    ) : (
+                      <span className={`index-tab-chg ${chgCls(chgClass)}`}>{tc.bench?.chg || '--'}</span>
+                    )}
                   </div>
                 </button>
               );
@@ -592,12 +610,16 @@ export default function TechSemiPanel() {
         )}
         {data.leverage?.note && <div className="sec-note">{data.leverage.note}</div>}
 
-        {/* ==================== 3. 盘后深度归因与次日博弈 (Post-Market Attribution · ⬇️4 & ⭐1) ==================== */}
+        {/* ==================== 3. 宏观因果归因与次日博弈 (Post-Market Attribution · ⬇️4 & ⭐1) ==================== */}
         {data.closingReview && (
           <section className="closing-review-section">
             <h2 className="sec-title" style={{ marginTop: 28 }}>
-              宏观因果归因与次日博弈
-              <span className="hint">微观筹码、资金避险、宏观利率与产业景气多因子传导</span>
+              {isHolidayPeriod ? '长假海外映射与节后开市博弈' : '宏观因果归因与次日博弈'}
+              <span className="hint">
+                {isHolidayPeriod
+                  ? '境内筹码休市封存、海外算力资产映射与节后开市资金回补推演'
+                  : '微观筹码、资金避险、宏观利率与产业景气多因子传导'}
+              </span>
             </h2>
 
             {/* 收盘总定调巨幕卡片 */}
@@ -605,9 +627,13 @@ export default function TechSemiPanel() {
               <div className="verdict-header">
                 <div className="verdict-tag-group">
                   <span className="kicker-tag">
-                    {dynamicClock?.tradingPhase.phase === 'APAC_POST_MARKET'
-                      ? 'EXECUTIVE POST-MARKET ATTRIBUTION'
-                      : 'PREVIOUS CLOSE ATTRIBUTION // 前一交易日收盘定型'}
+                    {isHolidayPeriod
+                      ? (isLastHolidayDay
+                          ? `PRE-REOPENING GAME PLAN // ${reopeningDate}开市博弈`
+                          : `HOLIDAY OVERSEAS DRIFT // ${holidayName}海外映射`)
+                      : (dynamicClock?.tradingPhase.phase === 'APAC_POST_MARKET'
+                          ? 'EXECUTIVE POST-MARKET ATTRIBUTION'
+                          : 'PREVIOUS CLOSE ATTRIBUTION // 前一交易日收盘定型')}
                   </span>
                   <span className="driver-badge">{data.closingReview.verdict.primaryDriver}</span>
                 </div>
@@ -620,15 +646,21 @@ export default function TechSemiPanel() {
               {/* 跨市场分化与比价条 */}
               <div className="cross-market-strip">
                 <div className="strip-metric mono">
-                  <span className="metric-label">跨市场溢价裂口</span>
-                  <span className="metric-val">{data.closingReview.crossMarket.spreadMetric}</span>
+                  <span className="metric-label">
+                    {isHolidayPeriod ? ((benchmarks as any)?.holidayDrift?.active ? '长假外盘累计漂移' : '内外盘估值溢价') : '跨市场溢价裂口'}
+                  </span>
+                  <span className="metric-val">
+                    {isHolidayPeriod && (benchmarks as any)?.holidayDrift?.sox?.driftPct
+                      ? `SOX ${(benchmarks as any).holidayDrift.sox.driftPct}`
+                      : data.closingReview.crossMarket.spreadMetric}
+                  </span>
                 </div>
                 <div className="strip-logic">
-                  <span className="logic-badge">分化归因</span>
+                  <span className="logic-badge">{isHolidayPeriod ? '休市映射' : '分化归因'}</span>
                   <span className="logic-text">{data.closingReview.crossMarket.divergenceLogic}</span>
                 </div>
                 <div className="strip-leadlag">
-                  <span className="logic-badge warn">外盘先导映射</span>
+                  <span className="logic-badge warn">{isHolidayPeriod ? '节后指引' : '外盘先导映射'}</span>
                   <span className="logic-text">{data.closingReview.crossMarket.leadLagSignal}</span>
                 </div>
               </div>
@@ -716,14 +748,18 @@ export default function TechSemiPanel() {
               ))}
             </div>
 
-            {/* 次日博弈核心哨兵变量 */}
+            {/* 次日 / 节后博弈核心哨兵变量 */}
             <div className="next-watch-deck">
               <div className="deck-header">
                 <div className="deck-header-left">
                   <span className="deck-badge mono">SENTINELS</span>
-                  <span className="deck-title">次日博弈核心哨兵与开盘临界</span>
+                  <span className="deck-title">
+                    {isHolidayPeriod ? `${reopeningDate}开市核心哨兵与开盘临界` : '次日博弈核心哨兵与开盘临界'}
+                  </span>
                 </div>
-                <span className="deck-sub-hint">关注开盘承接力与多空分水岭</span>
+                <span className="deck-sub-hint">
+                  {isHolidayPeriod ? '关注长假后首日开盘承接力与多空分水岭' : '关注开盘承接力与多空分水岭'}
+                </span>
               </div>
               <div className="deck-grid">
                 {data.closingReview.nextDayWatch.map((item, idx) => (

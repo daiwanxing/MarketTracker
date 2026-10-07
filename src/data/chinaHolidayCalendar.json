@@ -1,0 +1,416 @@
+{
+  "year": 2026,
+  "asOf": "2026-10-07 21:28",
+  "source": "State Council Official Holiday Schedule / timor.tech API",
+  "holidays": [
+    {
+      "holidayName": "元旦休市",
+      "rawName": "元旦",
+      "startDate": "2026-01-01",
+      "endDate": "2026-01-03",
+      "totalDays": 3,
+      "lastTradingDate": "2025-12-31",
+      "reopeningDate": "2026-01-05",
+      "dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03"
+      ]
+    },
+    {
+      "holidayName": "春节长假休市",
+      "rawName": "春节",
+      "startDate": "2026-02-15",
+      "endDate": "2026-02-23",
+      "totalDays": 9,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24",
+      "dates": [
+        "2026-02-15",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-21",
+        "2026-02-22",
+        "2026-02-23"
+      ]
+    },
+    {
+      "holidayName": "清明节休市",
+      "rawName": "清明节",
+      "startDate": "2026-04-04",
+      "endDate": "2026-04-06",
+      "totalDays": 3,
+      "lastTradingDate": "2026-04-03",
+      "reopeningDate": "2026-04-07",
+      "dates": [
+        "2026-04-04",
+        "2026-04-05",
+        "2026-04-06"
+      ]
+    },
+    {
+      "holidayName": "劳动节休市",
+      "rawName": "劳动节",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-05",
+      "totalDays": 5,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06",
+      "dates": [
+        "2026-05-01",
+        "2026-05-02",
+        "2026-05-03",
+        "2026-05-04",
+        "2026-05-05"
+      ]
+    },
+    {
+      "holidayName": "端午节休市",
+      "rawName": "端午节",
+      "startDate": "2026-06-19",
+      "endDate": "2026-06-21",
+      "totalDays": 3,
+      "lastTradingDate": "2026-06-18",
+      "reopeningDate": "2026-06-22",
+      "dates": [
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21"
+      ]
+    },
+    {
+      "holidayName": "中秋节休市",
+      "rawName": "中秋节",
+      "startDate": "2026-09-25",
+      "endDate": "2026-09-27",
+      "totalDays": 3,
+      "lastTradingDate": "2026-09-24",
+      "reopeningDate": "2026-09-28",
+      "dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27"
+      ]
+    },
+    {
+      "holidayName": "国庆长假休市",
+      "rawName": "国庆节",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-07",
+      "totalDays": 7,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08",
+      "dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ]
+    }
+  ],
+  "days": {
+    "2026-01-01": {
+      "isHoliday": true,
+      "holidayName": "元旦休市",
+      "dayIndex": 1,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2025-12-31",
+      "reopeningDate": "2026-01-05"
+    },
+    "2026-01-02": {
+      "isHoliday": true,
+      "holidayName": "元旦休市",
+      "dayIndex": 2,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2025-12-31",
+      "reopeningDate": "2026-01-05"
+    },
+    "2026-01-03": {
+      "isHoliday": true,
+      "holidayName": "元旦休市",
+      "dayIndex": 3,
+      "totalDays": 3,
+      "isLastDay": true,
+      "lastTradingDate": "2025-12-31",
+      "reopeningDate": "2026-01-05"
+    },
+    "2026-02-15": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 1,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-16": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 2,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-17": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 3,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-18": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 4,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-19": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 5,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-20": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 6,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-21": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 7,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-22": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 8,
+      "totalDays": 9,
+      "isLastDay": false,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-02-23": {
+      "isHoliday": true,
+      "holidayName": "春节长假休市",
+      "dayIndex": 9,
+      "totalDays": 9,
+      "isLastDay": true,
+      "lastTradingDate": "2026-02-13",
+      "reopeningDate": "2026-02-24"
+    },
+    "2026-04-04": {
+      "isHoliday": true,
+      "holidayName": "清明节休市",
+      "dayIndex": 1,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-03",
+      "reopeningDate": "2026-04-07"
+    },
+    "2026-04-05": {
+      "isHoliday": true,
+      "holidayName": "清明节休市",
+      "dayIndex": 2,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-03",
+      "reopeningDate": "2026-04-07"
+    },
+    "2026-04-06": {
+      "isHoliday": true,
+      "holidayName": "清明节休市",
+      "dayIndex": 3,
+      "totalDays": 3,
+      "isLastDay": true,
+      "lastTradingDate": "2026-04-03",
+      "reopeningDate": "2026-04-07"
+    },
+    "2026-05-01": {
+      "isHoliday": true,
+      "holidayName": "劳动节休市",
+      "dayIndex": 1,
+      "totalDays": 5,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06"
+    },
+    "2026-05-02": {
+      "isHoliday": true,
+      "holidayName": "劳动节休市",
+      "dayIndex": 2,
+      "totalDays": 5,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06"
+    },
+    "2026-05-03": {
+      "isHoliday": true,
+      "holidayName": "劳动节休市",
+      "dayIndex": 3,
+      "totalDays": 5,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06"
+    },
+    "2026-05-04": {
+      "isHoliday": true,
+      "holidayName": "劳动节休市",
+      "dayIndex": 4,
+      "totalDays": 5,
+      "isLastDay": false,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06"
+    },
+    "2026-05-05": {
+      "isHoliday": true,
+      "holidayName": "劳动节休市",
+      "dayIndex": 5,
+      "totalDays": 5,
+      "isLastDay": true,
+      "lastTradingDate": "2026-04-30",
+      "reopeningDate": "2026-05-06"
+    },
+    "2026-06-19": {
+      "isHoliday": true,
+      "holidayName": "端午节休市",
+      "dayIndex": 1,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-06-18",
+      "reopeningDate": "2026-06-22"
+    },
+    "2026-06-20": {
+      "isHoliday": true,
+      "holidayName": "端午节休市",
+      "dayIndex": 2,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-06-18",
+      "reopeningDate": "2026-06-22"
+    },
+    "2026-06-21": {
+      "isHoliday": true,
+      "holidayName": "端午节休市",
+      "dayIndex": 3,
+      "totalDays": 3,
+      "isLastDay": true,
+      "lastTradingDate": "2026-06-18",
+      "reopeningDate": "2026-06-22"
+    },
+    "2026-09-25": {
+      "isHoliday": true,
+      "holidayName": "中秋节休市",
+      "dayIndex": 1,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-24",
+      "reopeningDate": "2026-09-28"
+    },
+    "2026-09-26": {
+      "isHoliday": true,
+      "holidayName": "中秋节休市",
+      "dayIndex": 2,
+      "totalDays": 3,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-24",
+      "reopeningDate": "2026-09-28"
+    },
+    "2026-09-27": {
+      "isHoliday": true,
+      "holidayName": "中秋节休市",
+      "dayIndex": 3,
+      "totalDays": 3,
+      "isLastDay": true,
+      "lastTradingDate": "2026-09-24",
+      "reopeningDate": "2026-09-28"
+    },
+    "2026-10-01": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 1,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-02": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 2,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-03": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 3,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-04": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 4,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-05": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 5,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-06": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 6,
+      "totalDays": 7,
+      "isLastDay": false,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    },
+    "2026-10-07": {
+      "isHoliday": true,
+      "holidayName": "国庆长假休市",
+      "dayIndex": 7,
+      "totalDays": 7,
+      "isLastDay": true,
+      "lastTradingDate": "2026-09-30",
+      "reopeningDate": "2026-10-08"
+    }
+  }
+}
