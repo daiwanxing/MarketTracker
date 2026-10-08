@@ -17,47 +17,47 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "当前主矛盾是BZ=F报99.98美元、日内跌0.60%，WTI报88.24美元，地缘绕行与EIA去库支撑近端紧张，但美元偏强和绕行预期压制上方空间。",
-    "sub": "BZ=F为布伦特原油期货连续合约，并非通讯社近月合约；报价截至10-8 02:07上海，较昨收100.58回落，与EIA商业库存减少318.6万桶及SPR续降对应，同时叙利亚绕行霍尔木兹的讨论削弱部分地缘溢价。",
+    "verdict": "BZ=F 报 102.42 美元/桶、日内 +2.22%，WTI 报 89.92 美元/桶，当前主矛盾是霍尔木兹通行风险升温与 IEA 加速释放库存、优先柴油之间的对冲。",
+    "sub": "报价口径为 BZ=F 布伦特原油期货，不是通讯社近月合约；现价较昨收 100.20 上行，与卡塔尔近海油轮遇袭和伊朗关闭通道表态对应，而 IEA 同意加速释放库存、优先柴油则限制上行斜率。WTI 89.92 低于 Brent，跨区价差维持。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "霍尔木兹航运风险",
-        "v": "油轮遇袭未止，海峡通行不确定性支撑地缘溢价"
+        "k": "霍尔木兹通行风险",
+        "v": "卡塔尔近海油轮遇袭、伊朗称经霍尔木兹输油路线将关闭，航运安全溢价升温，供应中断尾部风险抬升。"
       },
       {
         "dim": "supply",
-        "k": "伊朗出口归零",
-        "v": "美方称9月伊朗原油装载归零，制裁强化供应收缩预期"
+        "k": "伊朗装载归零",
+        "v": "美方称伊朗9月原油装载归零，制裁强化供应收缩预期，边际可出口量受限。"
       },
       {
         "dim": "stocks",
-        "k": "美国商业原油去库",
-        "v": "EIA周报减少318.6万桶，SPR降至2.83亿桶，近端库存偏紧"
+        "k": "美国商业去库",
+        "v": "EIA周报显示美国原油库存降超预期，SPR续降至283百万桶，现货平衡偏紧。"
       }
     ],
     "bearTitle": "利空因素",
     "bearHint": "指向回落",
     "bear": [
       {
-        "dim": "macro",
-        "k": "美元指数",
-        "v": "DXY 102.27，美元偏强压制美元计价原油估值"
+        "dim": "stocks",
+        "k": "IEA库存投放",
+        "v": "IEA同意加速释放原油库存并优先投放柴油，增加短期供应缓冲，压制近端价格与柴油裂解。"
       },
       {
         "dim": "supply",
-        "k": "叙利亚绕行路径",
-        "v": "若伊拉克原油经叙利亚出口落地，将缓解霍尔木兹供应中断担忧"
+        "k": "绕行管道提量",
+        "v": "沙特东西管道输油量达580万桶，伊拉克寻求叙利亚替代出口，霍尔木兹依赖边际下降。"
       },
       {
-        "dim": "stocks",
-        "k": "库欣库存累积",
-        "v": "库欣增加44.4万桶，限制WTI近月价差走强"
+        "dim": "macro",
+        "k": "美元指数走强",
+        "v": "DXY 102.24 对美元计价原油形成估值压力，并抑制非美进口需求弹性。"
       }
     ],
-    "watch": "霍尔木兹油轮遇袭频率 · 伊拉克经叙利亚管道政策许可 · EIA下周库存与SPR投放节奏 · OPEC+11月配额执行 · 美元指数与美联储路径 · 布伦特近月价差与运费"
+    "watch": "霍尔木兹通行是否实际中断 · 卡塔尔遇袭事件定性与保险成本 · IEA库存释放规模与柴油投放节奏 · 沙特东西管道与叙利亚绕行管道落地进度 · 伊朗原油装载与制裁执行 · 美国出口与炼厂开工持续性"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -1413,6 +1413,24 @@
   "timeline": [
     {
       "date": "2026-10-08",
+      "tag": "海峡",
+      "hot": true,
+      "t": "卡塔尔近海油轮遇袭 伊朗称霍尔木兹输油通道将关闭 安全溢价升温",
+      "d": "卡塔尔近海发生油轮遇袭事件，伊朗方面称经霍尔木兹海峡运输原油的路线将被关闭。该表态若进入实际执行，将直接冲击中东原油外运与航运保险成本，并抬高亚洲炼厂到岸成本。当前市场更关注通行是否中断、船东是否改道以及替代路线可用性。事件对供应路径构成实质扰动，但IEA库存投放和管道绕行选项可部分缓冲。来源：The Guardian",
+      "src": "来源：The Guardian",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPWGpBZ3dHeE0yV0pvMTR0VTBMdHpZQUZoWjdneXNyV0d3RWVoZm1TWFJ5cS16Y0lCRk5PM2dEdVp1dlp2ZEJwTkQ5SlR4dVVoYzVwa0pEdjd5OUJCUTZmaVdRTUk4alo5TTJFRlVVV2lkSzl3MU5PMER5WkR1T2tlYVdNNU15cGQxMVViendna1NZRjBxdnUxb2dMZHFua2ZzVFZ4YTJ4cUg?oc=5"
+    },
+    {
+      "date": "2026-10-08",
+      "tag": "库存",
+      "hot": true,
+      "t": "IEA同意加速释放原油库存并优先投放柴油 政策对冲供应风险",
+      "d": "IEA同意加快原油库存释放，并将柴油列为首要投放品种，旨在应对伊朗局势下全球库存持续消耗和柴油结构性紧张。该安排延续此前成员国释放战略储备的方向，但投放节奏与规模仍是市场分歧所在。若执行落地，将增加短期供应缓冲，抑制近端油价与柴油裂解的上行斜率；若细节低于预期，库存偏低的现实将继续支撑月差。来源：Seeking Alpha",
+      "src": "来源：Seeking Alpha",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQYmZWWTZQWGpkd3B1MEtfdkZDMWQtOWp6Z2dWQU4yUWt3R041VktadV9pWFdFbEhvNllyVWQyS1htSW13LXBVQjEzNFBwME5mTlVLM0h4Z2wtc3cyMUhpUm1uU0JaTHVxczdQQ01mN0c3ZUlhN1I4d1lQTkZPeW9JZGVObFB4VjZNSGo3dGRhQzFxVkQzQVdtOXBPa2htUzhxRHI2YmJRMmF1Z0hSVFFnaUVhdDUxS3NYUV9ib0d3NGo?oc=5"
+    },
+    {
+      "date": "2026-10-08",
       "tag": "EIA",
       "hot": false,
       "t": "EIA周报：美国原油库存降超预期 SPR续降至283百万桶",
@@ -1481,45 +1499,27 @@
       "d": "据Shipping Telegraph，美国方面称伊朗9月未向油轮装载任何原油。该信息与此前制裁升级、伊朗将无油在海上的表态形成呼应，若持续时间拉长，将收紧全球可观测的伊朗原油出口，减少边际供应；但需注意中东整体出口已恢复至接近战前水平，G7与IEA释储亦提供政策供应，因此单月装载归零对价格的支撑力度取决于制裁执行与替代出口路径。",
       "src": "来源：Shipping Telegraph",
       "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQc1B2QlJKUHo4OXFLTmp1b1Z1cTBKTW5pTHJ3M2FMMWNid1VILVBScGh4QS10OUZzR1dkUzNYLUNBZmNaZFpTVGFienZ4dko3bVFSY21LbVA4dXF1MFhIMjVoOUFqRkVHYWdKNVM5dmN3Y3VJdWtkQTV6VnRSbFBsb25qdlRoSEx1alE1MDhUWl8tREtPZDBnbXZB?oc=5"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "OPEC+",
-      "hot": true,
-      "t": "OPEC+维持11月产量配额不变 伊朗战争继续影响产出",
-      "d": "多家媒体报道，OPEC+在最新会议后同意将11月产量目标维持不变，而非继续按原计划增产。背景是伊朗战争仍影响中东产出与出口，霍尔木兹通行风险未消。该决定令政策供应增量短期受限，对实货价格形成支撑；但若地缘局势缓和，闲置产能回补预期可能重新压制远端曲线。市场此前关注OPEC+是否会加速增产以对冲G7/IEA释储影响，本次按兵不动强化近端偏紧叙事。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxObkpnNDluR1haTkdBX3RldWlkX2pySlFJWlFIdmZhaGt1NTFuYlVJS3Nkc2VNQlJ4bXN2LTc1VTF1SWViaVloM1Y4U1JndkpESXNfb2IxazBFS3RTVjRpUUhVeWNURVNtd2dKcWxRMjdoTEFiRTdwd1FrWEw2OUx4NUY5U1hkNFBqVjUxZlJyVVlQNFBEUmVPVTBYejluWWhMZF9xZlNrQmFqU0R4ZlJGc0N5QzJ0ckNfN0dYdkFQalpkVkk?oc=5"
-    },
-    {
-      "date": "2026-10-04",
-      "tag": "海峡",
-      "hot": true,
-      "t": "中东再有油轮遇袭 伊朗重申重开霍尔木兹条件 航运风险上升",
-      "d": "CNBC报道，中东地区再有油轮在相关水域遭击中，伊朗同时重申重开霍尔木兹海峡的条件。该事件叠加此前阿曼附近油轮遇袭，使海峡通行、船舶保险与绕行成本面临进一步上行压力。若航运公司扩大避航或保费继续跳升，原油实货到岸节奏和区域出口可能受到阶段性扰动，近端供应溢价易升难降。",
-      "src": "来源：CNBC",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQTDQ4MjRXdGVnRmx5a0RjbFBLRm1MdnItSmpMZTF6bkZLNDZfY2NqY3QtaU5EVWFyUWoxZnVWamh1UGdpZk5rc1ZCWjNSZ1liN1ZQU2R4WDAwUVI3eUdDczRGdEtsOW1SeTZKb2R2amlhT3dFdE9ha19VdW1tb2haYmFGLTRyaGJKN2UzV0FtWU1VdUZTRjdmWUZib1lGYlFhcXBjUUlidFDSAagBQVVfeXFMUEw0ODI0V3RlZ0ZseWtEY2xQS0ZtTHZyLUpqTGUxem5GSzQ2X2NjamN0LWlORFVhclFqMWZ1VmpodVBnaWZOa3NWQlozUmdZYjdWUFNkeFgwMFFSN3lHQ3M0RnRLbDltUnk2Sm9kdmppYU93RXRPYWtfVXVtbW9oWmJhRi00cmhiSjdlM1dBbVlNVXVGU0Y3ZllGYm9ZRmJRYXFwY1FJYnRQ?oc=5"
     }
   ],
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "霍尔木兹油轮遇袭升级",
+      "k": "霍尔木兹通行中断",
       "level": "r",
-      "desc": "若袭击导致海峡通行量下降或保险成本急升，Brent可能上破102.59并测试105；若未影响装运，地缘溢价回吐至100下方。",
-      "src": "来源：Oklahoma Energy Today"
+      "desc": "若油轮遇袭后船东改道或保险成本跳升，霍尔木兹通行实质受限，BZ=F 可能上破今日高点102.50并打开向上空间。",
+      "src": "The Guardian"
     },
     {
-      "k": "EIA库存与SPR投放",
+      "k": "IEA库存释放节奏",
       "level": "a",
-      "desc": "若后续商业库存转为累积或SPR释放慢于预期，BZ=F近月结构转弱并回踩99.62；若去库延续且SPR续降，近端支撑增强。",
-      "src": "来源：Newsquawk/EIA"
+      "desc": "若IEA加速释放原油及柴油库存且规模超预期，短期供应缓冲加大，BZ=F 与 WTI 上行斜率受抑，近端月差走弱。",
+      "src": "Seeking Alpha"
     },
     {
-      "k": "叙利亚绕行管道落地",
+      "k": "美国去库与出口韧性",
       "level": "g",
-      "desc": "若伊拉克原油经叙利亚出口的政策与管道落地，供应路径风险下降，Brent地缘溢价趋缩；若仅停留讨论，价格反应有限。",
-      "src": "来源：Bloomberg.com"
+      "desc": "若后续EIA周报显示去库放缓且出口回落，BZ=F 与 WTI 的现货支撑减弱，价格回撤风险上升。",
+      "src": "Reuters"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
