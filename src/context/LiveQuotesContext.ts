@@ -32,7 +32,18 @@ export interface LiveQuotesData {
   };
   techSemi: {
     sox: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
-    star50: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
+    star50: {
+      name: string;
+      symbol: string;
+      price: number;
+      chg: string;
+      chgClass: string;
+      previousClose?: number;
+      tradingStatus?: string;
+      sessionDate?: string;
+      lastCloseChg?: string;
+      holidayName?: string;
+    };
     kospi: { name: string; symbol: string; price: number; chg: string; chgClass: string; previousClose?: number };
     crowding?: {
       value: number;

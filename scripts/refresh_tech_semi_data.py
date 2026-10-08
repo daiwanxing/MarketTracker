@@ -763,7 +763,6 @@ def sync_closing_review_clock(
                 item["price"] = bm["price"]
                 updated = True
 
-            # 若处于休市期且为境内标的
             if is_holiday and sym == "000688.SS":
                 target_status = "HOLIDAY"
                 raw_reopen = str(holiday_info.get("reopeningDate", ""))
@@ -777,27 +776,51 @@ def sync_closing_review_clock(
                 else:
                     target_label = f"{hname} ({last_date}封存)"
                 target_role = f"境内科技贝塔（{reopen_date} 复牌待开）"
-                if item.get("status") != target_status:
-                    item["status"] = target_status
-                    updated = True
-                if item.get("statusLabel") != target_label:
-                    item["statusLabel"] = target_label
-                    updated = True
-                if item.get("role") != target_role:
-                    item["role"] = target_role
-                    updated = True
                 chg_val = bm.get("lastCloseChg") or bm.get("chg")
-                if chg_val is not None and item.get("chg") != chg_val:
-                    item["chg"] = chg_val
-                    item["chgClass"] = "down" if str(chg_val).startswith("-") else "up"
-                    updated = True
+                chg_cls = "down" if str(chg_val).startswith("-") else "up"
             else:
-                if bm.get("chg") is not None and item.get("chg") != bm["chg"]:
-                    item["chg"] = bm["chg"]
-                    updated = True
-                if bm.get("chgClass") is not None and item.get("chgClass") != bm["chgClass"]:
-                    item["chgClass"] = bm["chgClass"]
-                    updated = True
+                # 节后复牌/日常开市：自动自愈休市标签，恢复实时交易时态
+                if sym == "000688.SS":
+                    target_role = "境内科技核心资产定价基准"
+                    tot_m = moment.hour * 60 + moment.minute
+                    if (9 * 60 + 30 <= tot_m <= 11 * 60 + 30) or (13 * 60 <= tot_m <= 15 * 60):
+                        target_status = "TRADING"
+                        target_label = "盘中交易 09:30-15:00"
+                    elif tot_m < 9 * 60 + 30:
+                        target_status = "PRE_MARKET"
+                        target_label = "待开盘 09:30"
+                    else:
+                        target_status = "CLOSED"
+                        target_label = "已收盘 15:00"
+                elif sym == "^KS11":
+                    target_role = "全球存储与代工制造周期锚"
+                    target_status = "CLOSED" if moment.hour >= 15 else "TRADING"
+                    target_label = "已收盘 14:30" if moment.hour >= 15 else "盘中交易 08:00-14:30"
+                elif sym == "^SOX":
+                    target_role = "全球AI算力先导资产定价基准"
+                    target_status = "CLOSED"
+                    target_label = "已收盘 04:00"
+                else:
+                    target_status = str(item.get("status", "CLOSED"))
+                    target_label = str(item.get("statusLabel", "已收盘"))
+                chg_val = bm.get("chg")
+                chg_cls = bm.get("chgClass")
+
+            if item.get("status") != target_status:
+                item["status"] = target_status
+                updated = True
+            if item.get("statusLabel") != target_label:
+                item["statusLabel"] = target_label
+                updated = True
+            if item.get("role") != target_role:
+                item["role"] = target_role
+                updated = True
+            if chg_val is not None and item.get("chg") != chg_val:
+                item["chg"] = chg_val
+                updated = True
+            if chg_cls is not None and item.get("chgClass") != chg_cls:
+                item["chgClass"] = chg_cls
+                updated = True
     return ["closingReview.marketClock"] if updated else []
 
 

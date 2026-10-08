@@ -160,7 +160,10 @@ export default function TechSemiPanel() {
         chg: lSemi.star50.chg,
         chgClass: lSemi.star50.chgClass,
         previousClose: lSemi.star50.previousClose ?? rawBenchMap.star50.previousClose,
-        src: `${rawBenchMap.star50.symbol} · Vercel 边缘实时 · Yahoo Finance`,
+        tradingStatus: lSemi.star50.tradingStatus ?? (rawBenchMap.star50 as any)?.tradingStatus,
+        sessionDate: lSemi.star50.sessionDate ?? (rawBenchMap.star50 as any)?.sessionDate,
+        lastCloseChg: lSemi.star50.lastCloseChg ?? (rawBenchMap.star50 as any)?.lastCloseChg,
+        src: `${rawBenchMap.star50.symbol} · 实时行情通道 · ${lSemi.star50.tradingStatus === 'LIVE' ? '开市交易中' : '休市封存'}`,
       } : undefined,
       kospi: rawBenchMap.kospi ? {
         ...rawBenchMap.kospi,
@@ -483,7 +486,8 @@ export default function TechSemiPanel() {
               const statusClass = tc.clock?.status.toLowerCase() ?? 'closed';
               const statusLabel = tc.clock?.statusLabel ?? '已收盘';
 
-              const isFrozen = tc.clock?.status === 'HOLIDAY' || (tc.key === 'star50' && isHolidayPeriod);
+              const isFrozen = (tc.bench as any)?.tradingStatus === 'HOLIDAY_FROZEN' ||
+                ((tc.bench as any)?.tradingStatus !== 'LIVE' && (tc.clock?.status === 'HOLIDAY' || (tc.key === 'star50' && isHolidayPeriod)));
               const lastCloseChg = (tc.bench as any)?.lastCloseChg;
 
               return (

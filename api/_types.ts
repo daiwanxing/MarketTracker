@@ -33,6 +33,7 @@ export interface SectorCrowdingResult {
 export interface SinaGlobalQuotes {
   sox?: QuoteItem | null;
   kospi?: QuoteItem | null;
+  star50?: QuoteItem | null;
   dxy?: number | null;
   spotGold?: QuoteItem | null;
   comexGold?: QuoteItem | null;

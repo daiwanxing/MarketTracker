@@ -37,9 +37,9 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const yields = yieldsRes.status === 'fulfilled' ? yieldsRes.value : {};
   const emShau = eastmoneyShauRes.status === 'fulfilled' ? eastmoneyShauRes.value : null;
 
-  // 1. 科技半导体组装（绝不硬编码任何假数字，优先接口，降级严格取静态底包已核实真值）
+  // 1. 科技半导体组装（双通道热备：新浪全球 CDN + 腾讯 Level-1，降级严格取静态底包已核实真值）
   const staticSemiBm = techSemiStatic.benchmarks as Record<string, any>;
-  const tcStar50 = tcMap['sh000688'];
+  const liveStar50 = sinaMap.star50 ?? tcMap['sh000688'];
 
   // 检测境内 A 股法定节假日休市状态（基于权威数据契约 chinaHolidayCalendar.json）
   const bjNow = new Date();
@@ -68,23 +68,24 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     ? {
         name: staticSemiBm.star50?.name ?? '科创50指数',
         symbol: staticSemiBm.star50?.symbol ?? '000688.SS',
-        price: tcStar50?.price ?? staticSemiBm.star50?.price,
+        price: liveStar50?.price ?? staticSemiBm.star50?.price,
         chg: '--',
         chgClass: '',
-        previousClose: tcStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
+        previousClose: liveStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
         tradingStatus: 'HOLIDAY_FROZEN',
         sessionDate: lastTradingDate,
-        lastCloseChg: tcStar50?.chg || staticSemiBm.star50?.lastCloseChg || staticSemiBm.star50?.chg || '--',
+        lastCloseChg: liveStar50?.chg || staticSemiBm.star50?.lastCloseChg || staticSemiBm.star50?.chg || '--',
         holidayName,
       }
     : {
         name: staticSemiBm.star50?.name ?? '科创50指数',
         symbol: staticSemiBm.star50?.symbol ?? '000688.SS',
-        price: tcStar50?.price ?? staticSemiBm.star50?.price,
-        chg: tcStar50?.chg || staticSemiBm.star50?.chg,
-        chgClass: tcStar50?.chgClass || staticSemiBm.star50?.chgClass,
-        previousClose: tcStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
+        price: liveStar50?.price ?? staticSemiBm.star50?.price,
+        chg: liveStar50?.chg || staticSemiBm.star50?.chg,
+        chgClass: liveStar50?.chgClass || staticSemiBm.star50?.chgClass,
+        previousClose: liveStar50?.previousClose ?? staticSemiBm.star50?.previousClose,
         tradingStatus: 'LIVE',
+        sessionDate: dateStr,
       };
 
   const techSemiData = {

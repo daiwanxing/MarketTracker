@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-08 10:31",
+  "snapshot": "2026-10-08 10:52",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,36 +15,36 @@
       "previousClose": 13217.82,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-07",
-      "src": "^SOX 10-08 10:31 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-08 10:52 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1497.06,
-      "chg": "-2.15%",
+      "price": 1489.32,
+      "chg": "-2.66%",
       "chgClass": "down",
       "previousClose": 1530.01,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "000688.SS 10-08 10:31 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-08 10:52 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 6760.09,
-      "chg": "-0.64%",
+      "price": 6748.95,
+      "chg": "-0.81%",
       "chgClass": "down",
       "previousClose": 6803.9,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^KS11 10-08 10:31 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-08 10:52 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
     "secTitle": "产业与市场信号",
     "secHint": "只根据已经对上的价格和成交占比。未接入的指标不下结论",
-    "verdict": "国庆长假期间 A 股休市封存，科创50停牌于 9 月 30 日收盘价 1530.01（-2.51%）。长假期间费城半导体指数站稳 13200 区间，全球 AI 算力链未现系统性外生流动性冲击。节前 TMT 成交额占比 38.79% 处于 danger 分区待出清；明日（10月8日）迎来节后首个交易日，核心博弈聚焦于节前避险撤退的杠杆资金回补意愿与开盘筹码承接力，主矛盾为海外基本面景气支撑与境内微观筹码出清节奏的错配。",
-    "sub": "口径说明：科创50与成交额占比口径截至 2026-09-30 节前收盘；融资买入占比 8.79% 口径截至 2026-09-29；长假期间外盘费半与韩股持续交易。观察维度聚焦节后复牌开市定价、筹码换手良性度与海外算力链先导映射，跨品种宏观读数本轮未纳入。",
+    "verdict": "10 月 8 日节后首个交易日 A 股正式开盘复牌，科创50早盘低开下探至 1489.32（-2.66%），围绕 1500 点关键心理位展开微观筹码换手博弈。海外方面，长假期间费半（SOX）维持在 13000 点上方整固，全球 AI 算力链基本面能见度清晰；日内主矛盾从长假外盘映射全面切换为境内 1500 点整数关口的筹码承接力，以及节前避险收缩的两融杠杆资金在恐慌出清后的回流节奏。",
+    "sub": "口径说明：科创50、费半与韩国KOSPI指数已全面恢复日内盘中实时行情；TMT成交额占比与全市场两融杠杆持续跟踪节后首日资金换手与情绪修复，未接入指标不下主观臆断。",
     "bullTitle": "利多支撑",
     "bullHint": "结构性景气驱动",
     "bull": [
@@ -742,9 +742,9 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 38.3,
-      "tmtAmountYi": 3187.57,
-      "marketAmountYi": 8321.73,
+      "value": 38.68,
+      "tmtAmountYi": 3705.75,
+      "marketAmountYi": 9581.15,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
@@ -755,9 +755,9 @@
   "closingReview": {
     "asOf": "2026-10-08 03:03",
     "tradingPhase": {
-      "phase": "PRE_REOPENING_GAME_PLAN",
-      "headline": "节后开市前夕 · 外盘资产累计映射与开盘博弈",
-      "window": "10-08 开盘博弈窗口"
+      "phase": "APAC_MORNING_SESSION",
+      "headline": "节后首日主力交易 · A股 / 韩股共振交易窗口",
+      "window": "09:30 ~ 11:30 CST"
     },
     "verdict": {
       "headline": "三地科技指数同步承压，TMT 成交占比 38.79% 触发筹码出清与折现率双杀",
@@ -769,20 +769,20 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "HOLIDAY",
-        "statusLabel": "国庆长假休市 · 明日复牌 (09-30封存)",
-        "price": 1497.06,
-        "chg": "-2.15%",
+        "status": "TRADING",
+        "statusLabel": "盘中交易 09:30-15:00",
+        "price": 1489.32,
+        "chg": "-2.66%",
         "chgClass": "down",
-        "role": "境内科技贝塔（10-08 复牌待开）"
+        "role": "境内科技核心资产定价基准"
       },
       {
         "symbol": "^KS11",
         "name": "韩国KOSPI综合",
-        "status": "CLOSED",
-        "statusLabel": "已收盘 14:30",
-        "price": 6760.09,
-        "chg": "-0.64%",
+        "status": "TRADING",
+        "statusLabel": "盘中交易 08:00-14:30",
+        "price": 6748.95,
+        "chg": "-0.81%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },

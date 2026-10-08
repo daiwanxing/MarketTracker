@@ -10,7 +10,7 @@ const UA = 'Mozilla/5.0 (compatible; MarketTracker/1.0; +https://github.com/daiw
  * - 伦敦金现货 (XAU/USD): hf_XAU
  */
 export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGlobalQuotes> {
-  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU', 'hf_GC', 'gds_AU9999', 'gds_AUTD', 'USDCNY'];
+  const symbols = ['gb_$sox', 'b_KOSPI', 'DINIW', 'hf_XAU', 'hf_GC', 'gds_AU9999', 'gds_AUTD', 'USDCNY', 'sh000688'];
   const url = `https://hq.sinajs.cn/list=${symbols.join(',')}`;
   const out: SinaGlobalQuotes = {};
 
@@ -59,6 +59,21 @@ export async function fetchSinaGlobalQuotes(timeoutMs = 3500): Promise<SinaGloba
             symbol: '^KS11',
             price,
             previousClose: isNaN(prev) || prev <= 0 ? undefined : prev,
+            chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
+          };
+        }
+      } else if (key === 'sh000688' && p.length > 4) {
+        const prev = parseFloat(p[2]);
+        const price = parseFloat(p[3]);
+        if (!isNaN(price) && price > 0) {
+          const hasPrev = !isNaN(prev) && prev > 0;
+          const pct = hasPrev ? ((price - prev) / prev) * 100 : 0;
+          out.star50 = {
+            name: p[0] || '科创50指数',
+            symbol: '000688.SS',
+            price,
+            previousClose: hasPrev ? prev : undefined,
             chg: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
             chgClass: pct > 0 ? 'up' : (pct < 0 ? 'down' : ''),
           };
