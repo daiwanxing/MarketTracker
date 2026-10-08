@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-09 01:07",
+  "snapshot": "2026-10-09 01:43",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -9,13 +9,13 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 12574.0,
-      "chg": "-3.77%",
+      "price": 12598.28,
+      "chg": "-3.58%",
       "chgClass": "down",
       "previousClose": 13066.15,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^SOX 10-09 01:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-09 01:43 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,7 +26,7 @@
       "previousClose": 1530.01,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "000688.SS 10-09 01:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-09 01:43 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -37,7 +37,7 @@
       "previousClose": 6803.9,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^KS11 10-09 01:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-09 01:43 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -339,7 +339,7 @@
         45.72,
         46.22,
         44.54,
-        39.03
+        39.37
       ],
       "kospi": [
         0.0,
@@ -791,8 +791,8 @@
         "name": "费城半导体指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 04:00",
-        "price": 12574.0,
-        "chg": "-3.77%",
+        "price": 12598.28,
+        "chg": "-3.58%",
         "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
