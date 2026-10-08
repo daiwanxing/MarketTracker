@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { fetchTencentQuotes } from './_tencent';
-import { fetchSinaGlobalQuotes } from './_sina';
-import { fetchEastmoneyCrowding, fetchEastmoneyYields, fetchEastmoneyShau } from './_eastmoney';
+import { fetchTencentQuotes } from './_tencent.js';
+import { fetchSinaGlobalQuotes } from './_sina.js';
+import { fetchEastmoneyCrowding, fetchEastmoneyYields, fetchEastmoneyShau } from './_eastmoney.js';
 
 // 引入全站静态数据契约层，作为真实基准（替代任何手写硬编码数字）
 import techSemiStatic from '../src/data/techSemiData.json' with { type: 'json' };
