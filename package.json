@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "oxlint --import-plugin api src",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm"
   },

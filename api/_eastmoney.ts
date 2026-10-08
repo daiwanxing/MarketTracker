@@ -1,5 +1,5 @@
 import http from 'http';
-import type { SectorCrowdingResult, EastmoneyYieldResult, QuoteItem } from './_types.ts';
+import type { SectorCrowdingResult, EastmoneyYieldResult, QuoteItem } from './_types';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
 

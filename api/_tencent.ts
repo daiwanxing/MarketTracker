@@ -1,4 +1,4 @@
-import type { QuoteItem } from './_types.ts';
+import type { QuoteItem } from './_types';
 
 const UA = 'Mozilla/5.0 (compatible; MarketTracker/1.0; +https://github.com/daiwanxing/MarketTracker)';
 
