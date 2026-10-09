@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-09 10:07",
+  "snapshot": "2026-10-09 10:49",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,18 +15,18 @@
       "previousClose": 13066.15,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^SOX 10-09 10:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-09 10:49 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1431.77,
-      "chg": "-1.69%",
+      "price": 1400.43,
+      "chg": "-3.84%",
       "chgClass": "down",
       "previousClose": 1456.32,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-09",
-      "src": "000688.SS 10-09 10:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-09 10:49 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -37,7 +37,7 @@
       "previousClose": 6803.9,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^KS11 10-09 10:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-09 10:49 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -738,13 +738,13 @@
   "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
   "crowding": {
     "asOf": "2026-10-09",
-    "label": "拥挤偏热",
-    "zone": "warning",
+    "label": "极端过热",
+    "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 37.83,
-      "tmtAmountYi": 2336.16,
-      "marketAmountYi": 6175.37,
+      "value": 39.26,
+      "tmtAmountYi": 3772.66,
+      "marketAmountYi": 9609.33,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
@@ -771,8 +771,8 @@
         "name": "科创50指数",
         "status": "TRADING",
         "statusLabel": "盘中交易 09:30-15:00",
-        "price": 1431.77,
-        "chg": "-1.69%",
+        "price": 1400.43,
+        "chg": "-3.84%",
         "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
