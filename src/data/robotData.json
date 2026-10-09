@@ -253,6 +253,51 @@
   "timeline": [
     {
       "date": "2026-10-09",
+      "tag": "资本上市",
+      "hot": false,
+      "t": "Unitree等中国人形机器人厂商推进上市进程",
+      "d": "Awani International报道，中国多家人形机器人厂商正推进上市进程，Unitree为代表性企业。该趋势反映一级市场估值向公开市场传导，供应链企业融资渠道拓宽，但需关注招股披露中的出货、订单与盈利质量验证。",
+      "src": "来源：Awani International",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNVFI3UWhPWU9PajRmWXRMVUVoSXBHS0Zta1FLeGloU2JqbHZXMmVhVHdHc25XV2ZFanNvNTFrTFdOMU84SUNFWlB5dnlyaG9wX3duVVdLVnVCc3ZGWnFUTzlicHpNWHl2bGVweV95LTE4WkRqdjk1VFZVdU1HNVQ4dUtkbFJyaHFRenh2WDJLcHJjSDE1cC00VjEta1c5OEMtaDNkNXJZazRIbkZSUjNKQ21hNmlvaTNfQlE?oc=5"
+    },
+    {
+      "date": "2026-10-09",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "比亚迪人形机器人设计图浮现 正式亮相时间尚未确定",
+      "d": "CnEVPost披露，比亚迪人形机器人设计方案已对外浮现，但正式发布仍待定。公司依托新能源汽车产业链的电机、电控与规模制造能力，后续需验证其工位部署场景、整机BOM控制及量产节奏。",
+      "src": "来源：CnEVPost",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBhdGFNa1ZFbElGblkzNUQ2Z1Mya055bWN4YWtFVXhfU1p0VnQ2NDhHNGZ4Z1duRTI0Sm5tNkdRWUZuZndqZG1ZR2pFV2hIUEc0UGRaNktXd2ZiUklvZE15MVUwWlVVNFdKZHE1cTExb3M5bEYz?oc=5"
+    },
+    {
+      "date": "2026-10-09",
+      "tag": "产线投产",
+      "hot": false,
+      "t": "小鹏启动人形机器人自动化产线 复用汽车供应链",
+      "d": "BigGo Finance报道，小鹏已启动人形机器人自动化产线，核心策略为复用汽车供应链。该产线落地有助提升结构件与总装一致性，后续重点验证设计产能、良率爬坡及实际交付订单的匹配度。",
+      "src": "来源：BigGo Finance",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBxMm9fNDFsSVNlMGM2STA0SnpxczBLcEJ0U2dKRVZIMmFZcUFudV82aWMwR1Y3X2pNbnJDa2hrTThUMy1sRDFmSHhQdFNTLS16QWVWNDhsS1AtdVZySHplUzFjNURJQVdETWExSmdlTXF3ZnB5UXc?oc=5"
+    },
+    {
+      "date": "2026-10-09",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Galaxy在纽约完成16台机器人K-pop舞台演出",
+      "d": "Robotics & Automation News报道，Galaxy Corporation在纽约组织16台机器人参与K-pop演出。该案例验证多机协同编队、动作同步与现场运维可靠性，为娱乐场景商业化提供参考，但距离工业级连续作业仍有差异。",
+      "src": "来源：Robotics & Automation News",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOZk9hei0teDZZM1J6dmwtTXhVSXYzdHBNa0xELVYtcThZaEEtUGQyZHA1cFh2UkVXMnQtcy1Sa2syQnNyaEdkSDU4V2FyS0U5WHU2aGhvbTFzNUNWa1pvV2RDREp0cGxKaXBETmNrX3lweXVxUDI1dGpCS3hqRkJJLVVGc2pscmdUQno2ZF9oN0hKUzBWdEhQTFM2bndXeWhxUGdyb0NNZlF0dHpHR01MdWhzNHU3X0dlOW1kdVBn?oc=5"
+    },
+    {
+      "date": "2026-10-09",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Odyssey-3单一世界模型实现印度驾车与人形机器人运行",
+      "d": "The Next Web报道，Odyssey-3以单一世界模型在印度完成驾车任务并驱动机器人运行。该进展指向跨形态通用物理AI架构，后续需验证数据泛化、端侧算力需求与真实道路及工位场景的安全冗余。",
+      "src": "来源：The Next Web",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOTUxPZzNqWTNJT1RVWDJGbUJDRjFrU3Y2TXpGaDhQTEJtcjFuX3I5YTE0Z3paekUxTnZER21RNGd0REhrejdnZHJ6Nm5WTURtUjU0T0t5SHlXcG0zRG5ta0N0Z1JHN0hEUldvT3hOb181LUI1ZUpyTjNYcFdmbEZMRkZ5YTA?oc=5"
+    },
+    {
+      "date": "2026-10-09",
       "tag": "技术验证",
       "hot": false,
       "t": "Lumos在深圳推出全球首个大型人形机器人剧场",
@@ -294,51 +339,6 @@
       "d": "Barron's 报道称，特斯拉对 Optimus 人形机器人项目信息保持高度保密，引发华尔街对量产节奏、供应链定点与成本曲线的关注。当前缺乏官方产线审计与交付数据，市场对 2026 年扩产预期存在分歧，需等待正式 PO、产能指引及财报披露验证。",
       "src": "来源：Barron's",
       "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9CQ1h0a05TX1p5Mm1hZVBxTC1TUmVUbHNXTU1mMGZsVDQtdDR3M0t2aDdieFJCc0t2ZDhqWkNBeWgxb0x5Sng3RnRnOEFhOEFjYmhkZ2lacTdpQ3IybTVrNHZXZV8zbzByOUhrSXJ1RldPMk9BYlE?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "制造瓶颈",
-      "hot": false,
-      "t": "捷普讨论人形机器人开发与量产节奏 关注制造良率爬坡",
-      "d": "捷普在访谈中讨论人形机器人开发与生产节奏，作为电子制造服务商，其关注点集中在关节模组装配、线束与传感器集成、测试一致性及良率爬坡。供应链正从送样验证向量产准备过渡，但正式批量订单与产线稼动率仍取决于下游整机厂排产计划。",
-      "src": "来源：The Robot Report",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNa0ZCNU9aNThHZmlvLW1jbW9KaEJiY0dQcExJdEJFc1VoZmpJbDhiQlMzMXlhdGdKZExyZ3VzUzhGTDdFZVVvSzl5dTJ4VFJMeVVVUDdxSWZTVVQwTmFCbmxMNmNVYUMxelJEcjk0ZlhLWEdXSmxqcGdkVU43RGsySDdWYnlJQ2xUUUVqMkotZUpQMjd1?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "大阪地铁测试AI人形机器人乘务员 验证站务服务场景",
-      "d": "大阪地铁启动 AI 人形机器人乘务员测试，用于车站引导、信息问询与乘客服务。该场景要求人形机器人在高人流公共空间实现稳定导航、语音交互与异常处理，对传感器冗余、续航与远程运维形成验证。若测试通过，有望向轨道交通服务工位复制。",
-      "src": "来源：Honolulu Star-Advertiser",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNbnlmbUpXMDhvY0JWUUt2UWFIV244UzJQY1puTGNCQS1UcmFYcVR1SEtXM1h2dDJmVThJQXFtbTlQZXpkRFFjNG82Ul9UUlpvSWF6eEFtYmJVTlkxMXA4elVOSGhlS2wxZlFGSHNvV1RwVUN0UzVWU0tXdGlJUlhZbDRPbklvampNVThiemI4dDkzQ0U?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "设计新闻：精密计时对人形机器人运动控制至关重要",
-      "d": "Design News 指出，精密计时是人形机器人关节控制、传感器融合与多机协同的关键基础。在高动态动作与工位作业中，时钟同步误差会放大为步态失稳与抓取失败，推动整机厂提高对晶振、实时以太网与同步协议的要求，相关器件验证值得跟踪。",
-      "src": "来源：Design News",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQSkY5M0gzOG55YWhoQmpsR1c3UldPN2prZS11SGRrZlgwWlp1LVdQZngxQWl1bDdYelpyUVo4VDR5c0RWaEpZWldwMTdBbjNSbTktakljV0h6ZGloMXdoQnBHRWtWYXVFZHVXblIzSjJVTThRZUNDNERlNWpsZEkzdWIwZmpoQXBJR1VrSFc1QmNkSDdxaGIyUHhwaUZ0d2tRclhuMFRQTmNFZw?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "英伟达将Halos安全系统扩展至人形机器人领域",
-      "d": "英伟达将 Halos 安全系统扩展至人形机器人，面向功能安全、运行监控与故障处理。该框架可帮助整机厂满足工业场景安全认证要求，降低人形机器人在人机协作工位的部署门槛。后续需跟踪其与主流人形机器人平台的适配进度及认证落地情况。",
-      "src": "来源：www.tokenpost.com",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBUejhNY2dZaWphZ2Fkc0JMRlZ5amkxMEtEYmNoM2JhOV9rUlRHalVNODFkTTctNzhCMDhJbU5Ua3dGTldkSHBzbXBEc1VzTlZlNThUVWQzeGkyREE?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "AWS推出物理AI工具链 覆盖仿真至边缘部署加速机器人开发",
-      "d": "AWS 发布物理 AI 工具链，面向工业机器人开发，覆盖仿真训练、数据管理、模型部署与边缘推理。该工具链可缩短人形机器人与工业机械臂的算法迭代周期，但商业化仍取决于制造企业数据基础与云端协同能力，需跟踪首批客户落地案例。",
-      "src": "来源：Assembly Magazine",
-      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZW52S2dJZExkUTdlN0czeHpmNDlxNVN5SHNIMWhWemdkVm01LU5aeFdZdGlTby1Wb1VhYnNzakxEMnJVLTcxU2xyN1BDcjk1RmQ3VnZMbXcyeDF2czdIamdPbEV5UGgzdHNTUFVjeTY5aXVYdnpyckpIWmZkTDRmOXlEV255WUZ4RnJnb0E3ZVNPdjc4X20yU3VDNVFzT2EtUW9kcWZubEpwbEZ3RElmTnhyeThSZXhCS2J1dVJKNUlsdw?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
