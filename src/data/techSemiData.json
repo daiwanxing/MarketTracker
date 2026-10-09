@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-09 08:07",
+  "snapshot": "2026-10-09 09:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 13066.15,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^SOX 10-09 08:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-09 09:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,7 +26,7 @@
       "previousClose": 1530.01,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "000688.SS 10-09 08:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-09 09:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -37,7 +37,7 @@
       "previousClose": 6803.9,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-08",
-      "src": "^KS11 10-09 08:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-09 09:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -944,13 +944,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 7.93,
-      "asOf": "2026-09-30",
-      "buyYi": 1139.81,
-      "marketAmountYi": 14380.18,
-      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-09-30",
+      "value": 8.27,
+      "asOf": "2026-10-08",
+      "buyYi": 1391.25,
+      "marketAmountYi": 16821.27,
+      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-10-08",
       "dates": [
-        "07-08",
         "07-09",
         "07-10",
         "07-13",
@@ -1009,10 +1008,10 @@
         "09-24",
         "09-28",
         "09-29",
-        "09-30"
+        "09-30",
+        "10-08"
       ],
       "shares": [
-        8.88,
         9.58,
         9.48,
         8.26,
@@ -1071,7 +1070,8 @@
         8.59,
         8.06,
         8.79,
-        7.93
+        7.93,
+        8.27
       ]
     }
   },
