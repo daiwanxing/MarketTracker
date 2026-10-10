@@ -252,6 +252,86 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-10",
+      "tag": "出货统计",
+      "hot": true,
+      "t": "IDC统计AgiBot上半年全球人形机器人出货逾8600台",
+      "d": "IDC发布统计显示，AgiBot在2026年上半年全球人形机器人出货逾8600台，位列首位。该数据指向中国本体厂商在双足与轮式平台出货端形成先发规模，供应链端本体组装、关节模组与灵巧手物料需求同步抬升，后续需验证海外客户复购与场景交付验收节奏。",
+      "src": "来源：Gasgoo"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "安徽省具身智能创新中心揭牌 中国科大人形机器人研究院牵头",
+      "d": "安徽省具身智能创新中心正式揭牌，由中国科大人形机器人研究院牵头。该中心定位为区域共性技术平台，后续或承担本体结构、具身智能算法与场景数据采集等验证任务，对长三角人形机器人供应链协同与地方集采规划形成前期支撑，需观察实际入驻团队与设备稼动率。",
+      "src": "来源：观点网",
+      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBUMkhWZF9EcGN1VmVyWjVPMGNlUUFwTF9ueFNQOFVXLVh6bDhwMk5TdnVFSWNtUVNvc2lPcVJMSVktNy1GYjlyM0dKZ0NmMVpwcHhETDdMdk9iTmlTOXVWQ2ln?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "宇树科技与浙科大共建具身智能机器人联合实验室",
+      "d": "宇树科技与浙江科技大学共建具身智能机器人联合实验室。合作聚焦运动控制、具身智能算法与人才联合培养，属于产学研协同验证环节。对供应链而言，短期不改变硬件定点与采购订单，但有利于算法迭代与场景数据积累，后续跟踪实验室成果向量产平台的迁移效率。",
+      "src": "来源：新浪财经",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFAwdGIySDNvYVUyS0JzVTlVaXVTZF93WWktMV90NTBRU09pekhVTUVHY2F1NDBBMG1iai1ZeUUyRFpFUU9UZWxvX1RUdTZvdnVVYXI2dWJpQlVnZ1ZlZHpMN1JFMF9KM1VrYlY1RGlJNEFMaU9LTGlobw?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "人形机器人租赁日租金跌破千元 专用交易平台出现",
+      "d": "市场信息显示，人形机器人租赁日租金跌破千元，并出现专用租赁交易平台。租金中枢下移反映供给增加与场景验证需求并存，有助于降低工厂、展演与物流场景的试用门槛，但需跟踪设备利用率、故障率与回本周期，判断对本体厂商出货节奏与渠道库存的实际传导。",
+      "src": "来源：新浪财经",
+      "url": "https://news.google.com/rss/articles/CBMilwVBVV95cUxOVEw1akZ5R3BWVzBKbnJaeXlwSFY5MVh3dElMTFJKMHhSQXpNczNPZzV6MGRJOEx2d0psbEtYTGNNUFF6b21UVUxlRW9tRnIzOVpvMVpvSTdTb0pseFU4c0trTEVpMXpIcTFVT3I1SXd6TnBFTnVQdWM3ZW9EblEwdXpvNTFfS3djTnE1a1hSZWdjWEZCR00wRUh5enc3MnJjbTR3ZWJTMmstNXZSXzNsMUxwZEVCbFlIVm5nTmVrTFYxdjR6SllhRnZ5ZlVobVcyMEg2dEFUbjZKUUpfemJoYzZwQ0dKVkdzYVZzanloZ25vSmlocjZFeHRHb2t0a1dUQ0pEakJfOTczTHZtQ3JFaURCMjlrOVZsaEFHQzgwaFdZb2k0czdlYjdkTVlXVnk3QlNqc1JWaTVPS3ZDNEVQYWpzZkUyYXY1R2pCY2hSS3ZMUmNyOU9qSTJzY1JFVG43cnhjalROSll0UEd6bG5Db2VFamlHZzlCYzZxMk1Hc1huZFlmWXpiN25ESmxXb0RJbGU4Qy0tYnFMdUduWnVWTlJlMTlMUWg0ZDQzSTZUTnpvWkdUM0xBQUVtZUFRdTlfNlBZUnNQV0lPNFVJZGRaOWZpYTFKVnJRSkZLbk16ZTVTdG4xSFloTU1xdjk1bWhzN2l6cHN4aXJEakl5ZElCemVhTlZoLVBUNElIMDFraS0wQXZMX2wwSmhhYWViN1lDN3ROdEpYaVpua0JfbDhrN3BpeHFQaGlJWDRLbWZFajJiVnZTLW05NU9rNEg2RHNPY1EzXzdQWTRUSElZUjl5VEF1M2lUYnRJdmZXeTItaVR2NUZRRmNsdTN5RW9EclY2cENud09SdFl3cEtjVVc4LWZmRkVTWEE?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "杭州团队实现全身协同自主叠衣 验证具身操作泛化能力",
+      "d": "杭州具身智能团队发布全身协同自主叠衣演示，展示双臂、灵巧手与移动底盘在非结构化环境下的长程操作能力。该进展指向具身模型泛化与全身控制闭环，后续需验证任务成功率、单次耗时与跨物体迁移能力，以及是否具备向真实家庭或工厂工位部署的稳定性。",
+      "src": "来源：新浪财经",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbTZCVVR3c0tqTzVndGZJLXRuSHo2dXpKWTFvQ0l3MDBoaFhvalVmM3ZmekljM3ZKc3RPTHEtNkdSOWphUXVhdUxvemZpR2paTmRXOUlPcG0wWjAzcU4zWWozRS1STGRiOGxWX3FFblpPLWxiWHZ4NkNJY2xLU0FvY01oSWJHMFMtUjV6YzdxWEtyTjNPVVcxYi1SU2xQUV90cGwxcjZGX0NWdUs4YjdVRjh3?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "特斯拉称Optimus通过观看人类视频学习完成家务任务",
+      "d": "特斯拉披露Optimus通过观看人类视频学习家务操作，验证视觉模仿学习与端到端策略迁移路径。该能力若可复现至工厂工位，将降低示教与编程成本，但需跟踪长程任务成功率、视频数据泛化边界及端侧算力占用，对灵巧手与关节模组提出更高一致性要求。",
+      "src": "来源：Startup Fortune",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWmpJeVdzV0o4ck5Ec3UwUGZZaUxBaWlDeDlsRkFkZHdjT1NrbUh5bUNnZ180ck5SUVdfTlZxT3UxeEFzeUlrYmdCalVrX1FmMURWTTl5WjB1RFNBbUcxXzFyNnU5TGdCbWpMX2Rhd0JGSlUwd3hKS3VsTzVIeE1xSEdFTWY4V1JlanZGbUFYZklIM3lFUTRjS0VOUVdVSG1VYlE?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "特斯拉Optimus量产时间表指向2027年规模化",
+      "d": "特斯拉Optimus发布节奏指向2027年规模化目标，市场关注其产线审计、供应链定点与整机成本下探路径。若按计划推进，行星滚柱丝杠、灵巧手微型电机与谐波减速器将进入批量备货窗口，但需验证良率爬坡、工位部署密度及整车工厂复用效率。",
+      "src": "来源：TechRepublic",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQM2M1R0h0SlhXN0NyME96djdxUjVvbWdfUGpZNEZoWlVGeVpDTWZLcmpVN1JYQ2YyQ1dDVm1XWTFnQXNIVjJNY0NSZWlmOGdIRG1hZ1pZeFU2OFpJZER5VGYzQTlmZklQNDJLNU1XaGlCbi1lNWNhOC1xOG45ZTZTUkpMc0tVbXhR?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "RoboParty在IROS发布RP1全栈开源人形机器人",
+      "d": "RoboParty在IROS发布RP1全栈开源人形机器人，覆盖硬件设计、运动控制与具身智能软件栈。开源方案有望降低本体研发门槛并加速高校与初创验证，但需观察关键零部件选型、整机可靠性及社区迭代对供应链定点的实际拉动。",
+      "src": "来源：Decatur Daily Democrat",
+      "url": "https://news.google.com/rss/articles/CBMirAJBVV95cUxPbU9IQ0U5N0QydmVMVDh0b0dTa0FDUGRidG9vWjhIS2ppOTRwT2pPNlBPZTI0TndIcFhCM2hVUkQyRjJ3M3JBSmx6OWZtUER3SDZjWjJfc3Z6T24xQWZHN1N1NHVIdW5aaHdwNmhLeHRXaGpoQ3VicUlkblRYWjRPak16QU5hYXNkVWxVRjg3V1JkdVhxTV9MWU5VV3VpYnlVNXpPamJwMUxVVTJsX3FxM1FkSmY4YzVYQ25kVS1FTVYzQ3V1ZDFqdEZvb1JoZTlab2ZxZHNic21zTE1zMzE3am5NMkNHVUNfVjlwTnlfUU13SzRDNFFVOW5Bdkh0TkgwdDdSTE4takVxQkd6UDRRdTN2VHNpV0lvajQ0STNwZGl1TnJqY3psTVFZRE4?oc=5"
+    },
+    {
+      "date": "2026-10-10",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "旧金山公司称人形机器人可完成家庭清洁并展示服务模式",
+      "d": "旧金山公司展示人形机器人家庭清洁能力，指向非结构化家居场景的商用验证。该场景对移动避障、双臂操作与续航提出综合要求，若形成可复购服务模式，将打开家庭服务租赁与整机出货空间，但需跟踪任务完成率与安全冗余成本。",
+      "src": "来源：Waco Tribune-Herald",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVldVX1BrNWlTSF9seGFqU0xwNDZDZUNFbXM2S1BPV0lrQURtVkdCZklsZWJBbmtYZnpOZ3pQMlFuTVlldHBBNFhSOFl5V29qSVhMWnY0THV1SWMtbEw0dW5Gb1RnNndWdl9mNVJfRG0zTFBPWUlXSnN4Vk1tWF81V0JEZVJLbmU2bEJiTEp4bzBPT0d0eEk5LXpWanIyUmZvVG91QnU0MFUwdFpNcHVDdEtDMFRxX2lL?oc=5"
+    },
+    {
       "date": "2026-10-09",
       "tag": "资本上市",
       "hot": false,
@@ -259,86 +339,6 @@
       "d": "Awani International报道，中国多家人形机器人厂商正推进上市进程，Unitree为代表性企业。该趋势反映一级市场估值向公开市场传导，供应链企业融资渠道拓宽，但需关注招股披露中的出货、订单与盈利质量验证。",
       "src": "来源：Awani International",
       "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNVFI3UWhPWU9PajRmWXRMVUVoSXBHS0Zta1FLeGloU2JqbHZXMmVhVHdHc25XV2ZFanNvNTFrTFdOMU84SUNFWlB5dnlyaG9wX3duVVdLVnVCc3ZGWnFUTzlicHpNWHl2bGVweV95LTE4WkRqdjk1VFZVdU1HNVQ4dUtkbFJyaHFRenh2WDJLcHJjSDE1cC00VjEta1c5OEMtaDNkNXJZazRIbkZSUjNKQ21hNmlvaTNfQlE?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "比亚迪人形机器人设计图浮现 正式亮相时间尚未确定",
-      "d": "CnEVPost披露，比亚迪人形机器人设计方案已对外浮现，但正式发布仍待定。公司依托新能源汽车产业链的电机、电控与规模制造能力，后续需验证其工位部署场景、整机BOM控制及量产节奏。",
-      "src": "来源：CnEVPost",
-      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBhdGFNa1ZFbElGblkzNUQ2Z1Mya055bWN4YWtFVXhfU1p0VnQ2NDhHNGZ4Z1duRTI0Sm5tNkdRWUZuZndqZG1ZR2pFV2hIUEc0UGRaNktXd2ZiUklvZE15MVUwWlVVNFdKZHE1cTExb3M5bEYz?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "产线投产",
-      "hot": false,
-      "t": "小鹏启动人形机器人自动化产线 复用汽车供应链",
-      "d": "BigGo Finance报道，小鹏已启动人形机器人自动化产线，核心策略为复用汽车供应链。该产线落地有助提升结构件与总装一致性，后续重点验证设计产能、良率爬坡及实际交付订单的匹配度。",
-      "src": "来源：BigGo Finance",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBxMm9fNDFsSVNlMGM2STA0SnpxczBLcEJ0U2dKRVZIMmFZcUFudV82aWMwR1Y3X2pNbnJDa2hrTThUMy1sRDFmSHhQdFNTLS16QWVWNDhsS1AtdVZySHplUzFjNURJQVdETWExSmdlTXF3ZnB5UXc?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Galaxy在纽约完成16台机器人K-pop舞台演出",
-      "d": "Robotics & Automation News报道，Galaxy Corporation在纽约组织16台机器人参与K-pop演出。该案例验证多机协同编队、动作同步与现场运维可靠性，为娱乐场景商业化提供参考，但距离工业级连续作业仍有差异。",
-      "src": "来源：Robotics & Automation News",
-      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOZk9hei0teDZZM1J6dmwtTXhVSXYzdHBNa0xELVYtcThZaEEtUGQyZHA1cFh2UkVXMnQtcy1Sa2syQnNyaEdkSDU4V2FyS0U5WHU2aGhvbTFzNUNWa1pvV2RDREp0cGxKaXBETmNrX3lweXVxUDI1dGpCS3hqRkJJLVVGc2pscmdUQno2ZF9oN0hKUzBWdEhQTFM2bndXeWhxUGdyb0NNZlF0dHpHR01MdWhzNHU3X0dlOW1kdVBn?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Odyssey-3单一世界模型实现印度驾车与人形机器人运行",
-      "d": "The Next Web报道，Odyssey-3以单一世界模型在印度完成驾车任务并驱动机器人运行。该进展指向跨形态通用物理AI架构，后续需验证数据泛化、端侧算力需求与真实道路及工位场景的安全冗余。",
-      "src": "来源：The Next Web",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOTUxPZzNqWTNJT1RVWDJGbUJDRjFrU3Y2TXpGaDhQTEJtcjFuX3I5YTE0Z3paekUxTnZER21RNGd0REhrejdnZHJ6Nm5WTURtUjU0T0t5SHlXcG0zRG5ta0N0Z1JHN0hEUldvT3hOb181LUI1ZUpyTjNYcFdmbEZMRkZ5YTA?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Lumos在深圳推出全球首个大型人形机器人剧场",
-      "d": "Lumos Robotics 在深圳落地全球首个大型人形机器人剧场，通过连续演出验证多机协同、运动控制与交互稳定性。该场景面向公众长时间运行，对关节模组耐久、步态规划与远程运维提出要求，构成人形机器人从工位向文娱服务场景延伸的样本。",
-      "src": "来源：Robotics & Automation News"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Virtuix将展示AI全身仿真平台覆盖人形机器人与医疗防务",
-      "d": "Virtuix 计划在 LD Micro Main Event 展示 AI 驱动的全身仿真平台，应用覆盖国防、人形机器人与医疗。该平台可用于人形机器人运动规划、平衡控制与遥操作训练，缩短算法迭代周期，但当前仍属展会展示阶段，尚未披露客户定点与量产交付。",
-      "src": "来源：The Manila Times",
-      "url": "https://news.google.com/rss/articles/CBMirAJBVV95cUxOc2Q1dmwyZEd1ZDFJbXFJNlNIOU9HMjRUZWJMLTdSb1lxcjhIOU5ZUUpQZUVpTnpTeFRHTFdsUWg4cE1ibl95bG9YMVdmWlp2WThoOUgwemR1aWZYY3VLVTNsY2lZVW1tWm1sck9ZSk9YV2NveHNReVFyRDgzZVZSRE5xZGFpdlJ0NnQzZGZ4MzVDNC1QdkNzeUtHN0VOR1hlNEVHbDVVaF9WeEk4R1puNlplNDBfYUhCTlcyV2YwSVN6UjU3MUExYzA3R0o0R0NadHN0ZFB5YjJNWW9LREgyRmxJYUlrUHo3QVJMREM4VjhMWC1VSFREdWFVT0x0Y0VGUTZoLXNJWVZaMlE1bE90b0N5em5jRm1lXzBORTdDS0VfcU9MRTZIdExSV0vSAbICQVVfeXFMUE1MczBEYTF1LUUzMlI1LXdkYVdZU1ozUDA0TThLUUw0VENpVURPR2pSazVfUVBDLUFCaDBzbmhybWNWcWNiR3lBV2dZZ3VzQkxWendxYnBjUEpiRElqcVhVQS1HeFNoX0xWSTd0emctTWVyRVJhcnVZVWZSMTVEalZxRzI5Ui00WjFHUU5SSjNOeGZESWJVcTFkOVNzWjdyVkRYZFhaZl9mTW51VDMyZnFiaTBDNHRBQnlZWEtZVDdRQ1VLbjF0ZDhsaXpVR0VtSjBjQVRtR01CM1g1TXZGaWhaZGMwbGdvekw3aVUtUWlMa2hNdXdxY2dJQm1mQXpvOHVGZUpBZFBsX0haNE1uOWtNWHdPNzBPUUtmYi01WGZhMl85R0JGVnN3LUNpeDRoRXFB?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "英伟达加码物理AI 面向Robotaxi与人形机器人安全验证",
-      "d": "英伟达持续推进物理 AI 布局，目标覆盖更安全的 Robotaxi 与人形机器人。其仿真、训练与端侧推理工具链向人形机器人延伸，有助于缩短感知决策与运动控制验证周期。不过该报道聚焦战略方向，未披露具体客户订单与量产时间表，仍需跟踪算力平台定点情况。",
-      "src": "来源：Ars Technica",
-      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPVFdGb2V6YWlNaUZ2Q0MzSzI1d3o5X0ZRa2xCckNpX3NnTk9pMnJWMTNwY1Z4STB0QTZaTFhCQVNnUjlFLXlNbUJOejJ1aEYtTVFlcE81QkJjbXdaQnIzVHdxZ3pQeEI5NGNXNE4wMzVuRjRpMC00cDlCUHRteWpyc2tidjRzSlFkaTJUakdIYnBGSGhsN3dZM2VXUGlOd1RzVEs3elhCS0NWSG8?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "MIT科技评论：人形机器人规模化仍面临AI路障",
-      "d": "MIT Technology Review 的 The Download 指出，人形机器人在规模化落地前仍受 AI 能力制约，涉及泛化操作、数据获取与实时决策。该判断对当前送样验证与工位部署节奏构成提醒，短期量产预期需与算法成熟度匹配，关注端侧算力与数据闭环进展。",
-      "src": "来源：MIT Technology Review",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNV2dDZk9HeFhJSW0wbFlSX09xUkdOVjJYLVdJTnVhTHZzS1JudW42QTA1N1dTNC15Q2EwZmRXcGxWT2Q1UjlfRko1akFCbDFrT3J1alNwclFlZUlPNTA5LU5pN0Z6cXBFT0tseXpWWXJBbW5kNkFPYTl2YlpHOUZySFAyR0xNb3Y1aTl1MG5VUUxESWd2VkYxMU9wcGxoRUoxWkNSTW11MHlzanBqVFdn0gG0AUFVX3lxTFBBOFhPVTVadGJGTGhmQzZ5LW8wdWwxXy1wUGthRFc4blFONDlCNFYzLUFQR09qeVJ2S2xJQW4xN0NjSHVSeC1EQ0VzVUpFSnNtRVdzc1otSDdUVjV2TmtSek1xRjlxVy1BMm9wREt4bWhkMDh5NUI1cTJJM0pHYzZHMGVhZkMyQ0o0MkFTM1c3XzVmX0ZOMEw5REROcHhkVWhUWHlITzRSdkdzYWhCS3VGckxqNA?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "量产进展",
-      "hot": false,
-      "t": "特斯拉Optimus项目保密引发华尔街关注 量产透明度受质疑",
-      "d": "Barron's 报道称，特斯拉对 Optimus 人形机器人项目信息保持高度保密，引发华尔街对量产节奏、供应链定点与成本曲线的关注。当前缺乏官方产线审计与交付数据，市场对 2026 年扩产预期存在分歧，需等待正式 PO、产能指引及财报披露验证。",
-      "src": "来源：Barron's",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9CQ1h0a05TX1p5Mm1hZVBxTC1TUmVUbHNXTU1mMGZsVDQtdDR3M0t2aDdieFJCc0t2ZDhqWkNBeWgxb0x5Sng3RnRnOEFhOEFjYmhkZ2lacTdpQ3IybTVrNHZXZV8zbzByOUhrSXJ1RldPMk9BYlE?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
