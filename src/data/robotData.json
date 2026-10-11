@@ -252,6 +252,60 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-11",
+      "tag": "一级融资",
+      "hot": false,
+      "t": "Meta据报收购机器人AI公司 加速人形机器人研发",
+      "d": "Meta据报收购一家机器人AI公司，以整合具身智能与运动控制算法资源，加速人形机器人研发。该交易反映海外大型科技平台通过外部并购锁定模型、数据与人才能力。后续需跟踪团队整合、算力投入及原型机验证节点，并观察其对上游执行器与传感器供应链的边际拉动。",
+      "src": "来源：Stocktwits",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPMElKaEJDandITTJfMDdTa3FVVlVybFItSVAzaHVuaFRpV3lVbE1vNHZYYzNFTVY5eXFacUt1cm14M1YzbGhIYVVBOHh6U3U3RDVsYkRRWUl2cmlXU0Y4blp3RUJJek05Qldrc3BCUWs5ZW93QXI4VUFOWW1pYWVHMm9MWERaZEN0emxpNkY2OHBjRkRDZ092S3owUXVodFFiQjgyYVZTcTlSNm5WbjROMmUwNktXaUV1MUozUm5UMUFSbkVjNDBtNERwT0NXOUR6RU4tRmMzdkFpTlZpcnc?oc=5"
+    },
+    {
+      "date": "2026-10-11",
+      "tag": "供应链",
+      "hot": false,
+      "t": "机构预计2030年人形机器人DRAM需求将增长20倍",
+      "d": "韩媒援引产业预测称，至2030年人形机器人对DRAM需求将增长20倍，三星与SK海力士有望受益。端侧具身模型、多传感器融合与实时运动规划推升存储容量及带宽需求，存储供应或成后续物料清单重要变量。需关注单机DRAM用量、LPDDR规格迁移及原厂产能分配。",
+      "src": "来源：조선일보",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNlAzSGVQbDFjZnFtYmlJNXdhX0tQREhPeUV6amx6OUt6VXAzcm4zcUR6Ny1BOS1HVGhkOEYtZ3BPbWpqUGQ1Um1TMDYtekRoY3BFV1lFaFY1MlJRM0NLcnFrbmpSWVZBbjhNZTZoNzhQeUlEeHpIdFk5SlhyMjJUaDZxNkl1eWdR?oc=5"
+    },
+    {
+      "date": "2026-10-11",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Lutech发布L.u.c.a.人形机器人 面向意大利工厂应用",
+      "d": "意大利Lutech发布面向工厂场景的人形机器人L.u.c.a.，正值欧盟机械法规临近。该产品定位制造业工位作业，需跟踪其负载、续航、安全合规认证及工厂实测表现，以验证欧洲本土人形机器人商业化路径与供应链本地化程度。",
+      "src": "来源：Pasquale Pillitteri",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNTWJwQlQ3RlY2V2owNWdjelQ0X3ZnWkxiZ0dlQXJtZ3NGLTlQbGZFcDExN2U2aHFVOUFqNTNNbm00UkptTUhHWU1kb3RzR0w0cHVNLXpMelp0eG9BOWJwRm5RUmhmam14S3BSUjBBQlVFUG10aFhmek5DeFRKN0dBcTNsS0RITmwyV015OFc2NlJjZUlUb0JpY0ZoTXprZw?oc=5"
+    },
+    {
+      "date": "2026-10-11",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "KAIST发布Physical AI平台战略 延伸至人形机器人之外",
+      "d": "KAIST公布Physical AI平台战略，强调具身智能软硬件基础设施，覆盖人形机器人以外场景。该战略或推动仿真训练、数据采集与通用控制栈标准化，后续关注平台开源程度、产业联盟参与度及商业化落地节奏，并观察其对机器人中间件生态的影响。",
+      "src": "来源：BigGo Finance",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE92b0dydkkyTHd3c1ZnUHBmVG5KSmZ3a092WENLaVU1Zl9PeFJUQkZoc2xsYlhlNU9tOWN2RDNhNmd0d2lONEdwZGZzTmRkV0pBWEZueEsyQ2Z4eUxwZk1Kb3hFTmZDMktVd0lDb0kwOF90MjFiMVE?oc=5"
+    },
+    {
+      "date": "2026-10-11",
+      "tag": "财报披露",
+      "hot": false,
+      "t": "Symbotic披露225亿美元订单储备 自动化仓储需求稳健",
+      "d": "Symbotic披露225亿美元订单储备，显示仓储自动化系统需求保持稳健。该订单储备或支撑其机器人部署节奏，并为具身智能在物流场景提供参照；需关注订单转化率、交付周期及毛利率变化，以及自动化资本开支对上游零部件的传导。",
+      "src": "来源：The Globe and Mail",
+      "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxPNzBCTWJwRHhKTnZZY29vS0ppNjU0WDFwWWtZSVdBeTJyQkJibXc0MEFET243amV4R08xMDl4SUNPNUVXMTRwek5mRm1vNXMyT0R0dkhlWlJ6dk1GZ01zQW5CVXdFWmhEdkhaYjhvWHB5OUdTRVRZX2dOR0cteGJSVll2Z2lEUm1UM3NfbTVJbGJjY3pFOWdQbGtIY0t1RTJ1a3g4RWlvWHN6T21mV3k1Z1UyWENweXFOcUhVOHMzZko2d3pOVkJieG1hcmQ5Q296S0JBS2lMdFpRbXF4ZXFVQmVDQklFSDNoLXhyNTRHQ21yRC1iS3dqMi1Qc2Z6RHhoX1owQ3JXNV9zQ0R0SHU5eFVR?oc=5"
+    },
+    {
+      "date": "2026-10-11",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "环球时报评论：中国机器人产业快速进展为韩国提供合作机会",
+      "d": "环球时报评论指出，中国机器人产业快速进展为韩国带来合作机会，涉及供应链、应用场景与人才交流。该评论反映区域产业竞合关系，后续需跟踪中韩在核心零部件、整机制造及具身智能算法领域的实际合作项目与标准协同进展。",
+      "src": "来源：Global Times",
+      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5YU1g5c2ZCR19PZFNHOXU4SjNfelNSWW5idi1pTFlQd21NNHhlQTNPbm9nM2hBUXdvaGhmQUk3UklDS0YtMHBkdnU4XzVrbXJONGdLbV92amZyOWVvMm02eXRB?oc=5"
+    },
+    {
       "date": "2026-10-10",
       "tag": "出货统计",
       "hot": true,
@@ -285,60 +339,6 @@
       "d": "市场信息显示，人形机器人租赁日租金跌破千元，并出现专用租赁交易平台。租金中枢下移反映供给增加与场景验证需求并存，有助于降低工厂、展演与物流场景的试用门槛，但需跟踪设备利用率、故障率与回本周期，判断对本体厂商出货节奏与渠道库存的实际传导。",
       "src": "来源：新浪财经",
       "url": "https://news.google.com/rss/articles/CBMilwVBVV95cUxOVEw1akZ5R3BWVzBKbnJaeXlwSFY5MVh3dElMTFJKMHhSQXpNczNPZzV6MGRJOEx2d0psbEtYTGNNUFF6b21UVUxlRW9tRnIzOVpvMVpvSTdTb0pseFU4c0trTEVpMXpIcTFVT3I1SXd6TnBFTnVQdWM3ZW9EblEwdXpvNTFfS3djTnE1a1hSZWdjWEZCR00wRUh5enc3MnJjbTR3ZWJTMmstNXZSXzNsMUxwZEVCbFlIVm5nTmVrTFYxdjR6SllhRnZ5ZlVobVcyMEg2dEFUbjZKUUpfemJoYzZwQ0dKVkdzYVZzanloZ25vSmlocjZFeHRHb2t0a1dUQ0pEakJfOTczTHZtQ3JFaURCMjlrOVZsaEFHQzgwaFdZb2k0czdlYjdkTVlXVnk3QlNqc1JWaTVPS3ZDNEVQYWpzZkUyYXY1R2pCY2hSS3ZMUmNyOU9qSTJzY1JFVG43cnhjalROSll0UEd6bG5Db2VFamlHZzlCYzZxMk1Hc1huZFlmWXpiN25ESmxXb0RJbGU4Qy0tYnFMdUduWnVWTlJlMTlMUWg0ZDQzSTZUTnpvWkdUM0xBQUVtZUFRdTlfNlBZUnNQV0lPNFVJZGRaOWZpYTFKVnJRSkZLbk16ZTVTdG4xSFloTU1xdjk1bWhzN2l6cHN4aXJEakl5ZElCemVhTlZoLVBUNElIMDFraS0wQXZMX2wwSmhhYWViN1lDN3ROdEpYaVpua0JfbDhrN3BpeHFQaGlJWDRLbWZFajJiVnZTLW05NU9rNEg2RHNPY1EzXzdQWTRUSElZUjl5VEF1M2lUYnRJdmZXeTItaVR2NUZRRmNsdTN5RW9EclY2cENud09SdFl3cEtjVVc4LWZmRkVTWEE?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "杭州团队实现全身协同自主叠衣 验证具身操作泛化能力",
-      "d": "杭州具身智能团队发布全身协同自主叠衣演示，展示双臂、灵巧手与移动底盘在非结构化环境下的长程操作能力。该进展指向具身模型泛化与全身控制闭环，后续需验证任务成功率、单次耗时与跨物体迁移能力，以及是否具备向真实家庭或工厂工位部署的稳定性。",
-      "src": "来源：新浪财经",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbTZCVVR3c0tqTzVndGZJLXRuSHo2dXpKWTFvQ0l3MDBoaFhvalVmM3ZmekljM3ZKc3RPTHEtNkdSOWphUXVhdUxvemZpR2paTmRXOUlPcG0wWjAzcU4zWWozRS1STGRiOGxWX3FFblpPLWxiWHZ4NkNJY2xLU0FvY01oSWJHMFMtUjV6YzdxWEtyTjNPVVcxYi1SU2xQUV90cGwxcjZGX0NWdUs4YjdVRjh3?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "特斯拉称Optimus通过观看人类视频学习完成家务任务",
-      "d": "特斯拉披露Optimus通过观看人类视频学习家务操作，验证视觉模仿学习与端到端策略迁移路径。该能力若可复现至工厂工位，将降低示教与编程成本，但需跟踪长程任务成功率、视频数据泛化边界及端侧算力占用，对灵巧手与关节模组提出更高一致性要求。",
-      "src": "来源：Startup Fortune",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWmpJeVdzV0o4ck5Ec3UwUGZZaUxBaWlDeDlsRkFkZHdjT1NrbUh5bUNnZ180ck5SUVdfTlZxT3UxeEFzeUlrYmdCalVrX1FmMURWTTl5WjB1RFNBbUcxXzFyNnU5TGdCbWpMX2Rhd0JGSlUwd3hKS3VsTzVIeE1xSEdFTWY4V1JlanZGbUFYZklIM3lFUTRjS0VOUVdVSG1VYlE?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "量产进展",
-      "hot": true,
-      "t": "特斯拉Optimus量产时间表指向2027年规模化",
-      "d": "特斯拉Optimus发布节奏指向2027年规模化目标，市场关注其产线审计、供应链定点与整机成本下探路径。若按计划推进，行星滚柱丝杠、灵巧手微型电机与谐波减速器将进入批量备货窗口，但需验证良率爬坡、工位部署密度及整车工厂复用效率。",
-      "src": "来源：TechRepublic",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQM2M1R0h0SlhXN0NyME96djdxUjVvbWdfUGpZNEZoWlVGeVpDTWZLcmpVN1JYQ2YyQ1dDVm1XWTFnQXNIVjJNY0NSZWlmOGdIRG1hZ1pZeFU2OFpJZER5VGYzQTlmZklQNDJLNU1XaGlCbi1lNWNhOC1xOG45ZTZTUkpMc0tVbXhR?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "RoboParty在IROS发布RP1全栈开源人形机器人",
-      "d": "RoboParty在IROS发布RP1全栈开源人形机器人，覆盖硬件设计、运动控制与具身智能软件栈。开源方案有望降低本体研发门槛并加速高校与初创验证，但需观察关键零部件选型、整机可靠性及社区迭代对供应链定点的实际拉动。",
-      "src": "来源：Decatur Daily Democrat",
-      "url": "https://news.google.com/rss/articles/CBMirAJBVV95cUxPbU9IQ0U5N0QydmVMVDh0b0dTa0FDUGRidG9vWjhIS2ppOTRwT2pPNlBPZTI0TndIcFhCM2hVUkQyRjJ3M3JBSmx6OWZtUER3SDZjWjJfc3Z6T24xQWZHN1N1NHVIdW5aaHdwNmhLeHRXaGpoQ3VicUlkblRYWjRPak16QU5hYXNkVWxVRjg3V1JkdVhxTV9MWU5VV3VpYnlVNXpPamJwMUxVVTJsX3FxM1FkSmY4YzVYQ25kVS1FTVYzQ3V1ZDFqdEZvb1JoZTlab2ZxZHNic21zTE1zMzE3am5NMkNHVUNfVjlwTnlfUU13SzRDNFFVOW5Bdkh0TkgwdDdSTE4takVxQkd6UDRRdTN2VHNpV0lvajQ0STNwZGl1TnJqY3psTVFZRE4?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "旧金山公司称人形机器人可完成家庭清洁并展示服务模式",
-      "d": "旧金山公司展示人形机器人家庭清洁能力，指向非结构化家居场景的商用验证。该场景对移动避障、双臂操作与续航提出综合要求，若形成可复购服务模式，将打开家庭服务租赁与整机出货空间，但需跟踪任务完成率与安全冗余成本。",
-      "src": "来源：Waco Tribune-Herald",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVldVX1BrNWlTSF9seGFqU0xwNDZDZUNFbXM2S1BPV0lrQURtVkdCZklsZWJBbmtYZnpOZ3pQMlFuTVlldHBBNFhSOFl5V29qSVhMWnY0THV1SWMtbEw0dW5Gb1RnNndWdl9mNVJfRG0zTFBPWUlXSnN4Vk1tWF81V0JEZVJLbmU2bEJiTEp4bzBPT0d0eEk5LXpWanIyUmZvVG91QnU0MFUwdFpNcHVDdEtDMFRxX2lL?oc=5"
-    },
-    {
-      "date": "2026-10-09",
-      "tag": "资本上市",
-      "hot": false,
-      "t": "Unitree等中国人形机器人厂商推进上市进程",
-      "d": "Awani International报道，中国多家人形机器人厂商正推进上市进程，Unitree为代表性企业。该趋势反映一级市场估值向公开市场传导，供应链企业融资渠道拓宽，但需关注招股披露中的出货、订单与盈利质量验证。",
-      "src": "来源：Awani International",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNVFI3UWhPWU9PajRmWXRMVUVoSXBHS0Zta1FLeGloU2JqbHZXMmVhVHdHc25XV2ZFanNvNTFrTFdOMU84SUNFWlB5dnlyaG9wX3duVVdLVnVCc3ZGWnFUTzlicHpNWHl2bGVweV95LTE4WkRqdjk1VFZVdU1HNVQ4dUtkbFJyaHFRenh2WDJLcHJjSDE1cC00VjEta1c5OEMtaDNkNXJZazRIbkZSUjNKQ21hNmlvaTNfQlE?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
