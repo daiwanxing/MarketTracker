@@ -600,6 +600,15 @@
   "timeline": [
     {
       "date": "2026-10-12",
+      "tag": "制程产能",
+      "hot": true,
+      "t": "三星发布定制化代工逻辑—存储一体化集成方案，指向高性能计算新路径",
+      "d": "三星公布面向高性能计算的定制化代工逻辑—存储一体化集成方案，指向以逻辑工艺与高带宽存储协同设计替代部分传统封装互联的路径。产业含义在于，定制ASIC与存储的耦合深度成为先进制程新的竞争维度，对CoWoS-L等既有先进封装主流方案构成中长期补充与分流，亦抬高代工环节对高带宽存储资源与设计服务的门槛。对境内产业链而言，逻辑与存储协同集成仍是国产替代关键卡点，具备定制化设计接口能力的厂商相对受益。",
+      "src": "来源：Samsung",
+      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOcTY2QTZIX2JocmFIVU9OUzRpRk9zZndnWEZzS1dDQ3RSYXFkZ0tzNlEtelFxWFdIWlg3OFRGWkQ0YjhiS0V3WkVLSWJmQ0wycnJhY2dpTGhHQWFFTGg0MWRMclFPeW9JRnNZTmJxd2pZcFA0T1JtMmJsd2p2OG5mellDS1ZDYTBGdVUtWFM0eXJ6SDhhWUJKRm4tcGJKMFYwS1RjNG8xcUhuQkxaYzdzYm9vc3h5MHFBV0x4eUZvV25JYWpmUDhqazdGd2d6TXpPcC1zcUJfWQ?oc=5"
+    },
+    {
+      "date": "2026-10-12",
       "tag": "行业周期",
       "hot": false,
       "t": "TrendForce：2H26 NOR Flash 价格走势分化，高容量产品涨幅预估达90-110%",
@@ -678,15 +687,6 @@
       "d": "CNBC报道，Apollo与多家银行就SpaceX约400亿美元英伟达GPU采购安排融资展开洽谈，算力资本开支的融资主体由云厂商外延至航天与卫星基础设施运营方。边际变化在于，AI算力采购开始依赖项目制与第三方资产负债表，需求能见度延长的同时，亦将杠杆与回报周期风险引入供应链。对英伟达及上游HBM、CoWoS、电源散热环节构成增量指引，但融资落定节奏与终端变现能力仍为约束。",
       "src": "来源：CNBC",
       "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE0zOVNOd0RRX1RUS0U5UzdXbkFtUklITjdsTmNQbHFzLTVOWWZ2OVJvWDh1X2tpR2VrM2dNajlNbXJ6MThlckFyaGsyS2VRNHlzcjJGcnRNa3Z3UlpaWHRnQTJ1TmhNcEJxRXVxejM2MlRTVFZ6aGhHeTdxcHNLUdIBgwFBVV95cUxPRkhleVRwMXRWMWZmdlB3NHI4VEY3QzlOakUyTG9oMjE4WFo0Vm1NbHNKcHJIaGg0SkJUaUxJNkxSdW5kWFluak5xQXF5WTV3ZlBUN084MkRWcEY2eUduWTRGU1RWUVRzVVl5QkRSU3FkOFBVTW1RLXhOWlkzampncy1uYw?oc=5"
-    },
-    {
-      "date": "2026-10-07",
-      "tag": "制程产能",
-      "hot": true,
-      "t": "AMD 管理层重申持续探索与三星电子代工合作，先进制程第二供应源博弈升温",
-      "d": "AMD 首席执行官表态将继续探索与三星电子的代工合作，指向其先进制程供应多元化的中长期路径。若合作落地，三星代工在 HPC 与 AI 加速器订单上的份额将获边际改善，并弱化单一供应商的产能议价能力。对台积电而言，先进节点排产仍由 AI 需求主导，短期缺口有限，但 2nm 及以下节点的客户锁定节奏需持续跟踪。整体看，先进制程产能的再分配是 2027 年算力供给弹性的关键变量。",
-      "src": "来源：Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOVnpmbEtsYzhNazY0T25QU3BtdW9qVUdFQVk0UFVaUkhPN3VZdXJjUk1fU2U3Y3pleVR2TUxxd05ObHVpNEVLLVZiZmZsUkJtU05GbUJGZmtHeVM0MXc3dE9WTEZIajh6OEdVZWk5OXlDVkJkam1VUTdSWHI5ZmZEakthTTVZN29JSm1XbHNxMXVmUzk1YjhpakE0R3BRS3NMUG5LX3ZzSkhCQWJQbmdQcmpnRF9sWnFHbFVwNV9rclhWWUFXd3l4UWpB?oc=5"
     }
   ],
   "news": [
@@ -753,17 +753,17 @@
     "isHolidayFrozen": false
   },
   "closingReview": {
-    "asOf": "2026-10-12 01:45",
+    "asOf": "2026-10-12 14:22",
     "tradingPhase": {
       "phase": "APAC_MORNING_SESSION",
       "headline": "节后首日主力交易 · A股 / 韩股共振交易窗口",
       "window": "09:30 ~ 11:30 CST"
     },
     "verdict": {
-      "headline": "TMT成交占比39.41%极端拥挤成核心矛盾，KOSPI深调未同步传导科创50",
-      "coreSummary": "最新盘面呈现显著内外分化：韩国KOSPI单日回落2.62%，费城半导体收跌0.41%，科创50以1457.27点微幅收平。TMT成交额占比升至39.41%，对应绝对成交7490亿元，处danger分区，微观筹码拥挤度已成为压制指数弹性的核心变量；两融买入强度8.27%处平常区间，缺乏增量杠杆资金承接高位换手。产业端CSP资本开支上修、HBM与存储合约价上行构成中期支撑，但短期资金在极端拥挤结构下更倾向于兑现收益。若隔夜费半延续弱势，境内科技板块将面临情绪传导与筹码消化的双向压力。",
-      "riskTone": "defensive",
-      "primaryDriver": "TMT极端拥挤度下的筹码兑现与亚太科技风险偏好回落"
+      "headline": "KOSPI重挫3.66%压制亚太风险偏好，TMT占比38%高位筹码待出清",
+      "coreSummary": "韩国KOSPI单日下挫3.66%，作为全球存储与半导体出口链的高beta代理，其对存储合约价与AI资本开支的定价敏感度显著高于境内，构成本轮亚太科技板块主要压力源。科创50收跌1.41%至1436.71，跌幅相对收敛，但TMT成交额占比仍达38.02%、处danger分区，全市场12444.78亿元成交中近四成聚集于单一赛道，筹码结构脆弱；两融买入强度7.91%（截至10月9日）仅处平常区间，杠杆增量未至，低位承接缺位。产业端CSP资本开支维持加速、HBM与先进封装价格续强，基本面与筹码面形成阶段性背离，估值消化以时间换空间。",
+      "riskTone": "bearish",
+      "primaryDriver": "KOSPI单日-3.66%引致的存储与AI硬件链风险偏好回落，叠加TMT成交占比38.02%极端过热区间的筹码再平衡压力"
     },
     "marketClock": [
       {
@@ -804,80 +804,80 @@
         "pillarNameEn": "MICROSTRUCTURE & CROWDING",
         "weight": 35,
         "impact": "down",
-        "impactLabel": "高位拥挤待出清",
+        "impactLabel": "多杀多踩踏",
         "factorTag": "极端过热出清",
         "metrics": [
           {
             "label": "TMT成交额占比",
-            "value": "39.41%",
-            "sub": "处 danger 分区，极端过热"
+            "value": "38.02%",
+            "sub": "处 danger 分区"
           },
           {
-            "label": "TMT成交额 / 全市场",
-            "value": "7490.0亿 / 19005.4亿",
-            "sub": "占比近四成，筹码高度集中"
+            "label": "TMT / 全市场成交额",
+            "value": "4731.0亿 / 12444.78亿",
+            "sub": "赛道集中度接近四成"
           }
         ],
         "transmission": {
-          "trigger": "TMT成交占比升至39.41%，绝对成交7490亿元集中于算力硬件链",
-          "mechanism": "高换手缺乏增量资金同比例承接，获利盘在催化真空窗口易形成集中兑现",
-          "outcome": "科创50收平于1457.27点，指数横盘而个股波动率显著放大"
+          "trigger": "TMT成交额占比38.02%维持danger分区，成交高度集中于算力硬件单一赛道",
+          "mechanism": "存量资金吸筹至极限后边际买盘衰减，外部冲击触发被动减仓与赛道内部筹码换手",
+          "outcome": "科创50收跌1.41%至1436.71，权重科技股承接转弱，波动率放大"
         },
-        "narrative": "成交额向单一赛道极致集中，意味着边际买盘对新增信息的敏感度上升、对负面扰动的容错度下降。在指数横盘的表象之下，个股层面的筹码换手已进入高烈度区间，一旦海外映射转弱，拥挤度将从支撑项转为放大器，压制板块整体弹性。"
+        "narrative": "TMT成交额占比38.02%仍处danger分区，全市场12444.78亿元成交中近四成集中于算力硬件单一赛道，筹码集中度已透支边际承接能力；韩国KOSPI重挫3.66%提供外部冲击触发点，拥挤交易转向被动减仓，科创50收跌1.41%，跌幅受筹码粘性部分缓冲，但出清进程尚未完成。"
       },
       {
         "id": "liquidity",
-        "pillarName": "资金日历与杠杆承接",
-        "pillarNameEn": "LIQUIDITY & LEVERAGE ABSORPTION",
+        "pillarName": "资金日历与跨节避险",
+        "pillarNameEn": "LIQUIDITY & CALENDAR DE-RISKING",
         "weight": 30,
         "impact": "down",
-        "impactLabel": "杠杆承接不足",
-        "factorTag": "增量资金观望",
+        "impactLabel": "杠杆防御收缩",
+        "factorTag": "增量杠杆缺位",
         "metrics": [
           {
             "label": "融资买入强度",
-            "value": "8.27%",
-            "sub": "截至2026-10-08，处平常区间"
+            "value": "7.91%",
+            "sub": "截至 2026-10-09，处平常区间"
           },
           {
-            "label": "增量杠杆方向",
-            "value": "未现边际抬升",
-            "sub": "难以对冲高位换手压力"
+            "label": "杠杆资金状态",
+            "value": "未现逆势加仓",
+            "sub": "防御姿态收缩敞口"
           }
         ],
         "transmission": {
-          "trigger": "两融买入强度维持8.27%的平常水平，未随成交额放大同步上行",
-          "mechanism": "杠杆资金缺席使高位换手依赖存量资金内部博弈，承接力量逐级衰减",
-          "outcome": "指数上行缺乏杠杆助推，回撤时下方承接厚度不足"
+          "trigger": "两融买入强度7.91%处平常区间，杠杆资金在调整过程中未现逆势加仓",
+          "mechanism": "外部风险偏好受韩股拖累，增量杠杆观望，存量资金被迫在拥挤赛道内部换手",
+          "outcome": "指数缺乏低位承接资金，反弹动能受限"
         },
-        "narrative": "成交额扩张与融资买入强度停滞形成背离，说明本轮放量更多来自存量资金的高频轮动而非杠杆增量入场。在缺乏外部增量流动性补充的状态下，高位筹码的稳定性取决于情绪维持时长，资金结构对利空传导的缓冲能力偏弱。"
+        "narrative": "两融买入强度7.91%（截至10月9日）仅处平常区间，杠杆资金在指数调整过程中未现逆势加仓，增量承接缺位；外部风险偏好受韩股拖累，境内资金以防御姿态收缩敞口。存量博弈格局下，赛道内部换手难以形成向上合力，资金面对估值修复的支撑有限。"
       },
       {
         "id": "macro",
-        "pillarName": "宏观利率与跨市场风险偏好",
-        "pillarNameEn": "MACRO YIELDS & CROSS-MARKET RISK APPETITE",
+        "pillarName": "宏观利率与商品压制",
+        "pillarNameEn": "MACRO YIELDS & COMMODITIES",
         "weight": 20,
         "impact": "down",
-        "impactLabel": "风险溢价上行",
-        "factorTag": "海外科技去杠杆",
+        "impactLabel": "折现率抬升",
+        "factorTag": "外部风险溢价上行",
         "metrics": [
           {
-            "label": "韩国KOSPI指数",
-            "value": "6625.93",
-            "sub": "单日 -2.62%，外资减持压力显现"
+            "label": "费城半导体指数 (SOX)",
+            "value": "12,572.42",
+            "sub": "隔夜 -0.41%，高位滞涨"
           },
           {
-            "label": "费城半导体指数 SOX",
-            "value": "12572.42",
-            "sub": "隔夜 -0.41%，前收 12623.71"
+            "label": "跨品种宏观读数",
+            "value": "本期未更新",
+            "sub": "原油/美元指数/美债收益率无增量披露"
           }
         ],
         "transmission": {
-          "trigger": "KOSPI单日回落2.62%，存储权重股主导亚太科技资产调整",
-          "mechanism": "海外资金对存储与算力链的高估值进行再定价，风险溢价抬升传导至成长股折现率",
-          "outcome": "亚太科技资产估值中枢下移，境内同类板块面临折价压力"
+          "trigger": "费城半导体隔夜-0.41%未提供正向指引，KOSPI重挫放大区域风险溢价",
+          "mechanism": "外部风险资产波动上行，压制成长股远端现金流折现意愿与相对估值容忍度",
+          "outcome": "高估值算力硬件板块估值消化压力延续"
         },
-        "narrative": "以存储权重为核心的韩国市场率先调整，构成全球半导体资产风险偏好的领先读数。折现率与风险溢价同步走高的环境下，高估值成长资产的定价对盈利兑现节奏更为苛刻，中期产业景气无法完全对冲短期估值消化压力。"
+        "narrative": "本期原油、美元指数与美债收益率无增量读数，折现率锚维持前一水平，成长股估值缺乏来自利率端的正向催化；费城半导体隔夜-0.41%显示海外科技资产高位滞涨，KOSPI单日-3.66%进一步抬升区域风险溢价。分子端景气强劲与分母端无放松的组合下，估值消化以时间换空间。"
       },
       {
         "id": "industry",
@@ -885,57 +885,57 @@
         "pillarNameEn": "INDUSTRIAL FUNDAMENTALS",
         "weight": 15,
         "impact": "mixed",
-        "impactLabel": "结构性景气分化",
+        "impactLabel": "结构性预期收敛",
         "factorTag": "K型景气分化",
         "metrics": [
           {
             "label": "晶圆代工营收",
-            "value": "$534.9 亿（2Q26）",
-            "sub": "AI订单支撑先进制程满载"
+            "value": "$534.9 亿",
+            "sub": "2Q26，AI订单支撑先进制程满载"
           },
           {
-            "label": "云厂商资本开支",
+            "label": "CSP 资本开支",
             "value": "加速",
-            "sub": "Alphabet 1950–2050亿、Amazon 约2200亿美元"
+            "sub": "Alphabet 上修至 1950–2050 亿美元 / Amazon 约 2200 亿"
           }
         ],
         "transmission": {
-          "trigger": "CSP资本开支上修叠加HBM 2027年ASP预估年增121%",
-          "mechanism": "先进制程、先进封装与高容量存储产能持续锁定，资源向AI链集中",
-          "outcome": "算力基础设施景气延续，消费类芯片与中低端模组景气收敛"
+          "trigger": "CSP资本开支维持加速，HBM 2027年混合ASP预估年增121%，存储合约价续涨",
+          "mechanism": "AI订单锁定先进制程与先进封装产能，挤出消费端供给，形成K型景气结构",
+          "outcome": "存储与先进封装维持强势，消费类芯片承压，板块内部分化加剧"
         },
-        "narrative": "产业基本面呈典型K型结构：AI服务器与先进封装、高容量存储维持紧平衡，消费端需求与通用料号仍处弱势。基本面的结构性强势为板块提供中期底部支撑，但短期难以对冲筹码层面的出清压力，二者节奏错配是当前主要预期差。"
+        "narrative": "2Q26晶圆代工营收逼近534.9亿美元，AI订单支撑先进制程满载，CSP资本开支维持加速；HBM 2027年混合ASP预估年增121%、企业级SSD与存储合约价续涨，AI链价格弹性延续。消费端持续承压，NOR Flash高容量与消费规格走势分化，板块内部呈K型景气，结构选择重于方向判断。"
       }
     ],
     "crossMarket": {
-      "spreadMetric": "KC50 vs KOSPI 裂口: +2.68%",
+      "spreadMetric": "KC50 vs KOSPI 相对裂口: +2.25pct（科创50 -1.41% / KOSPI -3.66%）",
       "spreadStatus": "divergence",
-      "divergenceLogic": "科创50微幅收平而KOSPI回落2.62%，裂口源于指数结构差异：KOSPI由存储原厂与全球周期品高权重构成，对HBM合约价与外资流向高度敏感，海外资金减持直接冲击指数；科创50权重偏向半导体设备、材料与国产替代链条，与全球存储价格弹性错配，且受境内流动性对冲，短期抗跌但需警惕补跌滞后效应。",
-      "leadLagSignal": "KOSPI深度调整已提前反映外资对存储与算力链高估值的再定价意愿，费城半导体隔夜收跌0.41%尚未充分释放该压力。若今晚费半无法收复12623.71前收，明日境内算力硬件与存储链开盘将面临映射性承压，需观察低开后的承接厚度。"
+      "divergenceLogic": "KOSPI权重高度集中于存储与半导体出口链，对存储合约价与全球AI资本开支的beta显著高于科创50；境内指数结构以国产替代与内需定价品种占比更高，且TMT成交集中度带来筹码粘性，跌幅相对收敛。+2.25pct的裂口反映的是产业结构差异，而非风险偏好改善。",
+      "leadLagSignal": "KOSPI作为存储与出口链高beta代理，单日-3.66%通常领先于欧美半导体情绪定价；SOX隔夜仅-0.41%，若今晚美股未能修复这一背离，存储与先进封装链条存在向韩股估值靠拢的压力，以费城半导体12500关口作先导验证位。"
     },
     "nextDayWatch": [
       {
         "target": "TMT成交额占比",
-        "threshold": "回落至 35% 以下",
-        "logic": "占比向35%出清意味着筹码结构改善，半导体设备与算力链承接基础增强；若维持39%以上则拥挤度风险持续累积",
+        "threshold": "回落至35%以下视为拥挤度有效出清",
+        "logic": "若占比持续高于38%，赛道内多杀多压力未解；向35%回落且指数止跌，则筹码结构改善可确认",
         "priority": "critical"
       },
       {
         "target": "科创50指数",
-        "threshold": "1456.32 前收 / 1457.27 现价缺口",
-        "logic": "放量跌破前收确认高位筹码松动，站稳则维持震荡消化格局",
+        "threshold": "1420 前低支撑 / 1457.27 前收盘位",
+        "logic": "失守1420确认下行探底延续，收复1457上方则视为外部冲击的一次性定价",
         "priority": "critical"
       },
       {
-        "target": "费城半导体指数 SOX",
-        "threshold": "12623.71 前收",
-        "logic": "隔夜费半若持续承压，将压制境内算力硬件开盘定价与情绪修复节奏",
+        "target": "两融买入强度",
+        "threshold": "回升至8%以上",
+        "logic": "当前7.91%处平常区间，杠杆未加仓；调整中买入强度逆势抬升表明资金回补意愿启动",
         "priority": "watch"
       },
       {
-        "target": "融资买入强度",
-        "threshold": "8.27% 基准值",
-        "logic": "杠杆资金能否边际回补，决定高位换手能否被增量资金有效消化",
+        "target": "费城半导体指数 (SOX)",
+        "threshold": "12,500 关口",
+        "logic": "隔夜收于12572.42，跌破12500将向亚太存储链传导二次压力",
         "priority": "watch"
       }
     ]
