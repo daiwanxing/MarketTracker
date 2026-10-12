@@ -252,6 +252,78 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "宇树创始人王兴兴：具身智能拐点或在未来一到两年内出现",
+      "d": "宇树科技创始人王兴兴在公开访谈中表示，具身智能的规模化拐点可能在未来一至两年内到来，核心依据是运动控制、感知决策与数据闭环迭代速度加快。该判断指向通用人形机器人从演示验证向多工位部署过渡，但量产成本、可靠性、供应链定点与终端复购仍需持续验证。",
+      "src": "来源：BigGo Finance",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5DeW1fbTJIaGhWWThQaVhmMVFwa0J1ZGV0a01uRHROWUNESVhMdEVBaUdNZHpCWTIwYk1ydjgxR3RSSW1WSlpZV2NtcHNiU0tWY0hpWVgybUhicFh6TXllS1NzNmlZV0szVWkxSlJCTk9yVXhWNEE?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "宇树 G1 人形机器人参与斯洛文尼亚卢布尔雅那管乐团巡游",
+      "d": "宇树 G1 在斯洛文尼亚卢布尔雅那管乐团巡游中完成公开场景展示，体现人形机器人在文旅与公共活动中的运动控制与稳定行走能力。该场景属于非工业验证，对复杂人流环境感知、续航与现场运维提出要求，后续商用复购与批量交付仍需观察。",
+      "src": "来源：新华网",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPQ05OZFNkRmRkdjJxcFhmMS1TbUc4NTdLcVpNaVFFZG5BX0QxX05pdkVrTUhzOXJLQzRkaFdJb3d4UGYyOVJFak9rT3lPV0RqRUV0azgyZEo0Snl0U1F0UkVtTTd2amF6MlJWbDdORGt3WFBTbkFBZ3psUGxubjV3T0Z4ODRwZndHcDFVbHlmWGJQZw?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "云深处 DR02 人形机器人在杭州雨天执行交通引导任务",
+      "d": "云深处 DR02 在杭州雨天街道执行交通引导任务，验证湿滑路面行走、环境感知与持续作业能力。公共道路场景对防水防尘、动态避障与远程接管要求较高，若形成市政服务采购，将推动具身智能在安防巡检工位的小批量部署与验收标准建立。",
+      "src": "来源：TechEBlog",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNbGNqd0ZyVGZPTmdoQUc0TGhTc1RpV0Z6dWRfNmhuVWJGdmVBeTkxbGlrMjZoNGFsSU1vSUxPcU1XY3hud2F1eWRUUlQ4ZWJFaWhiek9nUmwzZG5NUUowMmFJZGN4MG93cmY5YUNDOUZwc3JsNWZUc3BrdXZrdHVzay13?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "比亚迪人形机器人披露 31 个自由度并配备灵巧手",
+      "d": "比亚迪展出的人形机器人具备 31 个自由度与灵巧手，指向汽车制造场景中的柔性装配与物料搬运工位。高自由度设计提升操作泛化能力，但关节模组、微型电机与手部传感器的成本及良率仍是量产瓶颈，需关注后续产线实测、工时效率与供应链定点进展。",
+      "src": "来源：Interesting Engineering",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQbzY3S2gwTElWV1pTMnM3R282enplM280bXRHUklENWRWcnRlQkpvSEhXeXFVWkNfeHkteVNDdm9RUno4ZVc2VlBmRFBGNlJyTVdpVllQN19BTzBtNUx2d1ZQMFN0T0FYRldGSEN0YXJVeE1xQkoxZW1weXhlRURQamRuRnVueEdBdnNPVDUwWE1sbUEtcTVTLUdYMnN0OGhJSTVpLTJZN3NlZzg0RnJpQTBrYXdHa0pTODhDcFZiZV9peEtTSnZjb2VZMA?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "IHMC 发布 Alex 军用拟人机器人平台并展示复杂地形行走能力",
+      "d": "IHMC 公开展示 Alex 军用拟人机器人平台，重点验证复杂地形行走、负载运输与远程操控等任务能力。军用场景对鲁棒性、续航与抗干扰要求显著高于工业演示，若后续进入国防采购，将带动高扭矩关节、耐冲击结构与边缘算力供应链的定点验证。",
+      "src": "来源：mikekalil.com",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5CYV9HVDZHRjhZQ01kV291UmNfdXNQZEV0dk42a0hDaUNHRGtGSlBPM3ZjOHkxdXBLeVhJRHJFdmJvOFRwMzdZMk02a0NzVUh3ZWZJbFQyeFBJRWJuQUVRNEdCdFpnQldtUTFfbzl3?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "BeingBeyond 发布 Being-M0.7 以 1 万小时人类视频训练人形机器人行走与抓取技能",
+      "d": "BeingBeyond 发布 Being-M0.7，使用约 1 万小时人类视频数据训练人形机器人行走与抓取技能，强调从视觉示范到全身控制的迁移学习。该路线可降低真机数据采集成本，但视频到动作的泛化精度、仿真到现实的差距仍需在标准工位验证，并观察训练算力与数据合规成本。",
+      "src": "来源：Pandaily",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPcXlNS0hWWk5IcUlNMGNPTWxYWUVzV0hFUTFIX2pNUVVoczNWaWRmQlVKUW9sR2NTX2ZKZ1RQUW5ZdjNfN3R2VTlGV0NPT2RJR1pqeDFtVjRfaXU5MVpIMUpSOU5TUXY3LXVXNy16T3lyb3ExT1czYnZtVzJUYlV0cmh5UDlJa3diNUlsODZMX1FkT1lWSHdpWnAzTjdKd0lrcEdRMnVsU3hrVndC?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "小鹏计划 2027 年下半年将 IRON 人形机器人推向欧洲市场并启动本地化部署",
+      "d": "小鹏汽车将 IRON 人形机器人的欧洲市场投放节点设定于 2027 年下半年，指向海外法规认证、本地化服务与制造交付网络建设。该规划需以当前产线良率爬坡、成本控制及场景验证为前提，验证变量包括欧洲安全合规准入、首站应用工位落地与售后运维体系搭建。",
+      "src": "来源：Electric Vehicles",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOQ01Ud3U4Skg2cUUxby1yb0hEZjNwTy10OGFrX3JVZFc1bUd5QWdCNEZXcTVzWkhVWUl3UV9PaU5XOExQaG1uaUR0NkU2enFGOGw5b3NaVGtfU1QxWWJ1N2JjM21sUVFRV09oVzZ3eEpmX09NMUdDZjZZT3JLX1JuS2xKaWxkTVpzaXdsRzRpbE9kd0NKVDU2aDY2dEY2OGhYd0N0aE5Ycw?oc=5"
+    },
+    {
+      "date": "2026-10-12",
+      "tag": "资本上市",
+      "hot": false,
+      "t": "Faraday Future 旗下 FFR 调整投资者周报至 10 月 14 日并拟联合发布机器人新品",
+      "d": "Faraday Future 旗下 FF EAI Robotics Ecosystem Inc. 将投资者周报调整至 10 月 14 日，并与 FFAI 联合举办新品发布活动。该事项涉及资本市场沟通与机器人业务进展披露，需观察新品技术参数、交付规划及融资安排是否形成可验证订单与量产时间表。",
+      "src": "来源：StreetInsider",
+      "url": "https://news.google.com/rss/articles/CBMi_AJBVV95cUxQblRLaUlfemRmSmFpT25YN0dsSnZ1NmRMR0liYzUtZXdVUlZVZU4yRXFQcng0QkFCRHRreFZXWWozSi0wLVV6OXZkYWg0X2hOYmRPcV9rOGZOdGh4cm1FU19NZjltSUQtWFAyazFqcUdidlJ0TURTYzB0RWtDdVpnbjJTQnBWWVhpZU45QXotOE01eElvRm95SHQ3NzFhakNPUXJ0dEpYbGpzRm81eGU4YmxpYWVxWHAwUlJPWXdEVU11VHNVSWlma0lJY2MtaTF4OXhJLWpDT2VkdzRaTHZjcklIbE40MHFWZHMzU3ZzT0tBZzJZanM5b0NONFFvZU9ldFBBcFBEdTVaODNaWU5QRW01UDctYzgzRkRCOXgwb3dRMldRWWhkMzljRHFVR0cxVzM4eHJUbk13RHRROFRCdU9mR0lvc1d0QXFnR0ZEMU1TOXRxM1dfMWJycG1ZZjV5alE3c1EwTHpQSkpEcXZVXzFpVjBNeUNRMV94YQ?oc=5"
+    },
+    {
       "date": "2026-10-11",
       "tag": "一级融资",
       "hot": false,
@@ -268,77 +340,6 @@
       "d": "韩媒援引产业预测称，至2030年人形机器人对DRAM需求将增长20倍，三星与SK海力士有望受益。端侧具身模型、多传感器融合与实时运动规划推升存储容量及带宽需求，存储供应或成后续物料清单重要变量。需关注单机DRAM用量、LPDDR规格迁移及原厂产能分配。",
       "src": "来源：조선일보",
       "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNlAzSGVQbDFjZnFtYmlJNXdhX0tQREhPeUV6amx6OUt6VXAzcm4zcUR6Ny1BOS1HVGhkOEYtZ3BPbWpqUGQ1Um1TMDYtekRoY3BFV1lFaFY1MlJRM0NLcnFrbmpSWVZBbjhNZTZoNzhQeUlEeHpIdFk5SlhyMjJUaDZxNkl1eWdR?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Lutech发布L.u.c.a.人形机器人 面向意大利工厂应用",
-      "d": "意大利Lutech发布面向工厂场景的人形机器人L.u.c.a.，正值欧盟机械法规临近。该产品定位制造业工位作业，需跟踪其负载、续航、安全合规认证及工厂实测表现，以验证欧洲本土人形机器人商业化路径与供应链本地化程度。",
-      "src": "来源：Pasquale Pillitteri",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNTWJwQlQ3RlY2V2owNWdjelQ0X3ZnWkxiZ0dlQXJtZ3NGLTlQbGZFcDExN2U2aHFVOUFqNTNNbm00UkptTUhHWU1kb3RzR0w0cHVNLXpMelp0eG9BOWJwRm5RUmhmam14S3BSUjBBQlVFUG10aFhmek5DeFRKN0dBcTNsS0RITmwyV015OFc2NlJjZUlUb0JpY0ZoTXprZw?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "KAIST发布Physical AI平台战略 延伸至人形机器人之外",
-      "d": "KAIST公布Physical AI平台战略，强调具身智能软硬件基础设施，覆盖人形机器人以外场景。该战略或推动仿真训练、数据采集与通用控制栈标准化，后续关注平台开源程度、产业联盟参与度及商业化落地节奏，并观察其对机器人中间件生态的影响。",
-      "src": "来源：BigGo Finance",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE92b0dydkkyTHd3c1ZnUHBmVG5KSmZ3a092WENLaVU1Zl9PeFJUQkZoc2xsYlhlNU9tOWN2RDNhNmd0d2lONEdwZGZzTmRkV0pBWEZueEsyQ2Z4eUxwZk1Kb3hFTmZDMktVd0lDb0kwOF90MjFiMVE?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "财报披露",
-      "hot": false,
-      "t": "Symbotic披露225亿美元订单储备 自动化仓储需求稳健",
-      "d": "Symbotic披露225亿美元订单储备，显示仓储自动化系统需求保持稳健。该订单储备或支撑其机器人部署节奏，并为具身智能在物流场景提供参照；需关注订单转化率、交付周期及毛利率变化，以及自动化资本开支对上游零部件的传导。",
-      "src": "来源：The Globe and Mail",
-      "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxPNzBCTWJwRHhKTnZZY29vS0ppNjU0WDFwWWtZSVdBeTJyQkJibXc0MEFET243amV4R08xMDl4SUNPNUVXMTRwek5mRm1vNXMyT0R0dkhlWlJ6dk1GZ01zQW5CVXdFWmhEdkhaYjhvWHB5OUdTRVRZX2dOR0cteGJSVll2Z2lEUm1UM3NfbTVJbGJjY3pFOWdQbGtIY0t1RTJ1a3g4RWlvWHN6T21mV3k1Z1UyWENweXFOcUhVOHMzZko2d3pOVkJieG1hcmQ5Q296S0JBS2lMdFpRbXF4ZXFVQmVDQklFSDNoLXhyNTRHQ21yRC1iS3dqMi1Qc2Z6RHhoX1owQ3JXNV9zQ0R0SHU5eFVR?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "环球时报评论：中国机器人产业快速进展为韩国提供合作机会",
-      "d": "环球时报评论指出，中国机器人产业快速进展为韩国带来合作机会，涉及供应链、应用场景与人才交流。该评论反映区域产业竞合关系，后续需跟踪中韩在核心零部件、整机制造及具身智能算法领域的实际合作项目与标准协同进展。",
-      "src": "来源：Global Times",
-      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5YU1g5c2ZCR19PZFNHOXU4SjNfelNSWW5idi1pTFlQd21NNHhlQTNPbm9nM2hBUXdvaGhmQUk3UklDS0YtMHBkdnU4XzVrbXJONGdLbV92amZyOWVvMm02eXRB?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "出货统计",
-      "hot": true,
-      "t": "IDC统计AgiBot上半年全球人形机器人出货逾8600台",
-      "d": "IDC发布统计显示，AgiBot在2026年上半年全球人形机器人出货逾8600台，位列首位。该数据指向中国本体厂商在双足与轮式平台出货端形成先发规模，供应链端本体组装、关节模组与灵巧手物料需求同步抬升，后续需验证海外客户复购与场景交付验收节奏。",
-      "src": "来源：Gasgoo"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "安徽省具身智能创新中心揭牌 中国科大人形机器人研究院牵头",
-      "d": "安徽省具身智能创新中心正式揭牌，由中国科大人形机器人研究院牵头。该中心定位为区域共性技术平台，后续或承担本体结构、具身智能算法与场景数据采集等验证任务，对长三角人形机器人供应链协同与地方集采规划形成前期支撑，需观察实际入驻团队与设备稼动率。",
-      "src": "来源：观点网",
-      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBUMkhWZF9EcGN1VmVyWjVPMGNlUUFwTF9ueFNQOFVXLVh6bDhwMk5TdnVFSWNtUVNvc2lPcVJMSVktNy1GYjlyM0dKZ0NmMVpwcHhETDdMdk9iTmlTOXVWQ2ln?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "宇树科技与浙科大共建具身智能机器人联合实验室",
-      "d": "宇树科技与浙江科技大学共建具身智能机器人联合实验室。合作聚焦运动控制、具身智能算法与人才联合培养，属于产学研协同验证环节。对供应链而言，短期不改变硬件定点与采购订单，但有利于算法迭代与场景数据积累，后续跟踪实验室成果向量产平台的迁移效率。",
-      "src": "来源：新浪财经",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFAwdGIySDNvYVUyS0JzVTlVaXVTZF93WWktMV90NTBRU09pekhVTUVHY2F1NDBBMG1iai1ZeUUyRFpFUU9UZWxvX1RUdTZvdnVVYXI2dWJpQlVnZ1ZlZHpMN1JFMF9KM1VrYlY1RGlJNEFMaU9LTGlobw?oc=5"
-    },
-    {
-      "date": "2026-10-10",
-      "tag": "量产进展",
-      "hot": true,
-      "t": "人形机器人租赁日租金跌破千元 专用交易平台出现",
-      "d": "市场信息显示，人形机器人租赁日租金跌破千元，并出现专用租赁交易平台。租金中枢下移反映供给增加与场景验证需求并存，有助于降低工厂、展演与物流场景的试用门槛，但需跟踪设备利用率、故障率与回本周期，判断对本体厂商出货节奏与渠道库存的实际传导。",
-      "src": "来源：新浪财经",
-      "url": "https://news.google.com/rss/articles/CBMilwVBVV95cUxOVEw1akZ5R3BWVzBKbnJaeXlwSFY5MVh3dElMTFJKMHhSQXpNczNPZzV6MGRJOEx2d0psbEtYTGNNUFF6b21UVUxlRW9tRnIzOVpvMVpvSTdTb0pseFU4c0trTEVpMXpIcTFVT3I1SXd6TnBFTnVQdWM3ZW9EblEwdXpvNTFfS3djTnE1a1hSZWdjWEZCR00wRUh5enc3MnJjbTR3ZWJTMmstNXZSXzNsMUxwZEVCbFlIVm5nTmVrTFYxdjR6SllhRnZ5ZlVobVcyMEg2dEFUbjZKUUpfemJoYzZwQ0dKVkdzYVZzanloZ25vSmlocjZFeHRHb2t0a1dUQ0pEakJfOTczTHZtQ3JFaURCMjlrOVZsaEFHQzgwaFdZb2k0czdlYjdkTVlXVnk3QlNqc1JWaTVPS3ZDNEVQYWpzZkUyYXY1R2pCY2hSS3ZMUmNyOU9qSTJzY1JFVG43cnhjalROSll0UEd6bG5Db2VFamlHZzlCYzZxMk1Hc1huZFlmWXpiN25ESmxXb0RJbGU4Qy0tYnFMdUduWnVWTlJlMTlMUWg0ZDQzSTZUTnpvWkdUM0xBQUVtZUFRdTlfNlBZUnNQV0lPNFVJZGRaOWZpYTFKVnJRSkZLbk16ZTVTdG4xSFloTU1xdjk1bWhzN2l6cHN4aXJEakl5ZElCemVhTlZoLVBUNElIMDFraS0wQXZMX2wwSmhhYWViN1lDN3ROdEpYaVpua0JfbDhrN3BpeHFQaGlJWDRLbWZFajJiVnZTLW05NU9rNEg2RHNPY1EzXzdQWTRUSElZUjl5VEF1M2lUYnRJdmZXeTItaVR2NUZRRmNsdTN5RW9EclY2cENud09SdFl3cEtjVVc4LWZmRkVTWEE?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
