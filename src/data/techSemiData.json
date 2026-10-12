@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-12 08:07",
+  "snapshot": "2026-10-12 09:00",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 12623.71,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-09",
-      "src": "^SOX 10-12 08:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-12 09:00 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1456.32,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-09",
-      "src": "000688.SS 10-12 08:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-12 09:00 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 6625.93,
-      "chg": "-2.62%",
+      "price": 6537.29,
+      "chg": "-1.34%",
       "chgClass": "down",
-      "previousClose": 6803.9,
+      "previousClose": 6625.93,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-10-08",
-      "src": "^KS11 10-12 08:07 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-10-12",
+      "src": "^KS11 10-12 09:00 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 6625.93,
-        "chg": "-2.62%",
+        "price": 6537.29,
+        "chg": "-1.34%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
@@ -949,13 +949,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 8.27,
-      "asOf": "2026-10-08",
-      "buyYi": 1391.25,
-      "marketAmountYi": 16821.27,
-      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-10-08",
+      "value": 7.91,
+      "asOf": "2026-10-09",
+      "buyYi": 1504.15,
+      "marketAmountYi": 19005.55,
+      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-10-09",
       "dates": [
-        "07-09",
         "07-10",
         "07-13",
         "07-14",
@@ -1014,10 +1013,10 @@
         "09-28",
         "09-29",
         "09-30",
-        "10-08"
+        "10-08",
+        "10-09"
       ],
       "shares": [
-        9.58,
         9.48,
         8.26,
         8.92,
@@ -1076,7 +1075,8 @@
         8.06,
         8.79,
         7.93,
-        8.27
+        8.27,
+        7.91
       ]
     }
   },
