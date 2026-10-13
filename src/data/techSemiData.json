@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-13 14:07",
+  "snapshot": "2026-10-13 15:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,29 +15,29 @@
       "previousClose": 12572.42,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-12",
-      "src": "^SOX 10-13 14:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-13 15:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1441.11,
-      "chg": "+1.01%",
-      "chgClass": "up",
+      "price": 1423.79,
+      "chg": "-0.21%",
+      "chgClass": "down",
       "previousClose": 1426.72,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-13",
-      "src": "000688.SS 10-13 14:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-13 15:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 6013.82,
-      "chg": "-5.80%",
+      "price": 6035.35,
+      "chg": "-5.46%",
       "chgClass": "down",
       "previousClose": 6384.24,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-13",
-      "src": "^KS11 10-13 14:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-13 15:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -769,20 +769,20 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 09:30-15:00",
-        "price": 1441.11,
-        "chg": "+1.01%",
-        "chgClass": "up",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 15:00",
+        "price": 1423.79,
+        "chg": "-0.21%",
+        "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
       {
         "symbol": "^KS11",
         "name": "韩国KOSPI综合",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 08:00-14:30",
-        "price": 6013.82,
-        "chg": "-5.80%",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 14:30",
+        "price": 6035.35,
+        "chg": "-5.46%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
