@@ -253,6 +253,33 @@
   "timeline": [
     {
       "date": "2026-10-13",
+      "tag": "一级融资",
+      "hot": true,
+      "t": "Meta 收购机器人 AI 公司以加速人形机器人研发",
+      "d": "Meta 通过收购机器人 AI 团队补强具身智能算法与仿真训练能力，目标加速人形机器人平台开发。该交易若完成，将强化北美科技巨头在机器人基础模型、数据闭环及端侧部署的竞争位次，对供应链定点节奏与算法授权模式形成新增变量。",
+      "src": "来源：Stocktwits",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPMElKaEJDandITTJfMDdTa3FVVlVybFItSVAzaHVuaFRpV3lVbE1vNHZYYzNFTVY5eXFacUt1cm14M1YzbGhIYVVBOHh6U3U3RDVsYkRRWUl2cmlXU0Y4blp3RUJJek05Qldrc3BCUWs5ZW93QXI4VUFOWW1pYWVHMm9MWERaZEN0emxpNkY2OHBjRkRDZ092S3owUXVodFFiQjgyYVZTcTlSNm5WbjROMmUwNktXaUV1MUozUm5UMUFSbkVjNDBtNERwT0NXOUR6RU4tRmMzdkFpTlZpcnc?oc=5"
+    },
+    {
+      "date": "2026-10-13",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "KAIST 发布物理 AI 战略，推动机器人研究超越人形形态",
+      "d": "韩国科学技术院公布物理 AI 战略，强调将感知、决策与执行一体化扩展至非人形机器人平台。该规划涉及多模态基础模型、真实世界数据采集与安全验证，可能影响亚太地区具身智能研发路线及零部件需求结构，值得跟踪其与产业联盟的后续落地。",
+      "src": "来源：The Korea Herald",
+      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5zNzVnQ1loTU84SWhqTVBfQWFoM2ZfeFNCQzhWYnZQVmpLRmdZN05KSDcybTJGU3FSQUxaaVpzaEdSRzhRSkhvci1taE53MUdqdmNmbVZNVQ?oc=5"
+    },
+    {
+      "date": "2026-10-13",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "宇树 G1 完成拉黄包车动态平衡测试，验证全身控制能力",
+      "d": "宇树 G1 人形机器人在公开演示中完成拉动黄包车、启停转向及重心保持等动作，展示下肢力矩控制与实时平衡算法进展。此类非结构化场景验证有助于评估关节模组、减速器与IMU的协同性能，并为后续工业与商业服务工位部署积累数据。",
+      "src": "来源：Gadget Review",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPS3hQc25OQ0JiTTFWZWh4cVNFS2RKZzdLeFh3VkFsOE9qNU5Sd3RYNkkxalhqWk9PWm1Uc0ZHOXY1SDVTLS0zVGJXN3BreGNwaUNVWFFVeGxZWVpyQm96VldGbjRiZjdwQjRyb0hOTTlOZzJOXzZkaF9KLWtWZjhKUVVWalVkRmZQYzhKYzNVSTJwcnY3ZzNfR0NpWlU?oc=5"
+    },
+    {
+      "date": "2026-10-13",
       "tag": "技术验证",
       "hot": false,
       "t": "王兴兴：GPT-6 或推动机器人更早突破，具身智能拐点一至两年",
@@ -313,33 +340,6 @@
       "d": "云深处 DR02 在杭州雨天街道执行交通引导任务，验证湿滑路面行走、环境感知与持续作业能力。公共道路场景对防水防尘、动态避障与远程接管要求较高，若形成市政服务采购，将推动具身智能在安防巡检工位的小批量部署与验收标准建立。",
       "src": "来源：TechEBlog",
       "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNbGNqd0ZyVGZPTmdoQUc0TGhTc1RpV0Z6dWRfNmhuVWJGdmVBeTkxbGlrMjZoNGFsSU1vSUxPcU1XY3hud2F1eWRUUlQ4ZWJFaWhiek9nUmwzZG5NUUowMmFJZGN4MG93cmY5YUNDOUZwc3JsNWZUc3BrdXZrdHVzay13?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "比亚迪人形机器人披露 31 个自由度并配备灵巧手",
-      "d": "比亚迪展出的人形机器人具备 31 个自由度与灵巧手，指向汽车制造场景中的柔性装配与物料搬运工位。高自由度设计提升操作泛化能力，但关节模组、微型电机与手部传感器的成本及良率仍是量产瓶颈，需关注后续产线实测、工时效率与供应链定点进展。",
-      "src": "来源：Interesting Engineering",
-      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQbzY3S2gwTElWV1pTMnM3R282enplM280bXRHUklENWRWcnRlQkpvSEhXeXFVWkNfeHkteVNDdm9RUno4ZVc2VlBmRFBGNlJyTVdpVllQN19BTzBtNUx2d1ZQMFN0T0FYRldGSEN0YXJVeE1xQkoxZW1weXhlRURQamRuRnVueEdBdnNPVDUwWE1sbUEtcTVTLUdYMnN0OGhJSTVpLTJZN3NlZzg0RnJpQTBrYXdHa0pTODhDcFZiZV9peEtTSnZjb2VZMA?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "IHMC 发布 Alex 军用拟人机器人平台并展示复杂地形行走能力",
-      "d": "IHMC 公开展示 Alex 军用拟人机器人平台，重点验证复杂地形行走、负载运输与远程操控等任务能力。军用场景对鲁棒性、续航与抗干扰要求显著高于工业演示，若后续进入国防采购，将带动高扭矩关节、耐冲击结构与边缘算力供应链的定点验证。",
-      "src": "来源：mikekalil.com",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5CYV9HVDZHRjhZQ01kV291UmNfdXNQZEV0dk42a0hDaUNHRGtGSlBPM3ZjOHkxdXBLeVhJRHJFdmJvOFRwMzdZMk02a0NzVUh3ZWZJbFQyeFBJRWJuQUVRNEdCdFpnQldtUTFfbzl3?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "BeingBeyond 发布 Being-M0.7 以 1 万小时人类视频训练人形机器人行走与抓取技能",
-      "d": "BeingBeyond 发布 Being-M0.7，使用约 1 万小时人类视频数据训练人形机器人行走与抓取技能，强调从视觉示范到全身控制的迁移学习。该路线可降低真机数据采集成本，但视频到动作的泛化精度、仿真到现实的差距仍需在标准工位验证，并观察训练算力与数据合规成本。",
-      "src": "来源：Pandaily",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPcXlNS0hWWk5IcUlNMGNPTWxYWUVzV0hFUTFIX2pNUVVoczNWaWRmQlVKUW9sR2NTX2ZKZ1RQUW5ZdjNfN3R2VTlGV0NPT2RJR1pqeDFtVjRfaXU5MVpIMUpSOU5TUXY3LXVXNy16T3lyb3ExT1czYnZtVzJUYlV0cmh5UDlJa3diNUlsODZMX1FkT1lWSHdpWnAzTjdKd0lrcEdRMnVsU3hrVndC?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
