@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-13 15:23",
+  "snapshot": "2026-10-13 16:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 12572.42,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-12",
-      "src": "^SOX 10-13 15:23 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-13 16:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,7 +26,7 @@
       "previousClose": 1426.72,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-13",
-      "src": "000688.SS 10-13 15:23 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-13 16:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -37,7 +37,7 @@
       "previousClose": 6384.24,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-13",
-      "src": "^KS11 10-13 15:23 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-13 16:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -742,8 +742,8 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 40.49,
-      "tmtAmountYi": 6786.58,
+      "value": 40.5,
+      "tmtAmountYi": 6786.59,
       "marketAmountYi": 16759.08,
       "label": "TMT 成交额占比",
       "unit": "%",
