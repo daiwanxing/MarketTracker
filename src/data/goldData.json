@@ -1,13 +1,13 @@
 {
-  "snapshot": "2026-10-16 05:56",
+  "snapshot": "2026-10-16 06:07",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "4171.80",
+      "num": "4171.50",
       "chg": "+1.62%",
       "chgClass": "up",
       "label": "伦敦金 XAU/USD · 美元/盎司",
-      "src": "XAU/USD 伦敦金现货 10-16 05:56 上海 · 昨收 4105.20（现价 4171.80/+1.62%） · gold-api.com",
+      "src": "XAU/USD 伦敦金现货 10-16 06:07 上海 · 昨收 4105.20（现价 4171.50/+1.62%） · gold-api.com",
       "refs": "",
       "quotes": {
         "gc": 4192.5,
@@ -3332,13 +3332,13 @@
     "table": [
       {
         "k": "期现基差 GC−现货",
-        "v": "+20.7 美元（10/16）",
-        "wk": "4192.5 − 4171.80",
-        "dir": "flat",
-        "src": "Yahoo GC=F − Sina hf_GC · 2026-10-16 05:56 上海",
-        "gc": 4192.5,
-        "spot": 4171.8,
-        "basis": 20.7
+        "v": "+20.2 美元（10/16）",
+        "wk": "4191.7 − 4171.50",
+        "dir": "down",
+        "src": "Yahoo GC=F − Sina hf_GC · 2026-10-16 06:07 上海",
+        "gc": 4191.7,
+        "spot": 4171.5,
+        "basis": 20.2
       },
       {
         "k": "COMEX 黄金商业净持仓",
@@ -3490,7 +3490,7 @@
     },
     "riskReward": {
       "title": "盈亏比测算（现价 → 关键位）",
-      "price": 4171.8,
+      "price": 4171.5,
       "support": 4100,
       "resistance": 4245,
       "stop": 4075,
@@ -3528,11 +3528,11 @@
     "comexGold": {
       "name": "COMEX 期金主力",
       "symbol": "GC=F",
-      "price": 4192.5,
-      "chg": "+1.56%",
-      "chgClass": "up",
+      "price": 4191.7,
+      "chg": "-0.01%",
+      "chgClass": "down",
       "unit": "$/oz",
-      "previousClose": 4128.3,
+      "previousClose": 4192.1,
       "src": "GC 纽约商品交易所 · 新浪行情"
     },
     "shau": {
