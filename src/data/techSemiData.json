@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-15 13:07",
+  "snapshot": "2026-10-15 14:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,29 +15,29 @@
       "previousClose": 12208.79,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-14",
-      "src": "^SOX 10-15 13:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-15 14:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1338.53,
-      "chg": "-3.02%",
+      "price": 1345.8,
+      "chg": "-2.50%",
       "chgClass": "down",
       "previousClose": 1380.26,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-15",
-      "src": "000688.SS 10-15 13:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-15 14:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5588.28,
-      "chg": "-7.00%",
+      "price": 5482.93,
+      "chg": "-8.75%",
       "chgClass": "down",
       "previousClose": 6008.81,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-15",
-      "src": "^KS11 10-15 13:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-15 14:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -742,9 +742,9 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 40.66,
-      "tmtAmountYi": 4177.11,
-      "marketAmountYi": 10274.16,
+      "value": 40.56,
+      "tmtAmountYi": 5285.25,
+      "marketAmountYi": 13031.52,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
@@ -771,8 +771,8 @@
         "name": "科创50指数",
         "status": "TRADING",
         "statusLabel": "盘中交易 09:30-15:00",
-        "price": 1338.53,
-        "chg": "-3.02%",
+        "price": 1345.8,
+        "chg": "-2.50%",
         "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5588.28,
-        "chg": "-7.00%",
+        "price": 5482.93,
+        "chg": "-8.75%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
