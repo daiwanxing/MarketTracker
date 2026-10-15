@@ -17,47 +17,47 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "BZ=F 报 106.63、涨 0.89%（WTI 95.90），主矛盾是霍尔木兹航运中断风险与阿联酋创纪录产量所代表的供应增量之间的对冲。",
-    "sub": "口径说明：本看板报价取 Yahoo Finance 的 BZ=F 布伦特原油连续合约，非通讯社常用近月合约或现货评估价；10-15 01:07 上海现价 106.63，日内区间 105.23—107.13，较昨收 105.69 上涨 0.89%，WTI 报 95.90。报价上行对应 CNBC 报道的集装箱船沉没与海峡袭击升级，IEA 口径的阿联酋 9 月创纪录产量则构成反向增量。",
+    "verdict": "BZ=F 106.08/+0.02%、WTI 96.22，主矛盾是霍尔木兹航运风险与俄罗斯制裁可能放宽、EIA原油大幅去库之间的对冲，油价暂缺单边方向。",
+    "sub": "口径为BZ=F布伦特原油期货连续报价，非通讯社近月合约；报价截至上海10-16 00:07，事件对应美国权衡放宽俄影子船队制裁与EIA原油大幅去库，分别压制与支撑供应/库存预期。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "霍尔木兹通行受阻",
-        "v": "集装箱船沉没，油轮与穿梭运输被列为目标，战争险与船期延误风险上行（来源：CNBC、The New York Times）"
+        "k": "霍尔木兹航运风险",
+        "v": "集装箱船沉没及伊朗目标化运输，保险与运价高企，供应路径未正常化"
       },
       {
         "dim": "supply",
-        "k": "油轮运价",
-        "v": "时间轴显示油轮运价升至纪录高位，海峡到岸成本抬升，支撑布伦特近端（来源：已有时间轴 10-12）"
+        "k": "油轮运价纪录高位",
+        "v": "到岸成本上升，短期进口与炼厂采购成本支撑油价"
       },
       {
-        "dim": "macro",
-        "k": "海湾紧张支撑WTI",
-        "v": "CME 指出海湾紧张局势支撑 WTI 原油期货，地缘风险溢价尚未完全消退（来源：CME Group）"
+        "dim": "stocks",
+        "k": "EIA原油大幅去库",
+        "v": "截至10月9日当周减少855.7万桶，远超预期，近端供需偏紧"
       }
     ],
     "bearTitle": "利空因素",
     "bearHint": "指向回落",
     "bear": [
       {
-        "dim": "supply",
-        "k": "阿联酋创纪录产量",
-        "v": "IEA 称阿联酋 9 月产量升至纪录高位，供应端增量对冲地缘溢价（来源：Bloomberg、Transport Topics）"
-      },
-      {
-        "dim": "supply",
-        "k": "沙特官价与出口恢复",
-        "v": "时间轴 10-11 显示沙特下调亚洲原油官价、出口恢复，削弱地缘供应溢价"
-      },
-      {
         "dim": "macro",
-        "k": "美元与溢价回吐",
-        "v": "DXY 报 102.83 维持高位，且时间轴显示沙特承诺维持出口流动后油价曾回吐部分地缘溢价，107.13 日内高点未站稳"
+        "k": "美元指数",
+        "v": "DXY 102.12，强势美元压制美元计价原油估值"
+      },
+      {
+        "dim": "supply",
+        "k": "俄制裁可能放宽",
+        "v": "美国权衡放宽俄影子船队制裁，若落地增加俄油海运供应并削弱溢价"
+      },
+      {
+        "dim": "stocks",
+        "k": "库欣累库",
+        "v": "EIA库欣原油库存增加186.2万桶，限制WTI月差与近端结构"
       }
     ],
-    "watch": "霍尔木兹通行量与战争险费率 · 油轮运价与绕行比例 · 阿联酋及 OPEC+ 月度产量与配额 · 美国炼厂吞吐、出口与 SPR 交换节奏（FXEmpire） · 沙特官价与出口流向 · 美元指数与宏观需求预期"
+    "watch": "霍尔木兹通行量与保险费率 · 美国对俄影子船队制裁细则 · EIA后续库存及库欣变动 · 沙特与伊朗止战谈判 · 美元指数与WTI月差 · 科威特绕行管道研究"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -1416,6 +1416,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-10-16",
+      "tag": "供应",
+      "hot": true,
+      "t": "美国权衡放宽俄影子船队制裁 或增加俄油海运供应并压制溢价",
+      "d": "美国正权衡放宽对俄罗斯“影子船队”制裁，若政策落地，俄油出口合规与航运成本将下降，可观测海运供应增加，边际削弱霍尔木兹风险溢价。BZ=F现报106.08/+0.02%，WTI报96.22，美元指数102.12，市场在政策预期与地缘供应风险间重新定价。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOakIxN2pXRENBSjFMY1Rtc00zZG84UUVERE54NFBReWdoV2VJMHRpMFlZdzdSLXdzaEFOOEQwbFp5TG44Mk5wMFZyLVdPOTNpNG5nRlY5Q1lITWFlSjZ1RXdBMDdoRTQ1LTdrMy0zQVJlTThsUUJ2anBxWDNLWkpyV3lUbm5VMm5KMVJybkNpTVJuTGl6bTJia0t5UjE1UHNIclJFQUVRZ0FnektCZWxnSXNGc1VSdlhXM2RZ?oc=5"
+    },
+    {
+      "date": "2026-10-15",
+      "tag": "EIA",
+      "hot": false,
+      "t": "EIA原油库存超预期大降855.7万桶 近端去库支撑WTI",
+      "d": "美国能源信息署数据显示，截至10月9日当周EIA原油库存减少855.7万桶，预期为减少30万桶，前值减少318.6万桶，去库幅度显著超预期。该数据与炼厂开工增加、进口下降形成共振，支撑WTI近月结构与Brent价差。BZ=F现报106.08/+0.02%，WTI报96.22。",
+      "src": "来源：Newsquawk",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOSGNDRHdBT0x1aS1TdW12djFsTnpUS25HcHdOTGVDTUk3cXVqX3dJWmdiYlpObEZnNVZDTUppblRmQ2hmMnFhSEJPbWh1LUxPZUtMa0xOQ1NBbXpzRXpkNkRDS3FVZ0JGS2QzSmpGRkxGS0t2dl9xUjFJdVctNzhtamotY2p0YW4yS3liS2NMNktKLWczM19fNk5TNEhyUlVHYXQ5RUxB?oc=5"
+    },
+    {
       "date": "2026-10-15",
       "tag": "海峡",
       "hot": true,
@@ -1486,45 +1504,27 @@
       "d": "OilPrice.com 报道，油轮运价升至纪录高位，原油市场风险向航运环节转移。时间轴显示霍尔木兹流量已超战前水平、美国护航推动装运恢复，货量回升叠加保险与战争险溢价，运费曲线显著上移。运价上行直接抬升到岸原油成本，对欧洲与亚洲买家炼厂利润形成挤压，同时扩大 Brent 与 WTI 的价差空间。该成本项不改变即期供需平衡，但会延后供应路径正常化的价格传导。",
       "src": "来源：OilPrice.com",
       "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPejQ3RU9pSUlHQm1vSHhvb3JnMWxhSTN2YUlNR0RLaWtpUi1xWXFIaEQzTWpzazJ0b0QwLV9ES2Q4RElqX3huZ1ZHSV8yU3hhZkpSb2tjY2NZWDN6bjIxUHBndk02RFE5c2NqenAxMlBnQ3ExeXZaRXh0a2NsR3ZLbDJRd29GcHpuYmVuQUQ1MWtxd2FyZzU1VmxWQkpxdGMtWE96d01PSmZsUS1TWVY5Ylh2b9IBuAFBVV95cUxNVVloUTY1djJ0dGJTOHhRSVRUcTFER0hBeFYzSVJWWmZvWFBuSGlVNVlNVTBMXzgxVEd2RWVNU29KejdHNXZaYm9faE1KT3FsQWRUSS0wWURTUmpBOTJWVURUc3ltX1YyZENCcU9fdWl4N19aTGs5cThrTEZyQWlrTFgyZTNwNU1NY1VWTWs1MUVMNzhhMktDd05IaE1OUW1jQ1hiSU1KVFpZd0M1T0tnN2VtVm1KZ2Zh?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "海峡",
-      "hot": true,
-      "t": "霍尔木兹超级油轮触雷爆炸 伊朗革命卫队指认水雷供应路径受扰",
-      "d": "据NDTV与Middle East Eye，一艘原油超级油轮在霍尔木兹海峡爆炸，伊朗革命卫队称其触雷。该事件延续10月9日以来南部航道爆炸与油轮遇袭态势，涉及全球关键原油海运通道，航运保险费率与绕行需求面临上行压力。此前已有美国护航与伊朗出口暂停信息，若通行受阻，将直接改变中东原油出口路径并推升地缘溢价。",
-      "src": "来源：Middle East Eye、NDTV",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOTW80WHBEYjNTNm1GT21hUVAtX3g5al84R0ZZOXZlQ09aZkFpRmRyemRmZ1UxWGdGaXlySnFvdmlfSEdIZEVRQTlNYUNrUzBTVnAzT1pla0tEUGpTdjdrQV9rN0VyYUxUNUlYUnVVMXNxMjh4aV8ySG5ZbW9oTHVyZDF6WGJSOXlkQzI3djZHRXV6R0gxal9UZHRVOTRTSkp4X3dzVGoyam8?oc=5"
-    },
-    {
-      "date": "2026-10-11",
-      "tag": "供应",
-      "hot": true,
-      "t": "沙特下调亚洲原油官价 出口恢复削弱地缘供应溢价 OPEC+政策预期转松",
-      "d": "据WSJ，沙特下调对亚洲原油售价，同时出口出现恢复。这是继10月10日俄罗斯柴油协议后，供应端政策与贸易流的又一增量。官价下调通常指向争夺亚洲市场份额，并可能抵消霍尔木兹航运风险带来的地缘溢价；若出口回升持续，Brent上方压力增加，WTI近端结构亦受牵制。该变化与霍尔木兹通航风险形成方向相反的供应信号。",
-      "src": "来源：WSJ",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOdjFlc2J6ZDR6ZC05cWxLdVdnbTN1blJTbzVXMHB3dERWXzBTalRDRGhuOHlBbXBVSlNsSDhoWENsMS1OMUUzNlpxanZiZEhoSEhra2tFRkNmS18zWnFWTGdjaFdGbW02TTViUXZmdlppYjZBSlNKdWxwRzhfWjRoV0FxbW5IMUVZVk1PM0pKbElTdTNKRkZ5aU1DYV9YbHQzT1djdlZqa0ZlQm1wQmxB?oc=5"
     }
   ],
   "risksTitle": "原油市场观察变量",
   "risks": [
     {
-      "k": "霍尔木兹通行",
-      "level": "r",
-      "desc": "若集装箱船沉没后袭击继续升级、油轮再度遇袭或海峡出现实质封锁，BZ=F 有望上破日内高点 107.13 并放大风险溢价；若通行快速恢复，该溢价将迅速回吐。",
-      "src": "来源：CNBC、The New York Times"
-    },
-    {
-      "k": "OPEC+ 供应增量",
+      "k": "俄制裁放宽",
       "level": "a",
-      "desc": "IEA 称阿联酋 9 月产量升至纪录高位，若更多成员国同步增产并下调官价，BZ=F 在 105 附近支撑转弱，价格重心下移。",
-      "src": "来源：Bloomberg、Transport Topics（引述 IEA）"
+      "desc": "若美国正式放宽俄影子船队制裁，俄油海运可观测供应增加，Brent与WTI近月承压；来源：Reuters、Quantum Commodity Intelligence。",
+      "src": "Reuters、Quantum Commodity Intelligence"
     },
     {
-      "k": "美元与需求侧",
+      "k": "霍尔木兹中断",
+      "level": "r",
+      "desc": "若海峡袭击或沉没事件扩大至油轮，航运保险与运价进一步上升，BZ=F可能上破106.39日高；来源：The National Interest、OilPrice.com。",
+      "src": "The National Interest、OilPrice.com"
+    },
+    {
+      "k": "库存去化持续性",
       "level": "g",
-      "desc": "DXY 报 102.83，若美元进一步走强并叠加炼厂检修季需求回落，油价上行弹性受限；美元回落则放大供给中断的价格反应。",
-      "src": "来源：Yahoo Finance（BZ=F、DXY 报价口径）"
+      "desc": "若EIA后续原油库存转为累库且库欣继续增加，近端去库支撑减弱，WTI可能回踩95下方；来源：Newsquawk。",
+      "src": "Newsquawk"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
