@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-16 12:07",
+  "snapshot": "2026-10-16 13:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 11684.38,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-15",
-      "src": "^SOX 10-16 12:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-16 13:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1359.52,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-16",
-      "src": "000688.SS 10-16 12:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-16 13:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5725.41,
-      "chg": "+3.08%",
+      "price": 5767.69,
+      "chg": "+3.84%",
       "chgClass": "up",
       "previousClose": 5554.22,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-16",
-      "src": "^KS11 10-16 12:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-16 13:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -742,9 +742,9 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 40.2,
-      "tmtAmountYi": 3869.9,
-      "marketAmountYi": 9625.5,
+      "value": 40.16,
+      "tmtAmountYi": 4067.26,
+      "marketAmountYi": 10127.34,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
@@ -769,8 +769,8 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "CLOSED",
-        "statusLabel": "已收盘 15:00",
+        "status": "TRADING",
+        "statusLabel": "盘中交易 09:30-15:00",
         "price": 1381.85,
         "chg": "+1.64%",
         "chgClass": "up",
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5725.41,
-        "chg": "+3.08%",
+        "price": 5767.69,
+        "chg": "+3.84%",
         "chgClass": "up",
         "role": "全球存储与代工制造周期锚"
       },
