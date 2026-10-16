@@ -252,6 +252,51 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-16",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "FF EAI Robotics 发布 FF Nova，美国定价低于 2,500 美元",
+      "d": "FF EAI Robotics 与 FF 联合发布 FF Nova，称首款具身 AI 人形机器人，美国定价低于 2,500 美元；同步推出 FF Nova Mini、Physical AI Spark 课程、Nova 强化学习开发者计划与开发者社区招募。产品面向开发者与教育场景，定价锚点下移，需跟踪实际交付能力、算力配置、关节模组寿命与供应链成本控制。",
+      "src": "来源：PR Newswire",
+      "url": "https://news.google.com/rss/articles/CBMijgNBVV95cUxPempSRnh6dzVqekdoLTEySUU3VmRFTUVQdW1uRlR5OHp2V3hHVTAzZDlYSmFoc0ZUZXQwUDFMZEI5N2k2RUo1MS1yMUNkdGszbzdxSnhUcVpoOUNONkVFX19LcVBGbU5vOVNOQ3JRTFBrYjd6VjBDbmQ4aWhxUkh1aHpLUEtDaXdQbGxSRzcxNmtXYTRxRllXRGRTSmFTd1gtR2IxQ2h3V3A2NFBjX3VQMUh6UndOX1l6cERGVzU2OEExNVpNV3VDRW1taVpxYm5wQmFGTld2YmdUYVlVcGZKTDBFU3pTc3Z0T2ExTHpOWTNMWlQ0M2Q0NzMwMDdOeFEwWEo3Zk9KSzZQcEtkVC12LXlFeTZZTjgwR1U4R0NEWG03SWZXMGgwU2RZel9GcU9wZzBkMHlaV0cxTExKOEs0T292SXJXZGg1MzV2MVdKX0tVRWNNa1NKUURqcFFjUWlrYy1URVFycFowMGdhUXNaWGphYURQS2JtQm14ZDU2N0NoSkZKS1BhSUl5VkRuQQ?oc=5"
+    },
+    {
+      "date": "2026-10-16",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Rice Robotics 加入香港具身智能枢纽，开展真实环境测试",
+      "d": "Rice Robotics 加入香港具身智能枢纽，面向真实世界测试场景，推动具身 AI 在公共空间与商业服务中的部署验证。该枢纽提供测试场地与产业协作资源，需跟踪机器人长时间运行稳定性、人机交互安全与数据闭环能力，以及后续商业化订单转化。",
+      "src": "来源：Asia Business Outlook",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNek9GYnlyT05VWEFJLVRZalZaMjd5NDdSWUpOUktmODhCejVEeWNiV2VEd2lMOEZiN2tKSUptZjdMZWZFb01aVmRJRGRIZW1IWTZKOFBhTjAwZDd4NWotMUl4c3NZOTBFa2VDTkxub1R5RVBTM1JTUDlUX2plWXFJMUtpalBoWlhKblhLbHRYa2pTWVR4MW5sc3djYVB1SU1Oalk4SUxKbGFyYzZ4VjBzbUt1MUFtc180Zlc0c2xsaDY?oc=5"
+    },
+    {
+      "date": "2026-10-16",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "具身智能实景实训示范落地，人形机器人开启产线作业模式",
+      "d": "具身智能实景实训示范项目落地，人形机器人进入产线作业模式，验证在真实制造工位上的抓取、搬运与协同作业能力。该示范聚焦实训数据采集与工艺适配，为后续批量部署提供工位节拍、稼动率与良率爬坡依据；需跟踪培训周期、人工干预率与复购订单落地节奏。",
+      "src": "来源：中国科技网",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBlVWhDb1QwTTlxSUc4TEZQcy1fajl0NDEyNF8wNTctREduMFJfM01POWE2cWhBNkF0U3BQbzJaWDdBMjkwYUNTRldsVVZ0RDAtcjFtZ2dQVHkxdUkwdXVUbFAtTzk3SUZBc3BQSlQ3bmo?oc=5"
+    },
+    {
+      "date": "2026-10-16",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "RoboParty 发布开源 RP1 人形机器人，开放软硬件平台",
+      "d": "RoboParty 发布开源 RP1 人形机器人，开放软硬件平台与开发接口，面向研究与开发者社区。开源路线可降低算法验证与二次开发门槛，但需跟踪关节模组一致性、运动控制稳定性、供应链物料可获得性以及社区生态对商用落地的实际推动效果。",
+      "src": "来源：Engineering.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxORVQ4d1ppbVE4VEc1cmhlc1h3eXhnbVUycW8yaVFOQk1QOGJGY2JZVkNFcjluWmdLY0FhLWhMMjRBUUdIVU9tY3lxbEdGS3Fsd09zZWNrQ2ZreHdpM0NfUXZBMmVGelk4MlVvZnhKWDFDUGZXaDFXbU5FLVB1TmZUa2tZaFk?oc=5"
+    },
+    {
+      "date": "2026-10-16",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Codey 人形机器人面向社交陪伴场景开展测试",
+      "d": "Codey 人形机器人针对孤独感与社会陪伴需求开展测试，探索人机交互在公共服务与康养场景的应用。该方向对语音交互、情感识别与安全冗余要求较高，需跟踪实际部署环境中的任务完成率、用户接受度与运营成本，以判断服务型人形机器人的商业闭环。",
+      "src": "来源：ABC7 Bay Area",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQQ2d5QXJiN3NBZHBDS2pZLUNzU1JBaC1tcVktdjhtZEx1Y3ZpcWp6WWJQb2xRcWU3MEpGUFd6QldQMV9ZNzR4QW52SDRjOVVlblgxbEJkTEMwa2s0ZUgxTVNXems0VHlnMk5zSUJtSWlNSTRfN2I1dXRXY3U2VHVTZXNrajlmWXR4QVQ1bjVSdlVZSlZnR2w2dW5R0gGfAUFVX3lxTE5IVkRfMG9kallxVzFPU3JCSFFsRlprbkJnWnpLLVBwRDRMODYxS1pYUHVRSjFXQ1ZybnNXeDNueEZDaURva3VjM1htWHgyeXMyTWpzX0toZEY4SjFXVi1OQlM3TjRILU1ZcW5PZS1pbjlVUmVVVGE1Y2c5U1RCcE1Wc3hQRnF2YTFUV1g2ZHlhZ3p4YmRJaHRCMThPZWFRbw?oc=5"
+    },
+    {
       "date": "2026-10-13",
       "tag": "一级融资",
       "hot": true,
@@ -295,51 +340,6 @@
       "d": "据 BigGo Finance 报道，DeepSeek 加速推进具身智能，梁文锋正接触多家机器人初创企业，可能以投资、合作或模型授权方式接入运动控制、感知与决策栈。该动向显示大模型厂商向物理 AI 延伸，若形成模型—本体联合开发，或缩短泛化操作验证周期；但具体标的、金额与股权结构尚未披露，需跟踪后续合作落地。",
       "src": "来源：BigGo Finance",
       "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5JU3k0a29XWE9KcFVJWmk2RUlINURxYTdrVmNkVnotTVNOdUFGdU9aLUhIMEtCQy1CNUNtc1p1bWp3NkxBb0cyd1duQ2UyRk4tbkVoVVZEMjQ4ZTNSenRDbjNHUHNsVjZkRnBqVzU4MVhTZXNIOGc?oc=5"
-    },
-    {
-      "date": "2026-10-13",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "中国发布重载轮式人形机器人与 110 磅负载协作机器人",
-      "d": "据 Interesting Engineering 报道，中国发布重载轮式人形机器人与负载 110 磅的协作机器人，强调高负载工业场景作业能力。轮式底盘或优先面向巡检、搬运与应急场景，降低双足平衡控制难度；协作机器人 110 磅负载指向产线重物取放。后续需跟踪实际工位部署、连续作业时长与量产交付节奏，以验证负载指标向有效产能转化效率。",
-      "src": "来源：Interesting Engineering",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSl8ybjcxcGs0NGNVVGt5RlYxcHIycjdNX1ltRHg0ZWFLQ2w1ckZja0FkYzJvUWVPOTFDYy1GY1A3NlVXU3BoUjB5N2VsM3Z6ZEZVV1ZneU9OV2ZOaVZDaVJDeDhrUDZ0MHdERHZrOHhWcjlBWTlpcmNqMk9Bd2dxN1NYaXZsenpTUmdMbVgzZDMyd2IxalRaMHJFSXBiU1E?oc=5"
-    },
-    {
-      "date": "2026-10-13",
-      "tag": "量产进展",
-      "hot": true,
-      "t": "特斯拉 Optimus 或于 2027 年对外销售，未公布价格且未开放预订",
-      "d": "据 Pasquale Pillitteri 报道，特斯拉 Optimus 可能于 2027 年对外销售，但当前未公布售价且未开放预订。该信息指向 Optimus 仍处量产准备与成本核算阶段，产线审计、供应链定点及灵巧手/丝杠良率仍需验证。若 2027 年销售口径成立，需观察 BOM 成本、首发区域、订单转化机制以及售后与安全合规框架。",
-      "src": "来源：Pasquale Pillitteri",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQMHhzNnRqOFpiQ05OUWdFTW40Tm56bUcxT1poQ2lvVVJiaEM1SkEyejlvRkszd1VCWVp4bE1RUVZmMV9PQkpYN0RxUlZ1WThtR1hHcG15YXl0bjM4a3M2OHdmT2dGNVZyMkhSam82dmQ3aE9LOVdIY2hsQlFTU1Y2VWZB?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "宇树创始人王兴兴：具身智能拐点或在未来一到两年内出现",
-      "d": "宇树科技创始人王兴兴在公开访谈中表示，具身智能的规模化拐点可能在未来一至两年内到来，核心依据是运动控制、感知决策与数据闭环迭代速度加快。该判断指向通用人形机器人从演示验证向多工位部署过渡，但量产成本、可靠性、供应链定点与终端复购仍需持续验证。",
-      "src": "来源：BigGo Finance",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5DeW1fbTJIaGhWWThQaVhmMVFwa0J1ZGV0a01uRHROWUNESVhMdEVBaUdNZHpCWTIwYk1ydjgxR3RSSW1WSlpZV2NtcHNiU0tWY0hpWVgybUhicFh6TXllS1NzNmlZV0szVWkxSlJCTk9yVXhWNEE?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "宇树 G1 人形机器人参与斯洛文尼亚卢布尔雅那管乐团巡游",
-      "d": "宇树 G1 在斯洛文尼亚卢布尔雅那管乐团巡游中完成公开场景展示，体现人形机器人在文旅与公共活动中的运动控制与稳定行走能力。该场景属于非工业验证，对复杂人流环境感知、续航与现场运维提出要求，后续商用复购与批量交付仍需观察。",
-      "src": "来源：新华网",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPQ05OZFNkRmRkdjJxcFhmMS1TbUc4NTdLcVpNaVFFZG5BX0QxX05pdkVrTUhzOXJLQzRkaFdJb3d4UGYyOVJFak9rT3lPV0RqRUV0azgyZEo0Snl0U1F0UkVtTTd2amF6MlJWbDdORGt3WFBTbkFBZ3psUGxubjV3T0Z4ODRwZndHcDFVbHlmWGJQZw?oc=5"
-    },
-    {
-      "date": "2026-10-12",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "云深处 DR02 人形机器人在杭州雨天执行交通引导任务",
-      "d": "云深处 DR02 在杭州雨天街道执行交通引导任务，验证湿滑路面行走、环境感知与持续作业能力。公共道路场景对防水防尘、动态避障与远程接管要求较高，若形成市政服务采购，将推动具身智能在安防巡检工位的小批量部署与验收标准建立。",
-      "src": "来源：TechEBlog",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNbGNqd0ZyVGZPTmdoQUc0TGhTc1RpV0Z6dWRfNmhuVWJGdmVBeTkxbGlrMjZoNGFsSU1vSUxPcU1XY3hud2F1eWRUUlQ4ZWJFaWhiek9nUmwzZG5NUUowMmFJZGN4MG93cmY5YUNDOUZwc3JsNWZUc3BrdXZrdHVzay13?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
