@@ -223,10 +223,10 @@
   ],
   "footer": "说明：本终端数据由 NOAA CPC 海温物理遥测、巴拿马运河管理局（ACP）加通湖水文观测、USDA WASDE 供需平衡表与主产区行业协会（Codesp / PRODUCE / RAOT）权威公报联合驱动。传统与相对 Niño 指数分属不同物理定义。历史周期数据对标 1997/98、2015/16 及 2023/24 超级周期。本看板供宏观大宗商品跨资产分析参考，不构成直接投资建议。",
   "cpc": {
-    "asOf": "2026-10-07",
+    "asOf": "2026-10-14",
     "traditional": {
       "weekly": {
-        "centerDate": "2026-10-07",
+        "centerDate": "2026-10-14",
         "nino34": 3.3,
         "nino34Sst": 30.0,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
@@ -246,7 +246,7 @@
     },
     "relative": {
       "weekly": {
-        "centerDate": "2026-10-07",
+        "centerDate": "2026-10-14",
         "nino34": 2.4,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/rel_wksst9120.txt"
       },
