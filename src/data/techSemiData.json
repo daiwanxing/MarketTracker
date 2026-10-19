@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-19 08:49",
+  "snapshot": "2026-10-19 09:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 11581.21,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-16",
-      "src": "^SOX 10-19 08:49 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-19 09:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1359.52,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-16",
-      "src": "000688.SS 10-19 08:49 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-19 09:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5553.73,
-      "chg": "-2.02%",
+      "price": 5613.88,
+      "chg": "-0.96%",
       "chgClass": "down",
       "previousClose": 5668.05,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-19",
-      "src": "^KS11 10-19 08:49 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-19 09:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5553.73,
-        "chg": "-2.02%",
+        "price": 5613.88,
+        "chg": "-0.96%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
