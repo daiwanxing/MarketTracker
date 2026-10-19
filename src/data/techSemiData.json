@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-19 14:07",
+  "snapshot": "2026-10-19 15:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,29 +15,29 @@
       "previousClose": 11581.21,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-16",
-      "src": "^SOX 10-19 14:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-19 15:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1341.48,
-      "chg": "-1.26%",
+      "price": 1330.57,
+      "chg": "-2.07%",
       "chgClass": "down",
       "previousClose": 1358.65,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-19",
-      "src": "000688.SS 10-19 14:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-19 15:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5696.84,
-      "chg": "+0.51%",
+      "price": 5768.01,
+      "chg": "+1.76%",
       "chgClass": "up",
       "previousClose": 5668.05,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-19",
-      "src": "^KS11 10-19 14:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-19 15:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -769,20 +769,20 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 09:30-15:00",
-        "price": 1341.48,
-        "chg": "-1.26%",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 15:00",
+        "price": 1330.57,
+        "chg": "-2.07%",
         "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
       {
         "symbol": "^KS11",
         "name": "韩国KOSPI综合",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5696.84,
-        "chg": "+0.51%",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 14:30",
+        "price": 5768.01,
+        "chg": "+1.76%",
         "chgClass": "up",
         "role": "全球存储与代工制造周期锚"
       },
