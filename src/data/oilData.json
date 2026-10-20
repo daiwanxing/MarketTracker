@@ -17,47 +17,47 @@
   },
   "signal": {
     "secTitle": "市场信号",
-    "verdict": "主矛盾在于霍尔木兹航运风险溢价与俄油制裁豁免、伊朗缓和预期之间的对冲：BZ=F 报 109.72、日内跌 0.13%，WTI 98.58 同样未能站稳 100 整数关口，显示供应担忧已被相当程度定价。",
-    "sub": "BZ=F 为布伦特首行连续期货的行情商报价，并非通讯社近月或即期现货合约，与通讯社口径的布伦特近月存在基差，绝对点位不宜直接横比。日内 106.82—110.69 的宽幅波动对应袭船事件后的航道溢价，与 10-19 俄油买家制裁暂停、万斯涉伊朗缓和表态共同构成回吐压力；10-20 伊拉克出口回升与美国去库预期形成多空对冲，故终值仅小幅回落。",
+    "verdict": "主矛盾仍是霍尔木兹航运中断与伊朗外交斡旋之间的反复定价：BZ=F 报108.43、日内跌1.02%，WTI 报97.57，实货紧张与和谈预期交替主导近月结构。",
+    "sub": "口径说明：BZ=F 为布伦特原油连续期货报价（Yahoo Finance，10-21 00:07 上海），并非通讯社报出的首行或近月现货合约，故与『布伦特上破110美元』『五个月高位』存在盘中与合约口径差异；WTI 97.57 与 Brent 的价差主要含跨区运费与品质差。108.43、-1.02% 对应伊朗斡旋消息与万斯表态后的风险溢价回吐，而亚洲买家改用小型油轮、沙特设施遇袭等事实仍支撑实货端，故盘面呈现日内高111.97、低105.95的宽幅区间，事件与报价方向需按同一交易日口径对应。",
     "bullTitle": "利多因素",
     "bullHint": "指向抬升",
     "bull": [
       {
         "dim": "geo",
-        "k": "霍尔木兹航道",
-        "v": "袭船与航道管辖权争议未解，油轮保险费率与绕行成本抬升，供应路径仍显脆弱。"
+        "k": "霍尔木兹通行风险",
+        "v": "油轮触雷与船只遇袭未获实质解决，革命卫队关闭航道的表态仍在，战争险与绕行成本难以完全出清"
       },
       {
         "dim": "supply",
-        "k": "伊朗出口兑现",
-        "v": "产能逾370万桶/日，但制裁与航运受阻并存，出口增量短期难以完全兑现。"
+        "k": "实货物流约束",
+        "v": "亚洲炼厂转向小型油轮提货，标准船型排期与保险条件恶化，到岸升水与迪拜—布伦特价差获支撑"
       },
       {
         "dim": "stocks",
-        "k": "美国去库",
-        "v": "商业原油库存环比回落、炼厂开工回升，近端月差走强对首行形成支撑。"
+        "k": "美国原油去库",
+        "v": "炼厂开工回升，周度库存环比回落，月差走强对近月合约形成结构性支撑"
       }
     ],
     "bearTitle": "利空因素",
     "bearHint": "指向回落",
     "bear": [
       {
-        "dim": "macro",
-        "k": "美元与利率",
-        "v": "美元指数报101.82，长端收益率随油价上行，金融条件对进一步追多形成约束。"
+        "dim": "geo",
+        "k": "伊朗外交渠道",
+        "v": "伊朗总统与巴基斯坦陆军参谋长讨论斡旋，若形成正式会谈安排，霍尔木兹风险溢价将进一步回吐"
       },
       {
         "dim": "supply",
-        "k": "俄油豁免",
-        "v": "美方暂停对俄原油主要买家制裁，乌拉尔与ESPO贴水走阔，出口流向边际放宽。"
+        "k": "制裁豁免与出口恢复",
+        "v": "美方暂停针对俄油主要买家的制裁，伊朗产能逾370万桶/日、伊拉克出口逾340万桶/日，供给路径边际放宽"
       },
       {
-        "dim": "geo",
-        "k": "伊朗缓和",
-        "v": "万斯称伊朗战事存在缓和空间，霍尔木兹风险溢价相应回吐，地缘溢价压缩。"
+        "dim": "macro",
+        "k": "美元与利率",
+        "v": "美元指数101.74、美债收益率随WTI走高，抬升非美买家成本并压制边际需求"
       }
     ],
-    "watch": "霍尔木兹油轮保险费率与航道通行状况 · 美方对俄油买家豁免的执行细则 · 印度俄油采购量与到港节奏 · 美国商业原油库存与炼厂开工周度数据 · 布伦特与WTI近端月差及现货升贴水 · 美元指数与10年期收益率"
+    "watch": "伊朗—巴基斯坦斡旋是否形成正式会谈安排 · 霍尔木兹通行状态与油轮战争险报价 · 亚洲炼厂小型油轮到港节奏与到岸升水 · 美国周度库存与炼厂开工率 · 俄油豁免执行细则与印度采购路径 · 美元指数101.74与美债收益率走向"
   },
   "charts": {
     "secTitle": "价格走势",
@@ -1420,6 +1420,24 @@
   "timelineTitle": "原油市场时间轴",
   "timeline": [
     {
+      "date": "2026-10-21",
+      "tag": "谈判",
+      "hot": true,
+      "t": "伊朗总统与巴基斯坦陆军参谋长讨论斡旋 谈判渠道重回视野",
+      "d": "路透报道，伊朗总统与巴基斯坦陆军参谋长就地区斡旋展开讨论，市场将其解读为伊朗战事存在外交出口的信号。此前万斯表态已令霍尔木兹风险溢价回吐，若该渠道延续，油轮绕行与战争险成本支撑将进一步削弱。盘面BZ=F自日内高点111.97回落至108.43、跌1.02%，WTI报97.57，显示和谈预期与航运中断现实反复定价。后续需确认是否形成具体会谈安排。",
+      "src": "来源：Reuters",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZlA3RXBMd0lXRU1feWpodXpZQ2tnUERkUHFQSlFGX2hCMjdrOVdhRVd2eVk3dmhLYklUdVM1WGtoXzc0cUt2OG44WjBYVFVZazFvQWo1UmJWRlliNzJHWlZBU1hScTU1RU9sVEdDVllsSWE4UXh5b0ZHX0VlU01fNDc3ckpxRkw3ZGdaM0xxMW1qOEhWck1XYUlSVkJWeVZyZWRRSkpqdTFQSmZhejlBRmkxZUJmMGtPVWx6Ym82SnNTcElaWGc?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "海峡",
+      "hot": true,
+      "t": "亚洲买家转向小型油轮 霍尔木兹通行受限推升到岸运输成本",
+      "d": "据OilPrice报道，航运危机迫使亚洲原油买家改用小型油轮提货，标准船型在霍尔木兹及周边水域的排期与保险条件恶化。运力碎片化抬高单位运输成本并拉长到港时间，对亚洲炼厂到岸原油形成额外溢价，同时压缩即期套利窗口。该变化属航运路径的实质调整，若持续将支撑布伦特近月与迪拜价差，并使实货升水维持高位。",
+      "src": "来源：Crude Oil Prices Today | OilPrice.com",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQMUNQMGZ1ekFmY2h4YWFwcC1nRmd5MWpMbzFJQ0k2b3d2MzhzX19ySzJsZFVUU2YyWWJlcnVIcXlhTS1BRXV0blI2QVM3RzhxM1RWd19yNVIyM2VBZG5TSVJhQW5UTzk5RS1VTlJNd1hHMnoyOERlWVRTdnpuUFdBT01FbGpBS0RuenNMYlBETURrYnZWZUE4el9RdVEzTmFLSGFTZXhTNVh3YlM3TVlYZEE3b0RZZEZWZ3o3dEZ6TDNyZ9IBwgFBVV95cUxQMUNQMGZ1ekFmY2h4YWFwcC1nRmd5MWpMbzFJQ0k2b3d2MzhzX19ySzJsZFVUU2YyWWJlcnVIcXlhTS1BRXV0blI2QVM3RzhxM1RWd19yNVIyM2VBZG5TSVJhQW5UTzk5RS1VTlJNd1hHMnoyOERlWVRTdnpuUFdBT01FbGpBS0RuenNMYlBETURrYnZWZUE4el9RdVEzTmFLSGFTZXhTNVh3YlM3TVlYZEE3b0RZZEZWZ3o3dEZ6TDNyZw?oc=5"
+    },
+    {
       "date": "2026-10-20",
       "tag": "谈判",
       "hot": false,
@@ -1490,24 +1508,6 @@
       "d": "路透报道，伊朗革命卫队称两艘油轮在霍尔木兹海峡触雷后起火；半岛电视台与NewsNation亦报道相关火情，并援引伊朗方面称该水道仍关闭。既有时间轴已记录单艘油轮触雷爆炸，本次增量在于涉事船舶数量上升、航道关闭表态公开化，直接指向航运保险、绕行与交付周期。对供需而言，海峡通行受限会抬升中东至亚洲航线的运输成本与到岸溢价，库存释放仅能部分对冲。来源：Reuters、Al Jazeera、NewsNation。",
       "src": "来源：Reuters、Al Jazeera、NewsNation",
       "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNZWFxZjNZNnY5cVR3VDhKUnNnV1JOcG1vOVB5dEZGdWRybEtqdE9YRWgwY0ZVSXZ0bHYzTWRpX2duSkxpTENtY0s0WW5jMzFUZlZIME16d0FpUXluV2ZGbFJ3alNZaDh0VVVSVFhOMWVIbEZTNVgyTVdwaXNLNXRrMjE4SjZvQXZtblNUNVVHSjFIUmlIaU41TGRHYmIzOUxoa25BODFKaG1FZw?oc=5"
-    },
-    {
-      "date": "2026-10-17",
-      "tag": "海峡",
-      "hot": true,
-      "t": "美伊均宣称控制霍尔木兹海峡 袭船后航道管辖权争议公开化",
-      "d": "半岛电视台报道，伊朗与美国均宣称对霍尔木兹海峡拥有控制权，此前多艘油轮在海峡触雷起火。该海峡承担全球约两成海运原油通行，双方对航道管辖权的公开对立，意味着船舶战争险费率、绕行与护航成本将继续上行。既有时间轴已记录油轮触雷与美方豁免俄油制裁，本条增量在于管辖权争议由暗转明，直接抬升航运与到岸成本，而非新增产量损失。",
-      "src": "来源：Al Jazeera",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNcUxxNHdOQmgxVGhJOTE3NDVyR3J0RUVSQkVDVjNSZFNnbnN0eU02ZHNOcUtvSVBuVmgtS0t0aGxWd05DNllrSjFRYnNMOWtJRmJJNG1hRmh6eXJkamNEek1sYUJKU2d4bVhuVEcyMXF4Y2hVUkNiSWtnOFFNZTNpTkN1MFU0Skxnb3BlTVgwODVoUzVZQVhudnJXRk9NZWpLd1ZuT3NIZmg0VE5iOHFKdE1Nek9CMWvSAbwBQVVfeXFMUFozLVllVm1zdlA2QWo0aTFOck9ZNEozcHM4RzRmeXFSTGJodmlBWkJMVlpBUHpuN2ZVVlVVLUZ4UFFYMExVeWdpVFdVV2tKUG40VV9UVVgyOWppeFU2cWxWOHdBV1ZVVko1Y2N6eW1jdERsZlV4QnpEaHVhRVFpWTVFM004dFdQbzFVVG1QM0wyRVhhcTJ6NkY4aFZxYnlmZGFMaW5ib0hKdG1KSDNEaGRTQ1VHZ2s4Xy1Oekg?oc=5"
-    },
-    {
-      "date": "2026-10-17",
-      "tag": "海峡",
-      "hot": true,
-      "t": "霍尔木兹海峡油轮触雷爆炸 伊朗革命卫队称其走未经授权航道",
-      "d": "伊朗方面称一艘油轮在霍尔木兹海峡触水雷后爆炸，伊朗革命卫队表示该船经未经授权航道通行；CNBC 同期报道海峡袭击升级，布伦特盘中触及 110 美元。事件使风险从集装箱船沉没扩展至油轮实际受损，直接影响海峡通行安排、船期与战争险保费，并抬升沿岸出口装运的不确定性，短期运费与保险成本上行对到岸价形成支撑。",
-      "src": "来源：Anadolu Ajansı / The Times of Israel / CNBC",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPbkkwbWxxdTRzQllXdmZGT1RuQ3RFS1E2SENBbEhwU0JKZ0VvVWVXTUJOWUtFcVNUeWdHTTVGWFgycklnSlFRTVlmYVh2b3BVcU9CdmZwTlRlQXd4cDVpTnh0MThVSlI2TlZTT1VQdUtLSjBaZ2JSVWd1VDluWnpqNTJDa0JIa1gzaHphRzlCVlJrVnIwdnhfVDBPNzA?oc=5"
     }
   ],
   "risksTitle": "原油市场观察变量",
@@ -1515,20 +1515,20 @@
     {
       "k": "霍尔木兹通行中断",
       "level": "r",
-      "desc": "若袭船或航道关闭表态升级为实际停航，油轮绕行与保险成本跳升，BZ=F 首行存在重新上测日内高点 110.69 并上破的压力。",
-      "src": "来源：Yahoo Finance 报价 · EnergyNow.com 霍尔木兹贸易图表"
+      "desc": "若革命卫队落实航道关闭或出现新的触雷、袭船事件，BZ=F 将上破日内高点111.97并向115一线测试；若通行恢复，溢价回吐目标指向105附近。来源：Crude Oil Prices Today | OilPrice.com、CNBC",
+      "src": "来源：Crude Oil Prices Today | OilPrice.com、CNBC"
     },
     {
-      "k": "俄油豁免扩围",
+      "k": "伊朗斡旋进展",
       "level": "a",
-      "desc": "若豁免范围扩大并有效执行，俄油出口与印度采购回升，供应宽松预期将使布伦特回落至 105 美元下方，WTI 同步承压。",
-      "src": "来源：CNBC · Reuters"
+      "desc": "若伊朗与巴基斯坦渠道转为正式会谈并伴随缓和信号，风险溢价快速回吐，BZ=F 可能回落至105—106区间；若无后续安排，盘面重回实货紧张定价并回补跌幅。来源：Reuters",
+      "src": "来源：Reuters"
     },
     {
-      "k": "库存去化不及预期",
-      "level": "g",
-      "desc": "若周度库存转为累库且炼厂开工回落，近端月差走弱，将带动 BZ=F 与 WTI 同步下移，回吐部分地缘溢价。",
-      "src": "来源：EIA 周度库存统计（时间轴 10-20 库存条）"
+      "k": "俄油豁免与出口路径",
+      "level": "a",
+      "desc": "豁免执行若使印度采购恢复常态，额外供给将压制迪拜—布伦特价差与月差；若豁免收紧或航运受阻，则反向支撑近月与实货升水。来源：Reuters、CME Group",
+      "src": "来源：Reuters、CME Group"
     }
   ],
   "footer": "主基准展示价是 Yahoo Finance BZ=F（Brent Last Day Financial）：2026-09-25 08:24 上海 105.95 美元/桶，相对前收盘 103.08 为 +2.78%（日内高 106.75 / 低 105.91）。路透口径 11 月布伦特隔夜结算约 106.60 美元（+3.4%）、WTI 约 94.61 美元，日内曾因胡塞袭击沙特冲高至 108.23 美元。请勿把面板上的数值或涨幅直接等同于通讯社报道的活跃月份即期期货。来源见各卡片（Gate News、路透、EIA/WAM、Business Times、CNBC TV18、IEA 等）。仅作个人追踪参考，不构成投资建议。"
