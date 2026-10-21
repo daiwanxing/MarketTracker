@@ -252,6 +252,69 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-21",
+      "tag": "资本上市",
+      "hot": true,
+      "t": "宇树科技提示人形机器人估值风险，强调订单兑现与交付质量",
+      "d": "宇树科技公开提示人形机器人产业存在估值偏高风险，强调订单兑现、交付节奏与现金流质量应作为定价锚。该表态出现在公司上市后股价短期快速上行、随后开盘走低的背景下，市场对整机厂商盈利路径与零部件降价节奏的预期面临再校准，板块定价更依赖量产验证与真实回款。",
+      "src": "来源：KuCoin",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPQVBDd0Flc3NBMlNoUnNWZEItbF94MTBISWtQaklwTW5RWndFdDYwUF9zN3lJdEdtY1JlZG85OWIxUzFWZ2FOcUhKLU1ia21sa0lOUDhELUpneFdUSW4xMTJpM0c3VUlkR3AwOHVKUjdKLXIxSTBMOXk2V0lmemlXU1JfQms1amk5YzhfaUFrVWtJNGd3eklGSGZ0TU5DQkFPd25KWGpRa1pMQ0lXUGJTLWQtSy11V2JFUlBSZzZZRzUyc0FkSW1v?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "AGCO 与 Agility 在堪萨斯工厂启动人形机器人搬运试点",
+      "d": "AGCO 与 Agility Robotics 计划在堪萨斯州 Hesston 制造基地部署 Digit 人形机器人，先行承担物料搬运与产线辅助任务。项目处于试点阶段，核心验证连续班次作业稳定性、与既有输送线节拍匹配及安全冗余，尚未披露采购台数与正式量产定点。",
+      "src": "来源：Yahoo Finance",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOSDhPNWttMFVkLTNmWGptRlFKT05pQi1DWG9GTnJtUE93NElrM2JBbzlTNEViTHRSOFFEbE9fb01icFlvcjlibVJaeWNuWE1wMjZMRkltWTFzSjQ2X2tFd29qb0t5dV9ZZF9ocWNZNmc5NjdnWWp0eEFkX0FMeFlFX0JtMUNLc08xMXB6SFRucnRWYUpKXzhwOTFSWVYtVEdj?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "OpenAI 将人形机器人首秀指向 2027 年，整机自研路径明确",
+      "d": "OpenAI 对外给出人形机器人首次亮相的 2027 年时间窗口，延续智能大脑优先、硬件本体后置的路线。该节点表明整机量产仍处前瞻阶段，短期供应链定点与 BOM 收敛更多取决于外部代工与关节模组选型，而非自有产线稼动率爬坡。",
+      "src": "来源：Ubergizmo",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOS3VtbGdKUjF6Q0lrelY5VU4xbXNpQ0NkQTlpNmhwZnB1djNYVW9VdUFOVkVXRkludGFaOXczWnZwRUVLSmE1dE1VUzR2Zm1lNUNUUzVkMXdLSXVpdk50YnU5WXZsQ3VPczk3eUFjTTdDV2JjVnd2Wk81c1lyalZTbV9ZU203cnhJ?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "出货统计",
+      "hot": true,
+      "t": "国务院新闻办：本年度人形机器人产量预计超过 10 万台",
+      "d": "国务院新闻办公室释放口径称，本年度中国人形机器人产量预计超过 10 万台，指向整机制造环节的产能释放。该统计若兑现，将检验核心关节、丝杠与灵巧手电机的批量供应能力，并推动单价中枢与良率曲线进入可比区间；后续需区分样机、试产与真实交付口径。",
+      "src": "来源：State Council Information Office",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5SZ0xyQlJRLUJIOC1lbFJNd21PLTViNWlkMVl4azJNazBINEMzZ213NVlTV2lTdUp6LWhGNUY1T0Z4SnhpRmE2dVA3MzZsU2U3cHRFckV5SmwzSDUtNlgyeFdlX0RDUG05OUxwWmFGZ3pZeUNEZy1kOXc1cGk?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "供应链",
+      "hot": false,
+      "t": "MDS Tech 获约 300 万美元英伟达 Jetson 套件订单，配套家用机器人",
+      "d": "韩国 MDS Tech 将供应约 300 万美元的英伟达 Jetson Full Package，用于家用 humanoid robot 项目。该订单体现端侧算力平台在家庭场景的供应链锁定，验证范围覆盖计算模组、散热与接口集成；后续跟踪批量交付节点、单机算力配置及对整机 BOM 的占比变化。",
+      "src": "来源：BigGo Finance",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ucU9kbGdFdnRkNjRkLThSOTE3YkdPUk1oamhJejBFMTVZSWdDMk1WQll0M1VDdkEta2h1UHRVZndGTVBwNTFwd2lzWXp5R0NpNFJKMURqMDdMRUl5a2I0M2ctRS1FU3NWblhIUERkb21zUk1vX0E?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "人形机器人演示完成 77 磅推载与 44 磅举升，验证重载能力",
+      "d": "一段新演示视频显示人形机器人完成 77 磅负载推动与 44 磅举升动作，重点检验上肢关节扭矩、全身平衡控制与重载工况下的热管理。该验证仍属演示环境，尚未披露工位节拍、连续作业时长与量产版本耐久数据，负载能力向真实工位迁移仍需工程验证。",
+      "src": "来源：Interesting Engineering",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWDdQSEJCd3V3aHBtR0pjOTl1aUR6NEdYTkUtaXVRU3RuLXl1aFJFeW5iWnRXOWpHUVdqWlRXY0FoNnpXeGFkUUgtMUhfcU5hMDBSZ0dkY1VaTUpYOXM2MDhEbjFRUGgyaE9UV0FTZUdoRFNhQUk1OVVBeC1ReDRfbVpXT3BOcnBaaFRUSl9n?oc=5"
+    },
+    {
+      "date": "2026-10-21",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Toborlife 将宇树 G1 E 引入美国舞台场景，拓展具身智能商用展示",
+      "d": "Toborlife AI 将宇树 G1 E 性能版机器人引入美国舞台与演出场景，用于展示物理智能的实时运动控制与人机交互能力。该应用属于商业展示与租赁模式，验证重点在连续演出稳定性、现场运维与内容编排效率，尚不构成工业工位或规模交付订单。",
+      "src": "来源：The Des Moines Register",
+      "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxQWGs0MHU5YkxJSmd3R3JPdXN1SExyRjRzbGI1QmluUUpVd3N4c0lJUTY5MFV5NVFodUl5YUk5WkNzdlo2RmNQQk1jblVZMUVuXy1TWU1nTkszMkpQU0o1aklQQUZKMW0ycVh3c1ZuU05oMENoMUVvbHhQcTlDUVpNR1VlUlVEM1EweGpCMVNWWEk1aUhobU5YRXYzZTRYSDdLRnJ5d1Riam9lVmtCNGpGdzNJQnJDRTdxMGhqX0wyUTFYa1k4SFZzalpmbFdnSS15cGZLOFFwd2FQUTR0eDlTY3NKYmVuRC1XVHlpQlMxWWU1ZzZNcmpnRA?oc=5"
+    },
+    {
       "date": "2026-10-18",
       "tag": "技术验证",
       "hot": true,
@@ -277,69 +340,6 @@
       "d": "报道指德国出现以机器人业务为主体的十亿美元级个人股东，其资本主要投向人形机器人训练场与数据采集设施。训练场模式以标准化工位与遥操作数据回流支撑具身模型迭代，属重资产、长回收周期投入，需跟踪场馆利用率、数据授权商业模式及与整机厂订单的绑定深度。",
       "src": "来源：Forbes",
       "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOTV92MHJ5YS1PelZJX2p4emV4X0NQX1lNRTNlNGJ0X0ZyVDlsZVpPTk8yTDNseGN3T1RJa090RTBRT0t3Zi1GLVhJQWk2eGxHT2poRkFxX1F3SDduaXExZlFENXU1UFpHYm5qNW0tQ1BORWphaUpxRGtxR0M0SjVNa19SakNWXzdoT2s0WkFLdVM3WUxkR3A3VVBLV2FLdlVmOVRlZFFYREZJUTFoS21rUm5mREt1eW1La0E?oc=5"
-    },
-    {
-      "date": "2026-10-18",
-      "tag": "资本上市",
-      "hot": false,
-      "t": "小鹏机器人业务估值标记 63 亿美元，母公司在美股价承压",
-      "d": "市场对人形机器人业务给出约 63 亿美元估值标记，同期母公司美股价格走弱，反映分拆预期与整车主业盈利之间的定价分歧。人形业务仍处送样验证与产线爬坡阶段，估值锚定依赖后续整机交付节点与外部客户订单落地，短期股价表现与业务估值存在脱钩风险。",
-      "src": "来源：Stocktwits",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOWGJpdl9Ua09ocllZQVR4N2RXYmtOSGh5MVJXam1md3ptc2UwTDRZbDdQSjEwendtX002S1pwZFNXUXlTc3doWmx5WVhnNm5ZTHZLdlNmakNrR1g2eXA3NVQ2OS1aYkxKcEZ3SDI2QldBUmJGUHVBTGt3Qm5Ybi00TTJ4MzRpenVmbXByRHJiYnpyOEh5eTBfOGlSaDZiQzhsOHRmWm96bk9aRk9fcmdIeG1GSktWWkdlZmp5azNWcXhheWMtY1Fscw?oc=5"
-    },
-    {
-      "date": "2026-10-17",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "第三方实测 5.5 万美元人形家政机器人完成洗碗等连续家务工序",
-      "d": "媒体对两台人形家政机器人开展半日实测，覆盖洗碗装载、物品取放等连续家务工序，设备单价约 55,000 美元。实测显示非结构化家庭环境中的抓取成功率与任务编排效率仍存差距，家庭场景商业化依赖任务库扩充与远程接管配套，该价格带为消费级整机定价中枢与租赁模式提供参照。",
-      "src": "来源：MarketWatch",
-      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOc2MxVXJGZWlIdkxPTTZOeGFqZGpVR3NfSEZRbzlhS1R3LWxRdzVTRlhrTVZGbU8tclBFdWxrS0NLbzRvZmctZ3BPaGZ4UGwwS3lwNmNrYzlZZENsWVl2ZDNwUElHZkNEWG15V1puWUVwajlTS3VTU0ZsWEJuTDRselRsQXRTUFNXdk53dEJHZ2NKRXdHbmltYURjZkNkcjVVaVJRb0ZEVnB2bmNMSnRfdFhqQzFQUG5RWm1uNmIta2FVajFTVmNncmplR2xEQjE5T2o0?oc=5"
-    },
-    {
-      "date": "2026-10-17",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "杭州机器人赛事集中检验整机动态平衡与操作精度",
-      "d": "杭州举办机器人竞赛，多形态整机在公开场景下开展动态运动、越障与操作精度验证，成为整机厂商可靠性测试的补充场景。此类赛事为运动控制算法积累长尾工况数据，但赛事成绩与工业工位稼动率之间尚无稳定映射，需结合后续工位实测与连续作业时长数据交叉观察。",
-      "src": "来源：Global Times",
-      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5ZcWhFTy0tSS1XbW9vRTNmSEhLb0FGVE1oZ25wbE9KV0M3blp3d1ZXZ2RGUzFUa3hrYnU0OUVuNko5ZU9Td05zUU9YS08xTFlzYkp4Yk1zUEp5enNkUm9DckJ3?oc=5"
-    },
-    {
-      "date": "2026-10-16",
-      "tag": "量产进展",
-      "hot": true,
-      "t": "FF EAI Robotics 发布 FF Nova，美国定价低于 2,500 美元",
-      "d": "FF EAI Robotics 与 FF 联合发布 FF Nova，称首款具身 AI 人形机器人，美国定价低于 2,500 美元；同步推出 FF Nova Mini、Physical AI Spark 课程、Nova 强化学习开发者计划与开发者社区招募。产品面向开发者与教育场景，定价锚点下移，需跟踪实际交付能力、算力配置、关节模组寿命与供应链成本控制。",
-      "src": "来源：PR Newswire",
-      "url": "https://news.google.com/rss/articles/CBMijgNBVV95cUxPempSRnh6dzVqekdoLTEySUU3VmRFTUVQdW1uRlR5OHp2V3hHVTAzZDlYSmFoc0ZUZXQwUDFMZEI5N2k2RUo1MS1yMUNkdGszbzdxSnhUcVpoOUNONkVFX19LcVBGbU5vOVNOQ3JRTFBrYjd6VjBDbmQ4aWhxUkh1aHpLUEtDaXdQbGxSRzcxNmtXYTRxRllXRGRTSmFTd1gtR2IxQ2h3V3A2NFBjX3VQMUh6UndOX1l6cERGVzU2OEExNVpNV3VDRW1taVpxYm5wQmFGTld2YmdUYVlVcGZKTDBFU3pTc3Z0T2ExTHpOWTNMWlQ0M2Q0NzMwMDdOeFEwWEo3Zk9KSzZQcEtkVC12LXlFeTZZTjgwR1U4R0NEWG03SWZXMGgwU2RZel9GcU9wZzBkMHlaV0cxTExKOEs0T292SXJXZGg1MzV2MVdKX0tVRWNNa1NKUURqcFFjUWlrYy1URVFycFowMGdhUXNaWGphYURQS2JtQm14ZDU2N0NoSkZKS1BhSUl5VkRuQQ?oc=5"
-    },
-    {
-      "date": "2026-10-16",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Rice Robotics 加入香港具身智能枢纽，开展真实环境测试",
-      "d": "Rice Robotics 加入香港具身智能枢纽，面向真实世界测试场景，推动具身 AI 在公共空间与商业服务中的部署验证。该枢纽提供测试场地与产业协作资源，需跟踪机器人长时间运行稳定性、人机交互安全与数据闭环能力，以及后续商业化订单转化。",
-      "src": "来源：Asia Business Outlook",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNek9GYnlyT05VWEFJLVRZalZaMjd5NDdSWUpOUktmODhCejVEeWNiV2VEd2lMOEZiN2tKSUptZjdMZWZFb01aVmRJRGRIZW1IWTZKOFBhTjAwZDd4NWotMUl4c3NZOTBFa2VDTkxub1R5RVBTM1JTUDlUX2plWXFJMUtpalBoWlhKblhLbHRYa2pTWVR4MW5sc3djYVB1SU1Oalk4SUxKbGFyYzZ4VjBzbUt1MUFtc180Zlc0c2xsaDY?oc=5"
-    },
-    {
-      "date": "2026-10-16",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "具身智能实景实训示范落地，人形机器人开启产线作业模式",
-      "d": "具身智能实景实训示范项目落地，人形机器人进入产线作业模式，验证在真实制造工位上的抓取、搬运与协同作业能力。该示范聚焦实训数据采集与工艺适配，为后续批量部署提供工位节拍、稼动率与良率爬坡依据；需跟踪培训周期、人工干预率与复购订单落地节奏。",
-      "src": "来源：中国科技网",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBlVWhDb1QwTTlxSUc4TEZQcy1fajl0NDEyNF8wNTctREduMFJfM01POWE2cWhBNkF0U3BQbzJaWDdBMjkwYUNTRldsVVZ0RDAtcjFtZ2dQVHkxdUkwdXVUbFAtTzk3SUZBc3BQSlQ3bmo?oc=5"
-    },
-    {
-      "date": "2026-10-16",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "RoboParty 发布开源 RP1 人形机器人，开放软硬件平台",
-      "d": "RoboParty 发布开源 RP1 人形机器人，开放软硬件平台与开发接口，面向研究与开发者社区。开源路线可降低算法验证与二次开发门槛，但需跟踪关节模组一致性、运动控制稳定性、供应链物料可获得性以及社区生态对商用落地的实际推动效果。",
-      "src": "来源：Engineering.com",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxORVQ4d1ppbVE4VEc1cmhlc1h3eXhnbVUycW8yaVFOQk1QOGJGY2JZVkNFcjluWmdLY0FhLWhMMjRBUUdIVU9tY3lxbEdGS3Fsd09zZWNrQ2ZreHdpM0NfUXZBMmVGelk4MlVvZnhKWDFDUGZXaDFXbU5FLVB1TmZUa2tZaFk?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
