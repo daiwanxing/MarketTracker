@@ -1,17 +1,17 @@
 {
-  "snapshot": "2026-10-21 15:05",
+  "snapshot": "2026-10-21 15:07",
   "metrics": {
     "secTitle": "市场价格",
     "main": {
-      "num": "4115.70",
-      "chg": "-0.23%",
+      "num": "4114.40",
+      "chg": "-0.26%",
       "chgClass": "down",
       "label": "伦敦金 XAU/USD · 美元/盎司",
-      "src": "XAU/USD 伦敦金现货 10-21 15:05 上海 · 昨收 4125.08（现价 4115.70/-0.23%） · gold-api.com",
+      "src": "XAU/USD 伦敦金现货 10-21 15:07 上海 · 昨收 4125.08（现价 4114.40/-0.26%） · gold-api.com",
       "refs": "",
       "quotes": {
         "gc": 4129.8,
-        "dxy": 101.79,
+        "dxy": 101.81,
         "us10y": 5.28
       }
     }
@@ -764,7 +764,7 @@
       },
       {
         "k": "今日现货",
-        "v": "-0.23%（现货）"
+        "v": "-0.26%（现货）"
       }
     ],
     "note": "日K时序已精确校准对齐 TradingView 伦敦金（XAU/USD）真实盘面走势：9/4 见月度顶 4485.5，9/8 见 4396.68，9/29 暴力下影线探底 4115.5，10/2 冲高 4215.2 后收跌于 4140.52。成交量对应 COMEX GC 期货手数。",
@@ -3332,13 +3332,13 @@
     "table": [
       {
         "k": "期现基差 GC−现货",
-        "v": "+16.0 美元（10/21）",
-        "wk": "4131.7 − 4115.70",
-        "dir": "down",
-        "src": "Yahoo GC=F − Sina hf_GC · 2026-10-21 15:05 上海",
-        "gc": 4131.7,
-        "spot": 4115.7,
-        "basis": 16.0
+        "v": "+16.7 美元（10/21）",
+        "wk": "4131.1 − 4114.40",
+        "dir": "up",
+        "src": "Yahoo GC=F − Sina hf_GC · 2026-10-21 15:07 上海",
+        "gc": 4131.1,
+        "spot": 4114.4,
+        "basis": 16.7
       },
       {
         "k": "COMEX 黄金商业净持仓",
@@ -3382,8 +3382,8 @@
         "signalText": "计价端持续承压",
         "src": "Yahoo Finance DX-Y.NYB",
         "quote": {
-          "value": 101.79,
-          "chg": "+0.06%"
+          "value": 101.81,
+          "chg": "+0.07%"
         }
       },
       {
@@ -3490,7 +3490,7 @@
     },
     "riskReward": {
       "title": "盈亏比测算（现价 → 关键位）",
-      "price": 4115.7,
+      "price": 4114.4,
       "support": 4100,
       "resistance": 4245,
       "stop": 4075,
@@ -3528,8 +3528,8 @@
     "comexGold": {
       "name": "COMEX 期金主力",
       "symbol": "GC=F",
-      "price": 4131.7,
-      "chg": "-0.28%",
+      "price": 4131.1,
+      "chg": "-0.30%",
       "chgClass": "down",
       "unit": "$/oz",
       "previousClose": 4143.4,
@@ -3538,8 +3538,8 @@
     "shau": {
       "name": "上海金现货",
       "symbol": "Au99.99",
-      "price": 885.57,
-      "chg": "-0.47%",
+      "price": 885.3,
+      "chg": "-0.50%",
       "chgClass": "down",
       "unit": "元/克",
       "previousClose": 889.78,
@@ -3557,9 +3557,9 @@
     }
   },
   "premium": {
-    "spreadUsd": 12.19,
-    "spreadRmb": 2.62,
-    "premiumRate": "+0.30%",
+    "spreadUsd": 10.93,
+    "spreadRmb": 2.35,
+    "premiumRate": "+0.27%",
     "zone": "NORMAL",
     "zoneLabel": "正常中性死区",
     "deadband": [
@@ -3567,7 +3567,7 @@
       8
     ],
     "percentile": 78.5,
-    "hint": "内外盘溢价 +$12.19/oz (正常中性死区)，汇率参照 6.6788。"
+    "hint": "内外盘溢价 +$10.93/oz (正常中性死区)，汇率参照 6.6788。"
   },
   "demandDynamics": {
     "westernEtf": {
