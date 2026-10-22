@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-22 15:07",
+  "snapshot": "2026-10-22 16:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,18 +15,18 @@
       "previousClose": 11283.81,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-21",
-      "src": "^SOX 10-22 15:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-22 16:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1315.26,
-      "chg": "-2.09%",
+      "price": 1305.87,
+      "chg": "-2.78%",
       "chgClass": "down",
       "previousClose": 1343.28,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-22",
-      "src": "000688.SS 10-22 15:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-22 16:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
@@ -37,7 +37,7 @@
       "previousClose": 5735.66,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-22",
-      "src": "^KS11 10-22 15:07 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 10-22 16:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -771,8 +771,8 @@
         "name": "科创50指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 15:00",
-        "price": 1315.26,
-        "chg": "-2.09%",
+        "price": 1305.87,
+        "chg": "-2.78%",
         "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
