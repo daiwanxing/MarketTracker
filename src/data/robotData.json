@@ -752,13 +752,13 @@
   },
   "crowding": {
     "asOf": "2026-10-22",
-    "label": "极端过热",
-    "zone": "danger",
+    "label": "活跃",
+    "zone": "neutral",
     "methodNote": "中证机器人成分股成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 3.87,
+      "value": 2.4,
       "robotAmountYi": 202.01,
-      "marketAmountYi": 5217.65,
+      "marketAmountYi": 8430.01,
       "label": "机器人成交额占比",
       "unit": "%",
       "desc": "中证机器人指数 (H30590) 全部成分股成交额合计 / 沪深全市场成交额"
