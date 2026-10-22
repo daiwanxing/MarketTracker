@@ -252,6 +252,42 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-22",
+      "tag": "技术验证",
+      "hot": true,
+      "t": "宇树发布 H2-X 人形机器人，演示防刀击与举升车头能力",
+      "d": "宇树推出 H2-X 人形机器人，定位安保场景，演示防刀击与举升车头，标称最长 8 小时续航。该机型以武术动作展示运动控制与重载能力，技术验证侧重本体强度与平衡控制，商用落地仍待场景验收与供应链锁定。",
+      "src": "来源：South China Morning Post",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNbVpVSHVtUVBwWDFQT1F5RXhSXzdjTGV1bk91OVVDRHJadV82bnd1bnBQcWE1UEdqbmJ3TERyMGJVTkN1Zks3cFpuYlhlRWpFdk9yODNueWtBMzhiNmJOUWlyLVAweDFJWXFQQ2VyQk1KcW5WdUt4REdUWldnTzMtdGt4dmZnaklBc0NRME5vVFFuS3FUbTNfcmJ4WUtLenlGd3VQYVpZbXNYWmM?oc=5"
+    },
+    {
+      "date": "2026-10-22",
+      "tag": "出货统计",
+      "hot": false,
+      "t": "宇树 G1 累计产量接近 2 万台，王兴兴称物理 AI 现突破迹象",
+      "d": "宇树 G1 人形机器人累计产量接近 20,000 台，创始人王兴兴表示物理 AI 已出现“被突破”迹象。产量数据反映本体制造与供应链爬坡进展，但交付质量、终端工位稼动率与订单兑现仍需持续验证。",
+      "src": "来源：BigGo Finance",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB6Ynl6RGZ2SVNPR0c4TVJQVlB4N2NqOFlPUEVnS2w0bk9OUjhpUXk2RU1yemxqR1JaSXo1anpIVndFY0tQbmd1ZkFMYnRCRlA4dXROLWl0UXNfQ2kxYUVQMEdRTnFYS0s2dXJ1R29WNG5DUUFZNnc?oc=5"
+    },
+    {
+      "date": "2026-10-22",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "英伟达扩展 Isaac 平台，发布新参考人形机器人与仿真管线",
+      "d": "英伟达在 GTC 柏林推进 Isaac 通用机器人平台，新增参考人形机器人、开发框架、仿真管线与数据集。该更新指向缩短本体开发与训练周期，强化仿真到现实的迁移效率，供应链影响集中于端侧算力与传感器配置。",
+      "src": "来源：NVIDIA Newsroom",
+      "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxNSWlrTXdiY0hPLXRzcTlxMWNtdDhWa3h1Q1o1MXA5eV9wRXhXMEFKTUFDdTdwdzlnSHRGT1o5RC15ME5LSGVxbWRoTDVHYTlmLVdVaFF0alhTakVCUWF1cTVrSlRuXzJ4bF9HM25MdEVnTTZMZER1UmNKOFBvYkhOcTRuSVFlN3dMUVRxaDJoWW8tT3NVNWVfQVc0TnRpT0EwOTk3OVowWGg5clQ3QV9BMGl5VVY2elVtc19QY1RrazE1aG56S2NCbFhGU2lnWjNydmlmOFZPX21FR3VqNVAzcEwwOVBnM2lEMGphckZSSVY5RVNnWHc?oc=5"
+    },
+    {
+      "date": "2026-10-22",
+      "tag": "量产进展",
+      "hot": true,
+      "t": "特斯拉 Optimus 人形机器人开始从产线下线，进入量产启动阶段",
+      "d": "据 Business Insider 报道，特斯拉 Optimus 人形机器人开始从产线下线，进入量产启动阶段。后续需跟踪产线节拍、良率爬坡、供应链定点与整机 BOM 下探节奏，以及实际工位部署规模；量产节奏与汽车主业资源分配形成交叉约束。",
+      "src": "来源：Business Insider",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQSGs2ZWNWeGl6T3RYTXpyYTJNa2xGWjRMMmo3Q2EydnF0TzNndmpCVGVPNWtkOWVKTGpDejlNcl9GWTJiUV8waUd4WXdIdE1TbHpDRllXVTlaVGlaSDdYaHZkdjFGOVFqckFZQU81Mkg3aWdUQzFsa3E0aVdiWS02WGEwZ2JidVl1VVkwa3lzRTBwLUFGLUFfVFg1U3VpbW83MVE?oc=5"
+    },
+    {
       "date": "2026-10-21",
       "tag": "资本上市",
       "hot": true,
@@ -304,42 +340,6 @@
       "d": "一段新演示视频显示人形机器人完成 77 磅负载推动与 44 磅举升动作，重点检验上肢关节扭矩、全身平衡控制与重载工况下的热管理。该验证仍属演示环境，尚未披露工位节拍、连续作业时长与量产版本耐久数据，负载能力向真实工位迁移仍需工程验证。",
       "src": "来源：Interesting Engineering",
       "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWDdQSEJCd3V3aHBtR0pjOTl1aUR6NEdYTkUtaXVRU3RuLXl1aFJFeW5iWnRXOWpHUVdqWlRXY0FoNnpXeGFkUUgtMUhfcU5hMDBSZ0dkY1VaTUpYOXM2MDhEbjFRUGgyaE9UV0FTZUdoRFNhQUk1OVVBeC1ReDRfbVpXT3BOcnBaaFRUSl9n?oc=5"
-    },
-    {
-      "date": "2026-10-21",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Toborlife 将宇树 G1 E 引入美国舞台场景，拓展具身智能商用展示",
-      "d": "Toborlife AI 将宇树 G1 E 性能版机器人引入美国舞台与演出场景，用于展示物理智能的实时运动控制与人机交互能力。该应用属于商业展示与租赁模式，验证重点在连续演出稳定性、现场运维与内容编排效率，尚不构成工业工位或规模交付订单。",
-      "src": "来源：The Des Moines Register",
-      "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxQWGs0MHU5YkxJSmd3R3JPdXN1SExyRjRzbGI1QmluUUpVd3N4c0lJUTY5MFV5NVFodUl5YUk5WkNzdlo2RmNQQk1jblVZMUVuXy1TWU1nTkszMkpQU0o1aklQQUZKMW0ycVh3c1ZuU05oMENoMUVvbHhQcTlDUVpNR1VlUlVEM1EweGpCMVNWWEk1aUhobU5YRXYzZTRYSDdLRnJ5d1Riam9lVmtCNGpGdzNJQnJDRTdxMGhqX0wyUTFYa1k4SFZzalpmbFdnSS15cGZLOFFwd2FQUTR0eDlTY3NKYmVuRC1XVHlpQlMxWWU1ZzZNcmpnRA?oc=5"
-    },
-    {
-      "date": "2026-10-18",
-      "tag": "技术验证",
-      "hot": true,
-      "t": "OpenAI 确认自研人形机器人整机，称智能大脑优先于硬件本体",
-      "d": "OpenAI 官方确认在内部推进人形机器人整机开发，管理层表述将机器人智能模型置于硬件本体之前，执行器与结构方案未予披露。该路径意味着具身大模型迭代先于整机定型，对上游减速器、行星滚柱丝杠与灵巧手总成的供应链定点节奏形成后置影响，需观察其是否转向外部代工或与既有整机厂联合开发。",
-      "src": "来源：Engadget",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNazcwM2J4aXV5bl9WSEYya2Q1VGNVTXp3SmNnY3VJR0tvckxvVVVFUThGdmdJdGQ5bzU0a1czMks1SVY4LWh2UWRqcDNmeExzT3BoWGVrcHhxczlFYWl3UzFiN2RFd0NLaHRwdTE3LWdsRkMtdlBwem53MnotS0tVQ1ptbEtDRFowZ19GZm56Z1l5X19NYVE?oc=5"
-    },
-    {
-      "date": "2026-10-18",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "Agility Digit 5 标称连续作业 20 小时，补能充电压缩至 9 分钟",
-      "d": "Agility 公布 Digit 5 作业指标，称单班连续运行可达 20 小时、补能充电时长降至 9 分钟，指向仓储与物流工位的多班次替代能力。续航与补能效率改善直接抬升单机日有效工时，进而影响客户端单位工时成本测算；双足构型在长时运行下的关节热管理与电池循环寿命仍需现场稼动率数据验证。",
-      "src": "来源：Interesting Engineering",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOUzJodUpxY3hidjU4ODk3NWVKQkdQNko0cExDX2kycmZQa0k4VzJhdzBDMElkTTdZMGMtcjhOdWl5MFBuV0Zxc0dIelJod0JKQ1llNnBPMzlRUURJaG9VLUJoU0d5Ui1wdkFXdHROSUJSbDJEa1VINDlZZDFCLTEyLXFheHQ?oc=5"
-    },
-    {
-      "date": "2026-10-18",
-      "tag": "一级融资",
-      "hot": false,
-      "t": "德国新增十亿美元级机器人个人股东，资本投向人形训练场基础设施",
-      "d": "报道指德国出现以机器人业务为主体的十亿美元级个人股东，其资本主要投向人形机器人训练场与数据采集设施。训练场模式以标准化工位与遥操作数据回流支撑具身模型迭代，属重资产、长回收周期投入，需跟踪场馆利用率、数据授权商业模式及与整机厂订单的绑定深度。",
-      "src": "来源：Forbes",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOTV92MHJ5YS1PelZJX2p4emV4X0NQX1lNRTNlNGJ0X0ZyVDlsZVpPTk8yTDNseGN3T1RJa090RTBRT0t3Zi1GLVhJQWk2eGxHT2poRkFxX1F3SDduaXExZlFENXU1UFpHYm5qNW0tQ1BORWphaUpxRGtxR0M0SjVNa19SakNWXzdoT2s0WkFLdVM3WUxkR3A3VVBLV2FLdlVmOVRlZFFYREZJUTFoS21rUm5mREt1eW1La0E?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
@@ -776,14 +776,14 @@
     {
       "date": "2026-10",
       "tag": "技术节点",
-      "title": "特斯拉 Optimus 产线审厂与长三角丝杠、灵巧手送样验证",
-      "watch": "跟踪 C3 级丝杠与微型电机高公差送样良率、正式 PO 节奏，及端侧算力调整对 BOM 的扰动。"
+      "title": "特斯拉 Optimus 产线爬坡与丝杠、灵巧手批量定点验证",
+      "watch": "跟踪量产节拍、C3 级丝杠与微型电机送样良率、正式 PO 节奏及 BOM 下探。"
     },
     {
       "date": "2026-11",
       "tag": "展会与商业化",
       "title": "高交会具身智能专馆与工厂工位实测验收",
-      "watch": "验证多机协同搬运工时、复购意向与验收标准，关注商用订单能否形成交付闭环。"
+      "watch": "验证多机协同搬运工时、复购意向与验收标准，关注商用订单交付闭环。"
     },
     {
       "date": "2026-12",
