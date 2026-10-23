@@ -252,6 +252,24 @@
   "timelineHint": "按披露日期倒序 · 严禁自媒体炒作 · 仅收录经核实的公司公告、监管审阅与权威深度调研",
   "timeline": [
     {
+      "date": "2026-10-23",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "Bear Robotics 联合英伟达发布 KINO-2，推进人形操作能力",
+      "d": "据 Konsulteer 报道，Bear Robotics 发布 KINO-2 平台，并与英伟达合作强化人形机器人操作能力，重点在于从仿真到真机的策略迁移和双臂精细操作训练。该路径与此前 Isaac 平台扩展形成互补，但工位实测数据、交付节奏与客户验收标准尚未披露，产业链验证进展仍需观察。",
+      "src": "来源：Konsulteer",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOd0t3VDdiRk1BWFkzR2ZMSUxqY1dpUEJucGNnUWlKU05tRU1nXzRoX2YybUJlSThqOGhUakhiNHg1czZIQTd4eTRQYXpzLXR2Unhka29tMnB2bXI4REJYaDR4YWpNNXJ1bV9oVE4wTHpoYnl3X0p6dHFLLUFoNk1YUU1mUVVpa194Skp5RDRzZEdtemdtT2pNQURBUmNObkJCOTdhVVpkdktiQnVOYk5jQVlWR0oxQQ?oc=5"
+    },
+    {
+      "date": "2026-10-23",
+      "tag": "技术验证",
+      "hot": false,
+      "t": "宇树负责人预计人形机器人物理 AI 的临界节点在 1–2 年内出现",
+      "d": "宇树科技负责人接受《China Daily》采访时表示，人形机器人物理 AI 的“ChatGPT 时刻”预计在 1–2 年内出现，对应 2027–2028 年泛化操作能力窗口。该表态与公司此前“物理 AI 现突破迹象”的判断一致，但商业化兑现仍取决于工位实测通过率、灵巧手与丝杠的批量一致性及订单交付闭环。",
+      "src": "来源：China Daily Global Edition",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNUWQ2VFdGMzk3d0pjdi1GV19QWXhLTTlaWGM3VGVBc0FnQ2sxYmp2X29KNTBzS0doSUYwMkw1a0NVa1hTYmdCVDZTQTQwT293cmFjaWZVRGJCS19pRjRUU2Z6LTk0QXg1TWkyX1pTT3V6OWdnc05pTmhQOUF6TlAzdkJn?oc=5"
+    },
+    {
       "date": "2026-10-22",
       "tag": "技术验证",
       "hot": true,
@@ -322,24 +340,6 @@
       "d": "国务院新闻办公室释放口径称，本年度中国人形机器人产量预计超过 10 万台，指向整机制造环节的产能释放。该统计若兑现，将检验核心关节、丝杠与灵巧手电机的批量供应能力，并推动单价中枢与良率曲线进入可比区间；后续需区分样机、试产与真实交付口径。",
       "src": "来源：State Council Information Office",
       "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5SZ0xyQlJRLUJIOC1lbFJNd21PLTViNWlkMVl4azJNazBINEMzZ213NVlTV2lTdUp6LWhGNUY1T0Z4SnhpRmE2dVA3MzZsU2U3cHRFckV5SmwzSDUtNlgyeFdlX0RDUG05OUxwWmFGZ3pZeUNEZy1kOXc1cGk?oc=5"
-    },
-    {
-      "date": "2026-10-21",
-      "tag": "供应链",
-      "hot": false,
-      "t": "MDS Tech 获约 300 万美元英伟达 Jetson 套件订单，配套家用机器人",
-      "d": "韩国 MDS Tech 将供应约 300 万美元的英伟达 Jetson Full Package，用于家用 humanoid robot 项目。该订单体现端侧算力平台在家庭场景的供应链锁定，验证范围覆盖计算模组、散热与接口集成；后续跟踪批量交付节点、单机算力配置及对整机 BOM 的占比变化。",
-      "src": "来源：BigGo Finance",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ucU9kbGdFdnRkNjRkLThSOTE3YkdPUk1oamhJejBFMTVZSWdDMk1WQll0M1VDdkEta2h1UHRVZndGTVBwNTFwd2lzWXp5R0NpNFJKMURqMDdMRUl5a2I0M2ctRS1FU3NWblhIUERkb21zUk1vX0E?oc=5"
-    },
-    {
-      "date": "2026-10-21",
-      "tag": "技术验证",
-      "hot": false,
-      "t": "人形机器人演示完成 77 磅推载与 44 磅举升，验证重载能力",
-      "d": "一段新演示视频显示人形机器人完成 77 磅负载推动与 44 磅举升动作，重点检验上肢关节扭矩、全身平衡控制与重载工况下的热管理。该验证仍属演示环境，尚未披露工位节拍、连续作业时长与量产版本耐久数据，负载能力向真实工位迁移仍需工程验证。",
-      "src": "来源：Interesting Engineering",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWDdQSEJCd3V3aHBtR0pjOTl1aUR6NEdYTkUtaXVRU3RuLXl1aFJFeW5iWnRXOWpHUVdqWlRXY0FoNnpXeGFkUUgtMUhfcU5hMDBSZ0dkY1VaTUpYOXM2MDhEbjFRUGgyaE9UV0FTZUdoRFNhQUk1OVVBeC1ReDRfbVpXT3BOcnBaaFRUSl9n?oc=5"
     }
   ],
   "footer": "数据说明：本看板由严肃机构投研框架驱动，数据源覆盖公司招股说明书（宇树科技）、上市公司定期报告（优必选科技 09880.HK）、工业现场联合测试通报（BMW / Figure AI）、权威研究机构统计（Counterpoint Research）及国家电网公开采购规划。未获得连续经审计披露之指标均标为观察条件或未接入，不构成任何投资建议或买卖指引。",
