@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-10-23 08:07",
+  "snapshot": "2026-10-23 09:07",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 11505.56,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-22",
-      "src": "^SOX 10-23 08:07 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 10-23 09:07 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1343.28,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-10-22",
-      "src": "000688.SS 10-23 08:07 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 10-23 09:07 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5533.77,
-      "chg": "-3.52%",
+      "price": 5403.56,
+      "chg": "-5.79%",
       "chgClass": "down",
       "previousClose": 5735.66,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-10-22",
-      "src": "^KS11 10-23 08:07 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-10-23",
+      "src": "^KS11 10-23 09:07 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -466,7 +466,7 @@
         -12.8,
         -16.06,
         -13.29,
-        -16.35
+        -13.29
       ],
       "star50": [
         0.0,
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5533.77,
-        "chg": "-3.52%",
+        "price": 5403.56,
+        "chg": "-5.79%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
@@ -955,13 +955,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 8.21,
-      "asOf": "2026-10-21",
-      "buyYi": 1173.42,
-      "marketAmountYi": 14293.48,
-      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-10-21",
+      "value": 7.75,
+      "asOf": "2026-10-22",
+      "buyYi": 1184.52,
+      "marketAmountYi": 15287.14,
+      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-10-22",
       "dates": [
-        "07-22",
         "07-23",
         "07-24",
         "07-27",
@@ -1020,10 +1019,10 @@
         "10-16",
         "10-19",
         "10-20",
-        "10-21"
+        "10-21",
+        "10-22"
       ],
       "shares": [
-        9.3,
         8.69,
         8.47,
         8.88,
@@ -1082,7 +1081,8 @@
         7.83,
         8.23,
         8.31,
-        8.21
+        8.21,
+        7.75
       ]
     }
   },
