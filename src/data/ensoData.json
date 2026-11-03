@@ -233,14 +233,14 @@
       },
       "monthly": {
         "year": 2026,
-        "month": 9,
-        "nino34": 2.84,
+        "month": 10,
+        "nino34": 3.25,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/sstoi.indices"
       },
       "oni": {
-        "season": "JAS",
+        "season": "ASO",
         "year": 2026,
-        "value": 2.16,
+        "value": 2.46,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
       }
     },
@@ -258,14 +258,14 @@
       },
       "rnino34": {
         "year": 2026,
-        "month": 9,
-        "value": 2.08,
+        "month": 10,
+        "value": 2.16,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/Rnino34.ascii.txt"
       },
       "roni": {
-        "season": "JAS",
+        "season": "ASO",
         "year": 2026,
-        "value": 1.69,
+        "value": 1.97,
         "sourceUrl": "https://www.cpc.ncep.noaa.gov/data/indices/RONI.ascii.txt"
       }
     }
