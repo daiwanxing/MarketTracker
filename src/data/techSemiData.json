@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-06 03:31",
+  "snapshot": "2026-11-06 08:45",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -9,13 +9,13 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 9205.82,
-      "chg": "-10.35%",
+      "price": 9011.14,
+      "chg": "-12.25%",
       "chgClass": "down",
       "previousClose": 10268.65,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-05",
-      "src": "^SOX 11-06 03:31 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 11-06 08:45 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1265.47,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-05",
-      "src": "000688.SS 11-06 03:31 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 11-06 08:45 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5383.8,
-      "chg": "-5.28%",
+      "price": 4923.47,
+      "chg": "-13.38%",
       "chgClass": "down",
       "previousClose": 5683.8,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-11-05",
-      "src": "^KS11 11-06 03:31 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-11-06",
+      "src": "^KS11 11-06 08:45 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -339,7 +339,7 @@
         -14.51,
         -12.26,
         -15.0,
-        -23.75
+        -25.41
       ],
       "kospi": [
         0.0,
@@ -466,7 +466,7 @@
         -25.1,
         -27.79,
         -27.34,
-        -31.17
+        -27.34
       ],
       "star50": [
         0.0,
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5383.8,
-        "chg": "-5.28%",
+        "price": 4923.47,
+        "chg": "-13.38%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
@@ -791,8 +791,8 @@
         "name": "费城半导体指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 04:00",
-        "price": 9205.82,
-        "chg": "-10.35%",
+        "price": 9011.14,
+        "chg": "-12.25%",
         "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
