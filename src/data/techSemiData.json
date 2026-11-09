@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-09 05:41",
+  "snapshot": "2026-11-09 09:26",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,7 +15,7 @@
       "previousClose": 9011.14,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-06",
-      "src": "^SOX 11-09 05:41 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 11-09 09:26 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1286.68,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-06",
-      "src": "000688.SS 11-09 05:41 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 11-09 09:26 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5059.69,
-      "chg": "-6.02%",
-      "chgClass": "down",
-      "previousClose": 5383.8,
+      "price": 5113.88,
+      "chg": "+1.07%",
+      "chgClass": "up",
+      "previousClose": 5059.69,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-11-06",
-      "src": "^KS11 11-09 05:41 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-11-09",
+      "src": "^KS11 11-09 09:26 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -737,19 +737,19 @@
   ],
   "footer": "行情快照每小时由 GitHub Actions 定时刷新 · 数据来源包括 Yahoo Finance、行业公开资讯及官方数据发布 · 个人市场追踪框架，不构成投资建议",
   "crowding": {
-    "asOf": "2026-11-06",
+    "asOf": "2026-11-09",
     "label": "极端过热",
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 41.05,
-      "tmtAmountYi": 6804.9,
-      "marketAmountYi": 16577.93,
+      "value": 40.93,
+      "tmtAmountYi": 55.71,
+      "marketAmountYi": 136.11,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
     },
-    "src": "申万一级行业与沪深市场快照 (asOf: 2026-11-06)",
+    "src": "申万一级行业与沪深市场快照 (asOf: 2026-11-09)",
     "isHolidayFrozen": false
   },
   "closingReview": {
@@ -781,9 +781,9 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5059.69,
-        "chg": "-6.02%",
-        "chgClass": "down",
+        "price": 5113.88,
+        "chg": "+1.07%",
+        "chgClass": "up",
         "role": "全球存储与代工制造周期锚"
       },
       {
@@ -944,13 +944,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 8.83,
-      "asOf": "2026-11-05",
-      "buyYi": 1870.76,
-      "marketAmountYi": 21179.53,
-      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-11-05",
+      "value": 7.77,
+      "asOf": "2026-11-06",
+      "buyYi": 1287.48,
+      "marketAmountYi": 16577.94,
+      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-11-06",
       "dates": [
-        "08-06",
         "08-07",
         "08-10",
         "08-11",
@@ -1009,10 +1008,10 @@
         "11-02",
         "11-03",
         "11-04",
-        "11-05"
+        "11-05",
+        "11-06"
       ],
       "shares": [
-        9.37,
         9.6,
         9.36,
         9.37,
@@ -1071,7 +1070,8 @@
         7.47,
         7.17,
         8.27,
-        8.83
+        8.83,
+        7.77
       ]
     }
   },
