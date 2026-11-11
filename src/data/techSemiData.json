@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-11 04:14",
+  "snapshot": "2026-11-11 09:00",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -9,13 +9,13 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 9968.51,
-      "chg": "-0.65%",
+      "price": 9998.33,
+      "chg": "-0.35%",
       "chgClass": "down",
       "previousClose": 10033.93,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-10",
-      "src": "^SOX 11-11 04:14 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 11-11 09:00 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1256.96,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-10",
-      "src": "000688.SS 11-11 04:14 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 11-11 09:00 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5239.13,
-      "chg": "+4.39%",
+      "price": 5216.87,
+      "chg": "+3.95%",
       "chgClass": "up",
       "previousClose": 5018.85,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-11-10",
-      "src": "^KS11 11-11 04:14 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-11-11",
+      "src": "^KS11 11-11 09:00 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -339,7 +339,7 @@
         -25.37,
         -22.23,
         -16.89,
-        -17.44
+        -17.19
       ],
       "kospi": [
         0.0,
@@ -466,7 +466,7 @@
         -32.55,
         -36.61,
         -37.12,
-        -34.36
+        -37.12
       ],
       "star50": [
         0.0,
@@ -781,8 +781,8 @@
         "name": "韩国KOSPI综合",
         "status": "TRADING",
         "statusLabel": "盘中交易 08:00-14:30",
-        "price": 5239.13,
-        "chg": "+4.39%",
+        "price": 5216.87,
+        "chg": "+3.95%",
         "chgClass": "up",
         "role": "全球存储与代工制造周期锚"
       },
@@ -791,8 +791,8 @@
         "name": "费城半导体指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 04:00",
-        "price": 9968.51,
-        "chg": "-0.65%",
+        "price": 9998.33,
+        "chg": "-0.35%",
         "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
@@ -944,13 +944,12 @@
       "zone": "neutral",
       "v": "平常",
       "watch": "7%–9% 算平常。高于这个区间，说明全市场借钱买入变多。",
-      "value": 8.15,
-      "asOf": "2026-11-09",
-      "buyYi": 1208.57,
-      "marketAmountYi": 14826.13,
-      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-11-09",
+      "value": 8.76,
+      "asOf": "2026-11-10",
+      "buyYi": 1318.59,
+      "marketAmountYi": 15048.15,
+      "src": "东方财富融资买入额 / 腾讯日K沪深两市成交额 · 2026-11-10",
       "dates": [
-        "08-10",
         "08-11",
         "08-12",
         "08-13",
@@ -1009,10 +1008,10 @@
         "11-04",
         "11-05",
         "11-06",
-        "11-09"
+        "11-09",
+        "11-10"
       ],
       "shares": [
-        9.36,
         9.37,
         9.4,
         9.49,
@@ -1071,7 +1070,8 @@
         8.27,
         8.83,
         7.77,
-        8.15
+        8.15,
+        8.76
       ]
     }
   },
