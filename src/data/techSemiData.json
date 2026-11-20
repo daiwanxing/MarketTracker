@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-20 10:50",
+  "snapshot": "2026-11-20 18:55",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -15,29 +15,29 @@
       "previousClose": 9652.8,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-19",
-      "src": "^SOX 11-20 10:50 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 11-20 18:55 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
       "symbol": "000688.SS",
-      "price": 1231.21,
-      "chg": "-3.11%",
+      "price": 1231.09,
+      "chg": "-3.12%",
       "chgClass": "down",
       "previousClose": 1270.78,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-20",
-      "src": "000688.SS 11-20 10:50 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 11-20 18:55 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 4900.98,
-      "chg": "-4.61%",
+      "price": 4869.96,
+      "chg": "-5.21%",
       "chgClass": "down",
       "previousClose": 5137.89,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-20",
-      "src": "^KS11 11-20 10:50 上海 · Yahoo Finance (^KS11)"
+      "src": "^KS11 11-20 18:55 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -593,7 +593,7 @@
         -34.86,
         -34.25,
         -32.83,
-        -32.83
+        -31.71
       ]
     }
   },
@@ -742,9 +742,9 @@
     "zone": "danger",
     "methodNote": "申万电子+计算机+传媒+通信成交额 / 沪深两市成交额",
     "turnoverShare": {
-      "value": 44.22,
-      "tmtAmountYi": 3147.1,
-      "marketAmountYi": 7116.58,
+      "value": 41.62,
+      "tmtAmountYi": 5919.76,
+      "marketAmountYi": 14222.0,
       "label": "TMT 成交额占比",
       "unit": "%",
       "desc": "申万电子+计算机+传媒+通信四行业成交额合计 / 沪深全市场成交额"
@@ -769,20 +769,20 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 09:30-15:00",
-        "price": 1231.21,
-        "chg": "-3.11%",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 15:00",
+        "price": 1231.09,
+        "chg": "-3.12%",
         "chgClass": "down",
         "role": "境内科技核心资产定价基准"
       },
       {
         "symbol": "^KS11",
         "name": "韩国KOSPI综合",
-        "status": "TRADING",
-        "statusLabel": "盘中交易 08:00-14:30",
-        "price": 4900.98,
-        "chg": "-4.61%",
+        "status": "CLOSED",
+        "statusLabel": "已收盘 14:30",
+        "price": 4869.96,
+        "chg": "-5.21%",
         "chgClass": "down",
         "role": "全球存储与代工制造周期锚"
       },
