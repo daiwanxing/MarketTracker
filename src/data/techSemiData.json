@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-24 23:32",
+  "snapshot": "2026-11-25 08:21",
   "head": {
     "kicker": "THEME 04 · TECH & SEMICONDUCTOR",
     "title": "科技指数宏观",
@@ -9,13 +9,13 @@
     "sox": {
       "name": "费城半导体指数",
       "symbol": "^SOX",
-      "price": 8842.39,
-      "chg": "-7.78%",
+      "price": 8832.5,
+      "chg": "-7.88%",
       "chgClass": "down",
       "previousClose": 9588.05,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-24",
-      "src": "^SOX 11-24 23:32 上海 · Yahoo Finance (^SOX)"
+      "src": "^SOX 11-25 08:21 上海 · Yahoo Finance (^SOX)"
     },
     "star50": {
       "name": "科创50指数",
@@ -26,18 +26,18 @@
       "previousClose": 1227.89,
       "tradingStatus": "LIVE",
       "sessionDate": "2026-11-24",
-      "src": "000688.SS 11-24 23:32 上海 · Yahoo Finance (000688.SS)"
+      "src": "000688.SS 11-25 08:21 上海 · Yahoo Finance (000688.SS)"
     },
     "kospi": {
       "name": "韩国KOSPI指数",
       "symbol": "^KS11",
-      "price": 5006.03,
-      "chg": "+6.32%",
+      "price": 4818.12,
+      "chg": "+2.33%",
       "chgClass": "up",
       "previousClose": 4708.54,
       "tradingStatus": "LIVE",
-      "sessionDate": "2026-11-24",
-      "src": "^KS11 11-24 23:32 上海 · Yahoo Finance (^KS11)"
+      "sessionDate": "2026-11-25",
+      "src": "^KS11 11-25 08:21 上海 · Yahoo Finance (^KS11)"
     }
   },
   "signal": {
@@ -339,7 +339,7 @@
         -26.58,
         -34.46,
         -25.26,
-        -31.08
+        -31.15
       ],
       "kospi": [
         0.0,
@@ -466,7 +466,7 @@
         -39.38,
         -42.55,
         -44.45,
-        -40.94
+        -44.45
       ],
       "star50": [
         0.0,
@@ -769,8 +769,8 @@
       {
         "symbol": "000688.SS",
         "name": "科创50指数",
-        "status": "CLOSED",
-        "statusLabel": "已收盘 15:00",
+        "status": "PRE_MARKET",
+        "statusLabel": "待开盘 09:30",
         "price": 1250.09,
         "chg": "+1.81%",
         "chgClass": "up",
@@ -779,10 +779,10 @@
       {
         "symbol": "^KS11",
         "name": "韩国KOSPI综合",
-        "status": "CLOSED",
-        "statusLabel": "已收盘 14:30",
-        "price": 5006.03,
-        "chg": "+6.32%",
+        "status": "TRADING",
+        "statusLabel": "盘中交易 08:00-14:30",
+        "price": 4818.12,
+        "chg": "+2.33%",
         "chgClass": "up",
         "role": "全球存储与代工制造周期锚"
       },
@@ -791,8 +791,8 @@
         "name": "费城半导体指数",
         "status": "CLOSED",
         "statusLabel": "已收盘 04:00",
-        "price": 8842.39,
-        "chg": "-7.78%",
+        "price": 8832.5,
+        "chg": "-7.88%",
         "chgClass": "down",
         "role": "全球AI算力先导资产定价基准"
       }
